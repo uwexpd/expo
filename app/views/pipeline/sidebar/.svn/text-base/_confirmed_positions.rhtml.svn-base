@@ -1,0 +1,3 @@
+<h3><strong class="icon-left ok">Confirmed Positions for <%= @quarter.title %></strong></h3>
+
+<%= render :partial => "confirmed_positions" %>

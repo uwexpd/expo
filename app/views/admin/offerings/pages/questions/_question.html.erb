@@ -1,0 +1,21 @@
+<tr id="question_<%= question.id %>">
+	<td><span class="sort-handle" style="display: none"><span>[drag]</span></span>
+		<small class="light"><%=h question.ordering %></small></td>
+	<td><%= link_to h(question.short_question_title), offering_page_question_path(@offering, @page, question) %>
+		<%= required if question.required? %></td>
+	<td><%=h question.display_as.titleize %></td>
+	<td><%= if OfferingQuestion::QUESTION_TYPES_NOT_REQUIRING_ATTRIBUTE_TO_UPDATE.include?(question.display_as)
+				content_tag(:span, "n/a", :class => 'light')
+			elsif question.dynamic_answer?
+				content_tag(:span, "dynamic answer", :class => 'outline tag')
+			else
+				content_tag(:code, h(question.full_attribute_name))
+			end
+		 %></td>
+	<td><%= link_to '<span>Show</span>', offering_page_question_path(@offering, @page, question), :class => "icon-left no-text show" %>
+		<%= link_to '<span>Edit</span>', edit_offering_page_question_path(@offering, @page, question), :class => "icon-left no-text edit" %>
+		<%= link_to_remote '<span>Destroy</span>', 
+					{:url => offering_page_question_path(@offering, @page, question), 
+					:confirm => 'Are you sure?', :method => :delete, :indicator => 'global'},
+					:class => "icon-left no-text trash" %></td>
+</tr>

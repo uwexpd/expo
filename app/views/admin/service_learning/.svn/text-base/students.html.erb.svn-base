@@ -1,0 +1,58 @@
+<h1>Students
+	<span class="light">&raquo; <%= @quarter.title %></span></h1>
+<h3>Total <%= pluralize @service_learning_students.size, "student" %></h3>
+
+<% paginated_section @students do %>
+
+	<table>
+	<%#= render :partial => "admin/service_learning/courses/student", :collection => @students %>
+		<tr>
+	 		<th>Name</th>
+	 		<th>Courses</th>
+	 		<th style="text-align:center">Placements</th>
+		</tr>		
+		<% for student in @students %>
+		<% service_learning_courses = student.enrolled_service_learning_courses(@quarter) rescue [] %>
+			
+			<tr>
+				<td><%= link_to student.fullname, [:admin, student] %></td>
+				<td colspan="2">
+					<table id="tasks_table">
+					<% for service_learning_course in service_learning_courses %>						
+						  <tr>
+								<td>
+								<%= link_to service_learning_course.title,
+												service_learning_course_url(@unit, service_learning_course.quarter, service_learning_course) %></td>
+								<td style="text-align:right">
+									<% if student.placed_for?(service_learning_course) %>
+										<% for placement in student.service_learning_placements.for(service_learning_course) %>
+											<%= link_to placement.position.title, 
+														service_learning_organization_position_path(@unit, 
+															service_learning_course.quarter, 
+															placement.position.organization, 
+															placement.position) rescue "error" %>
+											<span class="smaller lighter"> at </span>
+											<%= link_to placement.position.organization.name,
+											 			service_learning_organization_path(@unit, 
+															service_learning_course.quarter, 
+															placement.position.organization) rescue "error" %>
+										<% end -%>
+									<% else %>
+										<span class="light">No placements</span>
+									<% end -%>								
+								</td>
+							</tr>
+					<% end -%>
+					</table>
+				</td>
+			</tr>
+			
+		<% end -%>
+	
+	</table>
+
+<% end -%>	
+
+<% sidebar :search, :entities %>
+
+

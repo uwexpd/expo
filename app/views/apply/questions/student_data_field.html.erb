@@ -1,0 +1,51 @@
+<li>
+	<%= qf.label('', question.question) %>
+
+	<% if @user_application.person.is_a?(Student) %>
+
+		<%= eval "@user_application.person.sdb.#{question.attribute_to_update}" rescue "--" %>
+
+	<% else -%>
+	
+		<% if question.attribute_to_update == "fullname" %>
+				First: <%= qf.text_field :firstname, :size => question.width %>
+						<%= content_tag('em', '*', :class => 'required') if question.required? %>
+				Last: <%= qf.text_field :lastname, :size => question.width %>
+						<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		<% end -%>
+	
+		<% if question.attribute_to_update == "majors_list" %>
+			<div class="question_block">
+				Major 1: <%= qf.text_field :major_1, :size => question.width %>
+						<%= content_tag('em', '*', :class => 'required') if question.required? %>
+				<br>Major 2: <%= qf.text_field :major_2, :size => question.width %>
+				<br>Major 3: <%= qf.text_field :major_3, :size => question.width %>
+			</div>
+		<% end -%>
+
+		<% if question.attribute_to_update == "class_standing_description" %>
+			<%= qf.collection_select :class_standing_id, ClassStanding.undergraduate, :id, :description, :prompt => true %>
+			<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		<% end -%>
+
+		<% if question.attribute_to_update == "institution_name" %>
+			<% institutions = @offering.invited_institutions.empty? ? Institution.all : @offering.invited_institutions %>
+			<%= qf.collection_select :institution_id, institutions.sort, :id, :name, :prompt => true %>
+			<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		<% end -%>
+		
+		<% if question.attribute_to_update == "email" %>
+			<%= qf.text_field :email, :size => question.width %>
+			<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		<% end -%>
+		
+		<% if question.attribute_to_update == "student_no" %>
+			<span class="light">n/a</span>
+		<% end -%>
+			
+
+	<% end -%>
+	
+	<%= display_computed_caption(question.caption) if question.caption? %>
+
+</li>

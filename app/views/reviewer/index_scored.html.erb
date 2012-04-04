@@ -1,0 +1,80 @@
+<% mark_as_confidential @offering.confidentiality_note %>
+<% @ready_for_finalization = false %>
+
+<% title "Application Review", @offering.name %>
+
+<h1>Welcome, <%= @review_committee_member.person.firstname %>.</h1>
+<p>Here are the students for you to review. Please read and review each application, then click the "Submit my Reviews" button.</p>
+
+<table>
+	<tr class="small left">
+		<th width=30%>Student/Project</th>
+		<% for review_criterion in @offering.review_criterions.sort %>
+			<th width=60 class="center"><%= review_criterion.title %></th>
+		<% end -%>
+		<th width=60 class="center">Total</th>
+		<th style="width: 20em">&nbsp;</th>
+	</tr>
+	
+	<% for app in @apps %>
+	<% application_reviewer = @review_committee_member.application_reviewers.find_by_application_for_offering_id(app) %>
+	<tr <%= "class='finalized'" if application_reviewer.finalized? %>>
+		<td><b><%= app.fullname %></b>
+			<br><font class="light"><%= app.project_title %></font></td>
+			
+		<% if application_reviewer.started_scoring? %>		
+
+			<% for review_criterion in @offering.review_criterions.sort %>
+				<td class="center">
+					<%= application_reviewer.get_score(review_criterion) %>
+				</td>
+			<% end -%>
+			<td class="center"><%= application_reviewer.total_score %></td>
+			<td align=right>
+				<% link_title = application_reviewer.finalized? ? "See my Review &#x2192;" : "Change my Review &#x2192;" %>
+				<%= link_to link_title, :action => 'show', :id => app %>
+				</td>
+		
+				<% @ready_for_finalization = true unless application_reviewer.finalized? %>
+
+		<% else %>
+		
+			<td colspan=<%= @offering.review_criterions.size + 1 %> class="empty" style="padding: 15px">Not yet reviewed.</td>
+			<td align=right valign=middle><%= link_to "Review Now &#x2192;", :action => 'show', :id => app %></td>
+			
+			<% @do_not_finalize = true %>
+			
+		<% end -%>
+		
+	</tr>
+	<% end -%>	
+
+	<tr class="rowset-header">
+		<td colspan=<%= @offering.review_criterions.size + 3 %></td>
+	</tr>
+	
+	<tr class="highlightless">
+		<td><b>Average Scores</b></td>
+
+		<% for review_criterion in @offering.review_criterions.sort %>
+			<td class="center">
+				<%= '%.1f' % @review_committee_member.average_score(@offering, review_criterion) %>
+			</td>
+		<% end -%>
+		<td class="center"><%= '%.1f' % @review_committee_member.average_score(@offering) %></td>
+		<td></td>
+	</tr>
+	
+</table>
+
+<% if @ready_for_finalization && !@do_not_finalize %>
+	<div class="yellow box center">
+		<h3>Are you ready to submit your scores?</h3>
+		<blockquote>If you are satisfied with your scores, press the button below to submit your scores as final. Once you click this button, you will not be able to change your scores or comments.</blockquote>
+		<%= button_to "Submit My Scores", :action => 'finalize', :commit => 'true' %>
+	</div>
+<% end -%>
+
+<% sidebar :help, :class => 'help' if @offering.reviewer_help_text %>
+<% sidebar :multi_composite_report, :class => 'download' if @ready_for_finalization || @do_not_finalize %>
+<% sidebar :input_committee_score if @offering.review_committee_submits_committee_score? %>

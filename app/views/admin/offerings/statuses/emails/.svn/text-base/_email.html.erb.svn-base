@@ -1,0 +1,10 @@
+<tr>
+	<td><%=h email.send_to.titleize %></td>
+	<td><%=h email.email_template.title rescue "<span class='red'>Unknown</span>" %></td>
+	<td><%=h email.auto_send? %></td>
+	<td><%= link_to '<span>Show</span>', offering_status_email_path(@offering, @status, email), :class => "icon-left no-text show" %>
+		<%= link_to '<span>Edit</span>', edit_offering_status_email_path(@offering, @status, email), :class => "icon-left no-text edit" %>
+		<%= link_to '<span>Delete</span>', offering_status_email_path(@offering, @status, email), 
+						:confirm => 'Are you sure?', :method => :delete, :class => "icon-left no-text trash" %>
+	</td>
+</tr>

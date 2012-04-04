@@ -1,0 +1,10 @@
+if @errors
+  page << "alert('There was an error placing the student. Please try again.')"
+else
+  page.replace "student_#{@student.id}", 
+                :partial => "student", 
+                :locals => { :course => @course, :service_learning_course => @service_learning_course },
+                :object => @student
+              
+  page.visual_effect :highlight, "student_#{@student.id}"
+end

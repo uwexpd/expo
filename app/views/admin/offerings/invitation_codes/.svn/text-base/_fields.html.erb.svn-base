@@ -1,0 +1,12 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :code %></dt>
+	<dd><%= f.text_field :code %></dd>
+	
+	<dt><%= f.label :note %></dt>
+	<dd><%= f.text_field :note %></dd>
+	
+	<dt><%= f.label :institution_id %></dt>
+	<dd><%= f.collection_select :institution_id, Institution.find(:all, :order => "institution_name" ), :id, :institution_name, :prompt => "Select a school (optional)" %> </dd>
+
+</dl>

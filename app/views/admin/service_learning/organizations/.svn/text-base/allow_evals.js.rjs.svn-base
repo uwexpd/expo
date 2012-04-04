@@ -1,0 +1,4 @@
+dom_id = "allow_evals_button_#{@organization_quarter.id}"
+page << "$('#{dom_id}').removeClassName('on')"
+page << "$('#{dom_id}').removeClassName('off')"
+page << "$('#{dom_id}').addClassName('#{@organization_quarter.allow_evals? ? "on" : "off"}')"

@@ -1,0 +1,26 @@
+<% div_id = "applicant_#{applicant.id}" %>
+<% assigned_to_str = applicant.reviewers.collect{|r| "assigned_to_#{r.committee_member_id}"}.compact.join(" ") %>
+<% not_assigned_to_str = applicant.unassigned_review_committee_members.collect{|r| "applicant_not_assigned_to_#{r.id}"}.compact.join(" ") %>
+
+<div id="<%= div_id %>" class="applicant draggable <%= assigned_to_str %> <%= not_assigned_to_str %> <%= "full" if applicant.reviewers_full? %>">
+	<b><span class="fullname"><%= applicant.fullname %></span></b>
+	<span class="count"><%= applicant.reviewers.count %></span>
+	<br><span class="project_title">
+		<%= link_to applicant.project_title, 
+					{ :action => 'show', :id => applicant }, 
+					:popup => true,
+					:class => 'tooltip',
+					:title => "Project Description:&#013;#{applicant.project_description}&#013;&#013;Mentors:&#013;#{applicant.mentors_list}" %>
+		</span>
+	<br><span class="mentor_names">
+		<ul>
+			<% for mentor in applicant.mentors %>
+				<li><%= "#{mentor.fullname}, #{mentor.department}" %>
+					<%= "(primary)" if mentor.primary? %>
+				</li>
+			<% end -%>
+		</ul>
+		</span>
+</div>
+
+<%= draggable_element div_id, :revert => true %>

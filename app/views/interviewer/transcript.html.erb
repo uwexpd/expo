@@ -1,0 +1,20 @@
+<% title "Interviewer Access", "View Transcript" %>
+<% subtitle link_to("Back to Student List", :action => "index") %>
+<% mark_as_confidential @offering.confidentiality_note %>
+
+<table style="width:75%" class="highlightless">
+	<%= render :partial => "interview", :object => @offering_interview_interviewer.offering_interview %>
+</table><br>
+
+<% 
+	@user_application = @app 	# need to use the same instance variable so the partials work 
+	@mentee_application = @app 	# need to use the same instance variable so the partials work 
+	@full_view = true
+%>
+
+<div class="transcript" style="width:75%">
+	<%= render :partial => "admin/students/transcript", :object => @app.person %>
+</div>
+
+<%= render :partial => "page_list" %>
+<%= render :partial => "comments" %>

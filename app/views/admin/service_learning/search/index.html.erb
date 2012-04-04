@@ -1,0 +1,33 @@
+<h1>Search
+	<%= "<span class='light'>&raquo; #{pluralize(@results.size, "result")}</span>" if @results %>
+	</h1>
+
+<% form_for :search do |f| %>
+
+	<strong><%= f.label :query, "Query: " %></strong>
+	<%= text_field_tag "search[query]", (params[:search][:query] rescue nil), :type => 'search', :size => 50 %>
+	<%= f.submit "Search", :class => 'default', :disable_with => "Searching..." %>
+		
+	<p class="smaller">Include:
+
+		<%- %w(Organization OrganizationContact ServiceLearningCourse ServiceLearningPosition).each do |klass| -%>
+		
+			<% klass_pretty = klass.gsub("ServiceLearning",'') %>
+			<% singular = klass.underscore %>
+		
+			<%= check_box_tag "search[include][#{singular}]", true, (params[:search][:include][singular] rescue true) %>
+			<%= label_tag "search_include_#{singular}", klass_pretty.titleize.pluralize, :class => "icon-left #{singular}" %>
+			
+			&nbsp;&nbsp;
+		
+		<% end -%>
+
+		<%= check_box_tag "search[include][student]", true, (params[:search][:include][:student] rescue false) %>
+		<%= label_tag "search_include_student", "Students", :class => "icon-left student" %>
+
+		
+	</p>
+		
+<% end -%>
+
+<%= render :partial => "results", :object => @results if @results %>

@@ -1,0 +1,17 @@
+<% content_for :left_sidebar do %>
+	<ul class="link-list">
+		<li><%= link_to "Return to Proceedings Home", @header_link, :class => "icon-left home" %></li>
+	</ul>
+<% end -%>
+
+<h1>Outstanding Mentors</h1>
+
+<% for quote in @quotes %>
+	<div class="mentor_awards" style="margin-bottom: 3em">
+		<%= image_tag quote.picture.small.url, :align => 'left' if quote.picture %>
+
+		<span class="quotation_mark">&ldquo;</span>
+		<p><%= quote.quote %></p>
+	</div>
+<% end -%>
+

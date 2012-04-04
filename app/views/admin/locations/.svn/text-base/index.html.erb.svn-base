@@ -1,0 +1,38 @@
+<h1>Listing locations</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Address line 1</th>
+    <th>Address line 2</th>
+    <th>Address city</th>
+    <th>Address state</th>
+    <th>Address zip</th>
+    <th>Driving directions</th>
+    <th>Bus directions</th>
+    <th>Notes</th>
+    <th>Site supervisor person</th>
+  </tr>
+
+<% for location in @locations %>
+  <tr>
+    <td><%=h location.title %></td>
+    <td><%=h location.address_line_1 %></td>
+    <td><%=h location.address_line_2 %></td>
+    <td><%=h location.address_city %></td>
+    <td><%=h location.address_state %></td>
+    <td><%=h location.address_zip %></td>
+    <td><%=h location.driving_directions %></td>
+    <td><%=h location.bus_directions %></td>
+    <td><%=h location.notes %></td>
+    <td><%=h location.site_supervisor_person_id %></td>
+    <td><%= link_to 'Show', location %></td>
+    <td><%= link_to 'Edit', edit_location_path(location) %></td>
+    <td><%= link_to 'Destroy', location, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New location', new_location_path %>

@@ -1,0 +1,1 @@
+<%= textilize auto_link @offering.reviewer_instructions %>

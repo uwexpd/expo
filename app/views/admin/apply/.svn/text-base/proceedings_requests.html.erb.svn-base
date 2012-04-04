@@ -1,0 +1,29 @@
+<h1>Proceedings Requests</h1>
+
+<p class="small warning">This table only shows responses from applicants and group members who have confirmed participation.</p>
+
+<table>
+	
+	<tr>
+		<td>Requests Printed Proceedings</td>
+		<td><%= @confirmers.select{|c| c.requests_printed_program === true }.size %></td>
+	</tr>
+	
+	<tr>
+		<td>Does Not Require Printed Proceedings</td>
+		<td><%= @confirmers.select{|c| c.requests_printed_program === false }.size %></td>
+	</tr>
+	
+	<tr>
+		<td>Not Responded</td>
+		<td><%= @confirmers.select{|c| c.requests_printed_program.nil? }.size %></td>
+	</tr>
+
+	<tr class="total">
+		<td>Total</td>
+		<td><%= @confirmers.size %></td>
+	</tr>
+
+</table>
+
+<% sidebar :quick_access %>

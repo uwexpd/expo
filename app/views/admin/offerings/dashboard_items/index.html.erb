@@ -1,0 +1,30 @@
+<h1 class="big-icon dashboard">Dashboard Items
+	<span class="light right"><%= link_to "Add new item", new_offering_dashboard_item_path(@offering), :class => 'add button' %></span></h1>
+
+<p>Applicants will always see their current application status as the first item on their dashboard (to control the content of that section, edit the <%= link_to "statuses", offering_statuses_path(@offering) %> for this offering). Use this page to add extra items to the applicant dashboard.</p>
+
+<table>
+	
+	<tr>
+		<th width="80%">Preview</th>
+		<th>Criteria</th>
+		<th>Functions</th>
+	</tr>
+	
+	<tr class="rowset-header">
+		<td colspan=2>Enabled <span class="light">&raquo; <%= pluralize @enabled_dashboard_items.size, "item" %></span></td>
+		<td><a id="enabled" class="augmented"></a></td>
+	</tr>
+	<%= render :partial => "dashboard_item", :collection => @enabled_dashboard_items %>
+	
+	<tr class="rowset-header">
+		<td colspan=2>Disabled <span class="light">&raquo; <%= pluralize @disabled_dashboard_items.size, "item" %></span></td>
+		<td><a id="disabled" class="augmented"></a></td>
+	</tr>
+	<%= render :partial => "dashboard_item", :collection => @disabled_dashboard_items %>
+	
+</table>
+
+<% sidebar "/admin/offerings/sidebar/settings" %>
+<% sidebar :jump_to %>
+

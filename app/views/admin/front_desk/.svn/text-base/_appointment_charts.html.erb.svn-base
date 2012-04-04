@@ -1,0 +1,143 @@
+<script type="text/javascript">
+	var base_url = '<%= appointment_graph_charts_url %>?t='
+	var root_url = '<%= root_url %>'
+</script>
+<%= javascript_include_tag "front_desk_chart" %>
+
+<div class="chart tabview">
+	<div id="tabs">
+		<ul>
+			<li id="chart_option_1" class="current">
+			<%= link_to_function "Today", 
+								"buildChartAjaxQuery(0);
+								$$('.tabview #tabs li.current').invoke('removeClassName','current');
+								 $('chart_option_1').addClassName('current')" %></li>
+								
+			<li id="chart_option_2">
+			<%= link_to_function "Past week", 
+								"buildChartAjaxQuery(7);
+								$$('.tabview #tabs li.current').invoke('removeClassName','current');
+								 $('chart_option_2').addClassName('current')" %></li>
+								
+			<li id="chart_option_3">
+			<%= link_to_function "Past 30 days", 
+								"buildChartAjaxQuery(30);
+								$$('.tabview #tabs li.current').invoke('removeClassName','current');
+								$('chart_option_3').addClassName('current')" %></li>
+								
+			<li id="chart_option_4">
+			<%= link_to_function "Past 100 days", 
+								"buildChartAjaxQuery(100);
+								$$('.tabview #tabs li.current').invoke('removeClassName','current');
+								$('chart_option_4').addClassName('current')" %></li>
+								
+			<li id="chart_option_5">
+			<%= link_to_function "Past Year", 
+								"buildChartAjaxQuery(1);
+								$$('.tabview #tabs li.current').invoke('removeClassName','current');
+								$('chart_option_5').addClassName('current')" %></li>
+		</ul>
+	</div>
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+		<h2>Appointment History
+			<small>(<%= link_to "see all", appointments_path %>)</small></h2>
+		
+		<div id="chart-container">
+			<div class="chart-class">
+				<div id="swf-chart-replacement" >
+				</div>
+			</div>
+		</div>
+		<div id="chart-filters">
+			<% form_for :appointment_line_graph, @appointment_line_graph, 
+						:url => appointment_line_graph_charts_path, 
+						:html => {:id => "graph_form"} do |f| %>
+						
+				<div id="chart-program-filter" class="filter"> 
+					<h2>Program</h2>
+					<ul class="chart-radio-list">
+						<li class="all"><%= radio_button "project", "id", "0", 
+												{:onclick => "buildChartAjaxQuery();", 
+												:name => "p", 
+												:checked => true, 
+												:disabled => "disabled" } %>
+							<span class="radio-project-number number"></span>
+							<span class="radio-project-percent percent"></span>
+							<span class="radio-item-text item-text">All</span>
+						</li>
+							
+						<% @units.sort.each do |u| %>
+							<li><%= radio_button "project", "id", u.id , 
+													{:onclick => "buildChartAjaxQuery();",
+													:name => "p", 
+													:disabled => "disabled" } %>
+								<span class="radio-project-number number"></span>
+								<span class="radio-project-percent percent"></span>
+								<span class="radio-item-text item-text"><%= u.name %></span>
+							</li>
+						<% end %>
+						
+					</ul>
+				</div>
+				
+				<div id="chart-class-standing-filter" class="filter"> 
+					<h2>Class Standing</h2>
+					<ul class="chart-radio-list">
+						
+						<% standings = { 0 => :all, 
+										 1 => :freshman,
+										 2 => :sophomores,
+										 3 => :juniors,
+										 4 => :seniors,
+										 5 => :fifth_years } %>
+						
+						<% standings.sort_by{|i,title| i }.each do |i, title| %>
+							<li class="<%= title.to_s %>"><%= radio_button "standing", title.to_s, i.to_s, 
+												{:onclick => "buildChartAjaxQuery()", 
+												:name => "c", 
+												:checked => true, 
+												:disabled => "disabled" } %>
+								<span class="radio-standing-number number" ></span>
+								<span class="radio-standing-percent percent" ></span>
+								<span class="radio-item-text item-text"><%= title.to_s.titleize %></span>
+							</li>
+						<% end -%>
+					</ul>
+				</div>
+
+				<div id="chart-gender-filter" class="filter"> 
+					<h2>Gender</h2>
+					<ul class="chart-radio-list">
+						
+						<% genders = { 0 => :both,
+									   1 => :female,
+									   2 => :male } %>
+									
+						<% genders.sort_by{|i,title| i }.each do |i, title| %>
+							<li class="<%= title.to_s %>"><%= radio_button "gender", title.to_s, i.to_s, 
+												{:onclick => "buildChartAjaxQuery()", 
+												:name => "g", 
+												:checked => true, 
+												:disabled => "disabled" } %>
+								<span class="radio-gender-number number" ></span>
+								<span class="radio-gender-percent percent" ></span>
+								<span class="radio-item-text item-text"><%= title.to_s.titleize %></span>
+							</li>
+						<% end -%>
+					</ul>
+				</div>
+			<!--	<div id="chart-major-filter"> Major
+					<ul class="chart-radio-list">
+						<li><%= radio_button "major", "all", "0", {:onclick => "buildChartAjaxQuery()", :name=>"m", :checked => true, :disabled => "disabled"} %> All </li>
+					</ul>
+				</div>  -->
+			<% end %>
+				<div id="chart-filters-end-cap"></div>
+		</div>
+		
+	</div>
+</div>
+
+

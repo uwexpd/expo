@@ -1,0 +1,66 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :person_id, "EXPO Person ID" %></dt>
+	<dd><%= f.text_field :person_id %></dd>
+	
+	<dt><%= f.label :submitted %></dt>
+	<dd><%= f.check_box :submitted %></dd>
+
+	<dt><%= f.label :policy_agreement_date, "Policy Agreement" %></dt>
+	<dd><%= f.datetime_select :policy_agreement_date, :include_blank => true %></dd>
+	
+	<dt><%= f.label :project_description %></dt>
+	<dd><%= f.text_area :project_description, :rows => 5, :style => "width: 99%" %></dd>
+	
+	<dt><%= f.label :start_date %></dt>
+	<dd><%= f.datetime_select :start_date, :include_blank => true %></dd>
+	
+	<dt><%= f.label :end_date %></dt>
+	<dd><%= f.datetime_select :end_date, :include_blank => true %></dd>
+	
+	<dt><%= f.label :unit_id %></dt>
+	<dd><%= f.collection_select :unit_id, Unit.all, :id, :name, :include_blank => true %></dd>
+	
+</dl>
+
+<h3>Approval</h3>
+<dl class="inline-definitions">
+
+	<dt><%= f.label :approver_id, "User ID" %></dt>
+	<dd><%= f.text_field :approver_id %></dd>
+	
+	<dt><%= f.label :approved_at %></dt>
+	<dd><%= f.datetime_select :approved_at, :include_blank => true %></dd>
+
+</dl>
+
+<h3>Check-out</h3>
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :checkout_user_id, "User ID" %></dt>
+	<dd><%= f.text_field :checkout_user_id %></dd>
+	
+	<dt><%= f.label :checked_out_at %></dt>
+	<dd><%= f.datetime_select :checked_out_at, :include_blank => true %></dd>
+	
+	<dt><%= f.label :checkout_id_verify, "ID Verification" %></dt>
+	<dd><%= f.text_field :checkout_id_verify %></dd>
+
+</dl>
+
+<h3>Check-in</h3>
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :checkin_user_id, "User ID" %></dt>
+	<dd><%= f.text_field :checkin_user_id %></dd>
+	
+	<dt><%= f.label :checked_in_at %></dt>
+	<dd><%= f.datetime_select :checked_in_at, :include_blank => true %></dd>
+	
+	<dt><%= f.label :checkin_ok, "Check-in OK?" %></dt>
+	<dd><%= f.check_box :checkin_ok %></dd>
+	
+	<dt><%= f.label :checkin_notes %></dt>
+	<dd><%= f.text_area :checkin_notes, :rows => 5, :style => "width: 99%" %></dd>
+	
+</dl>

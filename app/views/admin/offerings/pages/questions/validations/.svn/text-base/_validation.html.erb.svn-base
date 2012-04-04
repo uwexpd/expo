@@ -1,0 +1,9 @@
+<tr id="validation_<%= validation.id %>">
+	<td><%= validation.class.to_s.titleize %></td>
+	<td><%= "#{h @question.short_question_title} #{h validation.error_message}" %></td>
+	<td><%= link_to '<span>Edit</span>', edit_offering_page_question_validation_path(@offering, @page, @question, validation), :class => "icon-left no-text edit" %>
+		<%= link_to_remote '<span>Destroy</span>', 
+					{:url => offering_page_question_validation_path(@offering, @page, @question, validation), 
+					:confirm => 'Are you sure?', :method => :delete, :indicator => 'global'},
+					:class => "icon-left no-text trash" %></td>
+</tr>

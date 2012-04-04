@@ -1,0 +1,25 @@
+<h3>Send Mass E-mail to Selected</h3>
+
+<p>
+Template:
+<span class="right"><%= link_to "edit", admin_communicate_templates_path, :popup => true %></span>
+<br />
+<%= collection_select 	:mass_email, 
+						:email_template_id, 
+						EmailTemplate.find(:all).sort{|x,y| x.name <=> y.name rescue nil}, 
+						:id, :name, 
+						{ :prompt => true },
+						{ :style => "width:100%"}
+						 %>
+</p>
+
+<p>Send to:<br />
+<select name="mass_email[send_to]">
+	<%= options_for_select [["Applicants", "applicant"], ["Mentors", "mentors"]] %>
+</select>
+</p>
+
+
+<%= submit_tag "Queue E-mails" %>
+
+</form>

@@ -1,0 +1,4 @@
+pdf.margins_in 1,1,1,1
+pdf.select_font 'Times-Roman', 'none'
+
+pdf.text @application_text.body.pdf_symbol_fontize

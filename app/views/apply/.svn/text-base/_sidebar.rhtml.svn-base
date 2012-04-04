@@ -1,0 +1,9 @@
+<% content_for(:left_sidebar) do -%>
+	<div class="page_list on_page">
+	<ol>
+		<li id="welcome_page_link"><%= link_to @offering.welcome_page_title, {:action => :index} %></li>
+		<%= render :partial => "page_list", :collection => @user_application.pages %>
+		<li id="review_page_link"><%= link_to "Review &amp; Submit", {:action => :review} %></li>
+	</ol>
+	</div>
+<% end -%>

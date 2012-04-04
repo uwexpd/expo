@@ -1,0 +1,1 @@
+page << "alert('#{ @values[:school_name_value] } information saved!')"

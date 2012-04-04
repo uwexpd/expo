@@ -1,0 +1,41 @@
+<% print_only ||= false %>
+<% audience ||= :admin %>
+
+<% if audience == :reviewer || @current_user.has_role?(:transcript_viewer) %>
+
+	<div class="transcript">
+
+		<%= "<font face='Courier' size=2>" if print_only %>
+
+		<p><div class="small warning"><strong>This is an unofficial academic transcript</strong> and it may not contain all information normally included in a transcript report. Please note that this transcript is being provided strictly for the sole purpose outlined here and should be kept confidential.</div></p>
+
+		<%= render :partial => "admin/students/general", :object => transcript %>	
+
+		<% 
+		@cum_attempted = 0
+		@cum_attempted_graded = 0
+		@cum_earned = 0
+		@cum_grade_points = 0
+		 %>
+
+		<table class="highlightless transcript" <%= "cellpadding=5 border=1" if print_only %>>
+		<%= render :partial => "admin/students/transcript_transfer",
+		 			:collection => transcript.sdb.transfers,
+					:locals => {:print_only => print_only} %>
+		<%= render :partial => "admin/students/transcript_quarter", 
+					:collection => transcript.sdb.transcripts, 
+					:locals => {:print_only => print_only} %>
+		<%= render :partial => "admin/students/work_in_progress", :object => transcript %>
+		</table>
+	
+		<%= "</font>" if print_only %>
+	
+	</div>
+	
+<%- else -%>
+
+	<div class="error-message">
+		You aren't allowed to view student transcripts.
+	</div>
+	
+<% end -%>

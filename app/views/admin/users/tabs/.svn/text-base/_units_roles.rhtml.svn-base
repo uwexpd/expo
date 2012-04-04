@@ -1,0 +1,37 @@
+<h2>Units &amp; Roles</h2>
+
+<table id="roles_table">
+	
+	<tr class="small left">
+		<th>Unit</th>
+		<th>Role</th>
+		<th>Functions</th>
+	</tr>
+
+	<%= render :partial => "admin/users/roles/role", :collection => @user.roles.sort %>
+	
+</table>
+
+<br>
+
+<%= link_to_function "Assign new role", "Effect.toggle('new_role_form', 'blind'); this.hide()", :class => 'new button', :id => 'new_button' %>
+
+<div id="new_role_form" class="big-border box" style="display:none">
+<h4 class="icon-left add">Assign new role</h4>
+
+	<p>You must choose a role to assign, but attaching a unit is optional.</p>
+
+	<span id="new_role_errors"></span>
+
+	<% remote_form_for :role, @user.roles.new, 
+						:url => user_roles_path(@user),
+						:indicator => true do |f| %>
+							
+		<%= f.collection_select :role_id, Role.all, :id, :title, :include_blank => "[User]", :prompt => "-- Select a Role --" %><%= required %>
+		<br><%= f.collection_select :unit_id, Unit.all, :id, :name, :include_blank => "[Global]", :prompt => "-- Select a Unit --" %>
+		<br><%= f.submit "Add" %>
+			<%= separator %>
+			<%= link_to_function "Cancel", "Effect.toggle('new_role_form', 'blind'); $('new_button').show()", :class => 'cancel button' %>
+	<% end -%>
+
+</div>

@@ -1,0 +1,16 @@
+<h2>Online Proceedings</h2>
+
+<p>Welcome Text
+	<%= f.text_area :proceedings_welcome_text, :style => "width: 99%" %></p>
+	<p class="caption">Use Textile formatting for markup.</p>
+	
+<h2>Files</h2>
+
+<dl class="inline-definitions">
+
+	<dt>letterhead</dt>
+	<dd><%= f.object.proceedings_pdf_letterhead %>
+		<%= f.file_field :proceedings_pdf_letterhead %>
+		<p class="caption">This letterhead is the version used in the public proceedings.</p></dd>
+
+</dl>

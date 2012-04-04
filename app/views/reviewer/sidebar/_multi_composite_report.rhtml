@@ -1,0 +1,37 @@
+<h3><strong>Download a Review Packet</strong></h3>
+
+<div id="multi_composite_report_instructions">
+	<p>You can create a full review packet if you would prefer to take the files with you while traveling offline, or to print them.</p>
+
+	<p><%= link_to_function "Generate a Review Packet", "Effect.toggle('multi_composite_report_maker', 'blind', {duration: 0.25});
+														 Effect.toggle('multi_composite_report_instructions', 'blind', {duration: 0.25})" %>
+	</p>
+</div>
+
+<div id="multi_composite_report_maker" style="display:none">
+
+	<%= form_tag :action => 'multi_composite_report' %>
+	
+		<p>Which parts of the application would you like included?
+		<br><%= check_box_tag "include[scoring]", true %>
+			<%= label_tag "include[scoring]", "Scoring Sheet" %>
+		<br><%= check_box_tag "include[application_review]", true %>
+			<%= label_tag "include[application_review]", "Application Details" %>
+		<br><%= check_box_tag "include[files]", true %>
+			<%= label_tag "include[files]", "Essay and Files" %>
+		<br><%= check_box_tag "include[mentor_letters]", true %>
+			<%= label_tag "include[mentor_letters]", "Mentor Letters" %>
+		<br><%= check_box_tag "include[transcript]", true %>
+			<%= label_tag "include[transcript]", "Transcript" %></p>
+
+		<p>Which format would you prefer?</p>
+		<li class="icon-left" id="pdf"><%= radio_button_tag :format, "pdf", true %>
+					<%= label_tag "format_pdf", "In a single PDF file" %></li>
+		<li class="icon-left" id="zip"><%= radio_button_tag :format, "zip" %>
+					<%= label_tag "format_zip", "A .zip file with a separate PDF file for each application" %></li>
+	
+
+		<p><%= submit_tag "Generate my Review Packet", :disable_with => "Please wait..." %></p>
+	</form>
+
+</div>

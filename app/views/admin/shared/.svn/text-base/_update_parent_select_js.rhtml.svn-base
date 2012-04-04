@@ -1,0 +1,32 @@
+<% 
+# This partial is used in conjunction with the "dom_id_to_update" functionality. It serves three functions:
+# 
+# 1. It updates a dropdown box in the parent window with the new value that was just created. 
+# 2. It closes the current popup window
+# 3. It clears the "dom_id_to_update" session variable.
+#
+# In order for this to work properly, you will need to have done the following:
+# 
+# * When calling the popup, pass a parameter "dom_id_to_update" -- this is the dom_id of the select box that should be updated after everything is created.
+# * In the method that should trigger this function (usually #show), define the @new_select_value hash, which should include a :title and a :value that will be used by this function to add a new option to the requested select dropdown.
+
+ %>
+
+<% javascript_tag do -%>
+
+	window.onload = function() {
+		if(opener) {
+			selectElem = opener.document.getElementById('<%= session[:dom_id_to_update] %>')
+			newOpt = document.createElement('option')
+			newOpt.text = "<%= @new_select_value[:title] %>"
+			newOpt.value = "<%= @new_select_value[:value] %>"
+			selectElem.options.add(newOpt)
+			selectElem.value = "<%= @new_select_value[:value] %>"
+
+			window.close()
+		}
+	}
+
+<% end -%>
+
+<% session[:dom_id_to_update] = nil %>

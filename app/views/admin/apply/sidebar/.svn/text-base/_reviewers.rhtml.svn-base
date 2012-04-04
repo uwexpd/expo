@@ -1,0 +1,23 @@
+<h3>Reviewers</h3>
+
+<%= content_tag('em', "No reviewers assigned.") if @app.reviewers.size.zero? %>
+
+<ul>
+	<% @app.reviewers.each do |r| %>
+		<li><%= r.offering_reviewer.person.fullname %></li>
+	<% end %>
+</ul>
+
+<%- unless @app.offering.reviewers_for(@app).blank? -%>
+<div id="assign_reviewer">
+	<h4>Add Another Reviewer:</h4>
+	<% form_for :app, @app, :url => { :action => 'update', :id => @app } do |f| %>
+		<%= f.collection_select :new_reviewer, 
+								@app.offering.reviewers_for(@app),
+								:id,
+								'person_name' %>
+							
+		<%= f.submit "Add" %>
+	<% end %>
+</div>
+<%- end -%>

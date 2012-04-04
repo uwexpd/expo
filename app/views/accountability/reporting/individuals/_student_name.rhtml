@@ -1,0 +1,5 @@
+<strong><%= student_name.fullname %></strong>
+(<%= link_to_function "change", "$('student_id_form').show(); $('student_name').hide(); $('student_id').focus();$('student_id').select();" %>)
+<br><small class="light">
+	<%= [student_name.class_standing_description, student_name.student_no, student_name.email].join(", ") %>
+	</small>

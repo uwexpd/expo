@@ -1,0 +1,19 @@
+<% hide_group_members ||= false %>
+
+<tr id="results_table_header" style="width:100%">
+	<th>Student</th>
+	<% if @event.times.size > 1 %>
+		<th>Time</th>
+	<% end -%>
+	<% if @event.show_application_location_in_checkin? %>
+		<th>Project</th>
+		<th>Session</th>
+		<th>Location</th>
+		<th>Easel Number</th>
+	<% end -%>
+	<th>Check-in</th>
+	<% if @event.show_application_location_in_checkin? && !hide_group_members %>
+		<th>Group Members</th>
+	<% end -%>
+	<th>Note</th>
+</tr>

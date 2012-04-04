@@ -1,0 +1,14 @@
+
+<div class="content-block">
+
+	<h3>Positions
+		<span>&raquo; <%= @quarter.title %></span>
+		<span class="right"><%= link_to "add new", new_service_learning_organization_position_path(@unit, 
+		                                              @quarter, @organization ) %></span>
+		</h3>
+			
+	<table>
+		<%= render :partial => "position", :collection => @organization_quarter.positions %>
+	</table>
+	
+</div>

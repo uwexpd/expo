@@ -1,0 +1,73 @@
+<% mark_as_confidential @offering.confidentiality_note %>
+
+<% title "Moderator Review", @offering.name %>
+
+<h1>Welcome, <%= @person.firstname %>.</h1>	
+<%= textilize auto_link @offering.moderator_instructions %>
+
+<% form_for :offering_session, @offering_session, :url => { :action => 'index' } do |f| %>
+
+	<%= error_message_on :offering_session, :title, 
+						:prepend_text => "Your session title ", 
+						:append_text => " before you can submit your reviews." %>	
+	
+	<% unless @offering_session.location.blank? %>
+	<p><strong>Session Location:</strong> <%= @offering_session.location %></p>
+	<% end -%>
+
+	<% unless @offering_session.start_time.blank? %>
+	<p><strong>Session Time:</strong> 
+		<%= @offering_session.start_time.to_s(:time12) %> to
+		<%= @offering_session.end_time.to_s(:time12) %></p>
+	<% end -%>
+	
+	<p class="red">Please provide <strong>a title for your session:</strong>
+		<%= f.text_field :title, :width => 300 %><span class="required">* required</span></p>
+	
+	<p><strong>Presentation Order:</strong> Below you will find the students assigned to your session. They will remain arranged in alphabetical order unless you choose to re-order them by dragging and dropping the rows into a new order.</p>
+	
+	<table>
+	
+		<thead>
+			<tr>
+				<th colspan=2>Student
+					<small>(drag to re-order)</small>
+					<%= indicator %></th>
+				<th>Presentation Title</th>
+				<th><%= @change_moderator_process ? "Review Decision" : "Response" %></th>
+				<th><%= @change_moderator_process ? "Abstract" : "Review" %></th>
+			</tr>
+		</thead>
+	
+		<tbody id="session_apps">
+	
+			<% @apps.each_with_index do |app, i| %>
+				<tr id="app_<%= app.id %>">
+					<td><span class="sort-handle"><span>[drag]</span></span></td>
+					<td><%=h app.fullname %></td>
+					<td width=50%><%= sanitize app.project_title, :tags => %w(em i font sub sup) %></td>
+					<% review_decision =  @change_moderator_process ? app.application_review_decision_type.title : app.application_moderator_decision_type.title rescue "Not yet reviewed" %>
+					<td><%= "<span class='yellow highlight'>#{review_decision}</span>" %></td>
+					<td><%= link_to "View &#x2192;", :action => 'show', :id => app %></td>
+				</tr>
+			<% end -%>
+
+		</tbody>
+
+	</table>
+
+	<%= sortable_element "session_apps", :url => {:action => 'sort_session_apps'}, :handle => 'sort-handle', :tag => 'tr', :indicator => true %>
+
+
+	<p><strong>Additional Comments or Suggestions:</strong>
+		<br><%= f.text_area :moderator_comments, :style => "width: 99%", :rows => 5 %></p>
+	
+	<p>
+		<%= f.submit "Save my changes" %>
+		<%= f.submit "Submit my session response", :name => 'finalize' %>
+		<%= content_tag(:small, " - Session response submitted #{relative_timestamp(@offering_session.finalized_date)}", :class => 'light') if @offering_session.finalized? %>
+	</p>
+
+<% end -%>
+
+<%= link_to "Send an e-mail to all presenters", "mailto:#{@apps.collect{|a| a.person.email rescue nil}.compact.join(",")}" if @offering_session.finalized? %>

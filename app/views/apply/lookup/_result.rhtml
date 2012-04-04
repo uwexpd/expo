@@ -1,0 +1,26 @@
+<tr id="application_<%= result.id %>">
+
+	<td><%= highlight h(result.lastname_first), query_strings[:student_name] %>
+		<% for group_member in result.group_members %>
+			<br /><%= highlight h(group_member.lastname_first), query_strings[:student_name] %>
+		<% end -%>
+		</td>
+		
+	<td><% for mentor in result.mentors %>
+			<%= highlight mentor.fullname, query_strings[:mentor_name] %>,
+			<%= mentor.department %>
+			<br />
+		<% end -%>
+		</td>
+
+	<td><%= sanitize result.stripped_project_title rescue nil %>
+		<br /><small class="light"><%= result.application_type.title rescue nil %></small></td>
+
+	<td><%= tooltip result.offering_session.title(:identifier_only => true), 
+					result.offering_session.title(:include_identifier => true) if result.offering_session %>
+		<%= "<br>#{result.offering_session.location rescue nil}" unless result.offering_session.location.blank? rescue nil %>
+		<%= "<br>#{result.easel_number rescue nil}" if result.easel_number rescue nil %>
+		<%= "<br>#{result.offering_session.time_detail}" if result.offering_session %>
+		</td>
+
+</tr>

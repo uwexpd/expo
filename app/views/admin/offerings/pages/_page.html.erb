@@ -1,0 +1,19 @@
+	  <tr id="page_<%= page.id %>">
+	    <td><span class="sort-handle" style="display: none"><span>[drag]</span></span>
+			<small class="light"><%=h page.ordering %></small>
+			</td>
+	    <td><%= link_to page.title, offering_page_path(@offering, page) %>
+			<br>
+			<span class="sub-links">
+				<%= page.questions.collect{|q| link_to q.short_question_title, offering_page_question_path(@offering, page, q)}.join(", ") %>
+			</span>
+		</td>
+		<td align=center><%= link_to page.questions.size, offering_page_questions_path(@offering, page) %></td>
+	    <td><%= link_to '<span>Show</span>', offering_page_path(@offering, page), :class => "icon-left no-text show" %>
+	   		<%= link_to '<span>Edit</span>', edit_offering_page_path(@offering, page), :class => "icon-left no-text edit" %>
+	    	<%= link_to_remote '<span>Destroy</span>', 
+									{:url => offering_page_path(@offering,page), 
+									:confirm => 'Are you sure?', :method => :delete, :indicator => 'global'}, 
+									:class => "icon-left no-text trash" %>
+			</td>
+	  </tr>

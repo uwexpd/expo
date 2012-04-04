@@ -1,0 +1,24 @@
+<h1><%=h @member_type.name %>
+	<span class="light right"><%= link_to "Edit", edit_admin_committee_member_type_path(@committee, @member_type), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@member_type) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>committee</dt>
+	<dd><%=h @member_type.committee_id %></dd>
+
+	<dt>name</dt>
+	<dd><%=h @member_type.name %></dd>
+
+	<dt>max number of applicants per reviewer</dt>
+	<dd><%=h @member_type.max_number_of_applicants_per_reviewer %></dd>
+
+	<dt>extra instructions</dt>
+	<dd><%=h @member_type.extra_instructions %></dd>
+
+	<dt>extra instructions link text</dt>
+	<dd><%=h @member_type.extra_instructions_link_text %></dd>
+
+
+</dl>

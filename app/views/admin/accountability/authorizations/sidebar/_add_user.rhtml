@@ -1,0 +1,44 @@
+<h3><strong class="add icon-left">Add User</strong></h3>
+
+<% form_remote_tag :url => { :action => 'create' }, 
+					:method => :post, 
+					:indicator => 'global',
+					:html => { :id => 'new_authorization_form' } do %>
+
+	<label for="model_auto_completer_tf">Department:</label>
+	<br>
+	<%= model_auto_completer "department_search", "", "authorizable_key_temp", 0, 
+							{ :submit_on_return => false, 
+							  :regexp_for_id => '(.+)',
+							  :allow_free_text => true,
+							  :append_random_suffix => false,
+							  :url => {:action => 'auto_complete_for_department'},
+							  :after_update_element => "function(tf, item, hf, id) { 
+															if(item.select('.value').size() != 0) {
+																dept_title = item.select('.value').first().innerHTML;
+															} else {
+																dept_title = tf.value.strip();
+															}
+															tf.value = dept_title;
+															hf.value = id;
+							 								$('debug').innerHTML = hf.value;
+							 								$('authorizable_key').value = hf.value; }" },
+							{ :autocomplete => false, :style => "width: 95%" },
+							{ :skip_style => true, :indicator => 'global' } %>
+
+	<small id="debug" class="light"></small>
+	<%= hidden_field_tag :authorizable_key %>
+
+	<br>
+	<label for="uw_netid">UW NetID:</label>
+	<br>
+	<%= text_field_tag "uw_netid" %>
+
+	<br>
+	
+	<center><%= submit_tag "Authorize" %></center>
+	
+	<span class="error-message" id="add_user_error"></span>
+	<span class="success-message" id="add_user_success"></span>
+
+<% end -%>

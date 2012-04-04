@@ -1,0 +1,22 @@
+<ul class="welcome-links">
+
+	<% for dashboard_item in @offering.dashboard_items %>
+
+		<% object = @group_member || @user_application %>
+		<% @object = object %>
+
+		<% if !@group_member || (@group_member && dashboard_item.show_group_members?) %>
+
+			<% if dashboard_item.show_for?(object) %>
+				<li class="<%= render :inline => dashboard_item.css_class %>">
+					<b><%= textilize_without_paragraph render(:inline => dashboard_item.title) %></b>
+					<br />
+					<%= textilize_without_paragraph render(:inline => dashboard_item.content) rescue "Woops! Something is wrong here. Please contact expohelp@u.washington.edu" %>
+				</li>
+			<% end -%>
+			
+		<% end -%>
+	
+	<% end -%>
+
+</ul>

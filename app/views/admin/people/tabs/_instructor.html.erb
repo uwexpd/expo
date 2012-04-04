@@ -1,0 +1,16 @@
+<h2>Courses Instructed</h2>
+
+<table class="highlightless">
+<% for service_learning_course_instructor in @person.service_learning_course_instructors %>
+  <tr>
+    <td><%= service_learning_course_instructor.service_learning_course.quarter.title %></td>
+    <td><%= service_learning_course_instructor.service_learning_course.unit.title %></td>
+    <td>
+      <%= link_to service_learning_course_instructor.service_learning_course.title,
+                  service_learning_course_path(service_learning_course_instructor.service_learning_course.unit, 
+                                               service_learning_course_instructor.service_learning_course.quarter,
+                                               service_learning_course_instructor.service_learning_course) %>
+    </td>
+  </tr>
+<% end %>
+</table>

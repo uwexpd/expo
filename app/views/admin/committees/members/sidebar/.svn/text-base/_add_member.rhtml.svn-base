@@ -1,0 +1,11 @@
+<h3>Committee Member Functions</h3>
+<ul class="link-list">
+	<li><%= link_to "Add new committee member", new_admin_committee_member_path(@committee), :class => "icon-left add" %></li>
+	
+	<% if @member %>
+		<li><%= link_to 'Edit this member', edit_admin_committee_member_path(@committee, @member), :class => "icon-left edit" %></li>
+		<li><%= link_to 'Delete this member', admin_committee_member_path(@committee, @member), 
+				:confirm => 'Are you sure?', :method => :delete, :class => "icon-left delete" %></li>
+		<li><%= link_to 'Contact History', contact_history_index_url(:to => @member.person.id), :class => 'icon-left email' %></li>
+	<% end -%>
+</ul>

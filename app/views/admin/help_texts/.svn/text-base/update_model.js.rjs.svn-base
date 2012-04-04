@@ -1,0 +1,5 @@
+for attribute_name, values in params[:help_text]
+  page.hide "details_#{attribute_name}"
+  page.replace "row_#{attribute_name}", :partial => 'attribute', :object => attribute_name
+  page.visual_effect :highlight, "row_#{attribute_name}"
+end

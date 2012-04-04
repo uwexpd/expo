@@ -1,0 +1,47 @@
+<h2>Scheduling</h2>
+<p class="intro"><%= HelpText.caption(:scheduling_page_intro, ServiceLearningPosition) %></p>
+
+<% content_for :head do %>
+	<%= javascript_include_tag "scheduling_tools" %>
+<% end -%>
+
+<label>Times</label>
+<p class="caption"><%= HelpText.caption(:times_caption, ServiceLearningPosition) %></p>
+	
+<table class="selectable">
+	<tr class="center">
+		<th></th>
+		<th>Sunday</th>
+		<th>Monday</th>
+		<th>Tuesday</th>
+		<th>Wednesday</th>
+		<th>Thursday</th>
+		<th>Friday</th>
+		<th>Saturday</th>
+		<th></th>
+	</tr>
+	
+	<%= render :partial => "admin/service_learning/organizations/positions/time_row", 
+				:collection => 7..23,
+				:locals => { :service_learning_position => service_learning_position } %>
+
+</table>
+<span id="debug"></span>
+<%= f.hidden_field :new_times %>
+
+<%= f.label_with_caption :times_are_flexible %>
+<%= f.radio_button :times_are_flexible, true %> Yes, students will choose times <em><strong>within</strong></em> the time slots above
+<br>
+<%= f.radio_button :times_are_flexible, false %> No, the times above are exact shift times
+
+
+<%= f.text_area :time_notes, :rows => 5, :style => "width: 99%", :class => "mceEditor" %>
+
+<div class="progress_nav_buttons">
+  <% unless @use_pipeline_links %>
+	<%= link_to_tab_pane "&#x2190; Previous: Requirements", :requirements, :link_only => true, :link_class => "button" %>
+	<% else %>
+	<%= link_to_tab_pane "&#x2190; Previous: Description", :description, :link_only => true, :link_class => "button" %>
+	<% end %>
+	<%= link_to_tab_pane "Next: Location &#x2192;", :location, :link_only => true, :link_class => "strong button" %>
+</div>

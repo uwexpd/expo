@@ -1,0 +1,9 @@
+<h3>Favorite Pages</h3>
+
+<ul class="link-list">
+	<% for favorite_page in @current_user.favorite_pages %>
+	<li><%= link_to favorite_page.title + "<br><small class=\"light\">#{truncate(h(favorite_page.url), 30)}</small>", 
+					h(favorite_page.url), :class => 'icon-left favorite' %></li>
+	<% end -%>
+</ul>
+	

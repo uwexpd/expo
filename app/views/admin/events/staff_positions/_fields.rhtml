@@ -1,0 +1,26 @@
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%= f.text_field :title %></dd>
+
+	<dt>description</dt>
+	<dd><%= f.text_area :description, :rows => 4 %>
+		<br><small class="light">This brief description is shown on the page where volunteers choose which position to sign up for.</small>
+		</dd>
+
+	<dt>instructions</dt>
+	<dd><%= f.text_area :instructions, :rows => 6 %>
+		<br><small class="light">These instructions are shown to the volunteer after they sign up.</small></dd>
+
+	<dt>training session</dt>
+	<dd><%= f.collection_select :training_session_event_id, Event.all.sort, :id, :title, :include_blank => true %></dd>
+
+	<dt>restrictions</dt>
+	<dd><%= f.text_area :restrictions, :rows => 4 %></dd>
+
+	<dt>options</dt>
+	<dd><%= f.check_box :require_all_shifts %>
+		<%= f.label :require_all_shifts, "Require volunteers to signup for all shifts at once" %>
+		</dd>
+
+</dl>

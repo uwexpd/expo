@@ -1,0 +1,36 @@
+<h1><%= @meeting.title %>
+	<span class="light">&raquo; <%= pluralize @meeting.committee_member_meetings.attending.size, "attendee" %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'committee_meetings_form' %>
+
+<table>
+	
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th>Committee Member</th>
+		<th>Type</th>
+		<th>Expertise</th>
+		<th>Comment</th>
+	</tr>
+	
+	<tr class="rowset-header">
+		<td><%= select_all_check_box :attending %></td>
+		<td colspan=5>Attending</td>
+	</tr>
+	
+	<% for attendee in @meeting.committee_member_meetings.attending %>
+		<tr>
+			<td><%= select_check_box attendee, :attending %>
+			<td><%= link_to attendee.committee_member.fullname, 
+					admin_committee_member_path(@committee, attendee.committee_member) rescue "(error)" %></td>
+			<td><%= attendee.committee_member.committee_member_type.name rescue "<span class=light>None</span>" %></td>
+			<td><%= truncate(attendee.committee_member.expertise, 50) %></td>
+			<td><%= attendee.comment %></td>
+		</tr>
+	<% end -%>
+	
+</table>
+
+</form>
+
+<% sidebar :meeting_details, :with_selected %>

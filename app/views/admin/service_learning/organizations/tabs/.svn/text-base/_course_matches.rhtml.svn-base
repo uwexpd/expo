@@ -1,0 +1,50 @@
+<h2>Potential Course Matches
+	<span>&raquo; <%= @quarter.title %></span></h2>
+	
+<table>
+	<% for course in @organization_quarter.potential_courses.sort_by(&:title) %>
+		<tr id="course_match_<%= course.id %>">
+			<td><%= link_to course.title, service_learning_course_path(@unit, @quarter, course) %></td>
+			<td><%= link_to_remote "Delete", 
+						:url => delete_course_match_service_learning_organization_path(@unit, @quarter, @organization, :course_id => course.id),
+			 			:confirm => "Are you sure?",
+			 			:method => :delete,
+			 			:indicator => true %></td>
+		</tr>
+	<% end -%>
+	
+	<% if @organization_quarter.potential_courses.empty? %>
+	<tr class="empty">
+		<td>No course matches for <%= @quarter.title %>. 
+			<%= link_to_function "Add one.", "Element.toggle('add_potential_course')" %>
+			</td>
+	</tr>
+	<% end -%>
+	
+</table>
+
+<div class="buttons">
+	<%= link_to_function "Add new potential course match", "Element.toggle('add_potential_course')", :class => 'add icon-left button' %>
+</div>
+
+<% remote_form_for @organization_quarter, 
+					:url => service_learning_organization_path(@unit, @quarter, @organization, :anchor => "course_matches"),
+					:indicator => true do |f| -%>
+
+	<div id="course_match_error"></div>
+
+	<div id="add_potential_course" style="display:none">
+		<p>Add another: 
+			<%= f.collection_select :potential_course_match,
+			 						@quarter.service_learning_courses.for_unit(@unit).select{|c| 
+										!@organization_quarter.potential_courses.include?(c) }.sort_by(&:title),
+									:id, :title,
+									:prompt => true %>
+		
+			<%= f.submit "Add" %>
+		
+			<br><small><%= link_to "Add or change #{@quarter.title} courses", service_learning_courses_path(@unit, @quarter) %></small>
+			</p>
+	</div>
+
+<% end -%>

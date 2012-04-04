@@ -1,0 +1,23 @@
+<li>
+	<fieldset>
+		<legend>
+			<%= question.question %>
+			<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		</legend>
+		
+		<% for application_type in @offering.application_types %>
+
+			<label for="user_application_application_type_id_<%= application_type.id %>">
+				<%= qf.radio_button :application_type_id, 
+									application_type.id, 
+									:onClick => "$$('.application_categories').invoke('hide'); Element.show('application_type_#{application_type.id}_categories');" %>
+				<%= application_type.title %>
+				<br><small><%= application_type.description %></small>
+			</label>
+			<br>
+
+		<% end -%>
+
+	</fieldset>
+		
+</li>

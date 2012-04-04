@@ -1,0 +1,13 @@
+<% title(@organization.name) %>
+
+<h1><%= @organization.name %></h1>
+<p>Your organization is involved with multiple programs at the University of Washington. 
+  Please select the program for which you want to manage positions.</p>
+
+<table>
+<% for unit in @organization_units %>
+  <div>
+      <%= link_to unit.name, community_partner_service_learning_home_path(nil, :unit => unit.id) %>
+  </div>
+<% end %>
+</table>

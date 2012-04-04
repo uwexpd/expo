@@ -1,0 +1,11 @@
+<h1>Editing organization contact</h1>
+
+<%= error_messages_for :organization_contact %>
+
+<% form_for @organization_contact, :url => organization_contact_path(@organization, @organization_contact) do |f| %>
+
+	<%= render :partial => "fields", :locals => { :admin => true, :f => f, :organization_contact => @organization_contact } %>
+		
+    <%= f.submit "Update" %>
+
+<% end %>

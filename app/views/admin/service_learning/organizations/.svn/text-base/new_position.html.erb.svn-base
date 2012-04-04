@@ -1,0 +1,56 @@
+<h1>New Position</h1>
+
+<%= error_messages_for :service_learning_position %>
+
+<% form_for(@service_learning_position, :url => service_learning_position_path(@unit, @quarter, @service_learning_position)) do |f| %>
+
+<dl class="inline-definitions">
+
+    <dt>title</dt>
+    <dd><%= f.text_field :title %><dd>
+
+	<dt>organization</dt>
+	<dd><%= link_to @service_learning_position.organization.name, service_learning_organization_path(@unit, @quarter, @service_learning_position.organization) %></dd>
+
+    <dt>description</dt>
+    <dd><%= f.text_area :description %><dd>
+
+    <dt>supervisor</dt>
+    <dd><%= f.collection_select :supervisor_person_id, 
+								OrganizationContact.find_all_by_organization_id(@service_learning_position.organization).sort,
+								:id, :fullname,
+								:include_blank => "(none)" %><dd>
+
+	<dt>location</dt>
+	<dd><%= f.collection_select :location_id, Location.find(:all, :order => 'title ASC'), :id, :title, :include_blank => "(none)" %>
+		<%= link_to_function "add new", "Effect.toggle('add_new_location', 'blind', {duration: 0.25})" %>
+		<%= render :partial => "admin/service_learning/positions/add_new_location" %></dd>
+		
+	<dt>times</dt>
+	<dd>&nbsp;</dd>
+	
+	<dt>time notes</dt>
+    <dd><%= f.text_area :time_notes %><dd>
+	
+	<dt>age restriction</dt>
+	<dd><%= f.text_field :age_requirement %></dd>
+
+	<dt>duration requirement</dt>
+	<dd><%= f.text_field :duration_requirement %></dd>
+	
+	<dt>transportation</dt>
+	<dd><%= f.text_area :alternate_transportation %></dd>
+	
+	<dt>orientation details</dt>
+	<dd><%= f.collection_select :service_learning_orientation_id,
+	 							ServiceLearningOrientation.find(:all),
+								:id, :title,
+								:include_blank => '(none)' %></dd>
+
+</dl>
+    <%= f.submit "Create" %>
+  
+<% end %>
+
+<%= link_to 'Show', service_learning_positions_path(@unit, @service_learning_position) %> |
+<%= link_to 'Back', service_learning_positions_path %>

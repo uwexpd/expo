@@ -1,0 +1,56 @@
+<h1>Check-in
+	<span class="light">&raquo; Reservation #<%= @equipment_reservation.id_s %></span></h1>
+
+<%= render :partial => "admin/students/student_header", :locals => { :anchor => 'equipment_reservations' } %>
+<hr size=1>
+<br>
+
+<% form_for @equipment_reservation, :url => { :action => :checkin } do |f| %>
+
+	<%= f.error_messages %>
+	
+	<dl class="big numbers">
+
+		<dt>1</dt>
+		<dd><strong>Make sure all equipment is returned.</strong>
+			<br>For each piece of equipment, ensure that all included accessories have been returned.
+			<br><br>
+			<table class="highlightless">
+				<%= render :partial => 'equipment', :collection => @equipment_reservation.equipments, :locals => { :mode => :checkin } %>
+			</table>
+			</dd>
+
+		<dt>2</dt>
+		<dd><strong>Is anything missing, damaged, or cause for concern?</strong>
+			<br>If you answer "Yes," the equipment committee will be automatically contacted to address the issue.
+			
+			<blockquote>
+			
+			<%= f.radio_button :checkin_ok, true %>
+			<%= f.label :checkin_ok_true, "<big>No</big>, all equipment is OK." %>
+			
+			<br>
+			<%= f.radio_button :checkin_ok, false %>
+			<%= f.label :checkin_ok_false, "<big>Yes</big>, there is a problem." %>
+			
+			</blockquote>
+			
+			<small>Please provide notes or additional information here:</small>
+			<br>
+			<%= f.text_area :checkin_notes, :rows => 4, :style => "width: 99%" %>
+			
+			</dd>
+
+		<dt>3</dt>
+		<dd><strong>Finish</strong> this check-in:
+			<%= f.submit "Finish Check-in" %>
+			</dd>
+			
+		<dt>4</dt>
+		<dd><strong>Return the equipment</strong> to the closet.</dd>
+
+	</dl>
+	
+<% end -%>
+
+<% sidebar :reservation_details, :policies %>

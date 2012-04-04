@@ -1,0 +1,47 @@
+<h3>Placements
+	<span class="right"><%= link_to_function "edit", "Effect.toggle('edit_placements', 'blind', {duration: 0.25})" %></span>
+</h3>
+
+<div id="edit_placements" style="display:none">
+  <% unless @use_pipeline_links %>
+	  <% form_for @service_learning_position, :url => service_learning_organization_position_path(@unit, @quarter, @organization, @service_learning_position) do |f| -%>
+  		Number of slots available:
+  		<%= f.text_field :number_of_slots, :size => 5 %>
+  		<%= f.submit %>
+  	<% end -%>
+  <% else %>
+    <% form_for @service_learning_position, :url => admin_pipeline_organization_position_path(@quarter, @organization, @service_learning_position) do |f| -%>
+    	Add filled slot:
+    	<%= f.select "add_filled_slot",
+    	                        Student.find(:all, :conditions => ["pipeline_background_check >= ?", (Time.now-2.year)], :order => "fullname").collect{|s| [s.fullname, s.id] }, 
+    	                        { :include_blank => true } %>
+    	<%= f.submit "Add Volunteer" %>
+    <% end -%>
+  <% end %>
+</div>
+
+<ul>
+
+	<li>Ideal number of students:
+		<strong><%= @service_learning_position.ideal_number_of_slots || "&Oslash;" %></strong></li>
+		
+	<li>Number of slots created:
+		<% klass = "red" if @service_learning_position.placements.count < @service_learning_position.ideal_number_of_slots rescue nil %>
+		<strong class="<%= klass %>"><%= @service_learning_position.placements.count %></strong></li>
+
+	<li>Students placed: <%= @service_learning_position.placements.filled.size %></li>
+
+</ul>
+
+<table>
+	<% for placement in @service_learning_position.placements.sort{|x,y| x.person.fullname <=> y.person.fullname rescue -1} %>
+		<% if placement.person %>
+		<tr>
+			<td><%= link_to placement.person.fullname, [:admin, placement.person] %></td>
+			<td><small><%= link_to truncate(placement.course.title, 12), 
+								service_learning_course_path(@unit, @quarter, placement.course),
+								:title => placement.course.title unless placement.course.nil? %></small></td>
+		</tr>
+		<% end %>
+	<% end -%>
+</table>

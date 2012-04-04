@@ -1,0 +1,10 @@
+<%= question.question %>
+<%= content_tag('em', '*', :class => 'required') if question.required? %>
+<%= content_tag('div', response.errors.full_messages, :class => 'error-message') %>
+
+<br>
+<% if @evaluation.submitted? %>
+	<blockquote class="long_response"><%= r.object.response %></blockquote>
+<% else -%>
+	<%= r.text_area :response, :size => "80x5", :disabled => @evaluation.submitted? %>
+<% end -%>

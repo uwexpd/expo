@@ -1,0 +1,2 @@
+pdf.text attendee.id.to_s
+pdf.text attendee.person.fullname

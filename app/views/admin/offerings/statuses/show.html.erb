@@ -1,0 +1,47 @@
+<h1 class="big-icon emails"><%=h @status.application_status_title %>
+	<span class="light right"><%= link_to "Edit", edit_offering_status_path(@offering, @status), :class => 'edit button' %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>status</dt>
+	<dd><%= @status.private_title %></dd>
+
+	<dt>public title</dt>
+	<dd><%= @status.public_title %></dd>
+
+	<dt>sequence</dt>
+	<dd><%= @status.sequence %></dd>
+
+	<dt>disallow user edits</dt>
+	<dd><%= @status.disallow_user_edits %></dd>
+
+	<dt>disallow all edits</dt>
+	<dd><%= @status.disallow_all_edits %></dd>
+
+	<dt>message</dt>
+	<dd><%= @status.message %></dd>
+
+</dl>
+
+<h3>E-mails</h3>
+<table>
+	<tr class="small left">
+		<th>To</th>
+		<th>Template</th>
+		<th>Auto-send?</th>
+		<th style="width:100px">Functions</th>
+	</tr>
+
+	<%= render :partial => 'admin/offerings/statuses/emails/email', :collection => @status.emails %>
+
+	<% if @status.emails.empty? %>
+	<tr class="empty">
+		<td colspan=4>No e-mails defined. <%= link_to "Add a new one.", new_offering_status_email_path(@offering, @status) %></td>
+	</tr>
+	<% end -%>
+
+</table>
+
+<%= link_to "Add new email", new_offering_status_email_path(@offering, @status), :class => 'icon-left add button' %>
+
+<% sidebar :associations, :statuses %>

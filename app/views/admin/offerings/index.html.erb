@@ -1,0 +1,52 @@
+<% make_main_content_full_width %>
+
+<div class="light right" style="margin-top: 10px">
+	Filter: <%= text_field_tag :q, nil, :autocomplete => "off", :type => "search", :placeholder => "Filter" %>
+	<%= observe_field 'q', 
+					:frequency => 0.7, 
+					:url => { :action => 'auto_complete' },
+					:indicator => 'global',
+					:with => "'q=' + $F('q') + '&total_count=#{@offerings.total_entries}'",
+					:before => "if($F('q') == '') { clear_filter(); return false; }"
+					%>
+					
+	<%= link_to "Create new offering", new_offering_path, :class => "icon-left add button" %>
+</div>
+
+<h1>Offerings
+	<span class="light" id="filter_count"></span></h1>
+
+
+<div id="all_offerings">
+<% paginated_section @offerings do %>
+	<div class="edge-to-edge">
+		<table>
+			<%= render :partial => "table_header" %>
+			<%= render :partial => 'offerings', :object => @offerings %>
+		</table>
+	</div>
+<% end -%>
+</div>
+
+<div id="search_results" style="display:none" class="edge-to-edge">
+	<table>
+		<%= render :partial => 'table_header' %>
+
+		<tbody id="search_results_tbody">
+		</tbody>
+
+		<tr class="empty" id="search_results_empty" style="display:none">
+			<td colspan=10>No results found.</td>
+		</tr>
+	</table>
+</div>
+
+<% javascript_tag do %>
+	function clear_filter() {
+		$('all_offerings').show(); 
+		$('search_results').hide(); 
+		$('global').hide(); 
+		$('filter_count').innerHTML = '';		
+		$('q').value = ''
+	}
+<% end -%>

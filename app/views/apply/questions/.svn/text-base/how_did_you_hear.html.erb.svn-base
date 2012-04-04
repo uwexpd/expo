@@ -1,0 +1,6 @@
+<li>
+	<%= qf.label(question.attribute_to_update, question.question) %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %>
+	
+	
+</li>

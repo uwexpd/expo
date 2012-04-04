@@ -1,0 +1,21 @@
+<h1><%=h @condition.title %>
+	<span class="light right"><%= link_to "Edit", edit_population_condition_path(@population, @condition), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@condition) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>query</dt>
+	<dd><%=h @condition.population_id %></dd>
+
+	<dt>attribute</dt>
+	<dd><%=h @condition.attribute %></dd>
+
+	<dt>eval method</dt>
+	<dd><%=h @condition.eval_method %></dd>
+
+	<dt>value</dt>
+	<dd><%=h @condition.value %></dd>
+
+</dl>
+

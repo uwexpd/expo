@@ -1,0 +1,20 @@
+<div class="content-topper">
+	<h4 class="grey paddingless" style="margin-bottom:0">
+		<%= @offering.name %></h4>
+
+	<%= render :partial => "phase_timeline" %>
+</div>
+
+<h3><%= @phase.name %>
+	<span class="light right">
+		<%= link_to "Add new task", new_offering_phase_task_path(@offering, @phase, :return_to => request.url), :class => "new button" %>
+		<%= link_to_function("Re-arrange tasks", "$$('.sort-handle').invoke('toggle')", :class => "sort button") %></span>
+	</h3>
+<ol class="extra-padding completable" id="phase_tasks">
+	<%= render :partial => "phase_task", :collection => @phase.tasks.sort %>
+</ol>
+
+<%= sortable_element "phase_tasks", :url => {:action => 'sort_phase_tasks', :id => @phase}, :handle => 'sort-handle' %>
+
+<% sidebar :quick_access, :search %>
+<% @offering.current_offering_admin_phase == @phase ? sidebar(:complete_phase) : sidebar(:switch_to_phase) %>

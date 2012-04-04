@@ -1,0 +1,100 @@
+<h1><%= @offering.name %>
+	<span class="light right"><%= @offering.open? ? "<font color=green>Open</font>" : "Closed" %></span></h1>
+
+<ul class="welcome-links">
+
+	<li class="status">
+		Application URL (applicants use this link to access the application process):
+		<br>
+		<%= link_to apply_url(@offering), apply_url(@offering) %>
+	</li>
+	
+	<li class="settings">
+		<%= link_to "Offering Parameters and Global Settings", edit_offering_url(@offering) %>
+		<br><span class="sub-links">
+			<ul class="inline">
+			<li><%= link_to "Main Details", edit_offering_url(@offering) %></li>
+			<li><%= link_to "Features", edit_offering_url(@offering, :anchor => "features") %></li>
+			<li class="for_uses_awards"><%= link_to "Awards", edit_offering_url(@offering, :anchor => "awards") %></li>
+			<li><%= link_to "Applicants", edit_offering_url(@offering, :anchor => "applicants") %></li>
+			<li class="for_uses_mentors"><%= link_to "Mentors", edit_offering_url(@offering, :anchor => "mentors") %></li>
+			<li class="for_uses_reviews"><%= link_to "Reviews", edit_offering_url(@offering, :anchor => "reviews") %></li>
+			<li class="for_uses_interviews"><%= link_to "Interviews", edit_offering_url(@offering, :anchor => "interviews") %></li>
+			<li class="for_uses_moderators"><%= link_to "Moderators", edit_offering_url(@offering, :anchor => "moderators") %></li>
+			<li class="for_uses_confirmation"><%= link_to "Confirmation Process", edit_offering_url(@offering, :anchor => "confirmation") %></li>
+			<li class="for_uses_award_acceptance"><%= link_to "Award Acceptance", edit_offering_url(@offering, :anchor => "award_acceptance") %></li>
+			<li class="for_uses_proceedings"><%= link_to "Online Proceedings", edit_offering_url(@offering, :anchor => "proceedings") %></li>
+			</ul>
+			<br class="clear">
+			</span>
+		</li>
+		
+	<li class="pages">
+		<%= link_to "Application Pages and Questions", offering_pages_path(@offering) %>
+		(<%= pluralize @offering.pages.size, "page" %>, <%= pluralize @offering.questions.size, "question" %>)
+		<br><span class="sub-links">
+			<ul class="inline">
+			<% for page in @offering.pages %>
+				<li><%= link_to page.title, offering_page_path(@offering, page) %>
+				<%= link_to "(#{page.questions.size})", offering_page_questions_path(@offering, page) %></li>
+			<% end -%>
+			</ul>
+			<br class="clear">
+			</span>
+	</li>
+	
+	<li class="emails">
+		<%= link_to "Statuses and Automatic E-mails", offering_statuses_path(@offering) %>
+		(<%= pluralize @offering.statuses.size, "status" %>)
+		<br><span class="sub-links">
+			<ul class="inline">
+			<% for status in @offering.statuses %>
+				<li><%= link_to status.private_title, offering_status_path(@offering, status) %>
+				<%= link_to "(#{status.emails.size})", offering_status_emails_path(@offering, status) %></li>
+			<% end -%>
+			</ul>
+			<br class="clear">
+			</span>
+	</li>
+
+	<li class="tasks">
+		<%= link_to "Admin Process Phases and Tasks", offering_phases_path(@offering) %>
+		(<%= pluralize @offering.phases.size, "phase" %>, <%= pluralize @offering.tasks.size, "task" %>)
+		<br><span class="sub-links">
+			<ul class="inline">
+			<% for phase in @offering.phases.sort %>
+				<li><%= link_to phase.name, offering_phase_path(@offering, phase) %>
+				<%= link_to "(#{phase.tasks.size})", offering_phase_tasks_path(@offering, phase) %></li>
+			<% end -%>
+			</ul>
+			<br class="clear">
+			</span>
+	</li>
+	
+	<li class="dashboard">
+		<%= link_to "Dashboard Items", offering_dashboard_items_path(@offering) %>
+		(<%= pluralize @offering.dashboard_items.size, "item" %>)
+		<br><span class="sub-links">
+			Dashboard items are customized information blocks that are displayed on applicants' dashboard pages.
+			<br class="clear">
+			</span>
+	</li>
+	
+	<li class="restrictions">
+		<%= link_to "Restrictions and Exemptions", offering_restrictions_path(@offering) %>
+		(<%= pluralize @offering.restrictions.size, "restriction" %>, <%= pluralize @offering.exemptions.size, "exemption" %>)
+		<br><span class="sub-links">
+			<ul class="inline">
+			<% for restriction in @offering.restrictions %>
+				<li><%= link_to restriction.title, offering_restriction_path(@offering, restriction) %>
+				<%= link_to "(#{restriction.exemptions.size})", offering_restriction_exemptions_path(@offering, restriction) %></li>
+			<% end -%>
+			</ul>
+			<br class="clear">
+			</span>
+	</li>
+		
+</ul>
+	
+<% sidebar :manage, :more_settings %>
+<%= render :partial => 'admin/offerings/toggle_features' %>

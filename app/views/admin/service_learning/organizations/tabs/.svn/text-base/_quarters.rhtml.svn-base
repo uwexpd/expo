@@ -1,0 +1,16 @@
+<h2>Active Quarters</h2>
+
+<table>
+
+	<% for organization_quarter in @organization.organization_quarters %>
+		<tr <%= "class='current'" if organization_quarter.quarter.current_quarter? %>>
+			<td><%= link_to organization_quarter.quarter.title,
+			 				service_learning_organization_path(@unit, organization_quarter.quarter, @organization) %></td>
+			<td><%= organization_quarter.try(:unit).try(:name) %></td>
+			<td><%= link_to pluralize(organization_quarter.positions.size, "position"),
+			 				service_learning_organization_positions_path(@unit, organization_quarter.quarter, @organization) %></td>
+			<td><%= organization_quarter.status.title %></td>
+		</tr>
+	<% end -%>
+
+</table>

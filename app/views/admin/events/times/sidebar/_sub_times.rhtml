@@ -1,0 +1,40 @@
+<h3>Sub-Times
+	<span class="right"><%= link_to "see all", event_time_sub_times_url(@event, @time) %></span></h3>
+
+<ul class="link-list">
+	<li><%= link_to "Add new sub-time", new_event_time_sub_time_url(@event, @time), :class => 'icon-left add' %></li>
+</ul>
+	
+<% unless @time.sub_times.empty? %>
+
+	<p class="caption">You can assign people to sub-times by dragging the time to the person's row on the left.</p>
+
+	<ul>
+		<% for sub_time in @time.sub_times %>
+		<li id="sub_time_<%= sub_time.id %>" class="draggable">
+			<%= link_to sub_time.time_detail(:time_only => true), event_time_sub_time_url(@event, @time, sub_time) %>
+			(<span id="sub_time_count_<%= sub_time.id %>"><%= sub_time.attendees.size %></span>)
+			<br><small class="light">
+				<%= %w(location_text title facilitator).collect{|a| sub_time.try(a) unless sub_time.try(a).blank?}.compact.join(", ") %>
+				</small>
+		</li>
+	
+		<%= draggable_element "sub_time_#{sub_time.id}", :revert => true %>
+
+		<% end -%>
+	</ul>
+
+	Assign sub-time to selected:<br>
+		<%= select_tag :sub_time_id, 
+						"<option value='nil'></option>" + options_from_collection_for_select(@time.sub_times, :id, :time_only, nil) %>
+		<%= submit_to_remote :commit, "Assign", 
+							:url => mass_add_to_sub_time_event_time_sub_times_url(@event, @time),
+							:with => "$('invitees_form').serialize() + '&sub_time_id=' + $F('sub_time_id')",
+							:indicator => true %>
+						
+		<%= indicator %>
+		<p class="caption">Select the blank option to unassign someone instead.</p>
+	
+	<div class="error-message" id="sub_time_error"></div>
+
+<% end -%>

@@ -1,0 +1,19 @@
+<% @answer = @mentee_application_record.answer_for(question) %>
+<% fields_for "mentor[answer_attributes][]", @answer do |qf| %>
+
+<%= error_messages_for :answer %>
+
+<div>
+	<p><b><%= question.question %></b></p>
+
+	<p class="left-indent">
+		<% if question.display_as == "long_response" %>
+			<%= qf.text_area :answer %>
+		<% else %>
+			<%= qf.text_field :answer, :size => question.size %>
+		<% end -%>
+	</p>
+	
+</div>
+
+<% end -%>

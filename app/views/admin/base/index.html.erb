@@ -1,0 +1,85 @@
+<%= make_main_content_blocked %>
+<% no_appointments = @my.appointments.yesterday.empty? && @my.appointments.today.empty? && @my.appointments.tomorrow.empty? %>
+
+<div class="content-block">
+	<div class="content-topper">
+		<%= image_tag @current_user.picture.thumb.url, :align => 'left' if @current_user.picture rescue nil %>
+		<h1 style="display:inline; padding-left: 10px">
+			<%= @current_user.person.firstname_first rescue "Admin User" %>
+			
+			<span class="light"> &raquo; <%= @current_user.units.minus_exp.uniq.collect(&:name).sort.join(", ") %></span>
+			</h1>
+	</div>
+
+
+	<center>
+	<div id="create_appointment_container" class="icon-left calendar" style="display:inline; text-align:center; <%= "display:none" unless no_appointments %>">
+			No current appointments.
+		
+			<%= link_to_function "Create an appointment", 
+								"$('create_appointment_container').fade(); $('appointments_container').slideDown();" %>.
+	</div>
+	</center>
+	
+	<div id="appointments_container" <%= "style='display:none'" if no_appointments %>>
+		<div>
+
+			<div class="big-border box smaller" style="float:left; width: 40%; margin-right: 0">
+				<h4 class="icon-left calendar">Schedule a new appointment <%= indicator 'appointment_indicator' %></h4>
+				<%= render :partial => "new_appointment" %>
+			</div>
+
+			<div style="margin-left: 0; float: right; width: 53%">
+				<h4>My Appointments</h4>
+				<%= render :partial => "my_appointments" %>
+				<br class="clear">
+			</div>
+			
+		</div>
+		
+	</div>
+	<br class="clear">
+	
+</div>
+
+<div class="content-block">
+	<div class="content-topper"><h4>Modules</h4></div>
+	<ul class="sherlock-buttons">
+		<li class="appointments"><%= link_to "Appointments", appointments_url %></li>
+		<li class="bugs"><%= link_to "Bugs/Tickets", admin_tickets_url %></li>
+		<li class="events"><%= link_to "Events", events_url %></li>
+		<li class="equipment"><%= link_to "Equipment", equipments_url %></li>
+		<li class="applications"><%= link_to "Online Apps", offerings_url %></li>
+		<li class="committees"><%= link_to "Committees", admin_committees_url %></li>
+		<li class="templates"><%= link_to "Templates", admin_communicate_templates_url %></li>
+		<%= render :partial => 'service_learning_link' %>
+		<li class="queries"><%= link_to "Queries", populations_url %></li>
+		<li class="student_query"><%= link_to "Student Query", admin_stats_query_url %></li>
+	</ul>
+	<br class="clear">
+</div>
+
+<div class="content-block">
+	<div class="content-topper"><h4>Other Tools</h4></div>
+	<ul class="gridded-links">
+		<li><%= link_to "Accountability", admin_accountability_url %></li>
+		<li><%= link_to "Contact History", contact_history_index_url %></li>
+		<li><%= link_to "Discipline Categories", discipline_categories_url %></li>
+		<li><%= link_to "Email Queue (#{number_with_delimiter EmailQueue.count})", admin_communicate_email_queue_index_url %></li>
+		<li><%= link_to "Event Types", event_types_url %></li>
+		<li><%= link_to "Help Text", admin_help_texts_url %></li>
+		<li><%= link_to "Locations", locations_url %></li>
+		<li><%= link_to "Majors", major_extras_url %></li>
+		<li><%= link_to "Organizations", admin_organizations_url %></li>
+		<li><%= link_to "People", admin_people_url %></li>
+		<li><%= link_to "Students", admin_students_url %></li>
+		<li><%= link_to "Units", units_url %></li>
+		<li><%= link_to "Users", users_url %></li>
+	</ul>
+	<br class="clear">
+</div>
+
+<% sidebar :quick_links %>
+<% sidebar :find_student %>
+<% sidebar :vicarious_login, :class => 'collapsable' if @current_user.has_role?(:vicarious_login) %>
+<% sidebar :favorite_pages unless @current_user.favorite_pages.empty? %>

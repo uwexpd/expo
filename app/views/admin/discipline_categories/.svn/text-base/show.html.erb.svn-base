@@ -1,0 +1,14 @@
+<h1><%=h @discipline_category.name %>
+	<span class="light right"><%= link_to "Edit", edit_discipline_category_path(@discipline_category), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@discipline_category) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>name</dt>
+	<dd><%=h @discipline_category.name %></dd>
+		
+</dl>
+<%= render :partial => "major_table" %>
+
+<% sidebar :add_major %>

@@ -1,0 +1,7 @@
+<h3>With Selected</h3>
+
+<ul class="icons">
+	<li class="email"><%= link_to_submit "Primary Applicants", 'all_applicants_form' %></li>
+	<li class="email"><%= link_to_submit "Mentors", 'all_applicants_form', :recipient_variant => "mentors" %></li>
+	<li class="email"><%= link_to_submit "Group members", 'all_applicants_form', :recipient_variant => "group_members" %></li>
+</ul>

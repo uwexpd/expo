@@ -1,0 +1,3 @@
+<%= render :partial => "mentor", :locals => { 	:attribute_prefix => "user_application[mentor_attributes]", 
+												:mentor => new_mentor, 
+												:title => "Secondary Mentor" } %>

@@ -1,0 +1,16 @@
+page.if "$('invitees_table')" do
+  page.replace "invitee_#{@invitee.id}", :partial => 'admin/events/times/invitee', :object => @invitee, :locals => { :time => @time }
+  page << "SortableTable.sort(null,$('#{@index_id}'),#{@order});"
+end
+
+page.if "$('attendees_table')" do
+  page.replace_html "attendees_table", :partial => 'admin/events/attendees', :object => @invitees
+end
+
+page.visual_effect :highlight, "invitee_#{@invitee.id}"
+
+page.if "$('sidebar_attendee_count')" do
+  attendees_count_text = "#{@event.attendees.size} expected, #{@event.attended.size} attended"
+  page.replace_html :sidebar_attendee_count, attendees_count_text
+  page.visual_effect :highlight, :sidebar_attendee_count
+end

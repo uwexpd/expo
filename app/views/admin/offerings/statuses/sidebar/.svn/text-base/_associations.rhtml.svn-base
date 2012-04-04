@@ -1,0 +1,5 @@
+<h3>Associations</h3>
+
+<ul class="link-list">
+	<li><%= link_to "Automatic E-mails (#{@status.emails.size})", offering_status_emails_path(@offering, @status) %></li>
+</ul>

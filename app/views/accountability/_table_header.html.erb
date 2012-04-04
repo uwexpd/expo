@@ -1,0 +1,19 @@
+<% hide_college_title ||= false %>
+
+	<tr>
+		<th rowspan=2 class=""><%= "College" unless hide_college_title %></th>
+		<th rowspan=2 class="light-right-border"><%= "Department" unless hide_college_title %></th>
+		<% for activity_type, report in @report_objects %>
+			<th colspan=3 class="small center light-right-border">
+				<%= activity_type.title %>
+				<%= "<br><span class=\"red tag\">DRAFT</span>" unless report.finalized? %>
+			</th>
+		<% end -%>
+	</tr>
+	<tr class="small center">
+		<% for activity_type in @activity_types %>
+		<th>Number of students</th>
+		<th>Number of student-quarters</th>
+		<th class="light-right-border">Number of hours</th>
+		<% end -%>
+	</tr>

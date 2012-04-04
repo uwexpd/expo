@@ -1,0 +1,12 @@
+<% content_for(:title) do %>
+	<%= @equipment.title %>
+	(<%= @equipment.category.title %>)
+<% end -%>
+
+<%= image_tag @equipment.picture.large.url, :align => "right" %>
+
+<h1 class="paddingless"><%= @equipment.title %></h1>
+<h3><%= @equipment.category.title %></h3>
+<small class="light"><%= @equipment.tag %></small>
+
+<%= render :partial => "admin/equipments/about" %>

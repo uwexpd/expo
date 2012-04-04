@@ -1,0 +1,50 @@
+<h1 class="big-icon tasks"><%=h @task.title %>
+	<span class="light right">
+		<%= link_to "Edit", edit_offering_phase_task_path(@offering, @phase, @task), :class => 'edit button' %>
+		<%#= link_to "Manage task", admin_apply_phase_task_path(:offering => @offering, 
+										:action => 'phase_task', 
+										:phase_id => @phase, 
+										:id => @task), :class => 'button' %>
+	</span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%= @task.title %></dd>
+	
+	<dt>sequence</dt>
+	<dd><%= @task.sequence %></dd>
+
+	<dt>display as</dt>
+	<dd><%= @task.display_as.titleize %></dd>
+
+	<dt>notes</dt>
+	<dd><%= textilize_without_paragraph @task.notes %></dd>
+	
+	<dt>show history?</dt>
+	<dd><%= @task.show_history? ? "yes" : "no" %></dd>
+
+	<dt>statuses</dt>
+	<dd><%= @task.application_status_types.collect(&:name).join("<br>") || "-" %></dd>
+	
+	<dt>new status</dt>
+	<dd><%= @task.new_application_status_type || "-" %></dd>
+	
+	<dt>email templates</dt>
+	<dd><%= @task.email_templates.collect(&:name).join("<br>") || "-"%></dd>
+	
+	<dt>applicant criteria</dt>
+	<dd><pre><%= @task.applicant_list_criteria  || "-"%></pre></dd>
+
+	<dt>reviewer criteria</dt>
+	<dd><pre><%= @task.reviewer_list_criteria  || "-"%></pre></dd>
+	
+	<dt>detail text</dt>
+	<dd><%= @task.detail_text || "-" %></dd>
+	
+	<dt>url</dt>
+	<dd><%= @task.url  || "-"%></dd>
+	
+</dl>
+
+<% sidebar :associations, :tasks %>

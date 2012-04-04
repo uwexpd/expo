@@ -1,0 +1,71 @@
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+			<%= link_to_tab_pane "Main Details", :main_details, :class => 'current' %>
+			<%= link_to_tab_pane "Features", :features %>
+			<%= link_to_tab_pane "Awards", :awards, :class => 'for_uses_awards' %>
+			<%= link_to_tab_pane "Applicants", :applicants %>
+			<%= link_to_tab_pane "Mentors", :mentors, :class => 'for_uses_mentors' %>
+			<%= link_to_tab_pane "Reviews", :reviews, :class => 'for_uses_reviews' %>
+			<%= link_to_tab_pane "Interviews", :interviews, :class => 'for_uses_interviews' %>
+			<%= link_to_tab_pane "Moderators", :moderators, :class => 'for_uses_moderators' %>
+			<%= link_to_tab_pane "Confirmation", :confirmation, :class => 'for_uses_confirmation' %>
+			<%= link_to_tab_pane "Award Acceptance", :award_acceptance, :class => 'for_uses_award_acceptance' %>
+			<%= link_to_tab_pane "Online Proceedings", :proceedings, :class => 'for_uses_proceedings' %>
+		</ul>
+	</div>
+
+	<div id="frame">
+
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+
+		<% tab_pane :main_details, :selected => true do %>
+			<%= render :partial => "admin/offerings/tabs/main_details", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :features do %>
+			<%= render :partial => "admin/offerings/tabs/features", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :awards do %>
+			<%= render :partial => "admin/offerings/tabs/awards", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :applicants do %>
+			<%= render :partial => "admin/offerings/tabs/applicants", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :mentors do %>
+			<%= render :partial => "admin/offerings/tabs/mentors", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :reviews do %>
+			<%= render :partial => "admin/offerings/tabs/reviews", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :interviews do %>
+			<%= render :partial => "admin/offerings/tabs/interviews", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :moderators do %>
+			<%= render :partial => "admin/offerings/tabs/moderators", :locals => { :f => f } %>
+		<% end -%>
+		
+		<% tab_pane :confirmation do %>
+			<%= render :partial => "admin/offerings/tabs/confirmation", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :award_acceptance do %>
+			<%= render :partial => "admin/offerings/tabs/award_acceptance", :locals => { :f => f } %>
+		<% end -%>
+
+		<% tab_pane :proceedings do %>
+			<%= render :partial => "admin/offerings/tabs/proceedings", :locals => { :f => f } %>
+		<% end -%>
+
+	</div>
+	
+</div>
+
+<%= autoload_tab_pane %>

@@ -1,0 +1,28 @@
+<h3 style="">
+	<%= link_to_function "Vicarious Login", "Effect.toggle('vicarious_login', 'blind')", :class => 'toggleable' %>
+	</h3>
+
+<div>
+<div id="vicarious_login" style="display:none">
+	<div class="panel">
+	<p>To login temporarily as another user, enter their username and choose an identity type below:</p>
+
+	<%= form_tag :action => 'vicarious_login' %>
+
+		<label for="login">Username:</label>
+		<%= text_field_tag :login %>
+	
+		<br>
+		<label for="identity_type">Identity Type:</label>
+		<%= select_tag :identity_type, options_for_select([["Standard User", ""], ["Student", "Student"]]) %>
+
+		<p align="center">
+			<%= submit_tag "Log in" %>
+			<%= separator %>
+			<%= link_to_function "Cancel", "Effect.toggle('vicarious_login', 'slide', {duration: 0.25})" %>
+		</p>
+
+	</form>
+	</div>
+</div>
+</div>

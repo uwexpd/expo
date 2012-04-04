@@ -1,0 +1,13 @@
+page.replace_html "pipeline_survey", 
+                  "<ul>
+                    <li><strong>How did they hear about Pipeline?</strong> 
+                    #{@student.pipeline_student_info.how_did_you_hear}</li>
+                    <li><strong>Freshman or sophomore pursuing the ELS minor?</strong> 
+                    #{@student.pipeline_student_info.pursue_els}</li>
+                    <li><strong>Pursuing a teaching career?</strong> 
+                    #{@student.pipeline_student_info.teaching_career}</li>
+                    <li><strong>Intending to apply to the UW’s Masters in Teaching program?</strong> 
+                    #{@student.pipeline_student_info.apply_masters}</li>
+                    <li><strong>Participating to fulfill classroom observation for an MIT program?</strong> 
+                    #{@student.pipeline_student_info.fulfill_mit}</li>
+                  </ul>"

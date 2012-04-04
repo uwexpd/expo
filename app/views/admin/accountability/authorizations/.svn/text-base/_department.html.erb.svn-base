@@ -1,0 +1,47 @@
+<tr id="row_<%= department.class.to_s %>_<%= department.id.to_s %>">
+
+	<td>
+		<%= department.name %>
+	</td>
+
+	<td>
+		<small class="light"><%= "#{department.class.to_s} ID #{department.id.to_s}" %></small>
+	</td>
+
+	<td>
+		<ul class="inline">
+		<% for authorization in authorizations %>
+			<li class="deleteable tag" id="authorization_<%= authorization.id.to_s %>">
+				<%= authorization.login %>
+				<%= link_to_remote "<span>Delete</span>",
+				 					{:url => { :action => 'destroy', :id => authorization },
+									:method => :delete,
+									:indicator => 'global',
+									:confirm => 'Are you sure?'},
+									:class => "closebutton" %>
+			</li>
+		<% end -%>
+		</ul>
+	</td>
+
+	<td>
+		<%= link_to_function "<span>Add</span>", 
+							"toggle_menu('inline_add_form_#{department.class.to_s}_#{department.id.to_s}', false);
+							$('uw_netid_#{department.class.to_s}_#{department.id.to_s}').focus();", 
+							:class => "icon-left no-text add" %>
+		<div class="overlay box" id="inline_add_form_<%= department.class.to_s %>_<%= department.id.to_s %>" style="display:none">
+			<% form_remote_tag :url => { :action => 'create' }, 
+								:method => :post, 
+								:indicator => 'global',
+								:html => { :id => 'new_authorization_form' } do %>
+
+				<strong>Authorize UW NetID:</strong>
+				<%= text_field_tag "uw_netid", nil, 
+									:id => "uw_netid_#{department.class.to_s}_#{department.id.to_s}" %>
+				<%= hidden_field_tag :authorizable_key, "#{department.class.to_s}_#{department.id.to_s}", 
+									:id => "authorizable_key_#{rand(10000)}" %>
+				<%= submit_tag "Authorize" %>
+			<% end -%>
+		</div>
+	</td>
+</tr>

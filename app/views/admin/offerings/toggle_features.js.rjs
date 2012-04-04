@@ -1,0 +1,11 @@
+for feature in Offering::FEATURES
+  attribute = feature[1]
+	page << "#{attribute.to_s} = #{(@offering.read_attribute(attribute) || false).to_s}"
+	button_id = "toggle_feature_#{attribute.to_s}_button"
+	new_klass = @offering.read_attribute(attribute) ? "on" : "off"
+	page << "$('#{button_id}').removeClassName('on')"
+	page << "$('#{button_id}').removeClassName('off')"
+	page << "$('#{button_id}').addClassName('#{new_klass}')"
+end
+
+page << "toggleFeatures()"

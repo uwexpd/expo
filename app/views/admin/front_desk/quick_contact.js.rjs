@@ -1,0 +1,8 @@
+if @quick_contact.valid?
+  page << "buildChartAjaxQuery()"
+  page << "$('quick_contact_success').show()"
+  page.visual_effect :highlight, 'quick_contact_form'
+  page << "setTimeout(\"Effect.Fade('quick_contact_success')\", 2000)"
+else
+  page.replace_html :find_student_error, :text => error_messages_for(:quick_contact)
+end

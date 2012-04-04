@@ -1,0 +1,43 @@
+<h2>Group Members
+	<span class="light">(<%= link_to "view all", admin_apply_group_members_url(@offering, @app) %>)</span>
+	</h2>
+
+<table class="highlightless">
+
+	<% for group_member in @app.group_members.valid %>
+	<tr>
+		<td class="person <%= group_member.verified? ? "verified" : "unverified" %>">
+			<%= group_member.fullname %>
+			<%= "<br><small class='light error-message'>Unverified,</small>" unless group_member.verified? %>
+			<%= "<br><small class='light success-message'>Verified,</small>" if group_member.verified? %>
+			<%= "<small class='light error-message'>Unconfirmed</small>" unless group_member.confirmed? %>
+			<%= "<small class='light success-message'>Confirmed</small>" if group_member.confirmed? %>
+		</td>
+		<td>
+			<%= group_member.email %>
+			<br><small class="light">Verification e-mail sent 
+								<%= time_ago_in_words group_member.validation_email_sent_at rescue "unknown" %> ago.
+				<%= link_to "Send again", 
+							{:action => 'update', :id => @app, :resend_group_member => group_member.id} %>
+			</small>
+		</td>
+		<td>
+			<%= link_to "Details", admin_apply_group_members_url(@offering, @app, 'show', group_member.id) %>
+			<br><%= link_to "Edit", admin_apply_group_members_url(@offering, @app, 'edit', group_member.id) %>
+			<br><%= link_to "Remove", 
+						{:action => 'update', :id => @app, :remove_group_member => group_member.id}, 
+						:confirm => "Are you sure you want to remove this group member?" %>
+		</td>
+	</tr>
+	<% end -%>
+	
+	<% if @app.group_members.valid.empty? %>
+	<tr class="empty">
+		<td colspan=3>No group members exist. 
+			<%= link_to "Add one", admin_apply_group_members_url(@offering, @app, 'new') %>.</td>
+	</tr>
+	<% end -%>
+	
+</table>
+<br>
+<%= link_to "Add new group member", admin_apply_group_members_url(@offering, @app, 'new'), :class => 'add button' %>

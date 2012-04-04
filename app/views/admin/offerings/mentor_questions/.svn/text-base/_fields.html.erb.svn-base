@@ -1,0 +1,18 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :question %></dt>
+	<dd><%= f.text_area :question %></dd>
+	
+	<dt><%= f.label :required %></dt>
+	<dd><%= f.check_box :required %></dd>
+	
+	<dt><%= f.label :must_be_number %></dt>
+	<dd><%= f.check_box :must_be_number %></dd>
+	
+	<dt><%= f.label :display_as %></dt>
+	<dd><%= f.text_field :display_as %></dd>
+	
+	<dt><%= f.label :size %></dt>
+	<dd><%= f.text_field :size %></dd>
+
+</dl>

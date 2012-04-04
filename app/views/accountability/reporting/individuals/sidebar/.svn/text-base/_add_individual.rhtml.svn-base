@@ -1,0 +1,6 @@
+<h3><strong class="icon-left add">Add Individual</strong></h3>
+
+<ul class="link-list">
+	<li><%= link_to "Add a single record", new_accountability_reporting_individual_path(@year), :class => 'icon-left list' %></li>
+	<li><%= link_to "Upload completed Excel template", upload_accountability_reporting_individuals_path(@year), :class => 'icon-left xls' %></li>
+</ul>

@@ -1,0 +1,14 @@
+<h1>Pipeline Orientation Management <span class="light right"><%= link_to "Create new event", new_event_path, :class => "add button" %></span></h1>
+<% form_tag admin_communicate_write_email_url, :id => 'times_form' do %>
+  <div><%= select_all_check_box %> Select All Times</div>
+  <% for orientation in @orientations %>
+  <%= render :partial => "orientation_times", 
+             :locals => {:orientation => orientation} %>
+  <% end %>
+<% end %>
+
+<% sidebar :pipeline_links %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :with_selected_times %>

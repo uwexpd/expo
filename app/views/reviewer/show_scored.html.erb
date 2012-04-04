@@ -1,0 +1,43 @@
+<% mark_as_confidential @offering.confidentiality_note %>
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	<h3 style="margin-bottom: 0"><%= @app.person.fullname %>
+		<span><%= @app.person.student_no %></span>
+		<span class="light right"><%= render :partial => "composite_report_maker" %></span>
+		</h3>
+	<h4 style="margin-top: 0;"><%= @app.project_title %></h4>
+	
+	<%= content_tag(:h5, @app.offering.title) if @viewing_past_app %>
+
+	<%= content_tag('div', "<strong>Special Note from Program Staff:</strong> " + @app.special_notes, :class => 'special-note') unless @app.special_notes.blank? %>
+</div>
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		<%= link_to_tab("Student Info", "student_info", { :action => "show", :id => @app, :section => "student_info" }, "tabview_content") %>
+		<%= link_to_tab("Application Details", "application_review", { :action => "show", :id => @app, :section => "application_review" }, "tabview_content") %>
+		<%= link_to_tab("Transcript", "transcript", { :action => "show", :id => @app, :section => "transcript" }, "tabview_content") %>
+		<%= link_to_tab("Essay & Files", "essay", { :action => "show", :id => @app, :section => "essay" }, "tabview_content") unless @app.files.empty? %>
+		<%= link_to_tab("#{@offering.mentor_title.pluralize}", "mentor_letter", { :action => "show", :id => @app, :section => "mentor_letter" }, "tabview_content") if @offering.uses_mentors? %>
+		<%= link_to_tab("Past Applications", "past_applications", { :action => "show", :id => @app, :section => "past_applications" }, "tabview_content") %>
+		</ul>
+	</div>
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+		
+		<div class="content" id="tabview_content">
+			<noscript>
+				<%= render :partial => "admin/apply/section/application_review" %>
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+<%= autoload_tab("tabview_content", url_for({ :action => "show", :id => @app, :section => "" }), "application_review") %>
+
+<% sidebar :scoring, :class => 'fixed' if @application_reviewer %>

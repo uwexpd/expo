@@ -1,0 +1,66 @@
+<h1>Pipeline Orientation Participants <span class="light">Courses from <%= @quarter.title %></span></h1>
+
+<%= javascript_include_tag "tablesort" %>
+<%= form_tag admin_communicate_write_email_url, :id => 'students_form' %>
+
+	<table class="sortable groupable" id="invitees_table">
+		<tr>
+  		<th class="nosort"><%= select_all_check_box %></th>
+  		<th class="sortfirstasc" width="25%"><div class="sort-icon">Name</div></th>
+  		<th id="active_sort" class="groupvalue"><div class="sort-icon">Active?</div></th>
+  		<th class="groupvalue date"><div class="sort-icon">Orientation</div></th>
+  		<th id="expected_sort" class="groupvalue"><div class="sort-icon">Expected?</div></th>
+  		<th id="attended_sort" class="groupvalue"><div class="sort-icon">Attended?</div></th>
+  		<th id="course_sort" class="groupvalue"><div class="sort-icon">Course</div></th>
+  		<th class="nosort">Background Check</th>
+  	</tr>
+
+  	<% for invitee in @invitees %>
+
+  		<tr id="invitee_<%= invitee.id %>">
+      	<td><%= select_check_box(invitee) %>
+      	<td>
+      	  <% if invitee.person.is_a? Student %>
+      	    <%= link_to invitee.person.fullname, admin_student_path(invitee.person, :anchor => 'pipeline') %><%= invitee.person.pipeline_inactive ? "<span id='pipeline_inactive_#{invitee.person.id}' class='tag'>inactive</span>" : "<span id='pipeline_inactive_#{invitee.person.id}'></span>" %>
+      	  <% else %>
+      	    <%=h invitee.person.fullname rescue invitee.fullname rescue "#error" %><%= invitee.person.pipeline_inactive ? "<span id='pipeline_inactive_#{invitee.person.id}' class='tag'>inactive</span>" : "<span id='pipeline_inactive_#{invitee.person.id}'></span>" %>
+      	  <% end %>
+      	</td>
+      	<td id="active_column_<%= invitee.person.id %>" value="<%= invitee.person.pipeline_inactive ? 'Inactive' : 'Active' %>">
+      	  <span style="display:none;"><%= invitee.person.pipeline_inactive ? 'inactive' : 'active' %></span>
+      	</td>
+      	<td value="<%= invitee.event_time.time_detail %>">
+      	  <span style="display:none;"><%= invitee.event_time.start_time %></span>
+      	</td>
+      	<td value="<%= invitee.attending? ? 'Attending' : 'Not Attending' %>"><span class="current_reply">
+      			<%= invitee.attending? ? "<span class=success-message>Yes</span>" : "<span class=error-message>No</span>" %>
+      		</span>
+      		</td>
+      	<td value="<%= invitee.checked_in? ? 'Attended' : 'Did Not Attend' %>"><span class="current_reply">
+      			<%= invitee.checked_in? ? "<span class=success-message>Yes</span>" : "<span class=error-message>No</span>" %>
+      		</span>
+      		</td>
+      		
+      		<td value="<%= @course_enrollee_hash.include?(invitee.person.id) ? (@pipeline_course_courses_hash[@course_enrollee_hash[invitee.person.id][:course_id]].title rescue 'broke') : 'Volunteer' %>">
+        	  <span><%= @course_enrollee_hash.include?(invitee.person.id) ? (@pipeline_course_courses_hash[@course_enrollee_hash[invitee.person.id][:course_id]].title rescue 'broke') : 'Volunteer' %></span>
+        	</td>
+      	  
+      	  <td>
+      	    <span id="student_background_check_<%= invitee.person.id %>" class="<%= 'red' if (invitee.person.pipeline_background_check.nil? || invitee.person.pipeline_background_check <= Time.now-2.year) %>">
+    	        <%= relative_timestamp(invitee.person.pipeline_background_check, {:date_only => true}) %>
+    	      </span>
+    	    </td>
+
+      </tr>
+
+  	<% end -%>
+	</table>
+	
+</form>
+
+
+<% sidebar :pipeline_links %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :with_selected %>

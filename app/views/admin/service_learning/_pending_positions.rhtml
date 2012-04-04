@@ -1,0 +1,25 @@
+<div class="yellow box" id="pending">
+	<h3>Pending Position Approvals
+		<span class="light">(<%= ServiceLearningPosition.pending.for_unit(@unit).size %>)</span>
+		<span class="right"><%= link_to_function "Hide",
+		 										"Effect.toggle('pending_positions_table', 'blind');
+												if ($('hide_pending_positions_button').innerHTML == 'Show') {
+													$('hide_pending_positions_button').innerHTML = 'Hide'
+												} else {
+													$('hide_pending_positions_button').innerHTML = 'Show'
+												}",
+												:class => "hide button",
+												:id => "hide_pending_positions_button" %></h3>
+	
+	<table id="pending_positions_table">
+		<% for position in ServiceLearningPosition.pending.for_unit(@unit).sort_by(&:updated_at).reverse %>
+		<tr>
+			<td><%= link_to position.title(true, false), service_learning_organization_position_path(@unit, position.quarter, position.organization, position) %></td>
+			<td><%= link_to position.organization.name, service_learning_organization_path(@unit, position.quarter, position.organization) %></td>
+			<td><small><%= time_ago_in_words(position.updated_at) %> ago</small></td>
+			<td><small>by <b><%= position.updater.fullname rescue "(name unknown)"%></b></small></td>
+		</tr>
+		<% end -%>
+	</table>
+			
+</div>

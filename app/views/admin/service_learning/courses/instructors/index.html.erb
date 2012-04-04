@@ -1,0 +1,27 @@
+<h1>Instructors
+	<span class="light">&raquo; <%= @service_learning_course.title %></span>
+	<span class="light right">
+		<%= link_to "Add new instructor", 
+					new_service_learning_course_instructor_path(@unit, @quarter, @service_learning_course),
+					:class => "new button" %></span>
+	</h1>
+	
+<table>
+	<tr>
+		<th>Name</th>
+		<th>TA?</th>
+		<th>Functions</th>
+	</tr>
+	
+	<% for instructor in @instructors %>
+	<tr>
+		<td><%= instructor.fullname %></td>
+		<td><%= instructor.ta? ? "TA" : "" %></td>
+		<td><%= link_to 'Show', service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, instructor) %>
+	    	| <%= link_to 'Edit', edit_service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, instructor) %>
+	    	| <%= link_to 'Destroy', service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, instructor), 
+									:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end -%>
+
+</table>

@@ -1,0 +1,13 @@
+<h3><strong class="icon-left add">Add New User</strong></h3>
+
+Enter a user's <strong>UW NetID</strong> to give them access to report and edit for your department:
+
+<% form_remote_tag(:url => accountability_reporting_authorizations_url(@year), :indicator => 'global') do %>
+	
+	<center>
+	<%= text_field_tag :uw_netid %>
+	
+	<br>
+	<%= submit_tag "Authorize" %></center>
+	
+<% end -%>

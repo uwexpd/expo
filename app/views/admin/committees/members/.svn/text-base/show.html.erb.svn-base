@@ -1,0 +1,99 @@
+<h1>Committee Member
+	<span class="light">&raquo; <%= @committee.name %></span>
+	<span class="light right"><%= link_to "Edit", edit_admin_committee_member_path(@committee, @member), :class => "edit button" %></span></h1>
+
+<dl class="inline-definitions">
+	
+	<dt>name</dt>
+	<dd><%= @member.fullname rescue "(none)"%>
+		<small class="light">(#<%= @member.person.id rescue "nil" %>)</small>
+		</dd>
+	
+	<dt>e-mail</dt>
+	<dd><%= auto_link @member.person.email %></dd>
+	
+	<dt>type</dt>
+	<dd><%= @member.committee_member_type.name rescue nil %></dd>
+	
+	<dt>department</dt>
+	<dd><%= @member.department %></dd>
+	
+	<dt>expertise</dt>
+	<dd><%= @member.expertise %></dd>
+	
+	<dt>website</dt>
+	<dd><%= auto_link @member.website_url %></dd>
+	
+	<dt>last user update</dt>
+	<dd><% if @member.last_user_response_at.nil? %>
+			<span class="light">Never</span>
+		<% else %>
+			<%= relative_timestamp(@member.last_user_response_at) %>
+		<% end -%></dd>
+	
+	<% unless @member.comment.blank? %>
+		<dt>comment</dt>
+		<dd><%= @member.comment %></dd>
+	<% end -%>
+	
+	<% unless @member.notes.blank? %>
+		<dt>notes</dt>
+		<dd><%= @member.notes %></dd>
+	<% end -%>
+	
+	<% unless @member.currently_active? %>
+		<dt>inactive</dt>
+		<dd><font color=red>
+			<%= @member.permanently_inactive? ? "** PERMANENTLY INACTIVE **" : "For current year" %>
+			</font></dd>
+	<% end -%>
+	
+</dl>
+
+<h3>Quarters</h3>
+
+<div class="left-indent">
+
+	<table>
+		<tr class="small left">
+			<th>Quarter</th>
+			<th>Active?</th>
+			<th>Comments</th>
+		</tr>
+	
+		<% for q in @member.committee_member_quarters.sort %>
+		<tr <%= "class='current'" if q.quarter.current_quarter? %>>
+			<td><%= link_to q.quarter.title,
+			 		admin_committee_quarter_path(@committee, q.committee_quarter), :class => 'redirect' %></td>
+			<td><%= content_tag('div', "X", :class => 'green-check') if q.active? %></td>
+			<td><small><%= q.comment %></small></td>
+		</tr>
+		<% end -%>
+	</table>
+
+</div>
+
+<h3>Meetings</h3>
+
+<div class="left-indent">
+
+	<table>
+		<tr class="small left">
+			<th>Meeting</th>
+			<th>Attending?</th>
+			<th>Comments</th>
+		</tr>
+	
+		<% for m in @member.committee_member_meetings.sort %>
+		<tr>
+			<td><%= link_to m.committee_meeting.title, 
+					admin_committee_meeting_path(@committee, m.committee_meeting), :class => "redirect" %></td>
+			<td><%= content_tag('div', "X", :class => 'green-check') if m.attending? %></td>
+			<td><small><%= m.comment %></small></td>
+		</tr>
+		<% end -%>
+	</table>
+
+</div>
+
+<% sidebar :add_member, :offerings %>

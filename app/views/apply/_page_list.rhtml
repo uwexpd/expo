@@ -1,0 +1,23 @@
+<% 	klass = "not started" if !page_list.started
+	klass = "started " if page_list.started
+	klass += "completed " if page_list.started && page_list.complete && page_list.passes_validations?
+	klass += "not passed " if page_list.started && !page_list.passes_validations?
+	
+	link_content = "<span class='title'>#{page_list.offering_page.title}<span class='arrow'>&#x2192;</span></span>
+					<span class='description'>#{page_list.offering_page.description}</span>"
+					
+	(current = "id='current'" if @page.id == page_list.offering_page.id) unless @page.nil?
+	
+	if @user_application.user_editable? && !@page.nil?
+		confirm = "Are you sure you want to switch to that page? If you have not saved your changes on this page, you will lose them. Do you want to continue?"
+	else
+		confirm = false
+	end
+%>
+
+<li <%= current %> class="<%= klass %>">
+	<%= link_to( link_content, 
+				{ :action => :page, :page => page_list.offering_page.ordering },
+				{ :confirm => confirm }
+				) %>
+</li>

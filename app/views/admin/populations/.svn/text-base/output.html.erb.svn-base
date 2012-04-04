@@ -1,0 +1,84 @@
+<% content_for :head do %>
+	<%= javascript_include_tag "population_output_fields" %>
+<% end -%>
+
+<h1>Edit Query Output</h1>
+
+<p>Select the fields that should be included in this query's output from the list at left. Selecting an item will add it to the list in the box at right. You can change the order of the output fields by dragging the <span class="sort-handle"><span>m</span></span> icon and moving the field to the desired position. To remove a field from the list, simply click on it again.</p>
+
+<%# @object_sample_num ||= 0 %>
+<%# @object_sample ||= @objects[@object_sample_num] %>
+<%# @objects_count ||= @objects.count %>
+<%# next_sample_num = @object_sample_num+1 if @object_sample_num < @objects.count-1  %>
+<%# prev_sample_num = @object_sample_num-1 if @object_sample_num > 0 %>
+
+<!-- <span class="navigation right">
+	<%#= link_to_remote content_tag(:span, "prev", :class => "link_text"), 
+						{:url => {:action => 'resample_placeholder_codes', 
+								:new_sample_num => prev_sample_num },
+						:indicator => 'global',
+						:submit => "email_write_form"},
+						:class => "prev",
+						:id => "placeholder_prev_button",
+						:style => "display:none",
+						:title => "Show previous sample" if prev_sample_num %>
+
+	<%#= link_to_function content_tag(:span, "hide/show", :class => "link_text"),
+	 					"$$('.sample_text').invoke('toggle'); 
+						$('placeholder_prev_button').toggle();
+						$('placeholder_next_button').toggle();",
+	 					:class => "toggle",
+	 					:title => "Show or hide placeholder samples" %>
+
+	<%#= link_to_remote content_tag(:span, "next", :class => "link_text"), 
+						{:url => {:action => 'resample_placeholder_codes', 
+								:new_sample_num => next_sample_num },
+					 	:indicator => 'global',
+						:submit => "email_write_form"},
+						:class => "next",
+						:id => "placeholder_next_button",
+						:style => "display:none",
+						:title => "Show next sample" if next_sample_num %>
+</span> -->
+
+<% codes = (["id"] << @objects.first.class::PLACEHOLDER_CODES).flatten rescue nil %>
+<% associations = @objects.first.class::PLACEHOLDER_ASSOCIATIONS rescue nil %>
+
+<div class="selected population_field_codes big-border box grey">
+<h4 class="icon-left list">Output Fields
+	<span id="save_output_fields_status" class="right green" style="font-size: 100%"></span></h4>
+<ul id="selected_population_field_codes" class="sortable">
+	<% for output_field in @population.output_fields %>
+		<% if output_field.match(/^CUSTOM_OUTPUT_FIELD\((.+)\):(.+)/)
+			code = output_field
+		elsif output_field.split(".").size > 1
+			code = output_field.split(".")[1..(output_field.split(".").size-1)].join(".")
+		else
+			code = output_field
+		end
+		%>
+		<%= render 	:partial => "codes", 
+					:object => [code], 
+					:locals => { 
+						:prefix => (output_field.include?(".") ? output_field.split(".").first : nil),
+						:association_name => (output_field.include?(".") ? output_field.split(".").first.titleize : @objects.first.class.to_s.titleize), 
+						:selected => true } %>
+	<% end -%>
+</ul>
+
+<%= render :partial => "new_output_field" %>
+</div>
+
+<ul class="population_field_codes" id="all_population_field_codes">
+	<%= render :partial => 'codes_container', :locals => { :codes => codes, :associations => associations } %>
+</ul>
+
+<%= text_area_tag :output_fields, @population.read_attribute(:output_fields), :rows => 5, :cols => 60, :style => "display:none" %>
+<%= javascript_tag "commitOutputFieldsURL = '#{url_for(:action => 'save_output_fields')}'" %>
+<%= javascript_tag "restorePopulationFieldCodesSortable()" %>
+
+<br class="clear">
+
+<%= link_to 'Done', population_path(@population), :class => "button" %>
+
+<% sidebar :actions %>

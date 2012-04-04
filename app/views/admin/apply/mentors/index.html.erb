@@ -1,0 +1,40 @@
+<h1>Mentors
+	<span class="light">&raquo; <%=h @app.fullname %></span>
+	<span class="light right"><%= link_to "Add new", new_admin_apply_mentor_path(@offering, @app), :class => "add button" %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'mentors_form' %>
+
+<table>
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th>Name</th>
+		<th>Department</th>
+		<th>E-mail</th>
+		<th>Primary?</th>
+		<th>Letter?</th>
+		<th>Functions</th>
+	</tr>
+
+	<% for mentor in @mentors %>
+	<tr>
+		<td><%= select_check_box mentor %></td>
+		<td><%=h mentor.fullname %></td>
+		<td><%=h mentor.department %></td>
+		<td><%= link_to_expo_email mentor %></td>
+		<td><%=h mentor.primary? ? "YES" : "NO" %></td>
+		<td><%= mentor.letter.nil? ? "<span class=\"red\">NO</span>" : "<span class=\"red\">Yes</span>" %></td>
+		<td><%= link_to 'Show', admin_apply_mentor_path(@offering, @app, mentor) %>
+			| <%= link_to 'Edit', edit_admin_apply_mentor_path(@offering, @app, mentor) %>
+			| <%= link_to 'Delete', admin_apply_mentor_path(@offering, @app, mentor), :confirm => 'Are you sure?', :method => :delete %>
+		</td>
+	</tr>
+	<% end %>
+	
+	<% if @mentors.empty? %>
+	<tr class="empty">
+		<td colspan=10>No mentors exist. <%= link_to "Create one.", new_admin_apply_mentor_path(@offering, @app) %></td>
+	</tr>
+	<% end %>
+</table>
+
+</form>

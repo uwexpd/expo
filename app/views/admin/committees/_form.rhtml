@@ -1,0 +1,54 @@
+<dt>name</dt>
+<dd><%= f.text_field :name %></dd>
+
+<dt>welcome text</dt>
+<dd><%= f.text_area :intro_text, :cols => 60 %>
+	<br><small class="light">This text appears on the first page a committee member sees when he or she logs in.</small></dd>
+
+<dt>inactive text</dt>
+<dd><%= f.text_area :inactive_text, :cols => 60, :rows => 5 %>
+	<br><small class="light">This is displayed for a committee member who chooses not to participate.</small></dd>
+
+<dt>complete text</dt>
+<dd><%= f.text_area :complete_text, :cols => 60, :rows => 5 %>
+	<br><small class="light">This is displayed at the end of the update process with "Thank you!" at the top of the page.</small></dd>
+
+<dt>unit signature</dt>
+<dd><%= f.text_area :unit_signature, :cols => 60, :rows => 5 %>
+	<br><small class="light">The signature appears at the bottom of the final "complete" page and "inactive" page.</small></dd>
+
+<dt>meetings text</dt>
+<dd><%= f.text_area :meetings_text, :cols => 60, :rows => 5 %>
+	<p class="caption">This bit of text is displayed above the list of meetings when committee members are 
+		inputting their availability. If left blank, the system will display "We are offering the following
+		meeting/training times:" by default.</p></dd>
+
+<dt>active action text</dt>
+<dd><%= f.text_field :active_action_text, :size => 60 %>
+	<br><small class="light">For example, enter "I can read applications for" if you want the prompt next to each
+		quarter to read: "I can read applications for Winter 2009." Leave blank for the default "I can participate for."
+		</small></dd>
+		
+<dt>display options</dt>
+<dd>
+	<p><%= f.check_box :show_permanently_inactive_option %>
+	Show "permanently inactive" option to committee members
+	<br><small class="light">You may not want to offer this option, especially if you only have one active quarter per year.</small></p>
+	
+	<p><%= f.check_box :ask_for_replacement %>
+	Ask for a replacement if inactive?
+	<br><small class="light">This will add a text field to ask for a recommendation of another participant if the committee
+		member chooses not to participate.</small></p>
+	
+	</dd>
+
+<dt>response reset date</dt>
+<dd><%= f.date_select :response_reset_date, :include_blank => true %>
+	<p class="caption">
+		(Optional) Used as the basis for determining if a committee member has "responded recently." 
+		If blank, then the system will use the default response lifetime of <%= CommitteeMember::DEFAULT_RESPONSE_LIFETIME.inspect %>. 
+		If this is set,
+		then any response after this date will be considered recent. For example, if you set this to
+		"October 1, 2009" and a member hasn't responded since March of 2009, then they will be listed
+		under the "Not Responded" section on the members page.
+		</p></dd>

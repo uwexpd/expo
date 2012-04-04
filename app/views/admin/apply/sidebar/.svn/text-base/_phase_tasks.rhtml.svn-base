@@ -1,0 +1,6 @@
+<h3>Tasks for this Phase
+	<span class="light"><%= link_to "add new", new_offering_phase_task_path(@offering, @phase, :return_to => request.url) %></span></h3>
+
+<!-- split up into reviewer tasks, interviewer tasks, admin (other) tasks, and carry over tasks -->
+
+<%= render :partial => "tasks" %>

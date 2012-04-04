@@ -1,0 +1,19 @@
+<h2 class="icon-left note">Course Notes</h2>
+
+<div class="yellow box" id="add_course_note">
+	<% remote_form_for :note, 
+			:url => add_note_service_learning_course_path(@unit, @quarter, @service_learning_course, :return_to => request.request_uri), 
+			:indicator => true,
+			:html => { :id => "add_note_form_tab" } do |f| -%>
+			
+		Add New Note: <%= f.text_field :note %>
+
+		Type: <%= f.collection_select :contact_type_id, ContactType.find(:all), :id, :title, {:include_blank => true} %>
+
+		<%= f.submit "Add Note" %>
+
+	<% end -%>
+</div>
+
+<%= render :partial => "admin/shared/notes", :object => @service_learning_course, 
+			:locals => { :full => true, :include_other => [:contact_histories] } %>

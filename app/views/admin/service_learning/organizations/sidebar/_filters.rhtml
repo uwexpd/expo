@@ -1,0 +1,52 @@
+<h3>Filters</h3>
+
+<dl class="filters">
+
+	<dt>
+		<strong>Assigned to</strong>
+		<small>(<%= link_to_function "show all", "setFilter('all', 'assigned_to')" %>
+			| 	<%= link_to_function "show none", "setFilter('none', 'assigned_to')" %>)</small>
+	</dt>
+	<dd>
+		<ul>
+		<% for user in @organization_quarters.collect(&:staff_contact_user).uniq %>
+			<li>
+				<% obj_id = user.nil? ? "" : user.id %>
+				<%= javascript_tag "addToFilter('assigned_to', '#{obj_id}')" %>
+				<% dom_id = "filter_assigned_to_#{obj_id}" %>
+				<%= filter_check_box :assigned_to, obj_id, 
+									((user == @current_user ? "<strong>Me</strong>" : user.fullname) rescue "No one") %>
+				
+				<small>(<%= link_to_function "only", "setFilter('only', 'assigned_to', '#{obj_id}')" %>)</small>
+				
+			</li>
+			
+		<% end -%>
+		</ul>
+	</dd>
+
+
+	<dt>
+		<strong>Status</strong>
+		<small>(<%= link_to_function "show all", "setFilter('all', 'status')" %>
+			| 	<%= link_to_function "show none", "setFilter('none', 'status')" %>)</small>
+	</dt>
+	<dd>
+		<ul>
+		<% for status_type in @used_status_types %>
+			<li>
+				<% obj_id = status_type.nil? ? "" : status_type.id %>
+				<%= javascript_tag "addToFilter('status', '#{obj_id}')" %>
+				<% dom_id = "filter_status_#{obj_id}" %>
+				<%= filter_check_box :status, obj_id, (status_type.title rescue "No Status"), 
+				                     {:initial_state => (!status_type.hide_by_default rescue true)} %>
+			
+				<small>(<%= link_to_function "only", "setFilter('only', 'status', '#{obj_id}')" %>)</small>
+			
+			</li>
+			
+		<% end -%>
+		</ul>
+	</dd>
+
+</dl>

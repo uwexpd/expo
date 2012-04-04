@@ -1,0 +1,9 @@
+<% unless @user_application.submitted? %>
+
+	<% if @offering.deadline < Time.now %>
+		<%= render :partial => "time_left_past_deadline" %>
+	<% else %>
+		<%= render :partial => "time_left_before_deadline" %>
+	<% end %>
+	
+<% end %>

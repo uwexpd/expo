@@ -1,0 +1,96 @@
+<h3>Pipeline Links</h3>
+
+<ul class="link-list">
+	
+	<li><%= link_to "Orientations", admin_pipeline_orientation_management_path(@quarter.abbrev),
+	          :class => "icon-left event" %></li>
+	
+  <li><%= link_to "Students <span>(#{Student.count(:all, :conditions => ["(pipeline_inactive IS NULL OR pipeline_inactive = 0) AND pipeline_background_check >= ?", (Time.now-2.year)])} active)</span>", 
+					service_learning_pipeline_students_path(@quarter),
+					:class => "icon-left students" %></li>
+	
+	<li>
+	  <%= link_to "Positions for #{@quarter.title} <span>(#{@quarter.service_learning_positions.for_unit(@unit).size})</span>", 
+	          service_learning_positions_path(@unit, @quarter),
+  					:class => "icon-left positions" %>
+	  
+    
+    	<%= link_to_function "<span>Other Quarter<span style='font-size:0.8em'>▼</span></span>", "toggle_menu('sidebar_position_quarter_select');", :class => "sidebar_small_link" %>
+    
+    <div class="sidebar_dropdown_link">
+      <div class="sidebar_panel" id="sidebar_position_quarter_select" style="display:none">
+      	<ul>
+      		<li><%= link_to @quarter.prev.prev.prev.prev.prev.title, 
+      		    service_learning_positions_path(@unit, @quarter.prev.prev.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.prev.prev.title, 
+      		    service_learning_positions_path(@unit, @quarter.prev.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.prev.title, 
+      		    service_learning_positions_path(@unit, @quarter.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.title, 
+      		    service_learning_positions_path(@unit, @quarter.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.title, 
+      		    service_learning_positions_path(@unit, @quarter.prev) %></li>
+      		<li><%= @quarter.title %></li>
+      		<li><%= link_to @quarter.next.title, 
+      		    service_learning_positions_path(@unit, @quarter.next) %></li>
+      		<li><%= link_to @quarter.next.next.title, 
+      		    service_learning_positions_path(@unit, @quarter.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.title, 
+      		    service_learning_positions_path(@unit, @quarter.next.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.next.title, 
+      		    service_learning_positions_path(@unit, @quarter.next.next.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.next.next.title, 
+      		    service_learning_positions_path(@unit, @quarter.next.next.next.next.next) %></li>
+      	</ul>
+      </div>
+    
+    </div>
+	</li>
+	
+	<li>
+	  <%= link_to "Placements for #{@quarter.title}", 
+	          service_learning_pipeline_placements_path(@quarter),
+  					:class => "icon-left placements" %>
+	  
+    
+    	<%= link_to_function "<span>Other Quarter<span style='font-size:0.8em'>▼</span></span>", "toggle_menu('sidebar_placement_quarter_select');", :class => "sidebar_small_link" %>
+    
+    <div class="sidebar_dropdown_link">
+      <div class="sidebar_panel" id="sidebar_placement_quarter_select" style="display:none">
+      	<ul>
+      		<li><%= link_to @quarter.prev.prev.prev.prev.prev.title, 
+      		    service_learning_pipeline_placements_path(@quarter.prev.prev.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.prev.prev.title, 
+      		    service_learning_pipeline_placements_path(@quarter.prev.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.prev.title, 
+      		    service_learning_pipeline_placements_path(@quarter.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.title, 
+      		    service_learning_pipeline_placements_path(@quarter.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.title, 
+      		    service_learning_pipeline_placements_path(@quarter.prev) %></li>
+      		<li><%= @quarter.title %></li>
+      		<li><%= link_to @quarter.next.title, 
+      		    service_learning_pipeline_placements_path(@quarter.next) %></li>
+      		<li><%= link_to @quarter.next.next.title, 
+      		    service_learning_pipeline_placements_path(@quarter.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.title, 
+      		    service_learning_pipeline_placements_path(@quarter.next.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.next.title, 
+      		    service_learning_pipeline_placements_path(@quarter.next.next.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.next.next.title, 
+      		    service_learning_pipeline_placements_path(@quarter.next.next.next.next.next) %></li>
+      	</ul>
+      </div>
+    
+    </div>
+	</li>
+	
+	<li><%= link_to "Organizations <span>(#{@quarter.organization_quarters.find_all_by_unit_id(@unit.id).size})</span>", 
+  				service_learning_organizations_path(@unit, @quarter),
+  				:class => "icon-left organizations" %></li>
+  				
+  <li><%= link_to "Courses <span>(#{@quarter.service_learning_courses.for_unit(@unit).size})</span>", 
+					service_learning_courses_path(@unit, @quarter),
+					:class => "icon-left courses" %></li>
+	
+</ul>

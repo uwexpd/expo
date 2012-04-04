@@ -1,0 +1,10 @@
+<% past ||= false %>
+<tr <%= "class='not_current'" if past %>>
+	<td><%= link_to meeting.title, admin_committee_meeting_path(@committee, meeting) %></td>
+	<td><%= meeting.start_date.to_s(:date_time12) %></td>
+	<td><%= meeting.end_date.to_s(:date_time12) rescue nil %></td>
+	<td><%= meeting.committee_member_meetings.attending.size %></td>
+	<td><%= link_to "Edit", edit_admin_committee_meeting_path(@committee, meeting) %> |
+		<%= link_to 'Delete', admin_committee_meeting_path(@committee, meeting), 
+			:confirm => 'Are you sure?', :method => :delete %></td>
+</tr>

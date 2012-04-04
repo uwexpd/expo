@@ -1,0 +1,79 @@
+<% javascript 'add_and_subtract_field' %>
+
+<h2>Display Options</h2>
+
+<dl class="inline-definitions">
+	
+	<dt>title</dt>
+	<dd><%= f.text_field :title, :style => "width:95%" %></dd>
+	
+	<dt>sequence</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('task_sequence', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :sequence, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('task_sequence', 50)", :class => 'add-button' %>
+		</dd>
+
+	<dt>display as</dt>
+	<dd><%= f.select :display_as, 
+					 OfferingAdminPhaseTask.display_as_options.collect{|o| [o[:title], o[:name]]}.sort, 
+					 :include_blank => true %>
+					
+		<%= observe_field :task_display_as, :function => "toggleRelevantAttributes()" %>
+		</dd>
+	
+	<dt>Options</dt>
+	<dd><%= checkbox_with_label f, :show_history %>
+		<p class="caption">Show applicants in the list greyed out after you've completed the task. Otherwise
+			the applicants are removed from the list as the task is completed. Use this to be able to see the
+			progress you've made.</p>
+		
+		<br>
+		<%= checkbox_with_label f, :complete %>
+		<p class="caption">Usually the task is "completed" in the application management interface.</p>
+		</dd>
+
+	<dt class="relevant_field for_application_status_types">Status(es)</dt>
+	<dd class="relevant_field for_application_status_types"><%= f.text_area :application_status_types, :rows => 4, :class => 'code' %></dd>
+	
+	<dt class="relevant_field for_new_application_status_type">New Status(es)</dt>
+	<dd class="relevant_field for_new_application_status_type"><%= f.text_area :new_application_status_type, :rows => 4, :class => 'code' %></dd>
+	
+	<dt class="relevant_field for_email_templates">Email Template(s)</dt>
+	<dd class="relevant_field for_email_templates"><%= f.text_area :email_templates, :rows => 4, :class => 'code' %></dd>
+	
+	<dt class="relevant_field for_applicant_list_criteria">Applicant Criteria</dt>
+	<dd class="relevant_field for_applicant_list_criteria"><%= f.text_area :applicant_list_criteria, :rows => 4, :class => 'code' %></dd>
+
+	<dt class="relevant_field for_reviewer_list_criteria">Reviewer Criteria</dt>
+	<dd class="relevant_field for_reviewer_list_criteria"><%= f.text_area :reviewer_list_criteria, :rows => 4, :class => 'code' %></dd>
+	
+	<dt class="relevant_field for_detail_text">Link Text</dt>
+	<dd class="relevant_field for_detail_text"><%= f.text_field :detail_text %></dd>
+	
+	<dt class="relevant_field for_url">URL</dt>
+	<dd class="relevant_field for_url"><%= f.text_field :url, :class => 'code', :style => "width:95%" %></dd>
+
+
+</dl>
+
+<% javascript_tag do %>
+
+	<% for display_as_option, fields in OfferingAdminPhaseTask::RELEVANT_ATTRIBUTES %>
+		var relevant_attributes_for_<%= display_as_option.to_s %> = new Array()
+		<% fields.each_with_index do |field, i| %>
+			relevant_attributes_for_<%= display_as_option.to_s %>[<%= i %>] = 'for_<%= field %>'
+		<% end -%>
+	<% end -%>
+	
+	function toggleRelevantAttributes() {
+		$$('.relevant_field').invoke('hide')
+		
+		selected_display_as = $F('task_display_as')
+		relevant_attributes_array = eval('relevant_attributes_for_' + selected_display_as)
+		for(var i=0; i <= relevant_attributes_array.length; i++) {
+			$$('.' + relevant_attributes_array[i]).invoke('show')
+		}
+	}
+	
+	document.observe('dom:loaded', function() { toggleRelevantAttributes() })
+<% end -%>

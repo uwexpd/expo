@@ -1,0 +1,59 @@
+<h2>Requirements</h2>
+<p class="intro"><%= HelpText.caption(:requirements_page_intro, ServiceLearningPosition) %></p>
+
+	<%= f.text_area :skills_requirement, :rows => 5, :style => "width: 99%", :class => "mceEditor" %>
+	
+	<%= f.label_with_caption :age_requirement %>
+	<p>
+		<%= f.radio_button :age_requirement, "", :onClick => "hideOtherAge()" %> None
+		<%= f.radio_button :age_requirement, "16", :onClick => "hideOtherAge()" %> 16 years
+		<%= f.radio_button :age_requirement, "18", :onClick => "hideOtherAge()" %> 18 years
+		<%= f.radio_button :age_requirement, "20", :onClick => "hideOtherAge()" %> 20 years
+		<%= f.radio_button :age_requirement, "21", :onClick => "hideOtherAge()" %> 21 years
+		<%= f.radio_button :age_requirement, "Other", :onClick => "showOtherAge()" %> 
+			Other<span id="other_age_requirement_container" <%= "style=\"display:none\"" unless f.object.has_other_age_requirement? %>>:
+				<%= f.text_field :other_age_requirement, :default => true, :size => 15 %>
+			</span>
+		
+		<% javascript_tag do %>
+			function hideOtherAge() {
+				Element.hide('other_age_requirement_container')
+			}
+			function showOtherAge() {
+				Element.show('other_age_requirement_container')
+			}
+		<% end -%>
+	</p>
+	
+	<%= f.check_box :background_check_required, :after => " Yes, a background check is required for this position." %>
+
+	<%= f.check_box :tb_test_required, :after => " Yes, a TB test is required for this position." %> 
+
+	<%= f.text_field :paperwork_requirement %>
+	
+	<%= f.label_with_caption :duration_requirement %>
+	<p>
+		<%= f.radio_button :duration_requirement, "", :onClick => "hideOtherDuration()" %> One Quarter (default)
+		<%= f.radio_button :duration_requirement, "6 months", :onClick => "hideOtherDuration()" %> 6 months
+		<%= f.radio_button :duration_requirement, "Full Academic Year", :onClick => "hideOtherDuration()" %> Full Academic Year
+		<%= f.radio_button :duration_requirement, "One Calendar Year", :onClick => "hideOtherDuration()" %> One Calendar Year
+		<%= f.radio_button :duration_requirement, "Other", :onClick => "showOtherDuration()" %> 
+			Other<span id="other_duration_requirement_container" <%= "style=\"display:none\"" unless f.object.has_other_duration_requirement? %>>:
+				<%= f.text_field :other_duration_requirement, :default => true, :size => 15 %>
+			</span>
+		
+		<% javascript_tag do %>
+			function hideOtherDuration() {
+				Element.hide('other_duration_requirement_container')
+			}
+			function showOtherDuration() {
+				Element.show('other_duration_requirement_container')
+			}
+		<% end -%>
+	</p>
+
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Description", :description, :link_only => true, :link_class => "button" %>
+	<%= link_to_tab_pane "Next: Scheduling &#x2192;", :scheduling, :link_only => true, :link_class => "strong button" %>
+</div>

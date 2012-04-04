@@ -1,0 +1,41 @@
+<%= make_main_content_blocked %>
+
+<div class="content-block">
+	<h1 class="big-icon presentation" style="margin-bottom: 0"><%= @year %> Courses
+		<span class="light">&raquo; <%= @department.name rescue @department %></span>
+		</h1>
+</div>
+
+<% for activity_type in @activity_types %>
+<div class="content-block">
+	<h3><%= activity_type.title %> Courses</h3>
+
+	<dl class="inline-definitions">
+
+		<% for quarter in @quarters %>
+		<dt>
+			<%= quarter.title %>
+			<br><small class="light"><%= pluralize @activities[activity_type.id][quarter.id].size, "course" %></small>
+		</dt>
+
+		<dd>
+			<table>
+			<%= render :partial => 'accountability/reporting/courses/course', 
+						:collection => @activities[activity_type.id][quarter.id],
+						:locals => { :editable => false } %>
+			
+			<% if @activities[activity_type.id][quarter.id].empty? %>
+			<tr class="light" id="empty_<%= quarter.id %>">
+				<td colspan=5>No courses reported</td>
+			</tr>
+			<% end -%>
+			
+			</table>
+		</dd>
+		<% end -%>
+
+	</dl>
+</div>
+<% end -%>
+
+<% sidebar :navigation, :department_navigation %>

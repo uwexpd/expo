@@ -1,0 +1,46 @@
+<%= make_main_content_blocked %>
+
+<div class="content-block">
+	<h1 class="big-icon presentation" style="margin-bottom: 0"><%= @year %> Courses
+		<span class="light">&raquo; <%= @department.name %></span>
+	</h1>
+	<%= HelpText.caption :reporting_interface_report_courses_instruction, AccountabilityReport %>	
+</div>
+
+<% for activity_type in @activity_types %>
+<div class="content-block">
+	<h3><%= activity_type.title %> Courses</h3>
+
+	<%= render :partial => "accountability/reporting/finalized_note" if @accountability_reports[activity_type.id].finalized? %>
+
+	<dl class="inline-definitions">
+
+		<% for quarter in @quarters %>
+		<% service_learning_courses = @service_learning_courses[activity_type.id][quarter.id] %>
+		<dt>
+			<%= quarter.title %>
+			<br><small class="light"><%= pluralize @activities[activity_type.id][quarter.id].size + service_learning_courses.size, "course" %></small>
+		</dt>
+
+		<dd>
+			<table>
+			<%= render :partial => 'course', :collection => @activities[activity_type.id][quarter.id] %>
+			<%= render :partial => 'service_learning_courses', :locals => {:service_learning_courses => service_learning_courses} unless service_learning_courses.blank? %>
+			
+			<% if @activities[activity_type.id][quarter.id].empty? && service_learning_courses.empty? %>
+			<tr class="light" id="empty_<%= quarter.id %>">
+				<td colspan=5>No courses reported</td>
+			</tr>
+			<% end -%>
+			
+			</table>
+		</dd>
+		<% end -%>
+
+	</dl>
+</div>
+<% end -%>
+
+<% sidebar "accountability/reporting/sidebar/navigation" %>
+<% sidebar :add_last_years_courses, :add_course  unless @finalized %>
+<% sidebar :faq %>

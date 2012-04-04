@@ -1,0 +1,54 @@
+<dl class="inline-definitions">
+	
+	<% f.fields_for :dashboard_item_attributes, @dashboard_item.dashboard_item do |item_fields| %>
+
+		<dt>title</dt>
+		<dd><%= item_fields.text_field :title, :style => "width: 95%" %></dd>
+
+		<dt>content</dt>
+		<dd><%= item_fields.text_area :content, :rows => 6, :style => "width: 95%" %></dd>
+
+		<dt>style</dt>
+		<dd><%= item_fields.text_field :css_class %>
+			<p class="caption">You can include multiple CSS classes here, separated by spaces.</dd>
+
+	<% end -%>
+
+	<dt>criteria</dt>
+	<dd><small>Application must be 
+		<%= f.select :status_lookup_method, { "currently in" => 'in_status?', "in or past" => 'passed_status?' } %>
+		this status:
+		<%= f.collection_select :offering_status_id, 
+								@offering.statuses, 
+								:id, 
+								:private_title, 
+								{ :include_blank => true },
+								:style => "width: 15em" %>
+
+		<br>
+		Application must be of this type:
+		<%= f.collection_select :offering_application_type_id, @offering.application_types, :id, :title, :include_blank => true %>
+		
+		</small></dd>
+		
+	<dt>other criteria</dt>
+	<dd><%= f.text_area :criteria, :rows => 4, :style => "width: 95%" %>
+		<p class="caption">This bit of code defines who sees this dashboard item. 
+			Use the <tt>object</tt> variable to access the ApplicationForOffering or 
+			ApplicationGroupMember object (depending on who is logged in).</p></dd>
+
+	<dt>sequence</dt>
+	<dd><%= f.text_field :sequence %>
+		<p class="caption">Use the sequence number to control where on the page the item will appear. The higher the number, the higher on the page.</p></dd>
+
+	<dt>options</dt>
+	<dd><%= f.check_box :show_group_members %>
+		<%= f.label :show_group_members %>
+		<p class="caption">Leave this box unchecked if only primary applicants should see this item on their dashboards.</p>
+		
+		<%= f.check_box :disabled %>
+			<%= f.label :disabled %>
+			<p class="caption">Disabled dashboard items are never displayed to any users.</p>
+		</dd>
+
+</dl>

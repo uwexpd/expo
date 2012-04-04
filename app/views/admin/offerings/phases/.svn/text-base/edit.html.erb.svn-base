@@ -1,0 +1,13 @@
+<h1>Edit <%= @phase.name %></h1>
+
+<% form_for :phase, @phase, :url => offering_phase_path(@offering, @phase), :html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator %>
+	<%= link_to 'Cancel', (params[:return_to] || offering_phase_path(@offering, @phase)), :class => "cancel button" %>
+
+<% end %>

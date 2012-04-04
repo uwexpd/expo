@@ -1,0 +1,20 @@
+<% if @equipment_reservation %>
+
+	<h3><%= @equipment_reservation.person.lastname_first %>
+		<font color=grey>&raquo; Reservation #<%= @equipment_reservation.id_s %></font></h3>
+	<hr size=1>
+	<br>
+
+	<table class="highlightless">
+		<%= render :partial => 'equipment', :collection => @equipment_reservation.equipments, :locals => { :mode => :checkout } %>
+	</table>
+
+<% else %>
+
+ 	Click 'Checkout' in EXPO to make something show up on this screen.
+
+<% end -%>
+
+
+<br><br><br>
+<small class="light">Last checked at <%= Time.now.to_s(:time_with_seconds) %></small>

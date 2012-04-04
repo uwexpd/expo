@@ -1,0 +1,17 @@
+<h1>Mentor Letter
+	<span class="light">&raquo; <%= @mentor.fullname %></span></h1>
+	
+<%= form_tag %>
+
+<h4>New address block (include fullname):</h4>
+<%= text_area_tag :address_block, nil, :rows => 6, :cols => 85 %>
+
+<br>
+
+<h4>Letter text (to return to the default, leave blank):</h4>
+<%= text_area_tag :mentor_letter_text, @mentor.mentor_letter_text, :rows => 40, :cols => 85 %>
+<br>
+
+<%= submit_tag "Save" %>
+
+</form>

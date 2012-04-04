@@ -1,0 +1,23 @@
+<h3><strong class="icon-left search">Search
+	<span class="right"><%= link_to "advanced", service_learning_search_path(@unit, @quarter) %></span></strong></h3>
+
+<% form_tag(service_learning_search_path(@unit, @quarter), :id => 'search-form') do -%>
+
+	<%= model_auto_completer "search[auto_complete]", nil, :result, 1, 
+							{ :submit_on_return => false, 
+							  :append_random_suffix => false,
+							  :url => service_learning_auto_complete_path(@unit, @quarter, "auto_complete_model_for_search_query"),
+							  :regexp_for_id => "(.*)",
+							  :allow_free_text => true,
+							  :after_update_element => "$('model_auto_completer_tf').value = value.innerHTML.stripTags().strip()"
+							 },
+							{ :autocomplete => false, :accesskey => 'f', :type => 'search', :placeholder => "Search all" },
+							{ :skip_style => true, :indicator => 'search-indicator' } %>
+
+	<%= submit_tag "Search", :class => "submit" %>
+
+	<%= indicator 'search-indicator' %>
+
+	<%= observe_field('model_auto_completer_hf', :frequency => 0.5, :function => "$('search-form').submit()" )%>
+
+<% end -%>

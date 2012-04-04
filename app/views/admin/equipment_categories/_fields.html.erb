@@ -1,0 +1,56 @@
+<% javascript 'add_and_subtract_field' %>
+<span id="js_errors" class="error-message" style="padding:.5em"></span>
+
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :title %></dt>
+	<dd><%= f.text_field :title %></dd>
+	
+	<dt><%= f.label :description %></dt>
+	<dd><%= f.text_area :description, :rows => 5, :style => 'width: 99%' %></dd>
+	
+	<dt><%= f.label :picture %></dt>
+	<dd><%= upload_column_field 'equipment_category', 'picture' %></dd>
+
+	<dt>Restrictions</dt>
+	<dd>
+		<p>
+			<%= link_to_function "&nbsp;", "subtract_from('equipment_category_max_checkout_days', 0);", :class => 'subtract-button' %>
+			<%= f.text_field :max_checkout_days, :size => 2, :style => "border:none; text-align: center;" %>
+			<%= link_to_function "&nbsp;", "add_to('equipment_category_max_checkout_days', 50)", :class => 'add-button' %>
+			Maximum days for checkout
+		</p>
+	
+		<p>
+			<%= link_to_function "&nbsp;", "subtract_from('equipment_category_max_items_per_checkout', 0);", :class => 'subtract-button' %>
+			<%= f.text_field :max_items_per_checkout, :size => 2, :style => "border:none; text-align: center;" %>
+			<%= link_to_function "&nbsp;", "add_to('equipment_category_max_items_per_checkout', 50)", :class => 'add-button' %>
+			Maximum number of category items per checkout
+		</p>
+			
+		<p>
+			<%= link_to_function "&nbsp;", "subtract_from('equipment_category_buffer_days_between_checkouts', 0);", :class => 'subtract-button' %>
+			<%= f.text_field :buffer_days_between_checkouts, :size => 2, :style => "border:none; text-align: center;" %>
+			<%= link_to_function "&nbsp;", "add_to('equipment_category_buffer_days_between_checkouts', 50)", :class => 'add-button' %>
+			Buffer days between checkouts
+		</p>
+	</dd>
+
+	<dt>Instructions</dt>
+	<dd><p>Special instructions for checkout:
+			<%= f.text_area :checkout_instructions, :rows => 5, :style => "width:99%" %></p>
+			
+		<p>Special instructions for check-in:
+			<%= f.text_area :checkin_instructions, :rows => 5, :style => "width:99%" %></p>
+		</dd>
+		
+	<dt>Options</dt>
+	<dd><%= checkbox_with_label f, :requires_staff_intervention_before_next_checkout %>
+		<p class="caption">A staff member must take action between each checkout.</p>
+		
+		<%= checkbox_with_label f, :requires_reimage_before_next_checkout %>
+		<p class="caption">Equipment in this category must be reimaged before it is ready for checkout.</p>
+		</dd>
+
+	
+</dl>

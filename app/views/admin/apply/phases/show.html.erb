@@ -1,0 +1,59 @@
+<div class="content-topper">
+	<h4 class="grey paddingless" style="margin-bottom:0">
+		<%= @offering.name %></h4>
+
+	<%= render :partial => "admin/apply/phase_timeline" %>
+</div>
+
+<h3><%= @phase.name %>
+	<span class="light right">
+		<%= link_to_function "Notes", 
+							 "Effect.toggle('phase_notes', 'slide', {duration: 0.25})", 
+							:class => 'icon-left notes button' unless @phase.notes.blank? %>
+		<%= link_to "Edit", 
+					edit_offering_phase_path(@offering, @phase, :return_to => request.url), 
+					:class => 'edit button icon-left' %>
+		<%= link_to "Add new task", 
+					new_offering_phase_task_path(@offering, @phase, :return_to => request.url), 
+					:class => 'add button icon-left' %>
+		</span>
+	</h3>
+
+<!-- Phase Notes (hidden) -->
+<div id="phase_notes" class="yellow box" style="display:none">
+	<h4 class="icon-left notes">Phase Notes
+		<span class="right"><%= link_to_function "hide", "Effect.toggle('phase_notes', 'blind', {duration: 0.25})" %></h4>
+	<%= textilize @phase.notes %>
+</div>
+
+<%- for show_section in @show_sections -%>
+	<% key = show_section[0]; title = show_section[1]; color = show_section[2] %>
+	<a id="<%= key %>" class="augmented"></a>
+	<div class="<%= color %> big-border box">
+		<h4 class="icon-left select-list">
+			<%= title %> applicants
+			<span>(<%= @phase.status_types(key).join(", ") %>)</span>
+			<span class="right"><%= pluralize @phase.applications_for(key).size, "application" %></span>
+			</h4>
+		<%= render :partial => "tasks_table", :locals => { :result_type => key } %>
+	</div>
+<% end -%>
+
+<%- for show_section in %w(reviewer interviewer) -%>
+	<%- unless @phase.try("#{show_section}_tasks").empty? -%>
+		<a id="<%= show_section %>" class="augmented"></a>
+		<div class="big-border box">
+			<h4 class="icon-left select-list">
+				<%= show_section.titleize %> Task Status
+				<span class="right"><%= pluralize @offering.try(show_section.pluralize).size, show_section %></span>
+				</h4>
+			<%= render :partial => "context_object_tasks_table", :locals => { :result_type => show_section } %>
+		</div>
+	<% end -%>
+<% end -%>
+
+
+<% sidebar :quick_access_collapsed, :class => 'collapsable' %>
+<% sidebar :jump_to, "admin/apply/sidebar/search" %>
+<% sidebar "admin/apply/phases/tasks/sidebar/tasks" %>
+<% @offering.current_offering_admin_phase == @phase ? sidebar(:complete_phase) : sidebar(:switch_to_phase) %>

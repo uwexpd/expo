@@ -1,0 +1,25 @@
+<h1>Attendee Background Checks</h1>
+<h3><%= @time.event.title %> on <%= @time.time_detail %></h3>
+<% form_tag( {:action => "clear_all_checked"}, :id => 'students_form' ) do %>
+<%= hidden_field_tag 'event_time_id', @time.id %>
+<table>
+	<tr>
+	  <th>
+		  <%= select_all_check_box %>
+		</th>
+		<th>Name</th>
+		<th>Background Check</th>
+		<th>Positions</th>
+	</tr>
+	<% for attendee in @attendees %>
+		<%= render :partial => "background_check_row", :locals => {:student => attendee.person} %>
+	<% end %>
+</table>
+
+<% end %>
+
+<% sidebar :pipeline_links %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :with_selected, {:locals => {:link_action => {:redirect_to => "background_checks", :event_time_id => @time.id}}} %>

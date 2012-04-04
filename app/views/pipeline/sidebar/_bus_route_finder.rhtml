@@ -1,0 +1,33 @@
+<h3>Bus Finder</h3>
+
+<% unless @pipeline_position.location.nil? || @pipeline_position.location.address_line_1.nil? %>
+	<small>
+		These directions start from the transfer area in front of Terry/Lander and
+		end at the schools address. Searching for routes will replace the bus directions section.
+	</small>
+
+	<% form_remote_tag(:url => {:action => "find_bus_routes"}, 
+						:html => {:id => "pipeline_search_form"}, :indicator => "find_route_indicator") do %>
+
+		<div>
+			<%= date_select('route', 'trip_day', :order => [:month, :day, :year])%>
+		</div>
+
+		<div>
+			<%= select 'route', 'arr', [['Arrive at','A'],['Depart at','D']] %> - 
+			<%= time_select("route", "trip_time", {:minute_step => 10, :twelve_hour => true}) %>
+		</div>
+
+		<%= hidden_field_tag 'dest', "#{@pipeline_position.location.address_line_1}" %>
+		<%= submit_tag 'Find Routes' %>
+		<%= indicator("find_route_indicator") %>
+
+	<% end %>
+
+<% else %>
+
+	Sorry but an address was not found for this school.
+
+<% end %>
+
+<div id="route_error"></div>

@@ -1,0 +1,30 @@
+<% make_main_content_blocked %>
+
+<div class="content-block">
+<h1>Position Details
+	<span class="right">
+	<%= link_to('Edit', edit_community_partner_service_learning_position_path(@quarter, @position), :class => "edit button") if @position.organization_quarter.allow_position_edits? %></span>
+	</h1>
+
+	<%= render 	:partial => "admin/service_learning/organizations/positions/position_details",
+	 			:locals => { :service_learning_position => @position, :admin => false } %>
+</div>
+
+<div class="content-block">
+<h3>Scheduling Details
+	<span class="right">
+	<%= link_to ('Edit', edit_community_partner_service_learning_position_path(@quarter, @position, :anchor => 'scheduling'), :class => "edit button") if @position.organization_quarter.allow_position_edits? %></span>
+	</h3>
+
+	<%= render :partial => "admin/service_learning/organizations/positions/scheduling_details"	,
+		 		:locals => { :admin => false, :service_learning_position => @position } %>
+</div>
+
+<div class="content-block">
+<h3>Orientation Details
+	<span class="right">
+	<%= link_to('Edit', edit_community_partner_service_learning_position_path(@quarter, @position, :anchor => "orientation"), :class => 'edit button') if @position.organization_quarter.allow_position_edits? %></span></h3>
+
+	<%= render  :partial => "admin/service_learning/organizations/positions/orientation_details",
+	 			:locals => { :service_learning_position => @position, :admin => false} %>
+</div>

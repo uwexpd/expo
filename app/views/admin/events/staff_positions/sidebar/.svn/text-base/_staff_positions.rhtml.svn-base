@@ -1,0 +1,12 @@
+<h3>Staff Positions
+	<span class="right"><%= link_to "see all", event_staff_positions_path(@event) %></span>
+	</h3>
+<ul class="link-list">
+	
+	<li><%= link_to "Add New", new_event_staff_position_path(@event), :class => "icon-left add" %></li>
+	
+	<% for staff_position in @event.staff_positions.sort %>
+		<li><%= link_to staff_position.title, event_staff_position_path(@event, staff_position) %></li>
+	<% end -%>
+		
+</ul>

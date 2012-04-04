@@ -1,0 +1,112 @@
+<h1>Students
+	<span class="light">&raquo; <%= @service_learning_course.title %></span></h1>
+<h3>Listing <%= @service_learning_course.enrollee_count %> students</h3>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'students_form' %>
+	<%= hidden_field_tag :recipient_variant %>
+	<%= hidden_field_tag :group_variant %>
+
+<table>
+	
+	<tr class="small left">
+		<th><%= select_all_check_box %></th>
+		<th>Student</th>
+		<th>Placements</th>
+		<th>Place</th>
+		<th>Evaluation</th>
+		
+		<% if @use_pipeline_links %>
+		  <th>Orientation</th>
+		  <th>Background Check</th>
+		<% end %>
+	</tr>
+	
+	<% for course in @service_learning_course.courses %>
+		<tr class="rowset-header">
+			<td><%= select_all_check_box(course.id) %></td>
+			<td colspan=4><%= course.course.short_title %>
+				<font class="lighter grey">&raquo; <%= pluralize course.course.all_enrollee_count, "student" %></font></td>
+			
+			<% if @use_pipeline_links %>
+			  <td colspan=2></td>
+			<% end %>
+		</tr>
+		
+		<%= render :partial => "student", 
+					:collection => course.course.all_enrollees.sort{|x,y| x.fullname <=> y.fullname rescue -1},
+					:locals => { :course => course, :service_learning_course => @service_learning_course } %>
+		
+		<%- @course_extra_enrollees = nil; @extra_enrollees = nil -%>
+	<% end -%>
+	
+	<% unless @service_learning_course.extra_enrollees.empty? %>
+		<tr class="rowset-header">
+			<td><%= select_all_check_box(@service_learning_course.id) %></td>
+			<td colspan=4>At Large
+				<font class="lighter grey">&raquo; <%= pluralize @service_learning_course.extra_enrollees.size, "student" %></font></td>
+		</tr>
+		
+		<%= render :partial => "student", 
+					:collection => @service_learning_course.extra_enrollees.sort{|x,y| x.fullname <=> y.fullname rescue -1},
+					:locals => { :course => @service_learning_course, :service_learning_course => @service_learning_course } %>
+	<% end -%>
+	
+	<% if @use_pipeline_links %>
+    <tr id="pipeline_manually_place_box" style="display:none;">
+    <td colspan=7>
+    <div>
+      <h3>Manually place 
+        <span style="font-size:100%;" id="pipeline_position_container_name_tag"></span>
+        <span>
+          <%= check_box_tag 'send_confirmation_email', true, true %> Send confirmation email
+        </span>
+      </h3>
+      <div id="pipeline_positions_container">LOADING... <%= indicator "temp_indicator" %></div>
+    </div>
+    </td>
+    </tr>
+  <% end %>
+</table>
+
+</form>
+
+<% if @use_pipeline_links %>
+  <% javascript_tag do %>
+    function pipeline_manually_place(student_name, student_id) {
+      if ($('pipeline_positions_container').children[0].id == 'temp_indicator') {
+        get_pipeline_positions();
+      } 
+      
+      if ($('current_student_id').value == student_id) {
+        $('pipeline_manually_place_box').toggle();
+      } else {
+        $('current_student_id').value = student_id;
+        $('pipeline_position_container_name_tag').innerHTML = student_name;
+
+        $('pipeline_manually_place_box').show();
+
+        $('student_'+student_id).insert({after:$('pipeline_manually_place_box')});
+
+        if ($('temp_indicator')) { $('temp_indicator').show(); }
+      }
+    }
+    
+    function get_pipeline_positions() {
+      try { Element.show('global'); } 
+      catch(e) { alert('Could not find the global indicator'); }; 
+      new Ajax.Request(
+        '<%= get_pipeline_positions_service_learning_course_path(@unit, @quarter, @service_learning_course) %>',          
+        { asynchronous:true, evalScripts:true, method:'get', onComplete:function(request){Element.hide('global');}
+      });
+    }
+  <% end %>
+<%= hidden_field_tag 'current_student_id', '' %>
+<% end %>
+
+<% if @use_pipeline_links %>
+  <% sidebar "admin/pipeline/sidebar/pipeline_links" %>
+<% end %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :add_extra_enrollee, :with_selected_students %>

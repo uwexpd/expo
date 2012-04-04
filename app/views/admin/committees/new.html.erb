@@ -1,0 +1,13 @@
+<h1>New Committee</h1>
+
+<dl class="inline-definitions">
+	
+	<% form_for [:admin, @committee] do |f| %>
+		<%= f.error_messages %>
+		
+		<%= render :partial => "form", :locals => { :f => f } %>
+		
+		<%= f.submit "Create", :disable_with => "Creating..." %>
+		
+	<% end -%>
+</dl>

@@ -1,0 +1,78 @@
+<% inline ||= false -%>
+
+<% if inline -%>
+	\vspace{1em}
+
+	\begin{minipage}{\columnwidth}
+
+	\begin{center}
+
+
+	\Large
+	<% unless session_heading_result.offering_session.identifier.blank? -%>
+	\hrule
+
+	\vspace{10pt}{\scshape\bfseries{<%= "Session #{session_heading_result.offering_session.identifier}" %>}}
+	\vspace{10pt}
+	\\
+
+	\hrule
+	<% end -%>
+	<% indent = "0pt" -%>
+	
+<% else -%>
+	<% unless session_heading_result.offering_session.identifier.blank? -%>
+	\begin{tikzpicture}[overlay]
+	\Huge
+	\node[xshift=0.5in,fill=blue!10,rounded corners=5pt,inner sep=15pt,minimum width=1in,align=left]{\textsf{<%= session_heading_result.offering_session.identifier %>}}
+	\end{tikzpicture}
+	<% indent = "1.5in" -%>
+	<% end -%>
+
+	\vspace{-0.75in}
+	\begin{center}
+
+	
+<% end -%>
+
+	\setlength{\parindent}{<%= indent %>}
+	\hangindent=\parindent
+
+	\Large
+	\vspace{10pt}{\hspace{<%= indent %>}\scshape\bfseries{<%= "#{l(session_heading_result.offering_session.title)}" %>}}
+	\vspace{0.2em}
+
+	<% if session_heading_result.offering_session.moderator -%>
+	\normalsize
+	\textit{<%= "Session Moderator: #{l(session_heading_result.offering_session.moderator.fullname)}, #{l(session_heading_result.offering_session.moderator.department_name)}" %>}
+	<% end -%>
+
+  <% if session_heading_result.application_type.try(:title) == 'Poster Presentation' -%>
+     <% unless session_heading_result.location_section.blank? -%>
+     	 \normalsize
+       \textbf{<%= "#{l(session_heading_result.location_section.title)}, Easel ##{l(session_heading_result.easel_number)}" %>}	
+       \vspace{0.2em}
+     <% end -%>
+  <% else %>
+	   <% unless session_heading_result.offering_session.location.blank? -%>	     
+	     \textbf{<%= "#{l(session_heading_result.offering_session.location)}" %>}
+	     \vspace{0.1em}
+	   <% end -%>    
+	<% end -%>	
+	
+	<% if session_heading_result.offering_session.time_detail -%>
+  \normalsize
+	\textit{<%= "#{l(session_heading_result.offering_session.time_detail)}" %>}	
+	<% end -%>
+	
+	\end{center}
+
+<% if inline -%>
+\end{minipage}
+<% end -%>
+
+<% unless session_heading_result.offering_session.uses_location_sections -%>
+\vspace{0.5em}
+\small * Note: Titles in order of presentation.
+<% end -%>
+\normalsize \normalsize

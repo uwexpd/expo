@@ -1,0 +1,27 @@
+<% form_for :approve_applications, :url => admin_apply_action_url(:offering => @offering, :action => "mass_assign_reviewers"), :html => { :id => "assign_reviewers_#{@task.id}" } do |f| %>
+
+<% 
+@apps = []
+@task.application_status_types.each{|t| @apps << @offering.applications_with_status(t.name)}
+@apps = @apps.flatten.uniq
+%>
+
+<%= render :partial => "admin/apply/phase/applicant_list", :locals => { :phase_task => @phase_task, :task => @task } %>
+
+<div id="assign_reviewers_<%= @task.id %>_functions" style="display:none">
+	<%= observe_form "assign_reviewers_#{@task.id}", :function => "$('assign_reviewers_#{@task.id}_functions').show()" %>
+
+	Assign reviewers:
+	<small>
+	<% for reviewer in @offering.reviewers.sort_by(&:lastname_first) %>
+		<%= check_box_tag "reviewer[#{reviewer.id}]", reviewer.id %>
+		<%= reviewer.person.fullname %> &nbsp;
+	<% end -%>
+	</small>
+	<br>
+	<%= hidden_field_tag :redirect_to_action, 'phase' %>
+	<%= hidden_field_tag "new_status", "reviewers_assigned" %>
+	<%= f.submit "Confirm Reviewers and Update Status for Selected", :name => "change_status" %>
+</div>
+
+<% end %>

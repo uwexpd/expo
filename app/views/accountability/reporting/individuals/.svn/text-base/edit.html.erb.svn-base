@@ -1,0 +1,15 @@
+<h1 class="big-icon people">Edit Individual Activity</h1>
+
+<% form_for :activity, @activity, :url => accountability_reporting_individual_path(@year, @activity), :html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', accountability_reporting_individual_path(@year, @activity), :class => "cancel button" %>
+
+<% end %>
+
+<% sidebar :faq %>

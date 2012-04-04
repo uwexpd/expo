@@ -1,0 +1,22 @@
+<h3>Task Tools</h3>
+
+<ul class="link-list">
+
+	<li><%= link_to "<strong>Mark as complete</strong>", 
+					{ :action => "complete_phase_task", :id => @task }, 
+					{ :class => "icon-left complete" } if !@task.complete? %>
+	<%= link_to "<strong>Mark as incomplete</strong>", 
+				{ :action => "uncomplete_phase_task", :id => @task }, 
+				{:class => "icon-left incomplete"} if @task.complete? %></li>
+	<li><%= link_to "Edit this task", 
+				edit_offering_phase_task_path(@offering, @phase, @task, :return_to => request.url), 
+				:class => "icon-left edit" %></li>
+	<li><%= link_to "Delete this task", 
+				offering_phase_task_path(@offering, @phase, @task, :return_to => request.url), 
+				:method => :delete, :confirm => "Are you sure?",
+				:class => "icon-left delete" %></li>
+	
+	<li><%= link_to "Return to #{@phase.name}", {:action => 'phase', :id => @phase}, :class => 'icon-left return' %></li>
+	
+				
+</ul>

@@ -1,0 +1,18 @@
+<% 
+show_my_details_link ||= false
+ %>
+<% hide_change_button ||= false %>
+
+<div class="service_learning your_position">
+	<h3>Your selected position:</h3>
+	<table id="service_learning_positions" class="highlightless">
+		<%= render :partial => "position", 
+					:object => position, 
+					:locals => { :service_learning_course => service_learning_course,
+						 		 :show_links => :false,
+						 		 :do_not_identify_as_filled => :true,
+						 		 :show_change_link => :true,
+								 :show_my_details_link => show_my_details_link,
+								 :hide_change_button => hide_change_button } %>
+	</table>
+</div>

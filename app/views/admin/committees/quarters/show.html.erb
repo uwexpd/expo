@@ -1,0 +1,40 @@
+<h1><%= @quarter.title %>
+	<span class="light">&raquo; <%= pluralize @quarter.committee_member_quarters.active.size, "active member" %></span>
+	<span class="right light"><%= link_to "edit", edit_admin_committee_quarter_path(@committee, @quarter) %></span>
+	</h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'committee_quarters_form' %>
+
+<table>
+	
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th>Committee Member</th>
+		<th>Type</th>
+		<th>Expertise</th>
+		<th>Comment</th>
+		<th>Last Response</th>
+	</tr>
+	
+	<tr class="rowset-header">
+		<td><%= select_all_check_box :active %></td>
+		<td colspan=5>Active
+			<span class="light">&raquo; <%= pluralize @quarter.committee_member_quarters.active.size, "active member" %></span></td>
+	</tr>
+	
+	<% for member in @quarter.committee_member_quarters.active %>
+		<tr>
+			<td><%= select_check_box member, :active %></td>
+			<td><%= link_to member.committee_member.fullname, admin_committee_member_path(@committee, member.committee_member) rescue "(error)" %></td>
+			<td><%= member.committee_member.committee_member_type.name rescue "<span class=light>None</span>" %></td>
+			<td><%= truncate(member.committee_member.expertise, 50) rescue nil %></td>
+			<td><small><%= member.comment %></small></td>
+			<td class="small light"><%= relative_timestamp(member.committee_member.last_user_response_at, :date_only => true, :empty_string => "Never") rescue nil %></td>
+		</tr>
+	<% end -%>
+	
+</table>
+
+</form>
+
+<% sidebar :with_selected %>

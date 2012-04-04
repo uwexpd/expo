@@ -1,0 +1,13 @@
+<% @user_application.mentors.each do |mentor| %>
+	<ul>
+		<li><%= mentor.info_detail_line %></li>
+		<%- if @user_application.offering.ask_applicant_to_waive_mentor_access_right? -%>
+			<li><%= mentor.waive_access_review_right ? "Waived right to access mentor letter" : "Retained right to access mentor letter" %></li>
+		<% end -%>
+		<%- if @full_view -%>
+			<% unless @download == true %>
+				<li>Letter: <%= mentor.letter.nil? ? content_tag('em', "No letter received") : link_to(mentor.letter.filename, :action => 'view', :id => @user_application, :mentor => mentor, :version => 'pdf') %></li>
+			<% end %>
+		<%- end -%>
+	</ul>
+<% end %>

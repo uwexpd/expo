@@ -1,0 +1,18 @@
+<% 
+non_blank_awards = []
+@user_application.awards.each do |award|
+	unless award.requested_quarter_id.nil?
+		non_blank_awards << award
+	end
+end
+
+ %>
+
+<%= non_blank_awards.collect{ |award| Quarter.find(award.requested_quarter_id).title }.join(", ")%>
+
+
+<%#= @user_application.awards.collect{ |award| Quarter.find(award.requested_quarter_id).title unless award.requested_quarter_id.nil? }.join(", ") %>
+
+<%# @user_application.awards.each do |award| %>
+<%# Quarter.find(award.requested_quarter_id).title unless award.requested_quarter_id.nil? %>
+<%# end %>

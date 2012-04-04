@@ -1,0 +1,16 @@
+<% content_tag('ul') do %>
+	<% for person in auto_complete %>
+		<li id="person_<%= person.id %>">
+			<span class="primary"><%= highlight(person.fullname, highlight_phrase) %>
+				<small class="light">(#<%= person.id %>)</small></span>
+			<span class="secondary"><%= person.email || "(no email)" %>
+				<small class="light">(<%= person.users.first.user_type rescue "no expo login" %>)</small>
+			</span>
+		</li>
+	<% end -%>
+	
+	<li id="person_-1" class="new">
+		<span class="primary">Create a new person record</span>
+	</li>
+	
+<% end -%>

@@ -1,0 +1,25 @@
+<div id="running-tally">
+	<div class="indicator"><%= indicator %></div>
+	<div class="title">Running Tally:</div>
+	<div class="results">
+		<% if @committee_mode %>
+
+			<span class="amount">
+				<%= number_to_currency @offering.applications_awarded_by_final_committee.collect(&:total_requested_award_amount).sum %>
+			</span>
+			<span class="count">
+				<%= pluralize @offering.applications_awarded_by_final_committee.size, "award" %>
+			</span>
+
+		<%- else -%>
+
+			<span class="amount">
+				<%= number_to_currency @offering.applications_awarded_by_review_committee.collect(&:total_requested_award_amount).sum %>
+			</span>
+			<span class="count">
+				<%= pluralize @offering.applications_awarded_by_review_committee.size, "award" %>
+			</span>
+
+		<% end -%>
+	</div>
+</div>

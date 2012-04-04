@@ -1,0 +1,20 @@
+<h2>Grade Levels</h2>
+<p class="intro"><%= HelpText.caption(:grade_levels_page_intro, ServiceLearningPosition) %></p>
+
+<div>
+  <label for="pipeline_positions_grade_level_ids">Grade Levels</label>
+  <ul>
+  <% PipelinePositionsGradeLevel.all.each do |grade_level| %>
+    <li>
+      <%= check_box_tag("service_learning_position[pipeline_positions_grade_level_ids][]", grade_level.id, 
+                        pipeline_position.pipeline_positions_grade_level_ids.include?(grade_level.id), {:default => true}) %>
+      <%= grade_level.name %> 
+    </li>
+  <% end %>
+  </ul>
+</div>
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Subjects", :subjects, :link_only => true, :link_class => "button" %>
+	<%= link_to_tab_pane "Next: Tutoring Formats &#x2192;", :tutoring_formats, :link_only => true, :link_class => "strong button" %>
+</div>

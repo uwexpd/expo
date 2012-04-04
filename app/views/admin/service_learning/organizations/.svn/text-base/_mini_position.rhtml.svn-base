@@ -1,0 +1,10 @@
+<tr>
+	<td>
+		<%= link_to mini_position.title, 
+					service_learning_organization_position_path(@unit, mini_position.quarter, @organization, mini_position),
+					:class => "icon-left positions" %>
+	</td>
+	<td>
+		<%= mini_position.quarter.title %>
+	</td>
+</tr>

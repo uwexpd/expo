@@ -1,0 +1,8 @@
+<h3>Committee Details</h3>
+
+<p><%= @committee.name %>
+	<br><font class="light">Member since <%= @committee_member.created_at.to_date.to_s rescue "unknown" %></font></p>
+	
+<div class="bottom-cap full">
+	<%= link_to "Switch to a different committee", { :action => 'which' }, :class => 'icon-left', :id => 'switch' if @committee_members.size > 1 %>
+</div>

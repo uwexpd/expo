@@ -1,0 +1,18 @@
+<hr>
+<h3><%= Ticket.comment_user_name(version.body_html) || version.user_name %>
+	<span class="light"><%= relative_timestamp version.created_at %></span></h3>
+
+<blockquote>
+	<%= Ticket.comment_body_without_user_name(version.body_html) %>
+</blockquote>
+
+<ul>
+<% for attribute, value in version.diffable_attributes.attributes %>
+	<li>
+		<strong><%= attribute.titleize %> changed from 
+		<span class="outline tag"><%= value || "nil" %></span>
+		to
+		<span class="outline tag"><%= version.attributes[attribute] || "nil" %></span>
+		</strong></li>
+<% end -%>
+</ul>

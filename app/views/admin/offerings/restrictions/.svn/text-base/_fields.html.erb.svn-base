@@ -1,0 +1,16 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :type %></dt>
+	<dd><%= f.select :type, %w(OfferingRestriction BeforeOpenRestriction FulltimeStudentRestriction MustBeStudentRestriction PastDeadlineRestriction StateResidentRestriction GpaRestriction MajorRestriction).sort %></dd>
+	
+	<dt><%= f.label :extra_detail %></dt>
+	<dd><%= f.text_area :extra_detail, :rows => 5 %>
+		<p class="caption">This text is appended to the error message that users receive if they fail the restriction.</p></dd>
+
+	<dt><%= f.label :parameters %></dt>
+	<dd><%= f.text_area :parameter, :rows => 3 %>
+		<p class="caption">If this restriction requires an extra parameter to check (e.g., a minimum GPA for 
+			the GpaRestriction or a list of major abbreviations for the MajorRestriction), enter that parameter
+			here.</p></dd>
+
+</dl>

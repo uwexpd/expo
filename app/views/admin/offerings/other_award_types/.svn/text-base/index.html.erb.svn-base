@@ -1,0 +1,36 @@
+<h1>Other Award Types
+	<span class="light right"><%= link_to "Add new other award type", new_offering_other_award_type_path(@offering), :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'other_award_types_form' %>
+
+<table>
+	<tr>
+		<th>Award Type</th>
+		<th>Ask For Award Quarter</th>
+		<th>Restrict Number Of Awards To</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for other_award_type in @other_award_types %>
+	<tr id="other_award_type_<%= other_award_type.id %>">
+		<td><%=h other_award_type.award_type.try(:title) %></td>
+		<td><%=h other_award_type.ask_for_award_quarter %></td>
+		<td><%=h other_award_type.restrict_number_of_awards_to %></td>
+		<td><%= link_to "Show", offering_other_award_type_path(@offering, other_award_type) %></td>
+		<td><%= link_to "Edit", edit_offering_other_award_type_path(@offering, other_award_type) %></td>
+		<td><%= link_to_remote "Destroy", 
+						:url => offering_other_award_type_path(@offering, other_award_type), 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @other_award_types.empty? %>
+	<tr class="empty">
+		<td colspan=10>No other award types exist. <%= link_to "Create one.", new_offering_other_award_type_path(@offering) %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>
+
+<% sidebar "/admin/offerings/sidebar/settings" %>

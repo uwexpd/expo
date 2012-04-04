@@ -1,0 +1,99 @@
+<% time ||= @time %>
+<tr id="invitee_<%= invitee.id %>">
+	<td><%= select_check_box(invitee, invitee.attending?) %>
+	<td>
+	  <% if invitee.person.is_a? Student %>
+	    <%= link_to invitee.person.fullname, [:admin, invitee.person] %><%= invitee.person.pipeline_inactive ? "<span id='pipeline_inactive_#{invitee.person.id}' class='tag'>inactive</span>" : "<span id='pipeline_inactive_#{invitee.person.id}'></span>" if @use_pipeline_links %>
+	  <% else %>
+	    <%=h invitee.person.fullname rescue invitee.fullname rescue "#error" %>
+	  <% end %>
+	</td>
+	<td value="<%= invitee.attending? ? 'Attending' : 'Not Attending' %>"><span class="current_reply">
+			<%= invitee.attending? ? "<span class=success-message>Yes</span>" : "<span class=error-message>No</span>" %>
+		</span>
+		<span class="edit_form" style="display:none">
+			<%= link_to_remote "Change to Yes",
+			 					:url => event_time_invitee_path(@event, time, invitee, 'invitee[attending]' => true, :from_pipeline => @use_pipeline_links),
+			 					:method => :put,
+			 					:with => "'index_id=expected_sort&order=-1'",
+			 					:indicator => 'global' unless invitee.attending? %>
+			<%= link_to_remote "Change to No",
+			 					:url => event_time_invitee_path(@event, time, invitee, 'invitee[attending]' => "false", :from_pipeline => @use_pipeline_links),
+			 					:method => :put,
+			 					:with => "'index_id=expected_sort&order=1'",
+								:indicator => 'global' if invitee.attending? %>
+		</span>
+		</td>
+	<td value="<%= invitee.checked_in? ? 'Attended' : 'Did Not Attend' %>"><span class="current_reply">
+			<%= invitee.checked_in? ? "<span class=success-message>Yes</span>" : "<span class=error-message>No</span>" %>
+		</span>
+		<span class="edit_form" style="display:none">
+			<%= link_to_remote "Change to Yes",
+			 					:url => event_time_invitee_path(@event, time, invitee, 'invitee[checkin_time]' => Time.now, :from_pipeline => @use_pipeline_links),
+			 					:method => :put,
+			 					:with => "'index_id=attended_sort&order=-1'",
+			 					:indicator => 'global' unless invitee.checked_in? %>
+			<%= link_to_remote "Change to No",
+			 					:url => event_time_invitee_path(@event, time, invitee, 'invitee[checkin_time]' => "", :from_pipeline => @use_pipeline_links),
+			 					:method => :put,
+			 					:with => "'index_id=attended_sort&order=1'",
+								:indicator => 'global' if invitee.checked_in? %>			
+		</span>
+		</td>
+		
+		<% if @use_pipeline_links %>
+  	  <td>
+  	    <span id="student_background_check_<%= invitee.person.id %>" class="<%= 'red' if (invitee.person.pipeline_background_check.nil? || invitee.person.pipeline_background_check <= Time.now-2.year) %>">
+	        <%= relative_timestamp(invitee.person.pipeline_background_check, {:date_only => true}) %>
+	      </span>
+	    </td>
+  	<% end %>
+	
+	<% for val in @event.extra_fields.values %>
+		<td><%= auto_link eval(sanitize(val)) rescue "#error" %></td>
+	<% end -%>
+	<% unless time.sub_times.empty? %>
+		<td id="invitee_sub_time_<%= invitee.id %>">
+			<%- if invitee.sub_time -%>
+				<%= invitee.sub_time.time_detail(:time_only => true) %>
+				<small class="light">
+				<%= "<br>" + invitee.sub_time.title unless invitee.sub_time.title.blank? %>
+				<%= "<br>" + invitee.sub_time.location_text unless invitee.sub_time.location_text.blank? %>
+				<%= "<br>" + invitee.sub_time.facilitator unless invitee.sub_time.facilitator.blank? %>
+				</small>
+			<% end -%>
+		</td>
+	<% end -%>
+	
+	
+	<td><%= link_to_function "<span>Edit</span>", 
+							"$$('#invitee_#{invitee.id} .current_reply').invoke('hide');
+							 $$('#invitee_#{invitee.id} .edit_form').invoke('show')", 
+							:class => 'edit icon-left no-text current_reply' %>
+							
+		<%= link_to_function "<span>Cancel</span>", 
+								"$$('#invitee_#{invitee.id} .current_reply').invoke('show');
+								 $$('#invitee_#{invitee.id} .edit_form').invoke('hide')", 
+								:class => 'icon-left delete no-text edit_form',
+								:style => "display:none" %>
+							
+		<%= link_to_remote "<span>Delete</span>",
+	 						{:url => event_time_invitee_path(@event, time, invitee),
+	 						:method => :delete,
+							:confirm => "Are you sure you want to remove this person completely from the list?",
+							:indicator => 'global'
+							},
+							:class => 'icon-left trash no-text' %></td>
+	
+</tr>
+
+<%#= draggable_element "invitee_#{invitee.id}", :ghosting => true, :scroll => 'window' %>
+<%= drop_receiving_element "invitee_#{invitee.id}",
+ 							:url => { :controller => 'admin/events/times/sub_times',
+										:action => 'add_to_sub_time',
+										:event_id => @event,
+										:time_id => time,
+										:invitee_id => invitee },
+ 							:hoverclass => 'droppable',
+ 							:indicator => true %>
+

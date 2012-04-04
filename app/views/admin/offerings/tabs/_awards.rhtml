@@ -1,0 +1,87 @@
+<% javascript 'add_and_subtract_field' %>
+
+<h2>Award Parameters</h2>
+<p>This tab controls details about awards and award quarters.</p>
+
+<dl class="inline-definitions">
+
+	<dt>Default Number</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('offering_number_of_awards', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :number_of_awards, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('offering_number_of_awards', 50)", :class => 'add-button' %>
+		<p class="caption">Every student starts with this number of awards as default. Use the minimum and maximum below to control whether or not a student can add or remove additional quarters of funding.</p></dd>
+
+	<dt>Default Amount</dt>
+	<dd>$ <%= f.text_field :default_award_amount %>
+		<p class="caption">The default amount of funding for each quarter. Staff can decrease or increase individual awards on a case-by-case basis later in the process.</p></dd>
+
+	<dt>Minimum Number</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('offering_min_number_of_awards', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :min_number_of_awards, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('offering_min_number_of_awards', 50)", :class => 'add-button' %>
+		</dd>
+
+	<dt>Maximum Number</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('offering_max_number_of_awards', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :max_number_of_awards, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('offering_max_number_of_awards', 50)", :class => 'add-button' %>
+		</dd>
+
+	<dt>First eligible</dt>
+	<dd><%= f.collection_select :first_eligible_award_quarter_id, Quarter.all, :id, :title, :prompt => true %>
+		<p class="caption">What is the first eligible quarter that can be selected as an award quarter?</p></dd>
+
+	<dt>Max. Quarters Ahead</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('offering_max_quarters_ahead_for_awards', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :max_quarters_ahead_for_awards, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('offering_max_quarters_ahead_for_awards', 50)", :class => 'add-button' %>	
+		<p class="caption">How many quarters ahead can the student select as award quarters? Set this to <strong>0</strong> if students can only select the next upcoming quarter. Set this to <strong>1</strong> to let students have a buffer quarter, and so on. Note that students are always allowed to skip summer quarter.</p></dd>
+
+	<dt>Award Basis</dt>
+	<dd><%= f.select :award_basis, ["review", "interview", "final"] %>
+		<p class="caption">Sets the basis that the system should use for determining whether or not an applicant
+			has been "awarded." Unlike some systems, there is not a simple "awarded" flag that can be set on an
+			applicant record. Instead, the system calculates the applicant's award status on-the-fly based on this
+			value. For example, if this is set to "interview," then EXPO will look at the interview committee's
+			decision to determine if the applicant was awarded.</p></dd>
+
+	<dt>Final Decision<br>Weight Ratio</dt>
+	<dd><span class="outlined tag">Review</span>
+		<%= f.text_field :final_decision_weight_ratio, :size => 4 %>
+		<span class="outlined tag">Interview</span>
+		<p class="caption">Sets the weight ratio to use when determining combined scores for the "final decision" process.
+			This is only used when the review committee or interview committee is not the final decision-maker in the
+			process. This value should be a decimal ratio value weighting the review committee score to the interview
+			committee score. For example, a value here of "0.30" will make weight the computed scores 30% to the review
+			committee score and 70% to the interview committee score. Defaults to 0.50 (50/50 even split).</p></dd>
+
+</dl>
+
+<h2>Award Approval Workflow Users</h2>
+<p class="intro">These users are responsible for approving awards after they have been awarded.</p>
+
+<dl class="inline-definitions">
+
+	<dt>Dean</dt>
+	<dd><%= f.collection_select :dean_approver_id, PubcookieUser.all, :id, :login, :include_blank => true %></dd>
+
+	<dt>Financial aid</dt>
+	<dd><%= f.collection_select :financial_aid_approver_id, PubcookieUser.all, :id, :login, :include_blank => true %></dd>
+
+	<dt>Disbersement</dt>
+	<dd><%= f.collection_select :disbersement_approver_id, PubcookieUser.all, :id, :login, :include_blank => true %></dd>
+	
+</dl>
+	
+<h2>Paper Award Letter Templates</h2>
+<p>When PDF's of the paper award letters are generated, these templates are used.</p>
+
+<dl class="inline-definitions">
+
+	<dt>Applicants</dt>
+	<dd><%= f.collection_select :applicant_award_letter_template_id, TextTemplate.non_email.sort, :id, :name, :include_blank => true %></dd>
+
+	<dt>Mentors</dt>
+	<dd><%= f.collection_select :mentor_award_letter_template_id, TextTemplate.non_email.sort, :id, :name, :include_blank => true %></dd>
+	
+</dl>

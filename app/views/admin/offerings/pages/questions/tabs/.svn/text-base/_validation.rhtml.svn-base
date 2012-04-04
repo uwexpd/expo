@@ -1,0 +1,49 @@
+<h2>Data Validation</h2>
+<p>Use these options to impose restrictions on the way this question is answered.</p>
+
+<dl class="inline-definitions">
+
+	<dt>Required?</dt>
+	<dd><%= checkbox_with_label f, :required, "Answer is required" %>
+		<p class="caption">Applicants will be required to answer this question before submitting.
+			Note that this is separate from the other validations below (you can specify validations
+			for a question without requiring that it be answered)</p></dd>
+
+	<dt>Limits</dt>
+	<dd>Character Limit: <%= f.text_field :character_limit, :size => 4 %> characters
+		<br>Word Limit: <%= f.text_field :word_limit, :size => 4 %> words
+		</dd>
+
+	<dt>Custom Criteria</dt>
+	<dd><%= f.text_area :validation_criteria, :rows => 4, :class => 'wide code' %>
+		<p class="caption">Write Ruby code for custom validation tests.</p></dd>
+	
+</dl>
+
+<h2>Advanced Validations</h2>
+
+<table>
+	<thead>
+		<tr class="small left">
+			<th style="width: 35%">Validation Type</th>
+			<th>Error Text</th>
+			<th style="width: 70px">Functions</th>
+		</tr>
+	</thead>
+
+	<tbody id="validations">
+	<%= render :partial => 'admin/offerings/pages/questions/validations/validation', :collection => @question.validations %>
+
+	<% if @question.validations.empty? %>
+		<tr class="empty">
+			<td colspan=5>
+				No advanced validations exist. 
+				<%= link_to 'Click here to create one.', new_offering_page_question_validation_path(@offering, @page, @question) %>
+			</td>
+		</tr>
+	<% end -%>
+	</tbody>
+
+</table>
+
+<%= link_to "Add new validation", new_offering_page_question_validation_path(@offering, @page, @question), :class => "icon-left add button" %>

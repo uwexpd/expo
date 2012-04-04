@@ -1,0 +1,101 @@
+<% content_for :unit_name do %>
+  <%= link_to "&lt; previous quarter", pipeline_quarter_path(@quarter.prev), :class => "inline" %> 
+  | <%= @quarter.title %> |
+  <%= link_to "next quarter &gt;", pipeline_quarter_path(@quarter.next), :class => "inline" %>
+<% end %>
+
+<% title "Pipeline Project Dashboard" %>
+
+<h1>Welcome, <%= @student.firstname %>.</h1>
+
+<p>This page shows you the status of your involvement with the Pipeline Project.</p>
+
+<ul class="welcome-links">
+	
+	<li id="orientation_status_display" class="orientation <%= @progress_statuses[:orientation][:css_class] %>">
+
+		<span class="status_marker"></span>
+		<h4>Pipeline Orientation</h4>
+		<%= @progress_statuses[:orientation][:text] %>
+
+		<div>
+	        <% if @progress_statuses[:orientation][:button] == :signup %>
+				<%= link_to "RSVP for an upcoming orientation", 
+							pipeline_orientation_signup_path(@quarter.abbrev, @course_abbrev),
+							:class => 'button' %>
+
+	        <% elsif @progress_statuses[:orientation][:button] == :change %>
+				<%= link_to "Choose a different orientation date", 
+							pipeline_orientation_rsvp_path(@quarter.abbrev, @course_abbrev),
+							:class => 'button' %>
+	        <% end %>
+		</div>
+
+
+	</li>
+
+	<li id="background_check_status_display" class="background_check <%= @progress_statuses[:background_check][:css_class] %>">
+		<span class="status_marker"></span>
+		<h4>Background Check</h4>
+		<%= @progress_statuses[:background_check][:text] %>
+		
+		<% if @progress_statuses[:background_check][:button] %>
+			<div>
+				<%= link_to "Download Background Check PDF Form",
+				 			{:controller => "pipeline", :action => "download_background_check"},
+							:class => 'icon-left pdf button' %>
+			</div>
+		<% end -%>
+
+	</li>
+	
+	<li id="search_status_display" class="search <%= @progress_statuses[:search][:css_class] %>">
+		
+		<span class="status_marker"></span>
+		<h4>Find a Position</h4>
+		<p>You are currently enrolled in the following <%= pluralize @enrolled_courses.size, "course" %>: 
+			<strong><%= @enrolled_courses.collect(&:title).join(", ") %></strong><br>
+			<%= link_to "(Switch to another course)", :action=> "which" if @enrolled_courses.size > 1 %>
+		</p>
+		
+		<%= @progress_statuses[:search][:text] %>
+		
+		<% if @progress_statuses[:search][:button] %>
+			<div>
+				<%= link_to "Search the position listing", {:action => "search"}, :class => 'button' %>
+			</div>
+		<% end -%>
+		
+	  	<% unless @pipeline_favorites.empty? %>	
+		<div style="margin-top: 1em">
+			You currently have <strong><%= pluralize(@pipeline_favorites.size, "favorite") %></strong> on your list:
+			<div class="left-indent">
+				<ul class="link-list">
+					<% for pipeline_position in @favorite_positions %>
+						<li>
+						<%= link_to "#{pipeline_position.organization.name} 
+										<span>#{pipeline_position.title(false,false,false)}</span>",
+						 			:action => 'show', :id => pipeline_position %>
+						</li>
+					<% end -%>
+				</ul>
+			</div>
+		</div>
+		<% end %>
+	</li>
+	
+	<li id="position_status_display" class="confirmation <%= @progress_statuses[:position][:css_class] %>">
+		<span class="status_marker"></span>
+		<h4>Confirm Your Position</h4>
+		<%= @progress_statuses[:position][:text] %>
+		
+		<div class="left-indent">
+		<% unless @confirmed_positions.empty? %>
+			<%= render :partial => "confirmed_positions" %>
+		<% end %>
+		</div>
+	</li>
+	
+</ul>
+
+<% sidebar :welcome %>

@@ -1,0 +1,6 @@
+<h3>Functions</h3>
+
+<ul class="link-list">
+	<li><%= link_to 'Add new question', new_offering_page_question_path(@offering, @page), :class => 'icon-left add' %></li>
+	<li><%= link_to_function "Rearrange questions", "$$('.sort-handle').invoke('toggle')", :class => "icon-left sort" %></li>
+</ul>

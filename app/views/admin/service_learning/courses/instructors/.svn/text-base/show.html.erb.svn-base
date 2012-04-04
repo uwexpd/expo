@@ -1,0 +1,27 @@
+<h1><%= @instructor.fullname %>
+	<span class="light right"><%= link_to "edit", edit_service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, @instructor) %></span>
+	</h1>
+
+<dl class="inline-definitions">
+	
+	<dt>salutation</dt>
+	<dd><%= @instructor.person.salutation %></dd>
+
+	<dt>name</dt>
+	<dd><%= @instructor.person.fullname %></dd>
+
+	<dt>email</dt>
+	<dd><%= auto_link @instructor.person.email %></dd>
+	
+	<dt>phone</dt>
+	<dd><%= phone_number @instructor.person.phone %></dd>
+	
+	<dt>box number</dt>
+	<dd><%= @instructor.person.box_no %></dd>
+
+	<dt>ta?</dt>
+	<dd><%= @instructor.ta? %></dd>
+	
+</dl>
+
+<%= link_to 'Back', service_learning_course_instructors_path(@unit, @quarter, @service_learning_course) %>

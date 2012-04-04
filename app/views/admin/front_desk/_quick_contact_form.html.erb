@@ -1,0 +1,16 @@
+<% form_remote_tag :url => { :action => 'quick_contact' }, :indicator => 'find_student_indicator', :html => {:id => 'quick_contact_form'} do %>
+
+	<%= label :quick_contact_unit_id, "Quick Contact:" %>
+	<%= collection_select :quick_contact, :unit_id, Unit.all.sort, :id, :name, :prompt => "-- Select Program --" %>
+	
+	<% myOnClick = "$('quick_contact_success').hide(); $('find_student_error').innerHTML = ''; " %>
+	
+	<%= submit_tag "Quick Question", :onClick => myOnClick + "$('contact_type').value = 'Quick Question'" %>
+	<%= submit_tag "Phone Call", :onClick => myOnClick + "$('contact_type').value = 'Phone'" %>
+	<%= submit_tag "E-mail", :onClick => myOnClick + "$('contact_type').value = 'E-mail'" %>
+	
+	<%= content_tag(:span, nil, :class => 'success icon', :id => 'quick_contact_success', :style => "display:none") %>
+	
+	<%= hidden_field_tag :contact_type, nil %>
+	
+<% end -%>

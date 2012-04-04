@@ -1,0 +1,34 @@
+<h1>New Help Text</h1>
+
+<% form_for :help_text, @help_text, :url => admin_help_texts_path do |f| %>
+
+	<%= f.error_messages %>
+
+	<dl class="inline-definitions">
+
+		<dt>key</dt>
+		<dd><%= f.text_field :key %>
+			<p class="caption">This is used to uniquely identify this help text. It's best to avoid any spaces.</p></dd>
+
+		<dt>model</dt>
+		<dd><%= f.text_field :object_type, :disabled => true %></dd>
+
+		<dt>text</dt>
+		<dd><%= f.text_area :caption, :rows => 5, :style => "width: 95%", :class => ("mceEditor" unless @help_text.plain_text?) %></dd>
+		
+		<dt>plain text</dt>
+		<dd><%= f.check_box :plain_text,
+		 					:onClick => "toggleEditor('help_text_caption')" %>
+			<%= f.label :plain_text, "Use plain text editor" %></dd>
+		
+
+	</dl>
+
+	<%= f.hidden_field :object_type %>
+	<%= hidden_field_tag :model, params[:model] if params[:model] %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', admin_help_texts_path %>
+
+<% end %>

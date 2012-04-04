@@ -1,0 +1,47 @@
+<% application_reviewer = app.reviewers.find_or_create_by_application_for_offering_id_and_committee_score(app, true) %>
+<tr <%= "class='finalized'" if application_reviewer.finalized? %> id="app_<%= app.id %>">
+	<td><b><%= app.fullname %></b>
+		<br><span class="light"><%= truncate app.project_title %></span></td>
+		
+		<% for review_criterion in @offering.review_criterions.sort %>
+			<td class="center">
+				<%= score = application_reviewer.get_score(review_criterion) %>
+				<% @scores[review_criterion.id] += score if score %>
+				<br>
+				<small class='light'>
+					<%= "#{'%.2f' % app.average_score(review_criterion)}" %>
+				</small>
+			</td>
+		<% end -%>
+
+		<td class="center average_score">
+			<%= total_score = application_reviewer.total_score %>
+			<% @scores[:total] += total_score if total_score %>
+			<% @apps_with_scores_count += 1 if total_score != 0 %>
+			<br>
+			<small class='light'>
+				<%= "#{'%.2f' % app.average_score}" %>
+			</small>
+			</td>
+
+		<td align=center class="spread">
+			<span <%= "class='highlight error-message'" if app.score_spread > ApplicationReviewer::MAX_SPREAD %>>
+				<%= app.score_spread %>
+				<br>
+				<small class="light">&sigma; = <%= '%.2f' % app.score_standard_deviation %></small>
+			</span>
+		</td>
+
+		<td align=left>
+			<%= app.application_review_decision_type.title rescue "<span class=\"light\">No decision yet.</span>" %>
+		</td>
+
+		<td align=right>
+		<% link_title = application_reviewer.finalized? ? "See our Review &#x2192;" : "Change our Review &#x2192;" %>
+		<%= link_to_remote link_title, :url => {:action => 'show', :id => app}, :indicator => 'global' %>
+		</td>
+
+		<% @ready_for_finalization = true unless application_reviewer.finalized? %>
+	
+</tr>
+

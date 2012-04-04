@@ -1,0 +1,39 @@
+<% title @page_title_prefix, (@offering_session.identifier.blank? ? @offering_session.title : "Session #{@offering_session.identifier}") %>
+
+<div class="right">
+	<%= link_to_remote "Add all of these abstracts to my favorites", 
+						:url => apply_proceedings_favorites_path(@offering, 'create', @presenters.collect(&:id).to_json),
+						:method => :post,
+						:indicator => 'global',
+						:html => {
+							:class => 'add_favorite',
+							:id => "add_all_favorite_link"
+						} %>
+</div>
+
+<%= render :partial => 'session_heading', :object => @offering_session %>
+
+<%= render :partial => "abstract", :collection => @presenters %>
+
+<% content_for :left_sidebar do %>
+	<%= content_tag(:h4, "Session #{@offering_session.identifier}") unless @offering_session.identifier.blank? %>
+
+	<ul class="session_details">
+		<li><strong><%= @offering_session.title %></strong></li>
+		<li><%= @offering_session.time_detail %></li>
+		<li><%= @offering_session.location %></li>
+		<%= "<li>Moderated by #{@offering_session.moderator.try(:fullname)}</li>" unless @offering_session.moderator.try(:fullname).blank? %>
+	</ul>
+
+	<ul class="link-list">
+		<li><%= link_to "Print these abstracts", {:format => :pdf}, :class => "icon-left pdf" %></li>
+		<li><%= link_to "Return to Proceedings Home", @header_link, :class => "icon-left home" %></li>
+		<%= render :partial => "apply/proceedings/favorite_abstracts" %>
+		<li><%= link_to_function "View all abstracts", "$$('.abstract_text').invoke('show')", :class => 'icon-left list' %></li>
+		<li><%= link_to_function "Search abstracts", "Effect.toggle('lookup_form', 'blind')", :class => 'icon-left search' %></li>
+	</ul>
+
+	<%= render :partial => "apply/proceedings/lookup_form", :locals => { :hide => true } %>
+<% end -%>
+
+<%= javascript_tag("if (window.location.hash) { $(window.location.hash.split('#')[1]).addClassName('selected') }") %>

@@ -1,0 +1,40 @@
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	<h1>User: <%= @user.login %>
+		<%= content_tag('span', "(PubCookie User)", :class => 'light') if @user.is_a? PubcookieUser %>
+		<%= content_tag(:span, "admin", :class => 'admin tag') if @user.admin? %>
+		<span class="light right"><%= link_to "Edit", edit_user_path(@user), :class => 'button' %></span></h1>
+
+	<small class="light"><%= object_timestamp_details @user %></small>
+
+	<br>
+	<%= link_to '&#x2190; Back to Users', users_path, :class => "button" %>
+</div>
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		<%= link_to_tab("Units &amp; Roles (<span id='role_count'>#{@user.roles.size}</span>)", 
+						"units_roles", { :tab => "units_roles" }, "tabview_content") %>
+		<%= link_to_tab("Logins (#{@user.logins.size})", "logins", { :tab => "logins" }, "tabview_content") %>
+		</ul>
+	</div>
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+	
+		<div class="content" id="tabview_content">
+			<noscript>
+				<%= render :partial => "admin/users/tabs/units_roles" %>
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+
+<%= autoload_tab("tabview_content", url_for(:tab => ""), "units_roles") %>
+
+<% sidebar :quick_links, :search %>

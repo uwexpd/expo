@@ -1,0 +1,54 @@
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	<h3 style="margin-bottom: 0">
+	<%= @person.fullname %>
+	<span class="right light">
+		EXPO Person ID: <strong class="highlight"><%= @person.id %></strong>
+	</span></h3>
+</div>
+
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		<%= link_to_tab("Person Info", "person_info", 
+		                    { :id => @person, :tab => "person_info" }, "tabview_content") %>
+    <%= link_to_tab("Users (#{@person.users.size})", "users", 
+		                    { :id => @person, :tab => "users" }, "tabview_content") %>
+    <%= link_to_tab("Mentor (#{@person.application_mentors.size})", "mentor", 
+		                    { :id => @person, :tab => "mentor" }, "tabview_content") %>
+		<%= link_to_tab("Committees (#{@person.committee_members.size})", "committees", 
+		                    { :id => @person, :tab => "committees" }, "tabview_content") %>
+    <%= link_to_tab("Reviews/Interviews", "offerings", 
+  	                    { :id => @person, :tab => "offerings" }, "tabview_content") %>
+		<%= link_to_tab("Instructor (#{@person.service_learning_course_instructors.size})", "instructor", 
+		                    { :id => @person, :tab => "instructor" }, "tabview_content") %>
+    <%= link_to_tab("Organizations (#{@person.organization_contacts.size})", "organizations", 
+		                    { :id => @person, :tab => "organizations" }, "tabview_content") %>
+    
+    <%= link_to_tab("Equipment (#{@person.equipment_reservations.size})", 
+						"equipment_reservations", { :id => @person, :tab => "equipment_reservations" }, "tabview_content") %>
+		<%= link_to_tab("Notes (<span id='notes_count'>#{@person.notes.size}</span>)", 
+						"notes", { :id => @person, :tab => "notes" }, "tabview_content") %>
+		<%= link_to_tab("Contact History (<span id='contact_history_count'>#{@person.contact_histories.size}</span>)", 
+						"contact_history", { :id => @person, :tab => "contact_history" }, "tabview_content") %>
+		</ul>
+	</div>
+
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+
+		<div class="content" id="tabview_content">
+			<noscript>
+				<%= render :partial => "admin/people/tabs/person_info" %>
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+
+<%= autoload_tab("tabview_content", url_for(:id => @person, :tab => ""), "person_info") %>

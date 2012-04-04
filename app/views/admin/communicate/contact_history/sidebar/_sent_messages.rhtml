@@ -1,0 +1,7 @@
+<h3>Sent Messages</h3>
+
+<ul class="link-list">
+	
+	<li><%= link_to "Sent By Me (#{ContactHistory.from_user(@current_user.id).size})", {:action => 'from_me'} %></li>
+
+</ul>

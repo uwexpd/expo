@@ -1,0 +1,58 @@
+<%= javascript_include_tag 'tablesort' %>
+
+<% show_history ||= false %>
+
+<table class="sortable" id="sortable-table-0">
+
+	<tr class="small left">
+		<th><div class="sort-icon"><%= select_all_check_box @task.id %>Student</div></th>
+		<th><div class="sort-icon">Project</div></th>
+		<% @task.extra_fields.each do |t| %>
+			<th><div class="sort-icon"><%= t.title %></div></th>
+		<% end -%>
+		<th><div class="sort-icon">Current Status</div></th>
+	</tr>
+
+	<% @task.application_status_types.each do |t| %>
+	
+		<% 
+		if show_history || @task.show_history?
+			apps = @offering.applications_with_status(t.name)
+		else
+			apps = @offering.application_for_offerings.with_status(t.name)
+		end 
+		unless @task.applicant_list_criteria.blank?
+			apps = apps.select{|object| eval(@task.applicant_list_criteria) rescue true}
+		end
+		apps = apps.sort_by(&:lastname_first)
+		%>
+
+		<tr class="rowset-header">
+			<td colspan=<%= 3 + @task.extra_fields.size %>>
+				<%= select_all_check_box t.name %>
+				<a title="<%= t.description %>" class="tooltip"><%= t.name.titleize %></a>
+				<span class="light">&raquo;	<%= pluralize apps.size, "application" %></span>
+			</td>
+		</tr>
+
+		<% apps.each do |a| %>
+
+			<tr <%= "class=not_current" if !@task.application_status_types.collect(&:name).include?(a.current_status_name) %>>
+				<td><%= select_check_box(a, a.current_status_name) %>
+					<%= a.person.fullname %></td>
+				<td><%= link_to a.project_title || "View Application", admin_app_path(@offering, a.id) %></td>
+
+				<% @task.extra_fields.each do |t| %>
+					<td><%= t.display(a) %></td>
+				<% end -%>
+				
+				<td><%= print_status(a) %></td>
+			</tr>
+
+			<% current_status_name = a.current_status_name %>
+			
+		<% end %>
+		
+	<% end -%>
+
+</table>

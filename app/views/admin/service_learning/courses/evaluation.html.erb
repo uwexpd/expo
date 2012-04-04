@@ -1,0 +1,7 @@
+<h1>Student Evaluation
+	<%= @evaluation.submitted? ? content_tag(:span, "submitted", :class => 'green tag') : content_tag(:span, "not submitted", :class => 'tag') %>
+	<span class="right"><%= link_to "Edit", {:action => 'submit_evaluation'}, :class => 'button' %></span></h1>
+	
+<%= render :partial => "community_partner/service_learning/students/evaluation_form" %>
+
+<% sidebar :unsubmit_evaluation %>

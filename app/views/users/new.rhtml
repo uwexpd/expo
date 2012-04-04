@@ -1,0 +1,33 @@
+<% title("Create New Account") %>
+
+<p>To create a new account, simply fill out the fields below. When you're done, click "Sign up." All fields are required.</p>
+
+<%= error_messages_for :user %>
+<% form_for :user, :url => { :controller => 'users', :action => 'create' } do |f| -%>
+
+	<dl class="inline-definitions">
+
+		<dt>username</dt>
+		<dd><%= f.text_field :login %>
+			<p class="caption">Choose a username that you'll remember. You'll use this username to access EXPO in the future.</p></dd>
+
+		<dt>password</dt>
+		<dd><%= f.password_field :password %>
+			<p class="caption">This password can be any combination of letters, numbers, and punctuation, but must be at least 6 characters long.</p></dd>
+
+		<dt>confirm password</dt>
+		<dd><%= f.password_field :password_confirmation %></dd>
+
+		<% fields_for "user[person_attributes]", (@user.person || Person.new) do |person_fields| %>
+			<%= render :partial => "shared/person_fields", 
+						:object => person_fields,
+						:locals => { :show_address_fields => :false, :show_title_field => :false, :show => [] } %>
+		<% end -%>
+
+
+	</dl>
+
+
+<p><%= submit_tag 'Sign up' %></p>
+
+<% end -%>

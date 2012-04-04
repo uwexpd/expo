@@ -1,0 +1,11 @@
+class OfferingQuestionOption < ActiveRecord::Base
+  stampable
+  belongs_to :offering_question
+
+  validates_presence_of :offering_question_id, :title
+  
+  def value
+    read_attribute(:value).blank? ? title : read_attribute(:value)
+  end
+  
+end

@@ -1,0 +1,31 @@
+<h1>Contact History #<%= @contact.id %>
+	<span class="light right"><%= link_to "Resend this message", requeue_contact_history_path(@contact), :method => :post, :class => 'email button' %></span>
+	</h1>
+
+<% if @contact.is_a? EmailContact %>
+	<div class="email_preview">
+
+		<div class="headers">
+			<ul>
+				<li><strong>From:</strong>		<%= @contact.email.from %></li>
+				<li><strong>Sender:</strong> 	<%= @contact.creator.fullname rescue @contact.creator.login rescue "(unknown)" %></li>
+				<li><strong>To:</strong>		<%= @contact.email.to %></li>
+				<li><strong>Subject:</strong>	<%= @contact.email.subject %></li>
+				<li><strong>Date:</strong>		<%= @contact.email.date %></li>
+				<%= "<li><strong>Cc:</strong>	  #{@contact.email.cc}</li>" if @contact.email.cc %>
+				<%= "<li><strong>Bcc:</strong>	  #{@contact.email.bcc}</li>" if @contact.email.bcc %>
+				<%= "<li><strong>Reply-To:</strong> #{@contact.email.reply_to}</li>" if @contact.email.reply_to %>
+				
+			</ul>
+		</div>
+	
+		<div class="body">
+			<%= simple_format(@contact.email.body) %>
+		</div>
+	
+	</div>
+<% end -%>
+
+<%= link_to "Back", :back, :class => "back button" %>
+
+<% sidebar :related_messages unless @contact.related_messages.empty? && @contact.original.nil? %>

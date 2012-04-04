@@ -1,0 +1,12 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :award_type_id %></dt>
+	<dd><%= f.collection_select :award_type_id, AwardType.all.sort, :id, :title, :prompt => true %></dd>
+	
+	<dt><%= f.label :ask_for_award_quarter %></dt>
+	<dd><%= f.check_box :ask_for_award_quarter %></dd>
+	
+	<dt><%= f.label :restrict_number_of_awards_to %></dt>
+	<dd><%= f.text_field :restrict_number_of_awards_to %></dd>
+
+</dl>

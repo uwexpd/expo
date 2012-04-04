@@ -1,0 +1,1 @@
+<%= link_to "Access Committee Manager", admin_committee_path(@offering.review_committee), :popup => true, :class => 'redirect' %>

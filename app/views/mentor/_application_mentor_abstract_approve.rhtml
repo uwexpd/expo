@@ -1,0 +1,35 @@
+<% 
+application_mentor = application_mentor_abstract_approve
+user_application = application_mentor.application_for_offering
+ %>
+
+<tr>
+	<td>
+		<h3><%= strip_tags(user_application.project_title).gsub("&nbsp;", " ") %></h3>
+		<%= user_application.person.fullname %>
+		<% unless user_application.group_members.empty? %>
+			<br>Co-Presenters: <%= user_application.group_members.collect(&:fullname).join(", ") %>
+		<% end -%>
+	</td>
+	
+	<td align=center>
+		<% if application_mentor.approved? %>
+			<div class='green-check'>X</div>
+		<%- else -%>
+			<% if user_application.passed_status?(:revision_submitted) %>
+				<span class="yellow highlight">Revised</span>
+			<% else %>
+				<span class='light'>No</span>
+			<% end -%>
+		<% end -%>
+	</td>
+
+	<td align=center>
+		<%= application_mentor.approval_response.titleize unless application_mentor.approval_response.blank? %>
+	</td>
+	
+	<td>
+		<% link_text = application_mentor.approved? ? "Review abstract" : "Review abstract" %>
+		<%= link_to link_text, :action => "mentee", :id => application_mentor %>
+	</td>
+</tr>

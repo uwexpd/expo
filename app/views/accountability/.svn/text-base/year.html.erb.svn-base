@@ -1,0 +1,27 @@
+<%= make_main_content_full_width %>
+
+<h1><%= @year %> Accountability Report
+	<span class="light right"><%= link_to "Download in Excel", {:format => :xls}, :class => 'icon-left xls button' %></span></h1>
+<%= HelpText.caption :accountability_report_note, AccountabilityReport %>
+<h3>Quarters: <%= @quarter_abbrevs.join(", ") %></h3>
+<strong>Activity Types:</strong>
+<ul>
+	<% for activity_type, report in @report_objects %>
+		<li><%= activity_type.title %>
+			<span class="light">
+				<% if report.in_progress? %>
+					<span class="error-message">(Currently being generated)</span>
+				<%- else -%>
+					(Generated on <%= report.generated_at.to_s(:date_at_time12) %>)
+				<% end -%>
+				
+				<% if !report.finalized? %>
+					<span class="red tag">DRAFT</span>
+				<% end -%>
+			</span></li>
+	<% end -%>
+</ul>
+
+<table class="accountability">
+	<%= render :file => "accountability/year.xls.erb" %>
+</table>

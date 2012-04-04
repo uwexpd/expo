@@ -1,0 +1,23 @@
+<% title @page_title_prefix, "Favorite Abstracts" %>
+
+<h1>My Favorite Abstracts 
+	<%= content_tag(:span, "(#{@favorite_abstracts.size})", :id => "favorite_abstracts_header_count") %>
+	
+	<% unless logged_in? %>
+		<% content_for(:account_nav) do %>
+			<span class="right">
+				<%= link_to "Login", {:action => 'save'}, :class => 'button' %> to save or see your favorites 
+			</span>
+		<% end -%>
+	<% end -%>
+	</h1>
+
+<%= render :partial => 'apply/proceedings/sorted_abstracts', :object => @abstracts %>
+
+<% content_for :left_sidebar do %>
+	<ul class="link-list">
+		<li><%= link_to "Print these abstracts", apply_proceedings_favorites_home_path(@offering, :format => :pdf), :class => "icon-left pdf" %></li>
+		<li><%= link_to "Return to Proceedings Home", @header_link, :class => "icon-left home" %></li>
+		<li><%= link_to_function "View all abstracts", "$$('.abstract_text').invoke('show')", :class => 'icon-left list' %></li>
+	</ul>
+<% end -%>

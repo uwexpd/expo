@@ -1,0 +1,11 @@
+<h3>Search</h3>
+
+<%= form_tag :action => 'show', :id => nil %>
+
+Student number or UW NetID:
+<br>
+<%= text_field_tag :search, params[:search] %>
+
+<%= submit_tag "Find" %>
+
+</form>

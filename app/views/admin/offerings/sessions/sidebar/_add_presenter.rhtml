@@ -1,0 +1,31 @@
+<h3>Add Presenter to Session</h3>
+
+<span id="add_presenter_message" class="error-message"></span>
+
+<% remote_form_for :presenter, 
+				:url => add_presenter_offering_session_url(@offering, @session),
+				:html => { :method => :put },
+				:update => { :success => 'presenters', :failure => "add_presenter_message" },
+				:success => "$('add_presenter_message').update(); 
+							$('app_mini_details').update(); 
+							$('presenter_app_id').clear();
+							$('presenter_app_id').activate()",
+				:indicator => true do |f| %>
+
+	Application ID: <%= f.text_field :app_id, :size => 5 %>
+	
+	<%= f.submit "Add" %>
+	
+<% end -%>
+
+<%= observe_field "presenter_app_id", 
+					:url => admin_app_mini_details_url(@offering, nil),
+					:update => 'app_mini_details',
+					:with => "'show=sessions&id=' + value",
+					:before => "$('app_mini_details').update()",
+					:indicator => "app_mini_details_indicator"  %>
+
+<%= indicator "app_mini_details_indicator" %>
+<span id="app_mini_details" class="light">
+	<small class="caption">Enter an application ID and press TAB to view information about that application.</small>
+</span>

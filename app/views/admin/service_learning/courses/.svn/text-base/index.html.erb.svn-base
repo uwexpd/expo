@@ -1,0 +1,82 @@
+<h1>Courses</h1>
+<%= javascript_include_tag "tablesort" %>
+<%= form_tag admin_communicate_write_email_url, :id => 'courses_form' %>
+
+<%= hidden_field_tag :recipient_variant %>
+<%= hidden_field_tag :group_variant %>
+
+<table class="sortable groupable" id="sortable-table-0">
+  <tr>
+	<th class="nosort"><%= select_all_check_box %></th>
+  <th class="sortfirstasc"><div class="sort-icon">Title</div></th>
+	<th class="number"><div class="sort-icon">Class Size</div></th>
+	<th class="groupvalue" align=center><div class="sort-icon">Finalized for browsing?</div></th>
+	<th align=center class="groupvalue"><div class="sort-icon">Open for registration?</div></th>
+	<th class="nosort">Functions</th>
+  </tr>
+  
+<% for service_learning_course in @service_learning_courses %>
+  <tr>
+	<td class="select">
+		<%= select_check_box(service_learning_course) %>
+		<%= indicator "service_learning_course_indicator_#{service_learning_course.id}" %>
+	</td>
+    <td><%= link_to service_learning_course.title, service_learning_course_path(@unit, @quarter, service_learning_course) %>
+		<%= "<span class='orange tag'>required</span>" if service_learning_course.required %></td>
+	
+	<td><%= service_learning_course.enrollee_count %>
+		<%= link_to "(roster)", students_service_learning_course_path(@unit, @quarter, service_learning_course) %></td>
+
+	<td align=center value="<%= service_learning_course.finalized? ? 'Finalized' : 'Not Finalized' %>">
+		<%= link_to_remote "<span>#{service_learning_course.finalized? ? "Yes" : "No"}</span>",
+				 			{:url => finalize_service_learning_course_path(@unit, @quarter, service_learning_course),
+								:indicator => "service_learning_course_indicator_#{service_learning_course.id}"},
+							:class => "#{service_learning_course.finalized? ? "on" : "off"} switch",
+							:id => "finalized_button_#{service_learning_course.id}" %></td>
+	<td align=center value="<%= service_learning_course.open? ? 'Open' : 'Not Open' %>">
+		<%= link_to_remote "<span>#{service_learning_course.open? ? "Yes" : "No"}</span>",
+				 			{:url => open_service_learning_course_path(@unit, @quarter, service_learning_course),
+								:indicator => "service_learning_course_indicator_#{service_learning_course.id}"},
+							:class => "#{service_learning_course.open? ? "on" : "off"} switch",
+							:id => "open_button_#{service_learning_course.id}" %>
+		<%- if service_learning_course.registration_open_time && !service_learning_course.registration_open_time.past? -%>
+		<small class="light">
+			Auto-open: <%= service_learning_course.registration_open_time.to_s(:date_at_time12) %>
+		</small>
+		<% end -%>
+							
+		</td>
+					
+    <td><%= link_to 'Show', service_learning_course_path(@unit, @quarter, service_learning_course) %>
+    	| <%= link_to 'Edit', edit_service_learning_course_path(@unit, @quarter, service_learning_course) %>
+    	| <%= link_to 'Destroy', service_learning_course_path(@unit, @quarter, service_learning_course), 
+								:confirm => 'Are you sure?', :method => :delete %>
+		</td>
+	
+  </tr>
+<% end %>
+<% if @use_pipeline_links %>
+<tr>
+  <td class="select"><input class="select_check_box" id="fake_check_box" name="fake_check_box" type="checkbox" value="" style="display:none;"></td>
+  <td>Volunteers</td>
+  <td>
+    <%= @volunteer_placements_count %>
+  	<%= link_to "(roster)", volunteers_service_learning_courses_path(@unit, @quarter) %>
+  </td>
+  <td align=center value="Finalized">Yes</td>
+  <td align=center value="Open">Yes</td>
+  <td></td>
+</tr>
+<% end %>
+</table>
+</form>
+
+<br />
+
+<% if @use_pipeline_links %>
+  <% sidebar "admin/pipeline/sidebar/pipeline_links" %>
+<% end %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :activate_course, :with_selected %>

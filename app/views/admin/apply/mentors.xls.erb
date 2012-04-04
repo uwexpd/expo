@@ -1,0 +1,65 @@
+<thead>
+	
+	<tr>
+		<th>ID</th>
+		<th>Firstname</th>
+		<th>Lastname</th>
+		<th>Address1</th>
+		<th>Address2</th>
+		<th>Address3</th>
+		<th>City</th>
+		<th>State</th>
+		<th>Zip</th>
+		<th>Box Number</th>
+		<th>E-mail</th>
+		<th>Department</th>
+		<th>Applicant Firstname</th>
+		<th>Applicant Lastname</th>
+		<th>him_her</th>
+		<% @offering.max_number_of_awards.times do |i| %>
+			<th>Award <%= i+1 %> Quarter</th>
+			<th>Award <%= i+1 %> Amount Requested</th>
+			<th>Award <%= i+1 %> Amount Disbursed</th>
+			<th>Award <%= i+1 %> Account</th>
+		<% end -%>
+		
+	</tr>
+	
+</thead>
+
+<tbody>
+
+<% @apps.each do |a| %>
+	<% a.mentors.each do |m| %>
+		<tr>
+			<td><%=h m.id %></td>
+			<td><%= m.firstname %></td>
+			<td><%= m.lastname %></td>
+			<td><%= m.person.address1 rescue nil %></td>
+			<td><%= m.person.address2 rescue nil %></td>
+			<td><%= m.person.address3 rescue nil %></td>
+			<td><%=h m.person.city rescue nil %></td>
+			<td><%=h m.person.state rescue nil %></td>
+			<td><%=h m.person.zip rescue nil %></td>
+			<td><%=h m.person.box_no rescue nil %></td>
+			<td><%=h m.email %></td>
+			<td><%=h m.department %></td>
+			<td><%= a.person.firstname %></td>
+			<td><%= a.person.lastname %></td>
+			<td><%= a.person.him_her %></td>
+			<% @offering.max_number_of_awards.times do |i| %>
+				<% if award = a.awards.valid[i] %>
+					<td><%= award.requested_quarter.title %></td>
+					<td><%= number_to_currency(award.amount_requested) %></td>
+					<td><%= number_to_currency(award.amount_disbersed) %></td>
+					<td><%= award.disbersement_type.name if award.disbersement_type %></td>
+				<% else %>
+					<td colspan=4>
+				<% end -%>
+			<% end -%>
+			
+		</tr>
+	<% end %>
+<% end %>
+
+</tbody>

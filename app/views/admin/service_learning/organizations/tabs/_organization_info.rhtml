@@ -1,0 +1,69 @@
+<h2>Organization Information</h2>
+
+<dl class="inline-definitions">
+	
+	<% if @organization.parent_organization %>
+	<dt>parent organization</dt>
+	<dd><%= link_to @organization.parent_organization.name, service_learning_organization_path(@unit, @quarter, @organization) %></dd>
+	<% end -%>
+	
+	<dt>address</dt>
+	<dd><%= @organization.mailing_line_1 %>
+		<%= "<br />" + @organization.mailing_line_2 unless @organization.mailing_line_2.blank? %>
+		<br /><%= @organization.mailing_city %>, <%= @organization.mailing_state %> <%= @organization.mailing_zip %>
+		</dd>
+
+	<dt>website</dt>
+	<dd><%= link_to h(@organization.website_url), @organization.website_url, :popup => true %></dd>
+	
+	<dt>main phone</dt>
+	<dd><%= phone_number @organization.main_phone %></dd>
+	
+	<dt>mission statement</dt>
+	<dd><%= @organization.mission_statement %></dd>
+
+	<dt>partner access</dt>
+	<dd><table class="highlightless marginless">
+	    <tr class="rowset-header">
+        <th>Unit</th><th>Position Editing</th><th>Evaluations</th>
+	    </tr>
+			<tr>
+				<td><%= @unit.name %></td>
+				<td align=center>
+					<%= link_to_remote "<span>#{@organization_quarter.allow_position_edits? ? "Yes" : "No"}</span>",
+							 			{:url => allow_position_edits_service_learning_organization_path(@unit, @quarter, @organization),
+											:indicator => true },
+										:class => "#{@organization_quarter.allow_position_edits? ? "on" : "off"} switch",
+										:id => "allow_position_edits_button_#{@organization_quarter.id}" %></td>
+				<td align=center>
+					<%= link_to_remote "<span>#{@organization_quarter.allow_evals? ? "Yes" : "No"}</span>",
+							 			{:url => allow_evals_service_learning_organization_path(@unit, @quarter, @organization),
+											:indicator => true },
+										:class => "#{@organization_quarter.allow_evals? ? "on" : "off"} switch",
+										:id => "allow_evals_button_#{@organization_quarter.id}" %></td>
+			</tr>
+		<% unless @other_organization_quarters.blank? %>
+			<tr class="rowset-header">
+	        	<td colspan="3">Other Units</td>
+		    </tr>
+	
+			<% @other_organization_quarters.each do |oq| %>
+			<tr>
+				<td><%= oq.unit.name %></td>
+				<td align=center>
+				  <span class="<%= oq.allow_position_edits? ? "on" : "off" %> switch">
+				    <span><%= oq.allow_position_edits? ? "On" : "Off" %></span>
+				  </span>
+				</td>
+				<td align=center>
+				  <span class="<%= oq.allow_evals? ? "on" : "off" %> switch">
+				    <span><%= oq.allow_evals? ? "On" : "Off" %></span>
+				  </span>
+				</td>
+			</tr>
+			<% end %>
+	    <% end %>	
+		</table>
+	</dd>
+	
+</dl>

@@ -1,0 +1,5 @@
+unless @errors
+  action_text = params[:auto_save] ? "Auto-saved" : "Saved"
+  page.replace_html :autosave_note, :text => "#{action_text} at #{Time.now.to_s(:time12)}"
+  page.visual_effect :highlight, :autosave_note
+end

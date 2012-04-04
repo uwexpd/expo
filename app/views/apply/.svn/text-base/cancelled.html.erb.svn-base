@@ -1,0 +1,11 @@
+<% title(@offering.name, (@offering.quarter_offered.title rescue nil)) %>
+<%= content_tag('h2', "Your Application has been Cancelled") %>
+
+<fieldset>
+
+	<div class="confirm_cancel">
+		<p>If you would like to start a new application over, click the button below.</p>
+		<%= button_to "Start a new application", {:action => :index}, {:id => 'start_new_button'} %>
+	</div>
+
+</fieldset>

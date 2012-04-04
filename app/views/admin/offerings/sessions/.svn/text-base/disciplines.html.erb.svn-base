@@ -1,0 +1,49 @@
+<h1>Discipline Breakdown</h1>
+<p>Showing confirmed applications only*</p>
+
+<table>
+
+	<tr class="small">
+		<th rowspan=2 class="left">Mentor Department</th>
+		<% for sess in @sessions %>
+			<th colspan="<%= @offering.location_sections.size + 1 %>">
+				<%= link_to sess.title, offering_session_url(@offering, sess) %>
+			</th>
+		<% end -%>
+	</tr>
+	
+	<tr class="small">
+		<% for sess in @sessions %>
+			<% for section in @offering.location_sections %>
+				<th><%= section.title %></th>
+			<% end -%>
+			<th class="grey">Total</th>
+		<% end -%>
+	</tr>
+	
+	<% for department, sessions in @departments.sort_by{|k,v| k.to_s } %>
+	<tr>
+		<td><%=h department %></td>
+		<% for sess in @sessions %>
+			<% for section in @sections %>
+				<% size = @departments[department][sess][section].size rescue 0 %>
+				<td class="center"><%= size.zero? ? "<font class='light'>-</font>" : size %></td>
+			<% end -%>
+			<td class="center grey"><%= @departments[department][sess][:total].size rescue "<font class='light'>-</font>" %></td>
+		<% end -%>
+	</tr>
+	
+	<% end -%>
+	
+	
+	<tr class="total">
+		<td>Total</td>
+		<% for sess in @sessions %>
+			<% for section in @sections %>
+				<td class="center"><%= @running_total[sess][section].size rescue 0 %></td>
+			<% end -%>
+			<td class="center grey"><%= @running_total[sess][:total].size %></td>
+		<% end -%>
+	</tr>
+	
+</table>

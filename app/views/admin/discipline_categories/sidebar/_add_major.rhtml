@@ -1,0 +1,12 @@
+<div id="add_major_sidebar">
+<h3>Add Major</h3>
+
+Add a major to the discipline category
+</br>
+<%= collection_select :discipline_category, :majors, @unused_major_extras, :id, :title, 
+			{:prompt => "Select a Major"}, {:style => 'width:100%;'} %>
+<%= link_to_remote "Add Major", :url=> {:action => 'add_major'}, 
+	:with => "$H({ major_extra_id: $('discipline_category_majors').value })",
+	:confirm => 'Are you sure you want to add this major?', 
+	:indicator => 'global', :method => :post, :html => { :class => "button" } %>
+</div>

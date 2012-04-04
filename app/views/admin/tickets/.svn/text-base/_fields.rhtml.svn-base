@@ -1,0 +1,2 @@
+Add a comment
+<%= text_area_tag "ticket[body]", "", :rows => 6, :style => "width: 95%" %>

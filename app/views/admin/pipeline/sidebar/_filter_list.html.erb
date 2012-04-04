@@ -1,0 +1,38 @@
+<h3><strong class="icon-left list">Filter list</strong></h3>
+
+<ul class="link-list">
+  <% form_tag({:controller => "pipeline", :action => "students"}, :method => :get) do -%>
+    <li>
+      <div>Background Checks:</div>
+      <div><span><%= radio_button_tag 'f[bc]', '', (params[:f][:bc].nil? || params[:f][:bc].empty?) %>
+        <label for="filters_bc_"> All </label></span></div>
+      <div><span><%= radio_button_tag 'f[bc]', 'valid', params[:f][:bc] == 'valid' %>
+        <label for="filters_bc_valid"> Valid </label></span></div>
+      <div><span><%= radio_button_tag 'f[bc]', 'expired', params[:f][:bc] == 'expired'  %>
+        <label for="filters_bc_expired"> Expired </label></span></div>
+      <div><span><%= radio_button_tag 'f[bc]', 'new', params[:f][:bc] == 'new'  %>
+        <label for="filters_bc_expired"> Never Cleared </label></span></div>
+    </li>
+    
+    <li>
+      <div>Placement Quarter:</div>
+      <div>
+        <span><%= select_tag 'f[q]', 
+                  options_for_select([["No Filter",""],[@quarter.title,@quarter.id]] +    
+                                     Quarter.past_quarters.collect{|q|[q.title,q.id]}, 
+                                     params[:f][:q].to_i) %> 
+        </span>
+      </div>
+    </li>
+    
+    <li>
+      <div>Show Inactive: <%= check_box_tag 'f[ia]', '1', params[:f][:ia] %> 
+      </div>
+    </li>
+    
+    <li>
+      <%= hidden_field_tag("i", params[:i]) %>
+      <%= submit_tag "Update filters", :disable_with => "Please wait..." %>
+    </li>
+  <% end %>
+</ul>

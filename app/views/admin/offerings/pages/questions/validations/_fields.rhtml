@@ -1,0 +1,19 @@
+<dl class="inline-definitions">
+
+	<dt>Type <%= required %></dt>
+	<dd><%= f.select :type, %w(MustBeWholeNumberValidation
+								MustAnswerYesValidation
+								MustBeValidPhoneNumberValidation
+								MustBeValidEmailAddressValidation
+								MustBeNumberValidation).sort,
+								{:prompt => true},
+								:disabled => (!f.object.new_record?) %>
+		<p class="caption">Choose the type of validation to perform.</p></dd>
+
+	<dt>Custom Error Text</dt>
+	<dd><%= f.text_area :custom_error_text, :rows => 3, :class => 'wide' %>
+		<p class="caption">This text is displayed if the applicant's answer doesn't pass the validation test.
+			If you leave this blank, the generic error text will be displayed instead (e.g., "Phone number must
+			have at least ten digits.").</p></dd>
+
+</dl>

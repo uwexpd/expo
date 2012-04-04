@@ -1,0 +1,13 @@
+<%= link_to_function "DevHelper", "Effect.toggle('dev_helper', 'slide', {duration: 1.0})", :id => 'dev_helper_button' %>
+
+<div id="dev_helper" style="display:none">
+
+	<%= link_to_function "X", "Effect.toggle('dev_helper', 'blind')", :class => 'close button right' %>
+
+	<h3>Params</h3>
+	<pre><%= params.to_yaml %></pre>
+
+	<h3>Session</h3>
+	<pre><%= session.to_hash.to_yaml %></pre>
+	
+</div>

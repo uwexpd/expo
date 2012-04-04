@@ -1,0 +1,14 @@
+<h1>New Status Email
+	<span class="light">&raquo; <%= @status.private_title %></span></h1>
+
+<% form_for :email, @email, :url => offering_status_emails_path(@offering, @status) do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', offering_status_emails_path(@offering, @status), :class => 'cancel button' %>
+
+<% end %>

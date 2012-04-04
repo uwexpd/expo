@@ -1,0 +1,8 @@
+eval("pdf.margins_in #{@t.margins}")
+pdf.select_font @t.font
+
+for app in @apps
+  pdf.start_new_page if @not_first
+  pdf.text app.award_letter_text, :font_size => 12
+  @not_first = true
+end

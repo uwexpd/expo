@@ -1,0 +1,28 @@
+<tr id="note_<%= note.id %>" class="contact_history">
+
+	<td width=80>
+		<div class="timestamp">
+			<span class="username"><%= note.creator.fullname rescue nil %>
+				<br><small>via EXPO</small></span>
+			<br>
+			<%= note.created_at.strftime("%I:%M") %> <%= note.created_at.ampm %>
+		</div>
+	</td>
+
+	<td class="E-mail system contact-type">
+		<span class="tooltip" alt="email">
+		<%= note.contact_type.title rescue nil %></span>
+	</td>	
+	
+	<td class="note-body">
+		E-mail sent to <%= note.person.firstname_first rescue note.email.to.to_s %>
+		<br>
+		<small>
+			<%= note.email.subject %>
+			<br>
+			<%= link_to "View Message", contact_history_url(note), :popup => true %>
+		</small>
+		
+	</td>
+	
+</tr>

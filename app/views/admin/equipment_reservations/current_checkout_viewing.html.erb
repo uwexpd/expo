@@ -1,0 +1,12 @@
+<h1>Current Checkout
+	<%= indicator(:id => 'current_checkout_indicator') %>
+	</h1>
+
+<div id="current_checkout">
+	<%= render :partial => "current_checkout" %>
+</div>
+
+<%= periodically_call_remote :url => { :action => 'current_checkout_viewing', :t => params[:t] }, 
+							 :update => 'current_checkout', 
+							 :indicator => 'current_checkout_indicator',
+							 :frequency => 20 %>

@@ -1,0 +1,12 @@
+<dt>quarter</dt>
+<dd><%= f.collection_select(:quarter_id, Quarter.all.sort, :id, :title, @quarter.id.nil? ? {:selected => Quarter.current_quarter.id} : {}) %></dd>
+
+<dt>alternate title</dt>
+<dd><%= f.text_field :alternate_title %>
+	<br><small class="light">If this quarter would be better represented by a different title, enter it here.
+							 Leave blank to simply use the quarter title.</dd>
+
+<dt>comments prompt</dt>
+<dd><%= f.text_field :comments_prompt_text %>
+	<br><small class="light">This text appears before the comments entry box for a specific quarter. 
+							 Leave blank for the default "Comments?"</small></dd>

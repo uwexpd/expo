@@ -1,0 +1,14 @@
+<dl class="inline-definitions">
+	
+	<%= javascript_include_tag "jscolor/jscolor" %>
+	
+	<dt><%= f.label :title %></dt>
+	<dd><%= f.text_field :title %></dd>
+	
+	<dt><%= f.label :starting_easel_number , "Easels"%></dt>
+	<dd>From <%= f.text_field :starting_easel_number, :size => 5 %> to <%= f.text_field :ending_easel_number, :size => 5 %></dd>
+	
+	<dt><%= f.label :color %></dt>
+	<dd><%= f.text_field :color, :class => "color" %><p class="caption"> Click in text box to choose a color or enter in a color hex value</p></dd>
+
+</dl>

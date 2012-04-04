@@ -1,0 +1,34 @@
+<li>
+	<% fields_for "user_application[texts_attributes][#{question.attribute_to_update}]", qf.object.text(question.attribute_to_update) do |text_fields| %>
+	
+		<%= qf.label(nil, "#{question.question} #{(content_tag('em', '*', :class => 'required') if question.required?)}") %>
+		<%= help_link question %>
+		
+		<% id = "#{question.id}_editor" %>
+		
+		<div class="question_block">
+			<%= text_fields.text_area :body, :id => id %>
+		</div>
+		
+		<% if question.use_mce_editor? %>
+			<script type="text/javascript">
+			//<![CDATA[
+			var oFCKeditor = new FCKeditor('<%= id %>', '<%= question.width %>', '<%= question.height %>', 'ExpoLimited');
+			oFCKeditor.BasePath = "/javascripts/fckeditor/"
+			oFCKeditor.Config['CustomConfigurationsPath'] = '<%= javascript_path("fckcustom.js") %>';
+			oFCKeditor.ReplaceTextarea();
+			//]]>
+			</script>
+		<% end -%>
+		
+		<%= content_tag('p', "#{question.character_limit} character limit", :class => 'question_caption') if question.character_limit? %>
+		<%= content_tag('p', "#{question.word_limit} word limit", :class => 'question_caption') if question.word_limit? %>
+		<%= display_computed_caption(question.caption) if question.caption? %>
+	
+		<!--div class="question_block">
+			<%= submit_tag( "View and Print PDF Preview", :name => "pdf_button", :id => "pdf_button" ) %>
+		</div-->
+	
+	<% end -%>
+		
+</li>

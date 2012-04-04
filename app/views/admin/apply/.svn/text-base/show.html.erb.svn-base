@@ -1,0 +1,75 @@
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	<h3 style="margin-bottom: 0"><%= @app.person.lastname_first %> 
+		<span class="right light">
+			<%= "Student #: <strong class='highlight'>#{@app.person.student_no}</strong>" if @app.person.student_no %>
+			&bull;
+			EXPO <%= @app.person.class %> ID: <strong class="highlight"><%= @app.person.id %></strong>
+			&bull;
+			Application ID: <strong class="highlight"><%= @app.id %></strong>
+			</span></h3>
+	<h4 style="margin-top: 0;">
+		<%= @app.project_title.blank? ? "<font class=grey>(no title)</font>" : strip_tags(@app.project_title) %></h4>
+
+	<span class="light right smaller" id="composite_report_maker_button">
+		<%= render :partial => "reviewer/composite_report_maker" %>
+	</span>
+
+	<span id="application_status">
+		<%= render :partial => "application_status" %>
+	</span>
+
+</div>
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		<%= link_to_tab("Student Info", "student_info", { :action => "show", :id => @app, :section => "student_info" }, "tabview_content") %>
+		<%= link_to_tab("Past Applications", "past_applications", 
+						{ :action => "show", :id => @app, :section => "past_applications" }, "tabview_content"
+						) unless @offering.other_award_types.empty? %>
+		<%= link_to_tab("Application Details", "application_review", 
+						{ :action => "show", :id => @app, :section => "application_review" }, "tabview_content") %>
+		<%= link_to_tab("Group Members (#{@app.group_members.size})", "group_members", 
+						{ :action => "show", :id => @app, :section => "group_members" }, "tabview_content"
+						) if @offering.uses_group_members? %>
+		<%= link_to_tab("Transcript", "transcript", { :action => "show", :id => @app, :section => "transcript" }, "tabview_content") %>
+		<%= link_to_tab("Essay & Files (#{@app.files.size})", "essay", { :action => "show", :id => @app, :section => "essay" },
+		 				"tabview_content"
+						) %>
+		<%= link_to_tab("Award Quarters (#{@app.awards.valid.size})", "awards", { :action => "show", :id => @app, :section => "awards" }, 
+						"tabview_content"
+						) unless @app.awards.empty? %>
+		<%= link_to_tab("#{@offering.mentor_title.pluralize} 
+						(#{@app.mentors.size})", "mentor_letter", { :action => "show", :id => @app, :section => "mentor_letter" },
+		 				"tabview_content") %>
+		<%= link_to_tab("Review", "review_committee", { :action => "show", :id => @app, :section => "review_committee" }, "tabview_content") %>
+		<%= link_to_tab("Interview", "interview", { :action => "show", :id => @app, :section => "interview" }, "tabview_content"
+						) if @offering.uses_interviews? %>
+		<%= link_to_tab("Session", "session", { :action => "show", :id => @app, :section => "session" }, "tabview_content"
+		 				) unless @offering.sessions.empty? %>
+		<%= link_to_tab("Application History", "history", { :action => "show", :id => @app, :section => "history" }, "tabview_content") %>
+		<%= link_to_tab("Notes &amp; Feedback (<span id='notes_count'>#{@app.notes.count}</span>)", 
+						"notes", { :action => "show", :id => @app, :section => "notes" }, "tabview_content") %>
+		</ul>
+	</div>
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+	
+		<div class="content" id="tabview_content">
+			<noscript>
+				You must enable JavaScript to utilize this page.
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+
+<%= autoload_tab("tabview_content", url_for(:id => @app, :section => ""), "application_review") %>
+
+
+<% sidebar :quick_access, :search, :add_note %>

@@ -1,0 +1,14 @@
+<h3>Navigation</h3>
+
+<ul class="link-list">
+	<li><%= link_to "#{@year} Reporting Home", accountability_reporting_path(@year), :class => 'icon-left home' %></li>
+
+	<% unless current_page?(accountability_reporting_courses_path(@year)) %>
+		<li><%= link_to "Report courses", accountability_reporting_courses_path(@year), :class => 'icon-left course' %></li>
+	<% end -%>
+
+	<% unless current_page?(accountability_reporting_individuals_path(@year)) %>
+		<li><%= link_to "Report individual involvement", accountability_reporting_individuals_path(@year), :class => 'icon-left positions' %></li>
+	<% end -%>
+	
+</ul>

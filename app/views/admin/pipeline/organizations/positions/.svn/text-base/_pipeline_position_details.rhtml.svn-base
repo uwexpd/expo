@@ -1,0 +1,32 @@
+<% admin ||= false %>
+<% student_view ||= false %>
+
+<dl class="inline-definitions">
+
+	<dt>subjects</dt>
+	<dd>
+	  <% for subject in pipeline_position.pipeline_positions_subjects %>
+	  <%= subject.name %><br />
+	  <% end %>
+	</dd>
+	
+	<dt>grade levels</dt>
+	<dd>
+	  <% for grade_levels in pipeline_position.pipeline_positions_grade_levels %>
+	  <%= grade_levels.name %><br />
+	  <% end %>
+	</dd>
+	
+	<dt>tutoring formats</dt>
+	<dd>
+	  <% for tutoring_type in pipeline_position.pipeline_positions_tutoring_types %>
+	  <%= tutoring_type.name %><br />
+	  <% end %>
+	</dd>
+	
+	<dt>uses slots</dt>
+	<dd>
+	  <%= pipeline_position.use_slots == true %>
+	</dd>
+
+</dl>

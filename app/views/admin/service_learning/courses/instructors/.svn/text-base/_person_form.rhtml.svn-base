@@ -1,0 +1,23 @@
+<% fields_for "service_learning_course_instructor[person_attributes]", person_form do |person_fields| %>
+	
+	<%= person_fields.hidden_field :id %>
+
+	<dt>salutation</dt>
+	<dd><%= person_fields.select :salutation, %w( Mr. Mrs. Ms. Miss Prof. Dr. Hon. Rev. ) , {:prompt => true} %></dd>
+
+	<dt>firstname</dt>
+	<dd><%= person_fields.text_field :firstname %></dd>
+
+	<dt>lastname</dt>
+	<dd><%= person_fields.text_field :lastname %></dd>
+
+	<dt>email</dt>
+	<dd><%= person_fields.text_field :email %></dd>
+
+	<dt>phone</dt>
+	<dd><%= person_fields.text_field :phone %></dd>
+
+	<dt>box number</dt>
+	<dd><%= person_fields.text_field :box_no %></dd>
+
+<% end -%>

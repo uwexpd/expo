@@ -1,0 +1,7 @@
+<% link_action ||= {:redirect_to => "students", :quarter_abbrev => @quarter.abbrev} %>
+
+<h3><strong class="icon-left list">With selected</strong></h3>
+
+<ul class="link-list">
+  <li><%= link_to_submit "Send mass e-mail", 'placements_form', :link_options => {:class => "icon-left email"} %></li> 
+</ul>

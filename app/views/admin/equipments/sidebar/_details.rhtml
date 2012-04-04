@@ -1,0 +1,33 @@
+<h3>Details</h3>
+
+<dl class="sidebar">
+	
+	<dt>Category</dt>
+	<dd><%= link_to @equipment.category.try(:title), equipment_category_path(@equipment.category) %></dd>
+	
+	<dt>Status</dt>
+	<dd><%= @equipment.ready_for_checkout? ? "<span class=green>Ready for Checkout</span>" : "<span class=red>Not Ready for Checkout" %></dd>
+
+	<dt>Purchase Date</dt>
+	<dd><%= @equipment.purchase_date.try :to_s, :date_with_full_month %>
+		<span class="grey">(<%= time_ago_in_words @equipment.purchase_date %> old)</span></dd>
+
+	<dt>Inventory Tag</dt>
+	<dd><%= @equipment.inventory_number %></dd>
+
+	<dt>Serial Number</dt>
+	<dd><%= @equipment.serial_number %></dd>
+
+	<dt>Warranty Expiration Date</dt>
+	<dd><%= @equipment.warranty_expiration_date.to_s(:date_with_full_month) rescue nil %>
+		<%= "<span class=\"red tag\">EXPIRED</span>" if @equipment.warranty_expiration_date < Time.now rescue nil %>
+		<%= content_tag(:small, "Warranty Number: #{@equipment.warranty_number}", :class => 'grey clear') unless @equipment.warranty_number.blank? %>
+		</dd>
+		
+	<dt>Replacement Cost</dt>
+	<dd><%= number_to_currency @equipment.replacement_fee %></dd>
+
+	<dt>Hardware Address</dt>
+	<dd><%= @equipment.hardware_address %></dd>
+
+</dl>

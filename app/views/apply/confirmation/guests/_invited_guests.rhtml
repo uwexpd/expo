@@ -1,0 +1,43 @@
+<% content_for(:right_sidebar) do %>
+
+<div style="margin: -10px">
+
+	<table>
+		
+		<tr>
+			<th colspan=2>Currently Invited Guests</th>
+		</tr>
+		
+		<% for mentor in @user_application.mentors %>
+		<tr id="mentor_<%= mentor.id %>">
+			<td><%=h mentor.fullname %></td>
+			<td class="light"><small>Mentor</small></td>
+		</tr>
+		<% end -%>
+		
+		<% for guest in @confirmer.guests %>
+		<tr id="guest_<%= guest.id %>">
+			<td><%=h guest.fullname %></td>
+			<td class="light"><small>
+				<% if guest.invitation_mailed? %>
+					Invite mailed <%= relative_timestamp(guest.invitation_mailed_at) %>
+				<%- else -%>
+					Invite not sent. <%= link_to "Remove", 
+										{:action => 'destroy', :id => guest}, 
+										:confirm => "Are you sure you want to remove #{guest.fullname} from your guest list?" %>
+				<% end -%>
+				</small></td>
+		</tr>
+		<% end -%>
+		
+		<% if @confirmer.guests.empty? %>
+		<tr class="empty">
+			<td colspan=2>You haven't invited any guests yet.</td>
+		</tr>
+		<% end -%>
+		
+	</table>
+
+</div>
+		
+<% end -%>

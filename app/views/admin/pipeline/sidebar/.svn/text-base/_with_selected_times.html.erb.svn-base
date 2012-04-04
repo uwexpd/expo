@@ -1,0 +1,7 @@
+<h3>With Selected Times</h3>
+<ul class="link-list">
+  <li><%= link_to_submit "View Participants", "times_form", 
+            {:url => admin_pipeline_orientation_participants_path(@quarter.abbrev),
+             :method => 'get',
+	           :link_options => {:class => "icon-left students"}} %></li>
+</ul>

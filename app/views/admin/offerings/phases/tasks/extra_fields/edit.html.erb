@@ -1,0 +1,15 @@
+<h1>Editing Extra_field</h1>
+
+<% form_for :extra_field, @extra_field, 
+			:url => offering_phase_task_extra_field_path(@offering, @phase, @task, @extra_field), 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<span class="separator">&mdash; or &mdash;</span>
+	<%= link_to 'Cancel', offering_phase_task_extra_field_path(@offering, @phase, @task, @extra_field) %>
+
+<% end %>

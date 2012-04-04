@@ -1,0 +1,43 @@
+<% make_main_content_full_width %>
+
+<h1>Quotes
+	<span class="light right"><%= link_to "Add new quote", new_quote_path, :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'quotes_form' %>
+
+<table>
+	<tr>
+		<th>Key</th>
+		<th>Picture</th>
+		<th>Quotable</th>
+		<th>Quote</th>
+		<th>Author</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for quote in @quotes %>
+	<tr id="quote_<%= quote.id %>">
+		<td><%=h quote.key %></td>
+		<td><%= image_tag quote.picture.thumb.url rescue nil %></td>
+		<td><%=h quote.quotable.try(&:identifier_string) rescue nil %></td>
+		<td><%=h quote.quote %></td>
+		<td><%=h quote.author %>
+			<%= "<br>" + h(quote.author_title) unless quote.author_title.blank? %></td>
+		<td><%= link_to "<span>Show</span>", quote, :class => "icon-left no-text show" %>
+			<%= link_to "<span>Edit</span>", edit_quote_path(quote), :class => "icon-left no-text edit" %>
+			<%= link_to_remote "<span>Destroy</span>", 
+						{:url => quote, 
+						:confirm => 'Are you sure?', 
+						:method => :delete},
+						:class => "icon-left no-text trash" %></td>
+	</tr>
+	<% end %>
+
+	<% if @quotes.empty? %>
+	<tr class="empty">
+		<td colspan=10>No quotes exist. <%= link_to "Create one.", new_quote_path %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>

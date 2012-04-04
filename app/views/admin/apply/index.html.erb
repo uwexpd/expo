@@ -1,0 +1,60 @@
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	<div class="content-topper">
+		<h1><%= @offering.title %></h1>
+
+		<%= render :partial => "phase_timeline" %>
+	</div>
+
+	<ul class="welcome-links">
+		<% @phase = @offering.current_offering_admin_phase %>
+		<% if @phase %>
+		<li id="current-phase">
+			<b>Current Phase: <%= link_to @phase.name, admin_apply_phase_path(@offering, @phase) %></b>
+			<br>Complete tasks for this phase or move on to another.
+			</li>
+		<% end -%>
+	
+		<li id="view-all">
+			<%= link_to "All Applications", admin_apply_action_path(@offering, 'list') %>
+			<br>There are currently <b><%= pluralize @apps.size, "application" %></b> in the system.
+			<br><small class="light"><%= render :partial => "status_counts" %></small>
+			</li>
+	
+		<% unless @offering.application_for_offerings.awarded.empty? %>
+		<li id="awardees">
+			<%= link_to "Awardees", admin_apply_action_path(@offering, 'awardees') %>
+			<br><strong><%= pluralize @offering.application_for_offerings.awarded.size, "applicant" %></strong> have been awarded.
+			</li>
+		<% end -%>
+
+		<li id="query">
+			Data Query
+			<br><%= [
+					 link_to("Awardees", population_path(@offering.population(:awardees))),
+					 link_to("Presenters", population_path(@offering.population(:presenters))),
+					 link_to("Submitted applications", population_path(@offering.population("applications_with_status(:submitted)")))
+					].join(", ")
+			 		%>
+			</li>
+
+		<li id="edit">
+			<%= link_to "Edit Offering Details", offering_url(@offering) %>
+			<br>Change application questions, phases, tasks, and more.
+			</li>
+
+		<% if EmailQueue.messages_waiting? %>
+		<li id="email-queue">
+			<%= link_to "Email Queue", admin_communicate_email_queue_index_url %>
+			<br>There are <%= pluralize EmailQueue.count, "message" %> waiting.
+			</li>
+		<% end %>
+
+	</ul>
+</div>
+
+<%= render :partial => "charts" %>
+
+	
+<% sidebar :quick_access, :search %>

@@ -1,0 +1,17 @@
+<%= title "New e-mail address" %>
+
+<% form_for :email_address, @email_address, :url => users_email_addresses_path do |f| %>
+
+	<%= f.error_messages %>
+
+	<div class="email_preview">
+		<div class="headers">
+			<%= render :partial => "fields", :locals => { :f => f } %>
+		</div>
+	</div>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', users_email_addresses_path, :class => "cancel button" %>
+
+<% end %>

@@ -1,0 +1,57 @@
+<% do_not_identify_as_filled ||= false %>
+<% filled = do_not_identify_as_filled ? false : position.filled_for?(service_learning_course) %>
+<% is_your_position = @placements.nil? ? false : @placements.collect(&:position).include?(position) %>
+<% show_change_link = show_change_link == :true ? true : false %>
+<% show_switch_link = show_switch_link == :true ? true : false %>
+<% show_links = show_links == :false ? false : !filled %>
+<% show_my_details_link ||= false %>
+<% hide_change_button ||= false %>
+
+<tr class="<%= "filled" if filled %> <%= "your_position" if is_your_position %>">
+	<td>
+
+		<div class="choose_button">
+			<% if is_your_position %>
+				This is your current position.
+			<% elsif show_switch_link && !filled %>
+				<%= button_to "Switch to this position →", { :action => 'change', :id => position.id } if service_learning_course.open? %>
+				<%= link_to "More details →", :action => "position", :id => position.id if show_links %>			
+			<% elsif show_links %>
+				<%= button_to "Choose this position →", { :action => 'choose', :id => position.id } if service_learning_course.open? %>
+				<%= link_to "More details →", :action => "position", :id => position.id if show_links %>
+			<% elsif filled %>
+				This position is filled.
+			<% end -%>
+			<%= button_to "Change my position", { :action => 'index' }  if show_change_link && service_learning_course.open? && !hide_change_button %>
+			<%= link_to "More details →", :action => "my_position" if show_my_details_link %>
+		</div>
+
+		<div class="details">
+
+			<h4 class="position title">
+				<%= link_to_if show_links, position.title, :action => "position", :id => position.id %>
+				<span class="light"> at <strong><%= position.organization.name %></strong></span>
+				</h4> 
+
+			<%- description_text = position.impact_description.strip if position.impact_description
+				description_text = position.description.strip if strip_tags(description_text).blank?
+				description_text = position.context_description.strip if strip_tags(description_text).blank?
+			 -%>
+				
+			<%= truncate_to_whitespace_with_link description_text %>
+
+			<ul class="position requirements">
+				<%= "<li>Must be #{position.age_requirement} years old</li>" unless position.age_requirement.blank? %>
+				<%= "<li>Must commit for #{position.duration_requirement}</li>" unless position.duration_requirement.blank? %>
+				<%= "<li>Background check required</li>" if position.background_check_required? %>
+				<%= "<li>TB test required</li>" if position.tb_test_required? %>
+				<%= "<li>Other paperwork: #{position.paperwork_requirement}</li>" unless position.paperwork_requirement.blank? %>
+			</ul>
+		
+			<p></p>
+
+		</div>
+
+	</td>
+	
+</tr>

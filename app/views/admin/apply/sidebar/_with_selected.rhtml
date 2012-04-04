@@ -1,0 +1,10 @@
+<h3>With Selected</h3>
+
+<ul class="icons">
+	<li class="email"><%= link_to_submit "Primary Applicants", 'all_applicants_form' %></li>
+	<li class="email"><%= link_to_submit "Mentors", 'all_applicants_form', :recipient_variant => "mentors"  %></li>
+	<% if !@offering.require_all_mentor_letters_before_complete? && @offering.has_minimum_mentor_qualification? %>
+		<li class="email"><%= link_to_submit "Required mentors who do not approve", 'all_applicants_form', :recipient_variant => "required_mentors" %></li>
+	<%- end %>
+	<li class="email"><%= link_to_submit "Group members", 'all_applicants_form', :recipient_variant => "group_members" %></li>
+</ul>

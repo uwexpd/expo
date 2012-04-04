@@ -1,0 +1,1 @@
+<%= render :file => "apply/proceedings/_add_favorite.html.erb", :locals => { :add_favorite => add_favorite } %>

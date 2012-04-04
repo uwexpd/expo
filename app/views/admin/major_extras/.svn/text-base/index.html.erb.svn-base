@@ -1,0 +1,41 @@
+<h1>major extras
+	<span class="light right"><%= link_to "Add new major extra", new_major_extra_path, :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'major_extras_form' %>
+
+<% paginated_section(@major_extras) do %>
+
+<table>
+	<tr>
+		<th>Fixed Name?</th>
+		<th>Title</th>
+		<th>Chair Name</th>
+		<th>Chair Email</th>
+		<th>Discipline Category</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for major_extra in @major_extras %>
+	<tr id="major_extra_<%= major_extra[:id] %>">
+		<td><%=h major_extra.fixed_name.nil? ? "No" : "Yes" %></td>
+		<td><%=h major_extra.major ? major_extra.major.title : major_extra.fixed_name ? major_extra.fixed_name : major_extra[:id] %></td>
+		<td><%=h major_extra.chair_name unless major_extra.chair_name.nil? %></td>
+		<td><%=h major_extra.chair_email unless  major_extra.chair_email.nil? %></td>
+		<td id="major_extra_dc_<%= major_extra[:id] %>" ><%= major_extra.discipline_category.nil? ? collection_select(:major_extra, :discipline_category_id,  DisciplineCategory.all, :id, :name, {:prompt => true}, {:onchange => "#{remote_function(:url => {:action => 'edit_discipline_category', :id => major_extra}, :indicator => 'global', :with => "'discipline_category_id='+value")}"}) : major_extra.discipline_category.name %></td>
+		<td><%= link_to "Show", major_extra %></td>
+		<td><%= link_to "Edit", edit_major_extra_path(major_extra) %></td>
+		<td><%= link_to_remote "Destroy", :url=>major_extra, 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @major_extras.empty? %>
+	<tr class="empty">
+		<td colspan=5>No major extras exist. <%= link_to "Create one.", new_major_extra_path %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+<% end %>
+
+</form>

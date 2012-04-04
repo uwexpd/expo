@@ -1,0 +1,44 @@
+<% select_all_param ||= member.status_cache.to_s %>
+
+<% if @current_status != member.status_cache && @sorted_by_status %>
+	<tr class="rowset-header">
+		<td><%= select_all_check_box member.status_cache %></td>
+		<td colspan=50><%= member.status_cache == "not_responded" ? "Invited but Not Responded" : member.status_cache.to_s.titleize %></td>
+		<td><a id="<%= member.status_cache.to_s %>" class="augmented"></a></td>
+	</tr>
+	<% @current_status = member.status_cache %>
+<% end -%>
+
+<tr>
+	<td class="select"><%= select_check_box(member, select_all_param) %></td>
+	<td><%= link_to member.fullname, admin_committee_member_url(@committee, member) %></td>
+	<td><%= "<span class=\"#{member.committee_member_type.name} tag\">#{member.committee_member_type.name.first.upcase}</span>" rescue "<span class=light>None</span>" %></td>
+	<td><%= member.department rescue "<span class=light>None</span>" %>
+		<br><%= "<small>#{truncate(member.expertise, 50)}</small>" unless member.expertise.blank? %></td>
+	<% if member.currently_active? && member.status_cache != "not_responded" %>
+		<% for q in @committee.quarters.upcoming %>
+			<td><%= content_tag('div', "X", :class => 'green-check') if member.active_for?(q) %>
+				<%= content_tag('a', " ", :class => 'tooltip note icon', 
+					:title => member.quarter_comment_for(q)) unless member.quarter_comment_for(q).blank? %>
+				</td>
+		<% end -%>
+		<% if @committee.quarters.upcoming.empty? %>
+			<td></td>
+		<% end -%>
+	<% elsif member.status_cache == "not_responded" %>
+		<td colspan=<%= @committee.quarters.upcoming.size %>>
+			<%= content_tag(:span, " &nbsp;", :class => 'email icon-left') if member.contacted_recently? %>
+		</td>
+	<% else %>
+		<td colspan=<%= @committee.quarters.upcoming.size %>>
+			<%- if @sorted_by_status -%>
+				<span class="tag"><%= member.permanently_inactive? ? "perm." : "inactive" %></span>
+			<% end -%>
+		</td>
+	<% end -%>
+	<td class="small light"><%= relative_timestamp(member.last_user_response_at, :date_only => true, :empty_string => "Never") %></td>
+	<%= "<td><span class=\"tag\">#{member.status_cache.to_s.gsub("_","&nbsp;")}</span></td>" unless @sorted_by_status %>
+	<td><%= link_to 'Edit', edit_admin_committee_member_path(@committee, member) %></td>
+	<td><%= link_to 'Delete', admin_committee_member_path(@committee, member), :confirm => 'Are you sure?', :method => :delete %></td>
+    
+</tr>

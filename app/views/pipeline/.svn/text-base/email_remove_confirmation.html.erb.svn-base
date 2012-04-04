@@ -1,0 +1,11 @@
+<h1>Pipeline Position Confirmation Removal</h1>
+
+
+<% unless @error %>
+<div>
+  <h2>Your pipeline placement confirmation has been removed.</h2>
+  <h3>Thanks for checking in!</h3>
+</div>
+<% else %>
+  <h2>This link did not work!</h2>
+<% end %>

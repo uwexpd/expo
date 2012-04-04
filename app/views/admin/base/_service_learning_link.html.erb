@@ -1,0 +1,26 @@
+<%- if @current_user.units.minus_exp.size == 1 && @current_user.units.minus_exp.first.abbreviation == 'pipeline' -%>
+	<li class="service-learning">
+		<%= link_to "Pipeline", 
+					service_learning_home_url(@current_user.units.minus_exp.first, Quarter.current_quarter) %>
+	</li>
+<%- elsif @current_user.units.minus_exp.size == 1 -%>
+	<li class="service-learning">
+		<%= link_to "Service-learning", 
+					service_learning_home_url(@current_user.units.minus_exp.first, Quarter.current_quarter) %>
+	</li>
+<%- elsif @current_user.units.minus_exp.size > 1 -%>
+	<li class="service-learning menu">
+		<%= link_to_function "Service-learning", "toggle_menu('select_service_learning_unit', true);" %>
+
+		<div id="select_service_learning_unit" class="panel" style="display:none">
+			<span class="nub">&nbsp;</span>
+
+			<h4>Select unit</h4>
+
+			<% for unit in @current_user.units.minus_exp %>
+				<%= link_to unit.name, service_learning_home_url(unit, Quarter.current_quarter) %>
+			<% end -%>
+		</div>
+		
+	</li>
+<% end -%>

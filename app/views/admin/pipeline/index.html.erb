@@ -1,0 +1,62 @@
+<h1>Pipeline Home</h1>
+
+<h1>
+  <span>Upcoming Orientations</span>
+	<span class="light right">
+	  <%= link_to "Manage Orientations", admin_pipeline_orientation_management_path(@quarter.abbrev), :class => "new button" %>
+	</span>
+</h1>
+<% unless @orientation_times.empty? %>
+  <%= render :partial => "orientation_times", 
+             :locals => {:times => @orientation_times, :upcoming => true} %>
+<% else %>
+  There are no upcoming orientations.
+<% end %>
+
+<h3>Stats</h3>
+<table>
+  <tr class="rowset-header">
+    <td><%= @quarter.title %></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Inner Pipeline</td>
+    <td><%= @inner_pipeline_placements_size %></td>
+  </tr>
+  <tr>
+    <td>Service Learning</td>
+    <td><%= @service_learning_placements_size %></td>
+  </tr>
+  <tr>
+    <td>Volunteer</td>
+    <td><%= @volunteer_placements_size %></td>
+  </tr>
+  <tr>
+    <td>Other Pipeline</td>
+    <td><%= @other_pipeline_placements_size %></td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td><%= @quarter_placements_size %></td>
+  </tr>
+  <tr class="rowset-header">
+    <td>Overall</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Students with valid background checks</td>
+    <td><%= @active_students_size %></td>
+  </tr>
+  <tr>
+    <td>All students with a background check</td>
+    <td><%= @all_students_size %></td>
+  </tr>
+</table>
+
+<%= render :partial => "app/views/admin/service_learning/change_log.rhtml" %>
+
+<% sidebar :pipeline_links %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :pipeline_manage_links %>

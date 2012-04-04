@@ -1,0 +1,10 @@
+<% current_date = nil %>
+<% return_to = params[:return_to] ? { :return_to => params[:return_to] } : {} %>
+
+<%= title(@event.title) %>
+
+<h1>RSVP for <%= @event.title %></h1>
+<p><%= simple_format @event.description %></p>
+
+<%= render :partial => 'rsvp/event_rsvp', :locals => {:current_date => current_date, 
+                                                 :return_to => return_to} %>

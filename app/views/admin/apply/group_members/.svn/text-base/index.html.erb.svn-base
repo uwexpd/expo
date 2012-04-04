@@ -1,0 +1,40 @@
+<h1>Group Members
+	<span class="light right"><%= link_to "add new", :action => 'new' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'group_members_form' %>
+
+<table>
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th>Name</th>
+		<th>Institution</th>
+		<th>Verified?</th>
+		<th>Confirmed?</th>
+		<th>Functions</th>
+	</tr>
+
+	<% for group_member in @group_members %>
+	<tr>
+		<td><%= select_check_box(group_member) %></td>
+		<td><%=h group_member.lastname_first %></td>
+		<td><%=h group_member.person.institution_name if group_member.person %></td>
+		<td class="center"><%= "<span class='green-check'>X</span>" if group_member.verified? %></td>
+		<td class="center"><%= "<span class='green-check'>X</span>" if group_member.confirmed? %></td>
+		<td><%= link_to 'Show', :action => 'show', :id => group_member %>
+			| <%= link_to 'Edit', :action => 'edit', :id => group_member %>
+			| <%= link_to 'Delete', {:action => 'destroy', :id => group_member }, :confirm => 'Are you sure?', :method => :delete %>
+		</td>
+	</tr>
+	<% end %>
+
+	<% if @group_members.empty? %>
+	<tr class="empty">
+		<td colspan=10>No group members exist.</td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>
+
+<% sidebar :with_selected %>

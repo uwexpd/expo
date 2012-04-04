@@ -1,0 +1,7 @@
+<%= submit_tag "Deliver Selected Messages", 
+				:name => "release", 
+				:onClick => "$('status').show(); $('status').innerHTML='Initializing...'" %>
+				
+<%= separator %>
+
+<a class="button" href="#" onclick="if(!confirm('Are you sure you want to delete the selected messages?')){return false;}; $('email_queue_form').action='<%= url_for({:action => 'release', :delete => true}) %>';$('email_queue_form').submit(); return false;" style="color:red !important">Delete Selected Messages</a>

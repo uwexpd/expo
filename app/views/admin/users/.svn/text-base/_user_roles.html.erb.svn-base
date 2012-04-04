@@ -1,0 +1,37 @@
+<% user ||= user_roles %>
+
+<tr>
+	<td><%= link_to user.login, user %>
+		<%= content_tag(:span, "@u", :class => 'light') if user.is_a? PubcookieUser %>
+		<%= content_tag(:span, "admin", :class => 'admin tag') if user.admin? %></td>
+	<td><%= link_to user.person.fullname, admin_person_path(user.person), :popup => true rescue nil %></td>
+	<td>
+		<ul class="marginless bulletless" id="roles_<%= user.id %>">
+			<% roles = (user.roles.for(unit.id) + user.roles.for(nil)).flatten.select{|r| !r.role_id.nil?}.uniq %>
+			<%= render :partial => 'admin/users/role_mini', :collection => roles %>
+		</ul>
+		
+		<div id="add_role_<%= user.id %>" style="display:none">
+		<% remote_form_for :role, user.roles.new, 
+							:url => user_roles_path(user),
+							:indicator => 'global' do |f| %>
+
+			<%= f.collection_select :role_id, Role.all, :id, :title, :prompt => "-- Select a Role --" %><%= required %>
+			
+			<%= hidden_field_tag "role[unit_id]", unit.id %>
+			
+			<br><%= f.submit "Add" %>
+				<%= separator %>
+				<%= link_to_function "Cancel", "Effect.toggle('add_role_#{user.id}', 'blind')", :class => 'cancel button' %>
+		<% end -%>
+		
+		<span id="<%= "new_role_errors_#{user.id}" %>" class="error-message"></span>
+		</div>
+		
+		</td>
+  	<td><%= link_to '<span>Show</span>', user, :class => 'icon-left no-text show' %>
+		<%= link_to '<span>Edit</span>', edit_user_path(user), :class => 'icon-left no-text edit' %>
+		<%= link_to_function '<span>Add Role</span>', 
+							"Effect.toggle('add_role_#{user.id}', 'blind')",
+							:class => "icon-left no-text add" %></td>
+</tr>

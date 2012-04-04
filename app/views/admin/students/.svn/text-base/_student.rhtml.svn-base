@@ -1,0 +1,17 @@
+<% highlight_phrase ||= "" %>
+<tr>
+	<td><%= image_tag admin_student_photo_path(student.reg_id, :small), :class => 'student_photo', :size => "20x25" %></td>
+	<td><%= highlight h(student.fullname), highlight_phrase %></td>
+	<td><%= student.student_no %></td>
+	<td><%=h student.class_standing_description %></td>
+	<td><%=h student.majors_list %></td>
+	<td><%= link_to_expo_email(student, student.email) unless student.email.blank? %></td>
+	<td>
+		<%- 
+		if student.is_a?(StudentRecord)
+			url = admin_student_path(student.system_key, :lookup_by_system_key => true)
+		else
+			url = admin_student_path(student) 
+		end -%>
+		<%= link_to "Details", url, :class => "button" %></td>
+</tr>

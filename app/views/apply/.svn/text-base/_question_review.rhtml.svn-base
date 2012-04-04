@@ -1,0 +1,5 @@
+<% errors = "errors" if page.errors.on(question_review.id) %>
+<li class="<%= errors %>">
+	<%= content_tag('span', "#{question_review.short_question_title}:", :class => 'question_review_title') %>
+	<%= render :file => "apply/question_reviews/#{question_review.display_as}", :locals => { :question => question_review } %>
+</li>

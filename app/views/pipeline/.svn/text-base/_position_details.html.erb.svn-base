@@ -1,0 +1,221 @@
+<% hide_functions ||= false %>
+<% unless hide_functions %>
+  <% @pipeline_position_id = pipeline_position.id %>
+  <% available_slots = nil %>
+  <% slots_for_class = nil %>
+  <% if pipeline_position.use_slots == true || @service_learning_course.try(:no_filters) %>
+    <% available_slots = @service_learning_course.nil? ? pipeline_position.placements.open_volunteer.size : pipeline_position.placements.open_for(@service_learning_course).size %>
+    <% slots_for_class = @service_learning_course.nil? ? pipeline_position.number_of_slots_unallocated : pipeline_position.placements.for(@service_learning_course).size %>
+  <% end %>
+<% end %>
+
+<% if slots_for_class.nil? || slots_for_class > 0 %>
+<tr id="pipeline_position_<%= pipeline_position.id %>" class="<%= 'filled' if (!available_slots.nil? && available_slots <= 0) %>">
+  
+	<td>
+		<div id="pipeline_position_details_<%= pipeline_position.id %>" class="pipeline_position_details">
+			<div class="pipeline_position_title">
+				<% unless hide_functions %>
+					<% unless @pipeline_favorites.include?(@pipeline_position_id) %>
+						<%= render :partial => "add_favorite_image" %>
+					<% else %>
+						<%= render :partial => "remove_favorite_image" %>
+					<% end %>
+				<% end %>
+
+				<div>
+					<h3><%= pipeline_position.organization.name %>
+						<% if !available_slots %>
+							<span class="green tag">OPEN</span>
+						<% elsif available_slots > 3 %>
+							<span class="green tag"><%= pluralize(available_slots, 'opening') %> left</span>
+						<% elsif available_slots > 0 %>
+							<span class="yellow tag"><%= pluralize(available_slots, 'opening') %> left</span>
+						<% else %>
+							<span class="red tag">FULL</span>
+						<% end -%>
+					</h3>
+					<h4 class="default"><%= pipeline_position.title(false,false,false) %></h4>
+				</div> 
+			</div>
+
+			<div class="pipeline_result_position_info">
+
+				<p>
+					<% unless pipeline_position.description.nil? %>
+					<%= pipeline_position.description %>
+					<% else %>
+					No description available.
+					<% end %>
+				</p>
+
+				<%= link_to_function "About #{pipeline_position.organization.name}",
+				 					"Effect.toggle('organization_details_#{pipeline_position.id}', 'blind')" %>
+				<p id="organization_details_<%= pipeline_position.id %>" style="display:none">
+					<% unless pipeline_position.organization.mission_statement.nil? %>
+					<%= pipeline_position.organization.mission_statement %>
+					<% end %>
+				</p>
+
+				<div class="pipeline_clear"></div>
+
+				<div class="pipeline_result">
+					<div class="pipeline_info_header">Subjects</div>
+					<ul>
+						<% for subject in pipeline_position.subjects %>
+						<li><%= subject.name %></li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="pipeline_result">
+					<div class="pipeline_info_header">Grades</div>
+					<ul>
+						<% for grades in pipeline_position.grade_levels %>
+						<li><%= grades.name %></li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="pipeline_result">
+					<div class="pipeline_info_header">Formats</div>
+					<ul>
+						<% for tutoring_type in pipeline_position.tutoring_types %>
+						<li><%= tutoring_type.name %></li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="pipeline_result">
+					<div class="pipeline_info_header">Times</div>
+					<ul>
+						<% for time in pipeline_position.times %>
+						<li><%= time.pretty_print %></li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="pipeline_clear"></div>
+
+			</div>
+
+			<!-- <div class="pipeline_result_contact_info">
+				<span class="pipeline_info_header">Contact Information</span>
+				<% if @student.show_pipeline_position_contact? %>
+				<% if pipeline_position.location %>
+				<ul>
+					<li><%= pipeline_position.location.title %></li>
+					<li><%= pipeline_position.location.address_line_1 %></li>
+					<% unless pipeline_position.location.address_line_2.nil? %>
+					<li><%= pipeline_position.location.address_line_2 %></li>
+					<% end %>
+					<li>
+						<%= pipeline_position.location.address_city %>, 
+						<%= pipeline_position.location.address_state %> 
+						<%= pipeline_position.location.address_zip %>
+					</li>
+				</ul>
+				<div class="pipeline_result_contacts">
+					<p class="pipeline_split_contacts">Contacts</p>
+					<ul>
+						<% unless pipeline_position.supervisor.nil? %>
+						<li class="pipeline_contact_name">
+							<%= pipeline_position.supervisor.person.fullname %>
+						</li>
+						<% unless pipeline_position.supervisor.person.title.nil? || pipeline_position.supervisor.person.title.empty? %>
+						<li class="pipeline_contact_title">
+							<%= pipeline_position.supervisor.person.title %>
+						</li>
+						<% end %>
+						<li class="pipeline_contact_info"><%= pipeline_position.supervisor.person.email %></li>
+						<li class="pipeline_contact_info"><%= pipeline_position.supervisor.person.phone %></li>
+						<% else %>
+						<% for contact in pipeline_position.organization.contacts %>
+						<li class="pipeline_contact_name">
+							<%= contact.person.fullname %>
+						</li>
+						<% unless contact.person.title.nil? || contact.person.title.empty? %>
+						<li class="pipeline_contact_title">
+							<%= contact.person.title %>
+						</li>
+						<% end %>
+						<li class="pipeline_contact_info"><%= contact.person.email %></li>
+						<li class="pipeline_contact_info"><%= contact.person.phone %></li>
+						<% end %>
+						<% end %>
+					</ul>
+				</div>
+				<% end %>
+				<% else %>
+				<p>You can not view the contact information until you 
+					attend an orientation and your background check clears.</p>
+					<% end %>
+				</div> -->
+
+				<% unless hide_functions %>
+				<div class="pipeline_result_contact_info">
+					<ul class="link-list">
+						<li>
+							<%= link_to "Position Details", 
+										pipeline_show_path(@quarter.abbrev, @course_abbrev, pipeline_position), 
+										:class => "icon-left show" %>
+						</li>
+
+						<li>
+							<% unless @pipeline_favorites.include?(@pipeline_position_id) %>
+								<%= render :partial => "add_favorite_button" %>
+							<% else %>
+								<%= render :partial => "remove_favorite_button" %>
+							<% end %>
+						</li>
+
+
+						<li>
+							<% if (available_slots.nil? || available_slots > 0) && 
+									((@quarter == @current_quarter) && 
+									@student.show_pipeline_position_contact? && 
+									(@service_learning_course.nil? || !@service_learning_course.registration_open_time.nil?)) %>
+
+								<%= render :partial => "confirm_position_sidebar", :locals => {:pipeline_position => pipeline_position} %>
+
+							<% else %>
+								<%= tooltip "Confirm Position with Pipeline", 
+											"You can not confirm this position right now. The opening for this position is full",
+											:class => 'icon-left ok light' %>
+							<% end %>
+							<%= indicator("favorite_indicator_#{pipeline_position.id}") %>
+						</li>
+
+					</ul>
+				</div>
+				<% end %>
+				
+			</div>
+			
+			
+			  <div id="pipeline_position_confirm_check_<%= pipeline_position.id %>" class="pipeline_position_confirm_check big-border box" style="display:none;">
+
+			    <%= render :partial => "confirm_position_warning" %>
+
+			    <div class="">
+			    <%= link_to_function "Cancel", 
+			  						"Effect.BlindUp('pipeline_position_confirm_check_#{pipeline_position.id}', { duration: 0.25 }); 
+			  						 Element.hide.delay(0.25, 'global_overlay');",
+			  						:class => "cancel button", :id => "confirm_cancel_#{pipeline_position.id}" %>
+			  	</div>
+			  	<div class="">
+			    <%= link_to_remote "Continue With Confirmation", 
+			         {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
+			          :action => "confirm_position", :id => pipeline_position.id}, 
+			          :indicator => "global",
+			          :before => "this.disabled=true;this.onclick=function(){return false;}; $('confirm_cancel_#{pipeline_position.id}').onclick=function(){return false;};$('global_overlay').stopObserving('click');"}, 
+			          :class => "button" %>
+			    </div>
+			  </div>
+			</div>
+
+		</td>
+
+  
+</tr>
+<% end %>

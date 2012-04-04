@@ -1,0 +1,13 @@
+<h3>Generate Invitation Codes</h3>
+<% form_tag generate_offering_invitation_codes_path(@offering) do %>
+	<h4>Number to generate:</h4>
+		<%= text_field_tag :number_to_generate, "", :size=>5 %>
+	
+	<h4>Institution:</h4>
+		<%=  
+		@institutions = Institution.find(:all, :order => "institution_name" )
+		select_tag :institution_id,   {options_for_select([ "Select a school (optional)"  ], "Select a school (optional)" ), 
+												options_from_collection_for_select(@institutions, :id, :institution_name)}
+		%>
+<h4><%= submit_tag "Generate", :disable_with => 'Generating...' %></h4>
+<% end %>

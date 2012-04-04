@@ -1,0 +1,21 @@
+<tr id="appointment_<%= appointment.id %>">
+	<td><%= appointment.start_time.to_s(:time12) %></td>
+	<td><%- if appointment.staff_person -%>
+			<%= appointment.staff_person.firstname_first %>
+		<%- else -%>
+			<span class="light">None specified</span>
+		<% end -%>
+		</td>
+	<td><%= appointment.unit.abbreviation.upcase if appointment.unit %></td>
+	<td><%= truncate appointment.front_desk_notes %></td>
+	<td id="checkin_appointment_<%= appointment.id %>">
+		<%- if appointment.checked_in? -%>
+			<%= content_tag(:span, "Checked in at #{appointment.check_in_time.to_s(:time12)}", :class => 'green') %>
+		<%- else -%>
+			<%= link_to_remote "Check-in", {:url => checkin_appointment_path(appointment)}, :class => 'button' %>
+		<% end -%>
+		</td>
+			
+</tr>
+	
+	

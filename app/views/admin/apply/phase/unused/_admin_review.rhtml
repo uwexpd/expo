@@ -1,0 +1,124 @@
+<ol class="extra-padding completable">
+	<li <%= "class='complete'" if @phase.task_complete?(:approve_complete_applications, true) %>>
+		<b>Approve complete applications</b>
+
+	<% form_for :approve_applications, :url => { :action => "mass_status_change" }, :html => {:id => 'approve_applications'} do |f| %>
+	<% @apps = @offering.applications_with_status('complete') %>
+
+		<table>
+	
+			<% @apps.each do |a| %>
+			<tr class="<%= "not_current" if a.current_status_name != 'complete' %> <%= cycle('even','even') %>">
+				<td><%= check_box_tag "select[#{a.id}]", a.id %>
+					<%= a.person.fullname %></td>
+				<td><%= link_to a.project_title || "(no title)", :action => "show", :id => a.id %></td>
+				<td><%= print_status(a) %></td>
+			</tr>
+			<% end %>
+	
+		</table>
+		<br>
+		
+		<%= hidden_field_tag "new_status", "approved" %>
+		<%= f.submit "Approve Selected Applications", :style => "display:none" %>
+		<%= observe_form :approve_applications, :function => "$('approve_applications_submit').show()" %>
+
+	<% end %>
+	</li>
+	
+	<li <%= "class='complete'" if @phase.task_complete?(:assign_reviewers_to_approved_applications, true) %>>
+		<b>Assign reviewers to approved applications</b>
+
+	<% form_for :approve_applications, :url => { :action => "mass_assign_reviewers" }, :html => { :id => 'assign_reviewers' } do |f| %>
+	<% @apps = @offering.applications_with_status('approved') %>
+
+		<table>
+	
+			<% @apps.each do |a| %>
+			<tr  class="<%= "not_current" if a.current_status_name != 'approved' %> <%= cycle('even','even') %>">
+				<td><%= check_box_tag "select[#{a.id}]", a.id %>
+					<%= a.person.fullname %></td>
+				<td><%= link_to a.project_title || "(no title)", :action => "show", :id => a.id %></td>
+				<td><%= a.reviewers.empty? ? content_tag('em', "No reviewers assigned") : a.reviewers.collect{|x| x.person.fullname}.join(', ') %></td>
+			</tr>
+			<% end %>
+	
+		</table>
+		<br>
+		
+		<div id="assign_reviewers_functions" style="display:none">
+			<%= observe_form :assign_reviewers, :function => "$('assign_reviewers_functions').show()" %>
+			<small>
+			<% for reviewer in @offering.reviewers %>
+				<%= check_box_tag "reviewer[#{reviewer.id}]", reviewer.id %>
+				<%= reviewer.person.fullname %> &nbsp;
+			<% end -%>
+			</small>
+
+			<%= hidden_field_tag "new_status", "reviewers_assigned" %>
+			<%= f.submit "Assign Reviewers" %>
+			<%= f.submit "Confirm Reviewers and Update Status for Selected", :name => "change_status" %>
+
+		</div>
+	
+
+
+	<% end %>
+	</li>
+	
+	<li <%= "class='complete'" if @phase.task_complete?(:update_emails_for_incomplete_application_notifications, true) %>>
+		<b>Update emails for incomplete application notifications</b>
+
+			<table>
+				<tr><td>For Not Awarded / Incomplete applications</td>
+					<td><%= status_email_view_links_array("not_awarded_incomplete", @offering).join("<br>") %></td>
+				</tr>
+				<tr><td>For Not Awarded / Not Submitted applications</td>
+					<td><%= status_email_view_links_array("not_awarded_not_submitted", @offering).join("<br>") %></td>
+				</tr>
+				<tr><td>For Not Awarded / Not Started applications</td>
+					<td><%= status_email_view_links_array("not_awarded_not_started", @offering).join("<br>") %></td>
+				</tr>
+			</table>
+
+		</li>
+		
+	<li <%= "class='complete'" if @phase.task_complete?(:send_emails_to_incomplete_applicants, true) %>>
+		<b>Send emails to incomplete applicants</b>
+	
+		<% form_for :admin_review, :url => { :action => "mass_status_change" }, :html => { :id => "assign_statuses" } do |f| %>
+		<% @apps = (@offering.applications_with_status('new') << @offering.applications_with_status('in_progress') << @offering.applications_with_status('submitted')).flatten.uniq.sort %>
+
+			<table>
+
+				<% @apps.each do |a| %>
+				<tr class="<%= "not_current" if !['new', 'in_progress', 'submitted'].include?(a.current_status_name) %> <%= cycle('even','even') %>">
+					<td><%= check_box_tag "select[#{a.id}]", a.id %>
+						<%= a.person.fullname %></td>
+					<td><%= link_to a.project_title || "(no title)", :action => "show", :id => a.id %></td>
+					<td><%= print_status(a) %></td>
+				</tr>
+				<% end %>
+
+			</table>
+			<br>
+
+			<div id="assign_statuses_functions" style="display:none">
+				<%= observe_form :assign_statuses, :function => "$('assign_statuses_functions').show()" %>
+
+				<p>Set status to:
+					<select name="new_status">
+						<option value="">-- Select --</option>
+						<option value="not_awarded_incomplete">Not Awarded / Incomplete</option>
+						<option value="not_awarded_not_submitted">Not Awarded / Not Submitted</option>
+						<option value="not_awarded_not_started">Not Awarded / Not Started</option>
+					</select>
+
+				<%= f.submit "Assign Statuses and Queue E-mail Notifications" %>
+				</p>
+			</div>
+			
+		<% end %>
+		</li>
+	
+</ol>

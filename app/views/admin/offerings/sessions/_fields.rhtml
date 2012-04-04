@@ -1,0 +1,44 @@
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%= f.text_field :title %>
+		<br>
+		<small><%= f.label :title_is_temporary, f.check_box(:title_is_temporary) + "Title is temporary" %></small>
+		</dd>
+
+	<dt>moderator</dt>
+	<dd><%= f.collection_select :moderator_id, 
+								@offering.moderators.active.select{|m| m.offering_sessions.for(@offering).empty? || m.id == f.object.moderator_id }.sort, 
+								:id, :fullname, :include_blank => true unless @offering.moderators.empty? %>
+								<%= if  @offering.moderators.empty?
+									link_to "Add Moderators", edit_offering_url(@offering, :anchor => "moderators"), :popup => true
+								end %>
+								</dd>
+
+	<dt>location</dt>
+	<dd><%= f.text_field :location %></dd>
+
+	<dt>start time</dt>
+	<dd><%= f.time_select :start_time, :twelve_hour => true, :minute_step => 15 %></dd>
+
+	<dt>end time</dt>
+	<dd><%= f.time_select :end_time, :twelve_hour => true, :minute_step => 15 %></dd>
+	
+	<dt>type</dt>
+	<dd><%= f.collection_select :offering_application_type_id, @offering.application_types, :id, :title, :include_blank => true %></dd>
+
+	<dt>session group</dt>
+	<dd><%= f.text_field :session_group %>
+		<p class="caption">Use this to group sessions together; e.g., "1" and "2" or "A" and "B"</p></dd>
+
+	<dt>identifier</dt>
+	<dd><%= f.text_field :identifier %>
+		<p class="caption">Used to sort sessions. Usually something like "1A" or "2C."</p></dd>
+
+	<dt>finalized?</dt>
+	<dd><%= f.check_box :finalized %></dd>
+	
+	<dt>options</dt>
+	<dd><%= f.check_box :uses_location_sections %> This session uses location sections to further divide presenters.</dd>
+
+</dl>

@@ -1,0 +1,81 @@
+<span class="light right"><%= link_to "Download in Excel", {:format => 'xls'}, :class => 'icon-left xls button' %></span>
+<h3>Disburse Awards</h3>
+
+<% apps_not_empty = false %>
+<% @offerings.each do |o| %>
+
+<% form_for :disberse, :url => { :action => "disberse", :offering => o.id } do |f| %>
+
+<% apps = o.application_for_offerings.awaiting_disbursement.sort_by(&:fullname) %>
+<% unless apps.empty? %>
+<% apps_not_empty = true %>
+
+<table class="borderless highlightless">
+	
+	<tr>
+		<th>Student Name</th>
+		<th>Quarters Awarded</th>
+		<th>Amounts Approved by Financial Aid</th>
+		<th>Actual Award Quarter</th>
+		<th>Actual Award Amount</th>
+		<th>Comments</th>
+	</tr>	
+		
+	<tr class="rowset-header">
+		<td colspan=5><%= o.name %></td>
+		<td colspan=1 style="text-align: right;"><%= pluralize apps.size, "award" %></td>
+	</tr>
+	
+	<% apps.each do |a| %>
+		<% student_info_cells_already_printed = false %>
+
+		<% class_cycle = cycle('even','odd') %>
+
+		<% for award in a.awards.valid %>
+
+			<% fields_for "award[]", award do |award_form| %>
+
+				<tr class="<%= class_cycle %>">
+				<% if !student_info_cells_already_printed %>
+					<td rowspan=<%= a.awards.valid.size %> valign=top style="padding: 10px">
+						<%= a.person.fullname %>
+						<br>
+						<font class="grey"><%= a.person.student_no %></font>
+						</td>
+
+					<% student_info_cells_already_printed = true %>
+				<% end -%>
+
+					<td><%= award.requested_quarter.title + ":" rescue nil %></td>
+					<td><%= number_to_currency(award.amount_approved) %> - <%= award.disbersement_type.name rescue nil %>
+						<%= "<br><span class='grey'>#{award.amount_approved_notes} (#{award.amount_approved_user.login rescue nil})</span>" unless award.amount_approved_notes.blank? %>
+						</td>
+						
+					<td><select name="award[<%= award.id %>][disbersement_quarter_id]">
+							<%= options_from_collection_for_select(Quarter.find(:all).sort, :id, :title, (award.disbersement_quarter_id || award.requested_quarter_id)) %>
+						</select>
+						</td>
+
+					<td><%= text_field_tag "award[#{award.id}][amount_disbersed]", (award.amount_disbersed || award.amount_approved), :size => 6 %></td>
+
+					<td><%= award_form.text_field :amount_disbersed_notes, :size => 20 %>
+						<%= hidden_field_tag "award[#{award.id}][amount_disbersed_user_id]", (current_user ? current_user.id : 0) %></td>
+				</tr>
+			<% end -%>
+		<% end -%>
+	<% end %>
+		
+</table>
+<br />
+
+<%= hidden_field_tag "redirect_to_action", "disberse" %>
+<%= hidden_field_tag "new_status", "finalized" %>
+
+<center><%= f.submit "Save", :name => "save" %>
+		<%= f.submit "Process All" %></center>
+
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag('p', "No awards are currently awaiting your approval.") unless apps_not_empty %>

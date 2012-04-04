@@ -1,0 +1,22 @@
+Dear <%= @organization_contact.person.firstname %>,
+
+<%= @organization_contact.organization.name %> has identified you as an organization contact. This allows you to access and edit information about your organization's <% if @unit.abbreviation=="carlson" %><%= "Carlson Center service-learning" %><% else %><%= @unit.title %><% end -%> opportunities. To login to the system, please follow the link below:
+
+<%= @link %>
+
+You will be asked to login with a username and password. If you do not yet have a username in our system, you can click a link on that page to quickly create a new user.
+
+If you have questions, please feel free to contact us at any time.
+
+Thank you,
+
+<% if @unit.abbreviation=="carlson" %>
+ <%= "Carlson Leadership and Public Service Center" %>
+<% elsif @unit.abbreviation=="bothell" %>
+ <%= "Office of Community-Based Learning and Research" %>
+<% else %> 
+ <%= @unit.title %>
+<% end -%>
+<%= @unit.abbreviation=="bothell" ? "University of Washington Bothell" : "University of Washington" %>
+<%= @unit.phone %>
+<%= @unit.email %>

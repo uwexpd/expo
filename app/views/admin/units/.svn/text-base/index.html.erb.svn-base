@@ -1,0 +1,40 @@
+<% make_main_content_full_width %>
+
+<h1>Units
+	<span class="light right"><%= link_to "Add new unit", new_unit_path, :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'units_form' %>
+
+<table>
+	<tr>
+		<th colspan=2>Unit</th>
+		<th>URLs</th>
+		<th>Show (Welcome)?</th>
+		<th>Show (Equipment)?</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for unit in @units %>
+	<tr id="unit_<%= unit.id %>">
+		<td><%= image_tag unit.logo.thumb.url if unit.logo %></td>
+		<td><%=h unit.name %>
+			<br><small class="light"><%=h unit.abbreviation %></small></td>
+		<td><%= link_to "Home", unit.home_url %>
+			<%= "| " + link_to("Engage", unit.engage_url) unless unit.read_attribute(:engage_url).blank? %></td>
+		<td><%= unit.show_on_expo_welcome? ? "<span class=green>Yes</span>" : "<span class=red>No</span>" %></td>
+		<td><%= unit.show_on_equipment_reservation? ? "<span class=green>Yes</span>" : "<span class=red>No</span>" %></td>
+		<td><%= link_to "Show", unit %></td>
+		<td><%= link_to "Edit", edit_unit_path(unit) %></td>
+		<td><%= link_to "Destroy", unit, 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @units.empty? %>
+	<tr class="empty">
+		<td colspan=10>No units exist. <%= link_to "Create one.", new_unit_path %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>

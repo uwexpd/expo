@@ -1,0 +1,15 @@
+<h1>Edit Quote</h1>
+
+<% upload_form_for :quote, @quote, 
+			:url => @quote, 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', @quote, :class => 'cancel button' %>
+
+<% end %>

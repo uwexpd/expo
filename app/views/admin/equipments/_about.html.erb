@@ -1,0 +1,25 @@
+<%= @equipment.description.strip.gsub("<p>&nbsp;</p>", "") %>
+
+<dl class="inline-definitions">
+
+	<% unless @equipment.included_accessories.blank? %>
+		<dt>Accessories</dt>
+		<dd><%= @equipment.included_accessories %></dd>
+	<% end -%>
+
+	<% unless @equipment.included_software.blank? %>
+		<dt>Software</dt>
+		<dd><%= @equipment.included_software %></dd>
+	<% end -%>
+
+	<% unless @equipment.category.description.blank? %>
+		<dt>About <%= @equipment.category.title %></dt>
+		<dd><%= @equipment.category.description %></dd>
+	<% end -%>
+
+	<% unless @equipment.replacement_fee.blank? %>
+		<dt>Replacement Cost</dt>
+		<dd><%= number_to_currency @equipment.replacement_fee %> if lost or damaged</dd>
+	<% end -%>
+	
+</dl>

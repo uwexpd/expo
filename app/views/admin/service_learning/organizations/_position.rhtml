@@ -1,0 +1,31 @@
+<tr class="has-menu">
+	<td>
+		<%= tooltip position.title, 
+						truncate(sanitize(strip_tags(position.description)), :length => 250), 
+						:url => service_learning_organization_position_path(organization_quarter.unit, 
+						              @quarter, @organization, position) %>
+						
+		<% if position.unit != organization_quarter.unit %>
+			<br><span class="light tag"><%= position.unit.try(:name) %></span>
+		<% end -%>
+		
+	</td>
+	<td><%= pluralize position.placements.count, "slot" %>
+		<%= content_tag(:div, position.placements_breakdown('<br>'), :class => 'light') unless position.placements.empty? %></td>
+	
+	<td width="15%">
+		<% menu "options" do %>
+			<%= link_to "Show", 
+						service_learning_organization_position_path(position.unit, @quarter, @organization, position), 
+						:class => "icon-left make-change" %>
+			<%= link_to "Edit", 
+						edit_service_learning_organization_position_path(position.unit, @quarter, @organization, position), 
+						:class => "icon-left edit" %>
+			<%= link_to 'Delete', 
+						service_learning_organization_position_path(position.unit, @quarter, @organization, position), 
+						:confirm => 'Are you sure?', 
+						:method => :delete, 
+						:class => "icon-left delete" %>
+		<% end -%>
+	</td>
+</tr>

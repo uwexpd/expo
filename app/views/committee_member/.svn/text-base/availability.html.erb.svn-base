@@ -1,0 +1,75 @@
+<% title(@committee.name, "Committee Login") %>
+
+<h1>Update Your Availability</h1>
+
+<% form_for @committee_member, :url => { :action => 'availability' } do |f| %>
+
+<dl class="big numbers">
+
+<dt>1</dt>
+<dd><strong>Confirm Your Participation</strong>
+	<p>For each of the following, please confirm that you will be able to participate on the committee.</p>
+
+	<ul>
+	<% for committee_member_quarter in @committee_member.committee_member_quarters.upcoming(2) %>
+		<% fields_for "committee_member[committee_member_quarter_attributes][#{committee_member_quarter.id}]", committee_member_quarter do |cmq_form| %>
+	
+			<li style="margin-top: 2em"><%= committee_member_quarter.title %>
+				<br><%= cmq_form.check_box :active, :class => 'active_checkbox' %>
+					<%= cmq_form.label :active, "#{@committee.active_action_text} #{committee_member_quarter.title}" %>.
+					<br>
+					<small><%= cmq_form.label :comment, committee_member_quarter.comments_prompt_text %> 
+							<%= cmq_form.text_field :comment %></small>
+							
+			<%= observe_field "committee_member_committee_member_quarter_attributes_#{committee_member_quarter.id}_active", 
+								:function => "$$('.inactive_checkbox').each(function(checkbox) { checkbox.checked = false })" %>
+
+			</li>
+	
+		<% end -%>
+	<% end -%>
+	</ul>
+</dd>
+
+<dt>2</dt>
+<dd><strong>Can't Participate?</strong>
+	<p>If you will not be able to participate this year, please let us know.</p>
+
+	<p class="left-indent">
+		<%= f.check_box :inactive, :class => 'inactive_checkbox' %>
+		<%= f.label :inactive, "I will not be able to join the team this year; please contact me in the future." %></p>
+		
+		<%= observe_field "#{f.object_name}_inactive", 
+							:function => "$$('.active_checkbox').each(function(checkbox) { checkbox.checked = false })" %>		
+	
+	<% if @committee.show_permanently_inactive_option? %>
+	<p class="left-indent">
+		<%= f.check_box :permanently_inactive, :class => 'inactive_checkbox' %> 
+		<%= f.label :permanently_inactive, "I have left the UW or am not able to participate in the selection process in the future." %></p>
+	
+	<%= observe_field "#{f.object_name}_permanently_inactive", 
+						:function => "$$('.active_checkbox').each(function(checkbox) { checkbox.checked = false })" %>
+	<% end -%>
+	
+	<p class="left-indent">
+	<small><%= f.label :comment, "Comments?" %></small>
+	<br><%= f.text_area :comment, :rows => 3 %></p>
+
+	<% if @committee.ask_for_replacement? %>
+	<p class="left-indent">
+		<small><%= f.label :replacement_recommendation, "Can you recommend another faculty member that we should invite to participate?" %></small>
+		<br><%= f.text_area :replacement_recommendation, :rows => 3 %>
+	</p>
+	<% end -%>
+	
+</dd>
+
+</dl>
+
+<center>
+	<%= f.submit "Next →", :disable_with => 'Submitting...' %>
+</center>
+
+<% end -%>
+
+<% sidebar :which, :progress %>

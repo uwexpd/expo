@@ -1,0 +1,10 @@
+<tr id="exemption_<%= exemption.id %>">
+	<td><%=h exemption.person.try(:fullname) %></td>
+	<td><%=h exemption.note %></td>
+	<td><%=h exemption.valid_until.to_s(:date_time12) %></td>
+	<td><%= link_to "<span>Edit</span>", edit_offering_restriction_exemption_path(@offering, @restriction, exemption), :class => 'icon-left no-text edit' %>
+		<%= link_to_remote "<span>Destroy</span>", 
+					{:url => offering_restriction_exemption_path(@offering, @restriction, exemption), 
+					:confirm => 'Are you sure?', :method => :delete},
+					:class => 'icon-left no-text trash' %></td>
+</tr>

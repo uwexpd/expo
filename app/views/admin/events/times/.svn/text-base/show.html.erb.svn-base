@@ -1,0 +1,37 @@
+<h1><%=h @event.title %>
+	<span class="light right"><%= link_to "Edit", edit_event_time_path(@event, @time), :class => "edit button" %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>times</dt>
+	<dd><%= @time.time_detail %></dd>
+
+	<dt>location</dt>
+	<dd><%= @time.location_text %></dd>
+
+	<dt>capacity</dt>
+	<dd><%= @time.capacity %></dd>
+
+	<dt>notes</dt>
+	<dd><%= @time.notes %></dd>
+
+</dl>
+
+<h3><%= link_to "Invitees", event_time_invitees_path(@event, @time) %>
+	<span class="right"><%= link_to "Download Excel", event_time_invitees_path(@event, @time, :format => :xls), :class => 'icon-left xls button' %></span>
+	</h3>
+<%= javascript_include_tag "tablesort" %>
+<% form_id = @use_pipeline_links ? 'students_form' : 'invitees_form' %>
+<%= form_tag admin_communicate_write_email_url, :id => form_id %>
+
+	<table class="sortable groupable" id="invitees_table">
+		<%= render :partial => "admin/events/times/invitees" %>
+	</table>
+	
+</form>
+
+<% unless @use_pipeline_links %>
+  <% sidebar :manage, :with_selected, :sub_times %>	
+<% else %>
+  <% sidebar :pipeline_links, :with_selected %>
+<% end %>

@@ -1,0 +1,92 @@
+<h1>All Applicants
+	<span class="light">&raquo; <%= @offering.title %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'all_applicants_form' %>
+
+<input type=hidden name="recipient_variant" id="recipient_variant" value="">
+
+<table>
+	
+	<tr>
+		<th colspan=2>
+			<%= select_all_check_box %>
+			Student Name</th>
+		<th>Project Title</th>
+		<th>Current Status</th>
+	</tr>
+
+	<% @offering.statuses.sort.reverse.each do |t| %>
+
+		<% apps = @offering.application_for_offerings.with_status(t.application_status_name).sort_by(&:fullname) %>
+		
+		<% unless apps.empty? %>
+
+			<tr class="rowset-header">
+				<td colspan=3>
+					<%= select_all_check_box t.application_status_name %>
+					<a title="<%= t.description %>" class="tooltip"><%= t.private_title %></a>
+					<span class="light">&raquo;	<%= pluralize apps.size, "application" %></span>
+				
+					<%= status_email_view_links(t.application_status_type, 
+												@offering, 
+												true, 
+												{:class => "light right"}) %>
+				
+				</td>
+				<td>
+					<a id="<%= t.application_status_name %>" name="<%= t.application_status_name %>" class="augmented">
+				</td>
+				
+			</tr>
+
+			<% apps.each do |a| %>
+
+				<tr>
+					<td><%= select_check_box(a, t.application_status_name) %></td>
+					<td><%= link_to a.person.lastname_first, admin_student_path(a.person) %>
+						<br><small><%= auto_link a.person.email rescue "Unknown" %></small></td>
+						<td><%= link_to (a.project_title.blank? ? "View Application" : strip_tags(a.project_title)), 
+										:action => "show", :id => a.id %></td>
+						<td><%= print_status(a) %></td>
+				</tr>
+
+				<% current_status_name = a.current_status_name %>
+		<% end -%>	
+		
+		<% end %>
+		
+	<% end -%>
+
+	<% apps = @offering.application_for_offerings.with_status(nil).sort_by(&:fullname) %>
+	<% unless apps.empty? %>
+
+		<tr class="rowset-header">
+			<td colspan=4>
+				<%= select_all_check_box("not_started") %>
+				<a title="Not Started" class="tooltip">Not Started</a>
+				<span class="light">&raquo;	<%= pluralize apps.size, "application" %></span>			
+			</td>
+		</tr>
+
+		<% apps.each do |a| %>
+
+			<tr>
+				<td><%= select_check_box(a, "not_started") %></td>
+				<td><%= link_to a.person.fullname, admin_student_path(a.person) %>
+					<br><small><%= auto_link a.person.email %></small></td>
+					<td><%= link_to (a.project_title.blank? ? "(Not Started)" : strip_tags(a.project_title)), 
+									:action => "show", :id => a.id %></td>
+					<td><%= print_status(a) %></td>
+			</tr>
+
+			<% current_status_name = a.current_status_name %>
+	<% end -%>	
+	
+	<% end %>
+	
+
+</table>
+
+</form>
+
+<% sidebar :quick_access, :search, :with_selected, :status_links %>

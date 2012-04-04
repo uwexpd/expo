@@ -1,0 +1,39 @@
+<%= title "My E-mail Addresses" %>
+	
+<table width="100%">
+	<tr>
+		<th>Name</th>
+		<th>E-mail</th>
+		<th>Default?</th>
+		<th colspan=2>Functions</th>
+	</tr>
+
+	<tr>
+		<td><%=h @current_user.fullname %></td>
+		<td><%=h @current_user.email %></td>
+		<td><%= "<span class='green-check'>X</span>" if @current_user.default_email_address.nil? %></td>
+		<td></td>
+		<td></td>
+
+	<% for email_address in @email_addresses %>
+	<tr>
+		<td><%=h email_address.name %></td>
+		<td><%=h email_address.email %></td>
+		<td><%= "<span class='green-check'>X</span>" if email_address.default? %></td>
+		
+		<td><%= link_to 'Edit', edit_users_email_address_path(email_address) %></td>
+		<td><%= link_to 'Delete', users_email_address_path(email_address), :confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+	
+	<% if @email_addresses.empty? %>
+	<tr class="empty">
+		<td colspan=10>You don't have any custom e-mail addresses in your profile.
+			 			<%= link_to "Create one.", new_users_email_address_path %></td>
+	</tr>
+	<% end %>
+</table>
+
+<%= link_to "Add new e-mail address", new_users_email_address_path, :class => "add button" %>
+
+</form>

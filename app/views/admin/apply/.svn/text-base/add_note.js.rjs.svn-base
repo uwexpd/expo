@@ -1,0 +1,17 @@
+page.if page["notes_#{@app.id}"] do
+  page.insert_html :top, "notes_#{@app.id}", :partial => "admin/shared/note", :object => @note
+  page.visual_effect :highlight, "note_#{@note.id}"
+end
+
+page['add_note_form_sidebar'].reset()
+
+if params[:source] == 'sidebar'
+  page.replace_html "note_flash_sidebar", :text => "<span id='note_flash_sidebar_content'>Saved application note.</span>"
+  page.visual_effect :highlight, "note_flash_sidebar"
+  
+  page.delay(5) do
+    page.visual_effect :fade, "note_flash_sidebar_content"
+  end
+end
+
+page.replace_html "notes_count", :text => @app.notes.size

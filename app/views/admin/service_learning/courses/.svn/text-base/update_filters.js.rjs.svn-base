@@ -1,0 +1,1 @@
+page.replace_html 'tabview_content', :partial => "admin/service_learning/courses/tabs/position_matches"

@@ -1,0 +1,20 @@
+<h1>Quote #<%=h @quote.id.to_s %>
+	<span class="outline tag"><%=h @quote.key %></span>
+	<span class="light right"><%= link_to "Edit", edit_quote_path(@quote), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@quote) %></p>
+
+	<div class="quote box">
+		<%= image_tag @quote.picture.small.url, :align => 'right' if @quote.picture %>
+		
+		<span class="quotation_mark">&ldquo;</span>
+		<p><%=h @quote.quote %></p>
+
+		<p align=center>
+			&mdash; <%=h @quote.author %>
+			<br><%=h @quote.author_title %>
+		</p>
+
+	</div>
+
+</dl>

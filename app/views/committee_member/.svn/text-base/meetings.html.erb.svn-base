@@ -1,0 +1,43 @@
+<% title(@committee.name, "Committee Login") %>
+
+<h1>Meetings &amp; Trainings</h1>
+
+<% form_for @committee_member, :url => { :action => 'meetings' } do |f| %>
+
+<dl class="big numbers">
+
+	<dt>6</dt>
+	<dd><strong>Which of the following meetings or trainings will you attend?</strong>
+		<% default_text = "<p>We are offering the following meeting/training times:</p>" %>
+		<%= @committee.meetings_text.blank? ? default_text : textilize(@committee.meetings_text) %>
+
+		<ul class="bulletless">
+		<% for committee_member_meeting in @committee_member.committee_member_meetings.future %>
+			<% fields_for "committee_member[committee_member_meeting_attributes][#{committee_member_meeting.id}]", committee_member_meeting do |cmm_form| %>
+
+				<li style="margin-top: 2em">
+					<%= cmm_form.check_box :attending %>
+					<big><%= committee_member_meeting.meeting.title %></big>
+					<div style="margin-left: 2em">
+						<strong>Date/Time: </strong><%= committee_member_meeting.meeting.start_date.to_s(:date_time12) %>
+						<%= "<br><strong>Location:</strong> #{committee_member_meeting.meeting.location}" if committee_member_meeting.meeting.location %>
+						<%= "<div style=''><br>#{committee_member_meeting.meeting.description}</div>" if committee_member_meeting.meeting.description %>
+						<br><small>Comments? <%= cmm_form.text_field :comment, :size => 50 %></small>
+					</div>
+				</li>
+
+			<% end -%>
+		<% end -%>
+		</ul>
+
+	</dd>
+
+</dl>
+
+<center>
+	<%= f.submit "Finish →", :disable_with => 'Submitting...' %>
+</center>
+
+<% end -%>
+
+<% sidebar :which, :progress %>

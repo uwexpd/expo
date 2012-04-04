@@ -1,0 +1,60 @@
+<tr id="row_<%= email.id %>" <%= "class='rowWithErrors'" if email.email.to.blank? %>>
+
+	<td><%= check_box_tag("select[#{email.id}]", email.id, false, :class => "select_check_box") %></td>
+
+	<td><%= email.recipient_name %>
+		<br><font class="smaller grey"><%= auto_link email.email.to.to_s %></font>
+		<%= "<small class='error-message'>MISSING E-MAIL ADDRESS</small>" if email.email.to.blank? %>
+		</td>
+
+	<td><%= email.email.from %></td>
+
+	<td><%= email.email.subject %></td>
+
+	<td><%= time_ago_in_words email.updated_at %> ago
+		<br><small class="light">by <%= email.creator.try(:fullname) %></td>
+
+	<td><%= link_to_function "View", "Element.toggle('email_body_#{email.id}')" %>
+		| <%= link_to "Edit", edit_admin_communicate_email_queue_path(email) %>
+		| <%= link_to_remote "Delete", 	:url => admin_communicate_email_queue_path(:id => email), 
+										:confirm => "Are you sure?",
+										:method => :delete, 
+										:complete => visual_effect(:fade, "row_#{email.id}") %>
+		</td>
+</tr>
+
+<tr class="highlightless" style="display:none" id="email_body_<%= email.id %>">
+	<td>&nbsp;</td>
+	<td colspan=5>
+		<div class="email_preview">
+		
+			<div class="headers">
+				<%= link_to_function "Hide", "Element.toggle('email_body_#{email.id}')", :class => 'right' %>
+				
+				<ul>
+					<li><strong>To:</strong>		<%= email.email.to || "&nbsp;" %></li>
+					<li><strong>Cc:</strong>		<%= email.email.cc || "&nbsp;" %></li>
+					<li><strong>Bcc:</strong>		<%= email.email.bcc || "&nbsp;" %></li>
+					<li><strong>From:</strong>		<%= email.email.from || "&nbsp;" %></li>
+					<li><strong>Subject:</strong>	<%= email.email.subject || "&nbsp;" %></li>
+				</ul>
+				
+				<% if email.command_after_delivery %>
+				<div class="command_after_delivery">
+					<strong>After: </strong> <code><%= email.command_after_delivery %></code>
+				</div>
+				<% end -%>
+				
+			</div>
+		
+			<div class="email_body">
+			<%= simple_format email.email.body %>
+			</div>
+		
+		</div>
+	</td>
+</tr>
+	
+<tr class="highlightless rowWithErrors" style="<%= "display:none" unless email.error_details %>" id="email_error_<%= email.id %>">
+	<%= render :partial => "email_error", :object => email if email.error_details %>
+</tr>

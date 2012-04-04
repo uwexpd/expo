@@ -1,0 +1,21 @@
+<tr>
+	<td><%= link_to h(event.title), event_path(event) %></td>
+	<td><%=h event.event_type.title if event.event_type %></td>
+	<td class="small-caps"><%=h event.unit.abbreviation if event.unit %></td>
+	<td><%= tooltip event.times.size, event.times.collect{|t| "<li>#{t.time_detail}</li>"}.join("\n"), :href => event_times_path(event) %></td>
+	<td><%= link_to event.staff_positions.size, event_staff_positions_path(event) %></td>
+	<td><%=h event.invitees.size %></td>
+	<td><%=h event.attendees.size %></td>
+	<td><%=h event.attended.size %>
+		<% percentage = (event.attended.size.to_f / event.attendees.size.to_f) * 100 %>
+		<%= content_tag(:small, "(#{number_to_percentage(percentage, :precision => 1)})", :class => 'light') if percentage.finite? %>
+		</td>
+	<td><%= link_to '<span>Edit</span>', edit_event_path(event), :class => 'icon-left edit no-text' %>
+		<%= link_to '<span>Clone</span>', clone_event_path(event), :confirm => "Are you sure you want to make a copy of this event?",
+		:method => :put, :class => 'icon-left copy no-text' %>
+		<%= link_to '<span>Delete</span>', event_path(event), :confirm => 'Are you sure?', :method => :delete, :class => 'icon-left trash no-text' %>
+		<%= link_to '<span>Check-in</span>', event_checkin_index_path(event), :class => 'icon-left checkin no-text' %>
+		<%= link_to '<span>Nametags</span>', event_nametags_path(event), :class => 'icon-left nametag no-text' %>
+		<%= link_to '<span>Attendees</span>', attendees_event_path(event), :class => 'icon-left people no-text' %>
+	</td>
+</tr>

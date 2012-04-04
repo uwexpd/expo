@@ -1,0 +1,29 @@
+<% title "Mentor Review", @person.fullname %>
+
+<h1>Your Contact Information
+	<span class="heading_inline"><%= link_to "Edit your contact information", :action => "update" %></span>
+	</h1>
+	<%= render :partial => "contact_info" %>
+
+<br>
+
+<h1>Your Mentees</h1>
+<p>Below you will find a list of student projects that list you as a mentor. For each project, you need to tell us if you approve the abstract that was submitted with the application.</p>
+<table id="mentees" width="100%">
+	<tr>
+		<th>Project Title / Student</th>
+		<th align=center>Approved?</th>
+		<th align=center>Response</th>
+		<th>Action</th>
+	</tr>
+	
+	<%= render :partial => "application_mentor_abstract_approve", :collection => @mentor_applications %>
+	
+	<% if @mentor_applications.empty? %>
+	<tr class="empty">
+		<td colspan=4>You are not listed as a mentor for any student applications.</td>
+	</tr>
+	<% end -%>
+	
+	
+</table>

@@ -1,0 +1,36 @@
+<%= render :file => 'accountability/_table_header.html.erb' %>
+
+<% for college_name, data in @colleges.sort_by{|k,v| k == "Other" ? "ZZZZ" : k} %>
+<% college_name_shown = false %>
+	<% for department_name, results in data[:department].sort_by{|k,v| k == "Unknown" ? "ZZZZ" : k} %>
+	<tr>
+		<% unless college_name_shown %>
+			<td class="" rowspan="<%= data[:department].size %>"><%= college_name %></td>
+			<% college_name_shown = true %>
+		<% end -%>
+		<td class="light-right-border light-left-border"><%= department_name %></td>
+		
+		<% for activity_type in @activity_types %>
+			<td align=right><%= number_with_delimiter(results[activity_type][:total][:students].uniq.size) rescue "" %></td>
+			<td align=right><%= number_with_delimiter(results[activity_type][:quarters].collect{|quarter_abbrev, val| val[:number_of_students]}.sum) rescue "" %></td>
+			<td align=right class="light-right-border"><%= number_with_precision(results[activity_type][:quarters].collect{|quarter_abbrev, val| val[:number_of_hours]}.sum, :precision => 0, :delimiter => ",") rescue "" %></td>
+		<% end -%>
+	</tr>
+	<% end -%>
+<% end -%>
+
+<tr class="empty">
+	<td colspan=20  style="padding: 20px"></td>
+</tr>
+
+<%= render :file => 'accountability/_table_header.html.erb', :locals => { :hide_college_title => true } %>
+
+<!-- Totals -->
+<tr class="total">
+	<td colspan=2 class="light-right-border">TOTALS:</td>
+	<% for activity_type in @activity_types %>
+		<td align=center><%= number_with_delimiter(@reports[activity_type][:total][:number_of_students]) if @reports[activity_type] %></td>
+		<td align=center><%= number_with_delimiter(@reports[activity_type][:total][:student_quarters]) if @reports[activity_type] %></td>
+		<td align=center class="light-right-border"><%= number_with_delimiter(@reports[activity_type][:total][:number_of_hours]) if @reports[activity_type] %></td>
+	<% end -%>
+</tr>

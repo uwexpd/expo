@@ -1,0 +1,22 @@
+<% title(@offering.name, @offering.quarter_offered.title) %>
+
+<h2>Submit Your Proposal Summary</h2>
+<p>In preparation for your interview, please summarize your proposal in no more than 300 words.  Your summary should address:</p>
+<ul>
+	<li>key elements of your understandings about leadership,</li>
+	<li>your central learning goals, and</li>
+	<li>the nature and purpose of your project.</li>
+</ul>
+
+<p>This exercise is designed to help you focus, prioritize, clarify, and articulate a complex subject concisely, hence the 300 word limit.</p>
+
+<p>Please use the box below to submit your summary.</p>
+
+
+<% form_for "application_for_offering", @user_application do |f| %>
+	<%= f.text_area :project_summary, :rows => 10, :cols => 100 %>
+	<br />
+	<%= f.submit "Submit Proposal Summary" %>
+<% end %>
+
+<%= render :partial => "sidebar" %>

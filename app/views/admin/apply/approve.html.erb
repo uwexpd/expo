@@ -1,0 +1,52 @@
+<h3>Award Approval</h3>
+
+<% apps_not_empty = false %>
+<% @offerings.each do |o| %>
+
+<% form_for :approve, :url => { :action => "approve", :offering => o.id } do |f| %>
+
+<% apps = o.application_for_offerings.awaiting_dean_approval %>
+<% unless apps.empty? %>
+<% apps_not_empty = true %>
+
+<table>
+	
+	<tr>
+		<th>Student Name</th>
+		<th>Student No.</th>
+		<th>Quarters/Amt. Awarded</th>
+		<th>Approve?</th>
+	</tr>	
+		
+	<tr class="rowset-header">
+		<td colspan=3><%= o.name %></td>
+		<td colspan=2 style="text-align: right;"><%= pluralize apps.size, "award" %></td>
+	</tr>
+	
+	<% apps.each do |a| %>
+		<tr>
+			<td><%= a.person.fullname %>
+				<br><font class="smaller grey">
+				<%= link_to a.project_title || "(no title)", :action => "show", :id => a.id %></font></td>
+			
+			<td><%= a.person.student_no %></td>
+						
+			<td><%= a.award_list("<br>") %></td>
+			
+			<td><%= check_box_tag "select[#{a.id}]", a.id %></td>
+			
+		</tr>
+	<% end %>
+		
+</table>
+
+
+<%= hidden_field_tag "redirect_to_action", "approve" %>
+<%= hidden_field_tag "new_status", "decision_approved" %>
+<%= f.submit "Submit Approved Awards" %>
+
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag('p', "No awards are currently awaiting your approval.") unless apps_not_empty %>

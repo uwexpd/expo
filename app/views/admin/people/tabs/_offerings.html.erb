@@ -1,0 +1,54 @@
+<h2>Reviews</h2>
+
+<table class="highlightless">
+  <tr>
+    <th>Application</th>
+    <th>Comment</th>
+    <th>Committee Score</th>
+  </tr>
+<% for review in @person.offering_reviewers %>
+  <tr class="rowset-header">
+    <td colspan="3"><%= link_to review.offering.title, offering_path(review.offering) %></td>
+  </tr>
+  <% for app_review in review.application_reviewers %>
+  <tr>
+    <td>
+      <%= link_to (app_review.application_for_offering.try(:project_title)), 
+							:controller => "apply", :action => "show", 
+							:offering => review.offering,
+							:id => app_review.application_for_offering.id %>
+    </td>
+    <td>
+      <%= app_review.comments %>
+    </td>
+    <td>
+      <%= app_review.committee_score %>
+    </td>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+<br />
+<h2>Interviews</h2>
+
+<table class="highlightless">
+  <tr>
+    <th>Comment</th>
+    <th>Committee Score</th>
+  </tr>
+<% for interview in @person.offering_interviewers %>
+  <tr class="rowset-header">
+    <td colspan="2"><%= link_to interview.offering.title, offering_path(interview.offering) %></td>
+  </tr>
+  <% for app_interview in interview.offering_interview_interviewers %>
+  <tr>
+    <td>
+      <%= app_interview.comments %>
+    </td>
+    <td>
+      <%= app_interview.committee_score %>
+    </td>
+  </tr>
+  <% end %>
+<% end %>
+</table>

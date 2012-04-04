@@ -1,0 +1,36 @@
+<div class="content-topper">
+	<h4 class="grey paddingless" style="margin-bottom:0">
+		<%= @offering.name %></h4>
+	<%= render :partial => "admin/apply/phase_timeline" %>
+</div>
+
+<h3><%= @task.title %>
+	<span class="right"><%= link_to_function "Notes", "Effect.toggle('task_notes', 'blind', {duration: 0.25})", :class => 'icon-left note button' unless @task.notes.blank? %></span>
+	</h3>
+<%= indicator "phase_task_indicator_#{@task.id}" %>
+
+<%= content_tag('small', "Completed #{relative_timestamp(@task.updated_at)}", :class => 'light right icon-left ok') if @task.complete? %>
+<small class="grey">Part of the <%= link_to @phase.name, :action => 'phase', :id => @phase %> phase.</small>
+
+<div id="task_notes" class="yellow box" style="display:none">
+	<div>
+	<h4 class="icon-left note">Process Notes
+		<%= link_to_function "Close", "Effect.toggle('task_notes', 'blind', {duration: 0.25})", :class => 'right light', :style => 'margin-right:10px' %></h4>
+	<div><%= textilize @task.notes %></div>
+	<p align=center>
+	<%= link_to_function "Close", "Effect.toggle('task_notes', 'blind', {duration: 0.25})", :class => 'button' %>
+	</p>
+	</div>
+</div>
+
+<div id="phase_task_contents_<%= @task.id %>">
+	<% 
+	begin 
+		concat render(:partial => "admin/apply/phase/#{@task.display_as}", 
+				:locals => { :phase_task => @task, :task => @task })
+	rescue => e: concat "<span class='phase error'>#{e.message}</span>" 
+	end %>				
+</div>
+
+<% sidebar :quick_access_collapsed, :class => 'collapsable' %>
+<% sidebar :tools, :tasks %>

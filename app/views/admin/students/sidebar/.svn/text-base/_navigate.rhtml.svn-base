@@ -1,0 +1,4 @@
+<h3>Navigate</h3>
+<%= page_entries_info @students %>
+
+<%= will_paginate @students, :inner_window => 2 %>

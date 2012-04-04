@@ -1,0 +1,17 @@
+<h1 class="big-icon people">New <%= @year %> Individual Activity</h1>
+
+<%= HelpText.caption :reporting_interface_report_courses_note, AccountabilityReport %>
+
+<% form_for :activity, @activity, :url => accountability_reporting_individuals_path(@year) do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', accountability_reporting_individuals_path(@year), :class => "cancel button" %>
+
+<% end %>
+
+<% sidebar :faq %>

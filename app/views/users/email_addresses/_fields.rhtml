@@ -1,0 +1,12 @@
+<ul>
+	<li><strong>Name:</strong>
+	<%= text_field_tag "email_address[name]", (@email_address.name rescue nil) %></li>
+
+	<li><strong>E-mail:</strong>
+	<%= text_field_tag "email_address[email]", (@email_address.email rescue nil) %></li>
+	
+	<li><strong>&nbsp;</strong>
+		<%= check_box_tag "email_address[default]", true, false, :class => "default" %>
+		<label for="email_address_default">Make this my default "From" address</label>
+		</li>
+</ul>

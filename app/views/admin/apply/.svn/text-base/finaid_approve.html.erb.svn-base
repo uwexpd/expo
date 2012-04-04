@@ -1,0 +1,73 @@
+<h3>Financial Aid Eligibility Approval</h3>
+
+<% apps_not_empty = false %>
+<% @offerings.each do |o| %>
+
+<% form_for :finaid_approve, :url => { :action => "finaid_approve", :offering => o.id } do |f| %>
+
+<% apps = o.application_for_offerings.awaiting_financial_aid_approval %>
+<% unless apps.empty? %>
+<% apps_not_empty = true %>
+
+<table class="borderless highlightless">
+	
+	<tr>
+		<th>Student Name</th>
+		<th>Quarters Awarded</th>
+		<th>Amounts Awarded</th>
+		<th>Amounts Eligible</th>
+		<th>Account</th>
+		<th>Comments</th>
+	</tr>	
+		
+	<tr class="rowset-header">
+		<td colspan=5><%= o.name %></td>
+		<td colspan=1 style="text-align: right;"><%= pluralize apps.size, "award" %></td>
+	</tr>
+	
+	<% apps.each do |a| %>
+		<% student_info_cells_already_printed = false %>
+
+		<% class_cycle = cycle('even','odd') %>
+
+		<% for award in a.awards.valid %>
+
+			<% fields_for "award[]", award do |award_form| %>
+
+				<tr class="<%= class_cycle %>">
+				<% if !student_info_cells_already_printed %>
+					<td rowspan=<%= a.awards.valid.size %> valign=top style="padding: 10px">
+						<%= a.person.fullname %>
+						<br>
+						<font class="grey"><%= a.person.student_no %></font>
+						</td>
+
+					<% student_info_cells_already_printed = true %>
+				<% end -%>
+
+					<td><%= award.requested_quarter.title + ":" rescue nil %></td>
+					<td><%= number_to_currency(award.amount_awarded) %></td>
+					<% approved_amount = award.amount_approved.blank? ? award.amount_awarded : award.amount_approved %>
+					<td><%= text_field_tag "award[#{award.id}][amount_approved]", approved_amount, :size => 6 %></td>
+					<td><%= award_form.collection_select :disbersement_type_id, DisbersementType.find(:all), :id, :name %></td>
+					<td><%= award_form.text_field :amount_approved_notes, :size => 25 %>
+						<%= hidden_field_tag "award[#{award.id}][amount_approved_user_id]", (current_user ? current_user.id : 0) %></td>
+				</tr>
+			<% end -%>
+		<% end -%>
+	<% end %>
+		
+</table>
+<br />
+
+<%= hidden_field_tag "redirect_to_action", "finaid_approve" %>
+<%= hidden_field_tag "new_status", "awaiting_disbursement" %>
+
+<center><%= f.submit "Save", :name => "save" %>
+		<%= f.submit "Submit" %></center>
+
+<% end %>
+<% end %>
+<% end %>
+
+<%= content_tag('p', "No awards are currently awaiting your approval.") unless apps_not_empty %>

@@ -1,0 +1,4 @@
+dom_id = "application_category_#{@application_category.id}"
+page.if "$('#{dom_id}')" do
+  page.visual_effect :fade, dom_id
+end

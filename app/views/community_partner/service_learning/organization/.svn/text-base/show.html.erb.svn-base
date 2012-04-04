@@ -1,0 +1,31 @@
+<% title(@organization.name) %>
+
+<h1>Organization Information
+	<span class="right"><%= link_to "edit", edit_community_partner_service_learning_organization_path(:unit => @unit.id) %></span></h1>
+<p>Below, you will find the information about your organization that we have in our database. This information will be viewable by students and faculty alike, so be sure to keep that in mind if you edit the information.</p>
+
+<dl class="inline-definitions">
+	
+	<% if @organization.parent_organization %>
+	<dt>parent organization</dt>
+	<dd><%=h @organization.parent_organization.name %></dd>
+	<% end -%>
+	
+	<dt>address</dt>
+	<dd><%=h @organization.mailing_line_1 %>
+		<%= "<br />" + h(@organization.mailing_line_2) unless @organization.mailing_line_2.blank? %>
+		<br /><%=h @organization.mailing_city %>, <%=h @organization.mailing_state %> <%=h @organization.mailing_zip %>
+		</dd>
+
+	<dt>website</dt>
+	<dd><%= auto_link @organization.website_url %></dd>
+	
+	<dt>main phone</dt>
+	<dd><%= phone_number @organization.main_phone %></dd>
+	
+	<dt>mission statement</dt>
+	<dd><small><%= simple_format @organization.mission_statement %></small></dd>
+		
+</dl>
+
+<% sidebar :contacts %>

@@ -1,0 +1,1 @@
+page.visual_effect :fade, "organization_quarter_#{@organization_quarter.id}"

@@ -1,0 +1,6 @@
+<li>
+	<%= qf.label('', question.question) %>
+	<%= eval "@user_application.person.#{question.attribute_to_update}" rescue "--" %>
+	<%= display_computed_caption(question.caption) if question.caption? %>
+	
+</li>

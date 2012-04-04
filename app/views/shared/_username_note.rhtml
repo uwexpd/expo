@@ -1,0 +1,7 @@
+<% tooltip = "Username: #{h(current_user.login)}" %>
+<% tooltip << " (limited login)" if session[:limit_login_to] %>
+<a title="<%= tooltip %>">
+<%= vicariously_logged_in? ? "VICARIOUSLY LOGGED IN AS" : "Logged in as" %>
+<strong><%=h(current_user.fullname) %></strong></a>
+<%= "[#{current_user.identity_type}]" if current_user.identity_type %>
+<%= "</li><li>#{link_to("Log out of vicarious mode", admin_remove_vicarious_login_path)}" if vicariously_logged_in? %>

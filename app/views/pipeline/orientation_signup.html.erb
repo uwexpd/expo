@@ -1,0 +1,82 @@
+<h1>Pipeline Project Signup</h1>
+
+<script type = "text/javascript">
+function checkPdf(){if($('downloaded_pdf').checked){return true;}
+else{alert("Remember to download the background check PDF.");return false;}}
+</script>
+
+<%= HelpText.caption(:about_blurb, PipelineStudentInfo) %>
+
+<% form_for(:pipeline_student_info, :url => pipeline_student_info_path(@quarter.abbrev, @course_abbrev)) do |f| -%>
+
+<%= f.error_messages %>
+<p>
+	Name: <%= @student.fullname %>
+</p>
+
+<p>
+	Local Phone Number: <%= text_field_tag("phone", @student.phone, :size => 20) %>
+</p>
+
+<div>
+	How did you hear about Pipeline?
+	<p class="left-indent">	
+		<%= f.text_area(:how_did_you_hear, :size => "50x4") %>
+	</p>
+</div>
+
+<div>
+	If you are a freshman or sophomore, are you thinking of pursuing the Education, Learning and Societies minor?
+	<p class="left-indent">
+		<%= f.radio_button :pursue_els, 'yes' %><label for="pipeline_student_info_pursue_els_yes"> Yes </label><br />
+		<%= f.radio_button :pursue_els, 'no' %><label for="pipeline_student_info_pursue_els_no"> No </label><br />
+		<%= f.radio_button :pursue_els, 'maybe' %><label for="pipeline_student_info_pursue_els_maybe"> Maybe </label>
+	</p>
+</div>
+
+<div>
+	Are you currently in the Education, Learning and Societies Minor?
+	<p class="left-indent">
+		<%= f.radio_button :current_els_minor, 'yes' %><label for="pipeline_student_info_current_els_minor_yes"> Yes </label><br />
+		<%= f.radio_button :current_els_minor, 'no' %><label for="pipeline_student_info_current_els_minor_no"> No </label>
+	</p>
+</div>
+
+<div>
+	Do you intend on pursuing a teaching career?
+	<p class="left-indent">
+		<%= f.radio_button :teaching_career, 'yes' %><label for="pipeline_student_info_teaching_career_yes"> Yes </label><br />
+		<%= f.radio_button :teaching_career, 'no' %><label for="pipeline_student_info_teaching_career_no"> No </label><br />
+		<%= f.radio_button :teaching_career, 'maybe' %><label for="pipeline_student_info_teaching_career_maybe"> Maybe </label>
+	</p>
+</div>
+
+<div>
+	Do you intend to apply to the UW’s Masters in Teaching program?
+	<p class="left-indent">	
+		<%= f.radio_button :apply_masters, 'true' %><label for="pipeline_student_info_apply_masters_true"> Yes </label><br />
+		<%= f.radio_button :apply_masters, 'false' %><label for="pipeline_student_info_apply_masters_false"> No </label>
+	</p>
+</div>
+
+<div>
+	Are you participating in Pipeline to fulfill your 60 hours of classroom observation for an Masters in Teaching program?
+	<p class="left-indent">
+		<%= f.radio_button :fulfill_mit, 'true' %><label for="pipeline_student_info_fulfill_mit_true"> Yes </label><br />
+		<%= f.radio_button :fulfill_mit, 'false' %><label for="pipeline_student_info_fulfill_mit_false"> No </label>
+	</p>
+</div>
+
+<div>
+	You need to print and complete a background check form and bring it with you to your orientation.
+	<br><%= link_to "Click here to download the background check form", {:controller => "pipeline", :action => "download_background_check"}, :class => 'icon-left pdf' %>
+	<p class="left-indent">
+		<%= f.check_box :downloaded_pdf %><label for="pipeline_student_info_downloaded_pdf"> Yes, I have downloaded the background check form and will bring it with me to my orientation.</label>
+	</p>
+</div>
+
+<%= hidden_field_tag("quarter_abbrev", @quarter.abbrev) %>
+<%= hidden_field_tag("pipeline_student_info[person_id]", @student.id) %>
+
+<%= submit_tag "Submit and RSVP for an Orientation", :disable_with => "Please wait..." %>
+<% end %>

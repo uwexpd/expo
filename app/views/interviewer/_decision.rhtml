@@ -1,0 +1,43 @@
+<div class="expandable_box" style="width:75%">
+	<h3><%= link_to_function "Input Final Interview Committee Decision", "Element.toggle('final_decision')" %></h3>
+	
+	<div class="expansion" id="final_decision" <%= "style=display:none" unless @app.interview_decision_made? %>>
+		<% form_for :application_for_offering, @app, :url => { :action => 'final_decision', :id => @offering_interview_interviewer } do |f| %>
+			<p>You should only use this part of the form to input the final, collective decision by the Interview Committee.
+				Once you click "Submit this Decision" you will not be able to change it. However, you will always be able to add/edit
+				the Committee Comments.</p>
+				
+			<h4>Final Decision:</h4>
+				<ul style="list-style-type:none">
+				<% if @app.interview_decision_made? %>
+					<li><%= @app.application_interview_decision_type.title %></li>
+					<% if @app.application_interview_decision_type.contingency_option %>
+						<li><strong>Contingency Terms:</strong> <%= @app.contingency_terms %></li>
+					<% end %>
+				<% else %>
+					<% ApplicationInterviewDecisionType.find(:all).each do |t| %>
+						<li><%= f.radio_button :application_interview_decision_type_id, t.id %> <%= t.title %></li>
+						<% if t.contingency_option %>
+							<br>Contingency Terms:
+							<br><%= f.text_area :contingency_terms, :rows => 3, :cols => 50 %>
+						<% end %>
+					<% end %>
+				<% end %>
+				</ul>
+			
+			<h4>Feedback</h4>			
+				<p>Feedback Person:
+					<% if @app.interview_decision_made? %>
+						<strong><%= @app.interview_feedback_person.fullname rescue "(not set)" %></strong>
+					<% else %>
+						<%= f.collection_select :interview_feedback_person_id, @app.interview.interviewers, :id, :fullname %>
+					<% end %></p>
+
+				<p>Committee Comments:</p>
+					<%= f.text_area :interview_committee_notes, :rows => 10, :disabled => @viewing_past_app, :style => 'width:100%' %>
+					
+			<%= f.submit "Submit this Decision" unless @viewing_past_app %>
+		<% end %>
+	</div>
+	
+</div>

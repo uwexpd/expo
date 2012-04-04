@@ -1,0 +1,43 @@
+10
+
+dir
+2195
+svn+ssh://isidore/usr/local/svn/exporepo/trunk/app
+svn+ssh://isidore/usr/local/svn/exporepo
+
+
+
+2012-03-16T15:28:00.685322Z
+2195
+joshlin
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+8539ea28-dac5-4dad-ab9e-748f88f55080
+
+helpers
+dir
+
+models
+dir
+
+controllers
+dir
+
+sweepers
+dir
+
+views
+dir
+

@@ -1,0 +1,56 @@
+<h1 class="big-icon pages"><%=h @page.title %>
+	<span class="light right"><%= link_to "Edit", edit_offering_page_path(@offering, @page), :class => 'edit button' %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>Title</dt>
+	<dd><%= @page.title %></dd>
+
+	<dt>Description</dt>
+	<dd><%= @page.description %></dd>
+
+	<dt>Introduction</dt>
+	<dd><%= textilize @page.introduction %></dd>
+
+</dl>
+
+<br>
+
+<h3>Questions
+	<span class="right"><%= link_to "See all", offering_page_questions_path(@offering, @page) %></span></h3>
+
+<small class="light"><%= required %> = required field</small>
+	
+<table>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Question</th>
+			<th>Type</th>
+			<th>Data Storage</th>
+			<th style="width: 100px">Functions</th>
+		</tr>
+	</thead>
+
+	<tbody id="questions">
+	<%= render :partial => 'admin/offerings/pages/questions/question', :collection => @page.questions %>
+
+	<% if @page.questions.empty? %>
+		<tr class="empty">
+			<td colspan=5>
+				No questions exist yet. 
+				<%= link_to 'Click here to create one.', new_offering_page_question_path(@offering, @page) %>
+			</td>
+		</tr>
+	<% end -%>
+	</tbody>
+
+</table>
+
+<%= sortable_element "questions", :tag => :tr, :url => sort_offering_page_questions_path(@offering, @page), :handle => 'sort-handle', :indicator => 'global' %>
+
+<% sidebar "admin/offerings/pages/questions/sidebar/functions", :pages %>
+
+
+
+<% sidebar "/admin/offerings/sidebar/settings", "/admin/offerings/sidebar/more_settings" %>

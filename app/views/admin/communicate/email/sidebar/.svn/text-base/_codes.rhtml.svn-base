@@ -1,0 +1,13 @@
+<% @recipient_sample ||= @recipients.first %>
+<div class="placeholder_codes_block">
+
+	<% prefix ||= nil %>
+	<% codes.each do |code|  %>
+		<% code_text = prefix.nil? ? "#{code}" : "#{prefix}.#{code}" %>
+		<% sample_error = "<span class=\"sample_error\">can't sample</span>" %>
+		<% sample_text = truncate(h(eval("@recipient_sample.#{code_text}")), :length => 400) rescue "#{sample_error}" if @recipient_sample %>
+		<%= link_to_insert_placeholder_text :email_body, code_text, code, sample_text %>
+	
+	<% end -%>
+
+</div>

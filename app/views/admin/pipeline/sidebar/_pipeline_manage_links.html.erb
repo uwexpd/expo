@@ -1,0 +1,21 @@
+<h3>Manage Links</h3>
+
+<ul class="link-list">
+  				
+  <li><%= link_to "Manage Subjects", 
+  				service_learning_pipeline_manage_position_attributes_path(@quarter, 
+  				                :attribute_class => 'PipelinePositionsSubject'),
+  				:class => "icon-left cog-edit" %></li>
+  				
+  <li><%= link_to "Manage Tutoring Types", 
+  				service_learning_pipeline_manage_position_attributes_path(@quarter, 
+  				                :attribute_class => 'PipelinePositionsTutoringType'),
+  				:class => "icon-left cog-edit" %></li>
+  				
+	<li><%= link_to "Manage Grade Levels", 
+  				service_learning_pipeline_manage_position_attributes_path(@quarter, 
+  				                :attribute_class => 'PipelinePositionsGradeLevel'),
+  				:class => "icon-left cog-edit" %></li>
+                  				
+  				
+</ul>

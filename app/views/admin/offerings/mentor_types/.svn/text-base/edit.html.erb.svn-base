@@ -1,0 +1,15 @@
+<h1>Edit Mentor Type</h1>
+
+<% form_for :mentor_type, @mentor_type, 
+			:url => offering_mentor_type_path(@offering, @mentor_type), 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', offering_mentor_type_path(@offering, @mentor_type), :class => 'cancel button' %>
+
+<% end %>

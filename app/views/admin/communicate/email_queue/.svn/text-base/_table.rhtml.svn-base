@@ -1,0 +1,21 @@
+<table>
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th>To</th>
+		<th>From</th>
+		<th>Subject</th>
+		<th>Queued</th>
+		<th>Edit</th>
+	</tr>
+	
+	<%= render :partial => "email", :collection => @emails %>
+	
+	<tr class="empty" id="empty_row" <%= "style='display:none'" unless @emails.empty? %>>
+		<td colspan=6>
+			There are no e-mails in the queue.
+			<br><br>
+			<%= link_to "Back", session[:return_to_after_email_queue], :class => 'button' if session[:return_to_after_email_queue] %>
+			</td>
+	</tr>
+	
+</table>

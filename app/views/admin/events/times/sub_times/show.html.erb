@@ -1,0 +1,64 @@
+<h1><%=h @time.time_only %>
+	<span class="light right"><%= link_to "Edit", edit_event_time_sub_time_path(@event, @time, @sub_time), :class => "edit button" %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>times</dt>
+	<dd><%= @sub_time.time_detail %></dd>
+
+	<dt>location</dt>
+	<dd><%= @sub_time.location_text %></dd>
+
+	<dt>capacity</dt>
+	<dd><%= @sub_time.capacity %></dd>
+
+	<dt>notes</dt>
+	<dd><%= @sub_time.notes %></dd>
+
+</dl>
+
+<h3>Invitees</h3>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'invitees_form' %>
+
+<table>
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th>Name</th>
+		<th>Attending?</th>
+		<% for title in @event.extra_fields.keys %>
+			<th><%= h(title) %></th>
+		<% end -%>
+	</tr>
+	
+	<% section = nil %>
+	<% for invitee in @invitees %>
+
+		<% if section != invitee.attending? %>
+		<tr class="rowset-header">
+			<td><%= select_all_check_box(invitee.attending?) %></td>
+			<td colspan=<%= 3 + @event.extra_fields.size %>>
+				<% if invitee.attending? %>
+					Attending <span class='light'>(<%= @sub_time.attendees.size %>)</span>
+				<% else %>
+					Not Attending <span class='light'>(<%= @sub_time.invitees.size - @sub_time.attendees.size %>)</span>
+				<% end -%>
+				</td>
+		</tr>
+		<% section = invitee.attending? %>
+		<% end -%>
+
+		<tr id="invitee_<%= invitee.id %>">
+			<td><%= select_check_box(invitee, invitee.attending?) %>
+			<td><%=h invitee.person.fullname rescue "#error" %></td>
+			<td><%= invitee.attending? ? "<span class=success-message>Y</span>" : "<span class=error-message>N</span>" %></td>
+			<% for val in @event.extra_fields.values %>
+				<td><%= auto_link invitee.instance_eval(h(val)) rescue "#error" %></td>
+			<% end -%>
+		</tr>
+		
+	<% end -%>
+
+</table>
+	
+<% sidebar :with_selected %>

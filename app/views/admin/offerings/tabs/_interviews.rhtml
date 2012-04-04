@@ -1,0 +1,38 @@
+<h2>Interviews</h2>
+<p>Define options for the interview process and the interview committee.</p>
+
+<dl class="inline-definitions">
+
+	<dt>Committee</dt>
+	<dd><%= f.collection_select :interview_committee_id, 
+								Committee.all, :id, :name, 
+								:include_blank => "None" %></dd>
+
+	<dt>Interview time</dt>
+	<dd>For applicants: <%= f.select :interview_time_for_applicants, 30.times.collect{|i| i*5+5}, :include_blank => "n/a" %> minutes
+		<br>
+		
+		For interviewers: <%= f.select :interview_time_for_interviewers, 30.times.collect{|i| i*5+5}, :include_blank => "n/a" %> minutes</dd>
+
+	<dt>Options</dt>
+	<dd><%= checkbox_with_label f, :uses_scored_interviews %>
+		<p class="caption">By default, interviewers make a Yes/No decision as a committee about each applicant that they interview.
+			If your interviewers are expected to provide a score, then check this box.
+			Interviewers will score on the same <%= link_to "review criteria", offering_review_criterions_path(@offering) %>
+			as reviewers.</p>
+			
+		<%= checkbox_with_label f, :interview_committee_submits_committee_score %>
+		<p class="caption">If the interview committee will submit a separate consensus score, check this box. If checked, 
+			the interview committee will also be asked for a decision recommendation.</p>
+		</dd>
+
+	<dt>Welcome Text</dt>
+	<dd><%= f.text_area :interviewer_help_text, :rows => 5, :style => "width: 99%" %>
+		<p class="caption">This bit of text is displayed in the "Welcome" box on the sidebar of the interviewer interface.</p></dd>
+
+
+</dl>
+
+<h2>Interviewer Instructions</h2>
+<p>This text is displayed to an interviewer when he or she is looking at an applicant's information.</p>
+<%= f.text_area :interviewer_instructions, :style => "width: 99%" %>

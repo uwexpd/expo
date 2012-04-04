@@ -1,0 +1,40 @@
+<h1><%= plural_name.titleize %>
+	<span class="light right"><%%= link_to "Add new <%= singular_name.sub(/_/,' ') %>", <%= new_path %>, :class => 'add button' %></span></h1>
+
+<%%= form_tag admin_communicate_write_email_url, :id => '<%= plural_name %>_form' %>
+
+<table>
+	<tr>
+	<%- for attribute in attributes -%>
+		<th><%= attribute.column.human_name.titleize %></th>
+	<%- end -%>
+		<th colspan=3>Functions</th>
+	</tr>
+	<%% for <%= singular_name %> in @<%= plural_name %> %>
+	<tr id="<%= singular_name %>_<%%= <%= singular_name %>.id %>">
+		<%- for attribute in attributes -%>
+		<td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+		<%- end -%>
+		<%- if action? :show -%>
+		<td><%%= link_to "Show", <%= show_path %> %></td>
+		<%- end -%>
+		<%- if action? :edit -%>
+		<td><%%= link_to "Edit", <%= edit_path %> %></td>
+		<%- end -%>
+		<%- if action? :destroy -%>
+		<td><%%= link_to_remote "Destroy", 
+						:url => <%= show_path %>, 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+		<%- end -%>
+	</tr>
+	<%% end %>
+
+	<%% if @<%= plural_name %>.empty? %>
+	<tr class="empty">
+		<td colspan=10>No <%= plural_name.sub(/_/,' ') %> exist. <%%= link_to "Create one.", <%= new_path %> %></td>
+	</tr>
+	<%% end %>
+
+</table>
+
+</form>

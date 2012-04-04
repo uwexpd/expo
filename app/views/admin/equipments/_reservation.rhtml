@@ -1,0 +1,20 @@
+<tr id="reservation_<%= reservation.id %>" class="<%= "green-background" if reservation.id.to_s == params[:success_id] %>">
+	
+	<td><%= link_to reservation.id_s, reservation %></td>
+	<td><%=h reservation.person.fullname %>
+		<%= content_tag(:span, "staff", :class => 'orange tag') if reservation.staff? %></td>
+	<td><%=h reservation.start_date.to_s(:date_with_full_month) %>
+		<%=h "@ #{reservation.start_date.to_s(:time12)}" if reservation.staff? %></td>
+	<td><%=h reservation.end_date.to_s(:date_with_full_month) %>
+		<%=h "@ #{reservation.end_date.to_s(:time12)}" if reservation.staff? %></td>
+	<td>
+		<% if reservation.checked_out? %>
+			<span class="light">Checked Out</span>
+		<% elsif reservation.checked_in? %>
+			<%=h reservation.checked_in_at.to_s(:date_with_full_month) %>:
+			<%= reservation.checkin_ok? ? "<span class=green>OK</span>" : "<span class=red>BAD</span>" %>
+		<% end -%>
+		</td>
+	
+
+</tr>

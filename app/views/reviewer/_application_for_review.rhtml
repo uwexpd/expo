@@ -1,0 +1,65 @@
+<% show_view_link ||= true; comments ||= 'show'
+   @a = application_for_review
+   @s = application_for_review.person
+    if @review_committee_member.nil?
+   		@a_r = @a.reviewers.find_by_offering_reviewer_id @person.offering_reviewers.find_by_offering_id(@offering)
+	else
+		@a_r = @a.reviewers.find_by_committee_member_id(@review_committee_member)
+	end
+	
+ %>
+
+<tr class="borderless">
+	<td><h3 class="inline"><%= @s.fullname %></h3> &nbsp; <%= @s.student_no %></td>
+	<td>Major: 				<strong><%= @s.sdb.majors_list %></strong></td>
+	<td>GPA: 				<strong><%= @s.sdb.gpa %></strong></td>
+	<td>Class: 				<strong><%= @s.sdb.class_standing_description %></strong></td>
+	<td>Current Credits:	<strong><%= @s.current_credits(@a.offering.quarter_offered) %></strong></td>
+	<td><%= link_to "View Application Materials and Add Comments &#x2192;", :action => "show", :id => @a unless show_view_link == :false%></td>
+</tr>
+
+<% if @viewing_past_app %>
+<tr class="borderless">
+	<td colspan=7 class="left-indent small warning" style="background-position: 3px 3px ">
+		<strong>Applied For:</strong> <%= "#{@a.offering.name} - #{@a.offering.quarter_offered.title}" %>
+	</td>
+</tr>
+<% end -%>
+
+<tr class="borderless">
+	<td colspan=7 class="left-indent"><strong><%= @a.project_title %></strong></td>
+</tr>
+
+<tr class="borderless">
+	<td colspan=7 class="left-indent"><strong>Mentor:</strong> <%= @a.mentors_list %></td>
+</tr>
+
+<%- unless @a.special_notes.blank? -%>
+<tr class="borderless">
+	<td colspan=7 class="left-indent">
+		<!-- <div class="application-special-notes"> -->
+			<strong>Special Notes from Program Staff:</strong> <%= @a.special_notes %>
+		<!-- </div> -->
+	</td>
+</tr>
+<%- end -%>
+
+<%- if @a.reviewed? -%>
+<tr class="borderless">
+	<td colspan=7 class="left-indent">
+		<strong>Review Committee Decision:</strong> <%= @a.review_committee_decision %>.
+		<strong>Feedback Person:</strong> <%= @a.feedback_person.fullname %>.
+	</td>
+</tr>
+<%- end -%>
+
+<tr>
+	<td colspan=7 class="left-indent" style="padding-top:10px">
+		<%- unless params[:comments] == 'hide' || comments == 'hide' -%>
+		<strong>Your Comments:</strong>
+		<br><div class="reviewer_comment_box">
+			<%= @a_r.comments %>
+			</div>
+		<%- end -%>
+	</td>
+</tr>

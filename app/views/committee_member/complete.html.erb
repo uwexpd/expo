@@ -1,0 +1,57 @@
+<% title(@committee.name, "Committee Login") %>
+
+<h1>Thank You!</h1>
+
+<% if params[:inactive] %>
+	<%= textilize @committee.inactive_text %>
+	
+<% else %>
+
+	<%= textilize @committee.complete_text %>
+	
+	<dl class="inline-definitions">
+
+	<dt>active quarters</dt>
+	<dd><ul style="margin:0" class="bulletless">
+		<% @committee_member.committee_member_quarters.upcoming(2).reject{|q| !q.active? }.each do |cmq| %>
+			<li><%= cmq.quarter.title %>
+				<small><%= "- #{cmq.comment}" unless cmq.comment.blank? %></small>
+			</li>
+		<% end -%>
+		</ul>
+		</dd>
+	
+	<dt>department</dt>
+	<dd><%= @committee_member.department %></dd>
+	
+	<dt>specialty</dt>
+	<dd><%= @committee_member.expertise %></dd>
+	
+	<dt>website</dt>
+	<dd><%= @committee_member.website_url %></dd>
+	
+	<dt>meetings</dt>
+	<dd><ul style="margin:0" class="bulletless">
+		<% meetings = @committee_member.committee_member_meetings.future.reject{|m| !m.attending? } %>
+		<% if meetings.empty? %>
+			<small class="light">none</small>
+		<% else %>
+			<% meetings.each do |cmm| %>
+				<li><%= cmm.meeting.title %> 
+					(<%= cmm.meeting.start_date.to_s(:date_time12) %>)
+					<small><%= "- #{cmm.comment}" unless cmm.comment.blank? %></small>
+				</li>
+			<% end -%>
+		<% end -%>
+		</ul>
+		</dd>
+	
+	</dl>
+
+	<p>If you would like to change any of the information above, <%= link_to "click here", :action => "availability" %>.</p>
+
+<% end -%>
+
+<%= textilize auto_link(@committee.unit_signature) %>
+
+<% sidebar :which, :progress %>

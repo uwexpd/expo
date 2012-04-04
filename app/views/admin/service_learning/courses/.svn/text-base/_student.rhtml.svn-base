@@ -1,0 +1,158 @@
+<% course ||= @course %>
+<% if student.nil? %>
+	<tr class="rowWithErrors" id="student_<%= student.id %>">
+		<td colspan=5>ERROR: could not find student record.</td>
+	</tr>
+<% else -%>
+
+	<% 
+	unless @course_extra_enrollees
+		@course_extra_enrollees = {}
+		course.course.course_extra_enrollees.each{|e| @course_extra_enrollees[e.person_id] = e } if course.respond_to?(:course)
+	end 
+	unless @extra_enrollees
+		@extra_enrollees = {}
+		@service_learning_course.extra_enrollee_records.each{|e| @extra_enrollees[e.person_id] = e }
+	end
+	%>
+	
+	<% placements = @placements[student.id] if @placements %>	
+	<% placed_for_course = !placements.nil? %>
+	<% pipeline_placements = !student.pipeline_placements.for(@quarter).blank? %>
+
+	<tr id="student_<%= student.id %>">
+		<td><%= select_check_box(student, course.try(:id)) %></td>
+	
+		<td>
+			<%= link_to student.fullname, [:admin, student] %>
+			<%= render :partial => "admin/service_learning/courses/minor_stamp", :locals => { :student => student } if student.sdb.age < 18 rescue "#age error" %>
+			<br><small><%= link_to_expo_email student rescue "#email error" %></small>
+		
+			<% if extra_enrollee = @course_extra_enrollees[student.id] %>
+				<br>
+				<span class="smaller lighter">
+				<% link = link_to 'drop', service_learning_course_extra_enrollee_path(@unit, @quarter, @service_learning_course, extra_enrollee.id, :type => "course"),
+				 							:confirm => 'Are you sure?', 
+											:method => :delete %>
+										
+				<%= "<font class='lighter grey'>(Not officially enrolled - #{link})</font>" %>
+				</span>
+			<% end %>
+		
+			<% if extra_enrollee = @extra_enrollees[student.id] %> 
+				<br>
+				<span class="smaller lighter">
+				<% link = link_to 'drop', service_learning_course_extra_enrollee_path(@unit, @quarter, course, extra_enrollee.id, :type => "service_learning_course"),
+				 							:confirm => 'Are you sure?', 
+											:method => :delete %>
+										
+				<%= "<font class='lighter grey'>(Not officially enrolled - #{link})</font>" %>
+				</span>
+			<% end %>
+		
+		</td>
+			
+		<td>
+			<% if placed_for_course %>
+				<% placements.each do |placement| %>
+					<% if placement.organization.name=="Pipeline Project" %>					    
+						<% if @use_pipeline_links %>
+							<span class="lighter grey" >
+				    			<%= placement.position.title %><span class="tag">carlson</span>
+								<% placed_for_course = false unless pipeline_placements %>
+							</span>
+						<% else %>
+						    <%= link_to placement.position.title, 
+								service_learning_organization_position_path(@unit, @quarter, placement.position.organization, placement.position) rescue "error" %>
+							<br>	
+							<span class="smaller lighter"> at
+								<%= link_to placement.position.organization.name,
+								 			service_learning_organization_path(@unit, @quarter, placement.position.organization) rescue "error" %>
+							</span><br>
+							
+							<% if pipeline_placements %>
+								<br>
+									<% position = student.pipeline_placements.for(@quarter).collect(&:position).uniq rescue nil %>
+									
+									<%= link_to position.collect(&:title), service_learning_organization_position_path(Unit.find_by_abbreviation("pipeline"), @quarter, 
+									            position.collect(&:organization).uniq, position) rescue "error" %>											
+								<span class="tag">pipeline</span>
+							<% end -%>								
+						<% end %>					    
+					<% else -%>
+						<%= link_to placement.position.title, 
+									service_learning_organization_position_path(@unit, @quarter, placement.position.organization, placement.position) rescue "error" %>
+						<br>
+						<span class="smaller lighter"> at
+						<%= link_to placement.position.organization.name,
+						 			service_learning_organization_path(@unit, @quarter, placement.position.organization) rescue "error" %>
+						</span><br>
+					<% end -%>
+										
+					
+					<% if @quarter.current_quarter? && !student.valid_service_learning_waiver? %>
+						<div id="missing_risk_warning_<%= student.id %>">
+							<%= render :partial => "admin/service_learning/courses/missing_risk_warning", :locals => { :student => student } %>
+						</div>
+					<% end -%>
+					
+				<% end -%>
+			<% else %>
+			    <% unless @use_pipeline_links %>
+				  <%= render :partial => "admin/service_learning/courses/manually_register", :object => student, :locals => { :course => course } %>
+				<% end %>
+			<% end -%>
+		</td>
+
+		<td>
+			<% if placed_for_course  %>
+				<%= link_to_remote "Unplace", 
+							:url => unplace_service_learning_course_path(@unit, @quarter, @service_learning_course, 
+																		:student_id => student,
+																		:course => course.try(:id)), 
+							:confirm => "Are you sure?", 
+							:method => :delete,
+							:indicator => 'global' %>
+			<% else %>
+			  <% if !@use_pipeline_links %>
+				  <%= link_to_function "Manually place", "Effect.toggle('manually_register_#{student.id}', 'blind', {duration: 0.25})" %>
+				<% else %>
+				  <%= link_to_function "Manually place", "pipeline_manually_place('#{escape_javascript(student.fullname)}',#{student.id})" %>
+				<% end %>
+			<% end -%>
+		</td>
+	
+		<td>
+			<% if placed_for_course %>
+				<% placements.each do |placement| %>
+					<% if placement.evaluation_submitted? %>
+						<%= link_to "Evaluation", 
+									service_learning_student_evaluation_path(@unit, @quarter, @service_learning_course, placement.id) %>
+					<%- else -%>
+						<div class="has-menu" style="display:block">
+							<%= link_to "Evaluation", 
+										service_learning_submit_student_evaluation_path(@unit, @quarter, @service_learning_course, placement.id),
+										:class => "menu" %>
+							<br><small>&nbsp;</small>
+						</div>
+					<% end -%>
+				
+				<% end -%>
+			<% end -%>
+		</td>
+	  
+	  <% if @use_pipeline_links %>
+		  <td>
+		    <span id="student_orientation_<%= student.id %>" class="<%= 'red' if (student.pipeline_orientation.nil? || student.pipeline_orientation <= Time.now-2.year) %>">
+		      <%= relative_timestamp(student.pipeline_orientation, {:date_only => true}) %>
+		    </span>
+		  </td>
+		  <td>
+		    <span id="student_background_check_<%= student.id %>" class="<%= 'red' if (student.pipeline_background_check.nil? || student.pipeline_background_check <= Time.now-2.year) %>">
+		      <%= relative_timestamp(student.pipeline_background_check, {:date_only => true}) %>
+		    </span>
+		  </td>
+		<% end %>
+	</tr>
+
+<% end -%>

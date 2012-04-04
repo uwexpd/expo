@@ -1,0 +1,9 @@
+<div id="abstract_search_results" class="panel" title="Results">
+	<%= render :partial => 'sorted_abstracts', :object => @result %>
+</div>
+
+<% if @result.empty? %>
+<div class="empty panel">
+	Sorry, but we couldn't find any presenters that matched your query.
+</div>
+<% end -%>

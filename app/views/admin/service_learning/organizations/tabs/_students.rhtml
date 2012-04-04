@@ -1,0 +1,91 @@
+<% group_for_email = "placements.filled" %>
+
+<h2>Students
+	<span class="light">&raquo; <%= @quarter.title %></span></h2>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'organization_students_form' %>
+	<input type=hidden name="recipient_variant" id="recipient_variant" value="">
+	<input type=hidden name="group_variant" id="group_variant" value="">
+
+<table>
+	<tr class="small left">
+		<th><%= select_all_check_box %></th>
+		<th>Student</th>
+		<th>Add note</th>
+		<th>Position</th>
+		<th colspan=2>Course</th>
+		<% unless @use_pipeline_links %>		
+			<th>Evaluation</th>
+		<% end%>
+	</tr>
+
+  <% for organization_quarter in @organization.organization_quarters.for_quarter(@quarter).sort_by{|x| x.unit == @unit ? -1 : 1} %>
+	
+	<tr class="rowset-header">
+		<td colspan=7><%= organization_quarter.unit.name %> Students</td>		
+	</tr>
+	
+	<% placements = organization_quarter.placements %>
+	
+	<% for placement in placements.filled.sort %>
+	
+	<tr>
+		<td><%= select_check_box(placement) %></td>
+		<td><%= link_to placement.person.fullname, [:admin, placement.person] %></td>
+		<td><%= link_to image_tag("icons/silk/note.png", :alt=> "Add note for this student" , :mouseover => "icons/silk/note_go.png"), 
+								  admin_student_path(placement.person, :anchor => "notes"), :popup => true %></td>
+		<td><%= link_to truncate(placement.position.title(true,true,false), :length => 30), 
+						service_learning_organization_position_path(@unit, 
+						              @quarter, @organization, placement.position ),
+						              :title => placement.position.title(true,true,false) %></td>
+		<td colspan=2>
+		<% unless placement.course.nil? %>
+		<%= link_to truncate(placement.course.title, :length => 20), 
+							service_learning_course_path(@unit, 
+							            @quarter, placement.course ),
+							            :title => placement.course.title %>
+		<% end %>
+		</td>
+		
+		<td>
+		<% if placement.evaluation_submitted? %>
+			<%= link_to "Evaluation", service_learning_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
+		<%- else -%>
+			<% unless @use_pipeline_links || organization_quarter.unit != @unit || placement.course.nil? %>
+				<%= link_to "Submit", service_learning_submit_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
+			<% end %>
+		<% end -%>
+		</td>
+		
+	</tr>
+	<% end -%>
+  <% end -%>
+	
+  <%- if placements.filled.empty? -%>
+  <tr class="empty">
+  		<td colspan=7>No students placed for <%= @quarter.title %></td>
+  </tr>
+  <% end -%>
+	
+</table>
+
+</form>
+
+<div class="buttons">
+	
+	<%= link_to_expo_email @organization_quarter, "E-mail all", :group_variant => group_for_email, :class => 'icon-left email button' %>
+	
+	<%= link_to_submit "E-mail selected", 
+						'organization_students_form',
+						:link_options => {:class => "icon-left email button"} %>
+
+	<%= button "Download Excel File", students_service_learning_organization_path(@unit, 
+	                  @quarter, :format => :xls ), :class => 'xls' %>
+	
+	<%= link_to_submit "Match pipeline with selected", 
+						'organization_students_form', 						
+						:url => match_pipeline_placement_service_learning_organizations_url(:organization => @organization),
+						:link_options => {:class => "icon-left match button"} if @organization.name == "Pipeline Project" %>
+	
+</div>
+	

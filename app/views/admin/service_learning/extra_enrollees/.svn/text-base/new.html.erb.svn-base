@@ -1,0 +1,11 @@
+<h1>New extra_enrollee</h1>
+
+<%= error_messages_for :extra_enrollee %>
+
+<% form_for(@extra_enrollee) do |f| %>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', extra_enrollees_path %>

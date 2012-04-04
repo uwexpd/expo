@@ -1,0 +1,4 @@
+# page.replace_html :email_body, @email_template.body
+page << "$('email_body').value = '#{escape_javascript(@email_template.body)}'"
+page << "$('email_from').value = '#{@email_template.from}'"
+page << "$('email_subject').value = '#{@email_template.subject}'"

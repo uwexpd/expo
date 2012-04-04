@@ -1,0 +1,23 @@
+<div class="big-border box">
+
+	<h4 class="icon-left edit-email">Update e-mail templates:</h4>
+
+	<table>
+
+		<% @task.email_templates.each do |t| %>
+
+			<tr><td width=40%><%= t.name.titleize %></td>
+				<td width=60%><%= link_to "Review e-mail text", 
+								admin_communicate_template_path(t), 
+								:popup => true %>
+					<small>
+						- Updated <%= time_ago_in_words(t.updated_at) rescue "unknown" %> ago by <%= t.updater.fullname rescue "unknown" %>
+					</small>
+				</td>
+			</tr>
+
+		<% end -%>
+	
+	</table>
+
+</div>

@@ -1,0 +1,16 @@
+<% content_tag('ul', :class => 'link-list', :title => "Results", :id => "results", :selected => "true") do %>
+	<% for attendee in auto_complete %>
+		<li id="auto_complete_<%= attendee.id %>">
+			<%- 
+			lastname = nil; firstname = nil; nickname = nil;
+			lastname = attendee.person_lastname.blank? ? attendee.group_member_lastname : attendee.person_lastname
+			firstname = attendee.person_firstname.blank? ? attendee.group_member_firstname : attendee.person_firstname
+			nickname = attendee.person_nickname unless attendee.person_nickname == firstname
+			name = "#{lastname}, #{firstname}#{" (#{nickname})" unless nickname.blank?}"
+			checked_in_tag = "<span class=\"#{"checked_in" if attendee.checked_in?} status tag\">checked in</span>"
+			-%>
+			<%#= link_to "#{highlight(name, highlight_phrase)}#{checked_in_tag}", :action => 'show', :id => attendee %>
+			<%= link_to "#{name}#{checked_in_tag}", {:action => 'show', :id => attendee} %>
+		</li>
+	<% end -%>
+<% end -%>

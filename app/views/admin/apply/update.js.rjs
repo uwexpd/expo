@@ -1,0 +1,3 @@
+#page.replace "applicant_reviewers_table_#{@app.id}", :partial => "applicant_reviewers_table" unless params[:app][:new_reviewer].nil? && params[:app][:remove_reviewer].nil?
+page.replace_html "tabview_content", :partial => "admin/apply/section/#{params[:tab]}" if params[:tab]
+page.replace_html "application_status", :partial => "admin/apply/application_status" if @update_application_status == true

@@ -1,0 +1,5 @@
+<h3>Alternate Views</h3>
+
+<ul class="link-list">
+	<li><%= link_to "Discipline Breakdown for Poster Sessions", :action => 'disciplines', :application_type_id => @offering.poster_application_type.try(:id) %></li>
+</ul>

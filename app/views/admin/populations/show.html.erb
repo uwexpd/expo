@@ -1,0 +1,119 @@
+<%= javascript_include_tag "tablesort" %>
+
+<h1><%=h @population.title %>
+	<%= content_tag(:span, "auto-generated", :class => 'orange outline tag') if @population.system? %>
+	<%= content_tag(:span, "manual", :class => 'outline tag') if @population.is_a?(ManualPopulation) %>
+	<span class="light right"><%= link_to "Edit", edit_population_path(@population), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@population) %></p>
+
+<div class="big-border box">
+	
+	<h4 class="icon-left info">Details</h4>
+	
+	<dl class="inline-definitions">
+
+		<%- unless @population.description.blank? -%>
+			<dt>Description</dt>
+			<dd><%=h @population.description %></dd>
+		<% end -%>
+
+		<% if @population.custom_query? %>
+
+			<dt>Query</dt>
+			<dd><code><%= @population.custom_query %></code></dd>
+
+		<%- elsif !@population.is_a?(ManualPopulation) -%>
+
+			<dt>Based on</dt>
+			<dd><%= @population.populatable_type %>:
+				<% id_str = @population.populatable.identifier_string rescue @population.populatable.title rescue @population.populatable.name rescue nil %>
+				<%= @population.populatable_type == "Population" ? link_to(id_str, population_path(@population.populatable)) : id_str %>
+				(<%= @population.starting_set %>)</dd>
+
+			<% unless @population.conditions.empty? %>
+			<dt>Conditions</dt>
+			<dd>
+				<p>Matching <%= @population.condition_operator %> of the following conditions:</p>
+				<ul class="pretty">
+					<% for condition in @population.conditions %>
+						<li><span class="tag outline"><%= condition.attribute_name %></span>
+							<span class=""><%= condition.eval_method %></span>
+							<span class="tag outline"><%= condition.value %></span>
+							</li>
+					<% end -%>
+					</ul>
+			</dd>
+			<% end -%>
+			
+			<% unless @population.result_variant.blank? %>
+			<dt>Result set</dt>
+			<dd><%= @population.result_variant %></dd>
+			<% end -%>
+			
+		<% end -%>
+		
+		<% unless @population.is_a?(ManualPopulation) %>
+		<dt>Generated</dt>
+		<dd><span class="<%= "red" if Time.now - @population.objects_generated_at > 1.month %>">
+				<%= time_ago_in_words @population.objects_generated_at %> ago
+			</span>
+			<small>- <%= link_to "Regenerate", regenerate_population_path(@population), :method => :post %></small>
+		</dd>
+		<% end -%>
+
+		<dt>Results</dt>
+		<dd><%= pluralize @objects.size, "record" %></dd>
+
+		<dt>Output
+			<br>
+			<%= link_to "edit", output_population_path(@population) unless @population.output_fields.blank? %></dt>
+		<dd>
+			<%= "<span class=\"light\">No output fields have been defined. " + link_to("Create one.", output_population_path(@population)) + "</span>" if @population.output_fields.blank? %>
+			<div class="population_field_codes">
+			<ul id="selected_population_field_codes" class="readonly">
+				<% for code in @population.output_fields
+					if code.match(/^CUSTOM_OUTPUT_FIELD\((.+)\):(.+)/)
+						custom_output_field = true
+						association_name = code.match(/^CUSTOM_OUTPUT_FIELD\((.+)\):(.+)/)[1]
+						code = code.match(/^CUSTOM_OUTPUT_FIELD\((.+)\):(.+)/)[2]
+						code_text = "#{code}"
+						custom_tag = "<span class=\"custom outline tag\" style=\"margin-left:0\">Custom</span>"
+					else
+						custom_output_field = false
+						association_name = code.split(".").size > 1 ? code.split(".").first.titleize : @objects.first.class.to_s.titleize
+						# code_text = code.split(".").last
+						code_text = code.split(".").size > 1 ? code.split(".")[1..(code.split(".").size-1)].join(".") : code
+						custom_tag = ""
+					end	
+					association_text_span = content_tag(:span, association_name, :class => 'association')
+					-%>
+					<li class="<%= 'custom_output_field' if custom_output_field %>">
+						<a class="placeholder_text_link"><%= custom_tag + association_text_span + code_text %></a>
+						</li>
+				<% end -%>
+			</ul>
+		</div>
+		</dd>
+
+	</dl>
+</div>
+
+<div class="big-border box grey">
+	<h4 class="icon-left list"><%= pluralize @population.objects.size, "record" %>
+		<span class="right"><%= link_to "Open in new window", objects_population_path(@population), :class => 'icon-left new-window' %></span>
+		</h4>
+	<%= content_tag 'div', indicator_image + ' Loading results...', indicator_options(:id => 'objects_indicator') %>
+	<div id="objects_placeholder" class="edge-to-edge" style="overflow:auto"></div>
+
+	<%= link_to_remote "Show results", 
+						{:url => objects_population_path(@population),
+						:update => 'objects_placeholder',
+						:method => :get,
+						:complete => "SortableTable.init($('sortable-table-0'))",
+						:indicator => 'objects_indicator'},
+						:class => 'button icon-left preview'  unless @population.objects.empty? %>
+						
+</div>
+
+<% sidebar :actions %>

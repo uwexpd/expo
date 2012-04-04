@@ -1,0 +1,80 @@
+<h1>Participant Lookup</h1>
+<p>You can look up individual students by name, major, mentor name, or mentor department.</p>
+
+<table class="borderless highlightless">
+	<tr>
+		<td>
+			<div class="box">
+				<table>
+					<tr><th>Students</th></tr>
+					<tr><td>
+						<% form_tag :action => 'result' do %>
+							Name: <%= text_field_tag :student_name, params[:student_name] %>
+							<%= submit_tag "Search", :disable_with => "Searching..." %>
+						<% end -%>
+					</td></tr>
+					<tr><td>
+						<% form_tag :action => 'result' do %>
+							Major:
+							<%= select_tag :student_major, 
+											options_for_select([["Majors (#{@majors.size})", nil]] + 
+																@majors.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
+																params[:student_major]),
+											{ :style => "width: 20em" } %>
+							<%= submit_tag "Lookup", :disable_with => "Looking up..." %>
+						<% end -%>
+					</td></tr>
+				</table>
+			</div>
+		</td>
+		<td>
+			<div class="box">
+				<table>
+					<tr><th>Mentors</th></tr>
+					<tr><td>
+						<% form_tag :action => 'result' do %>
+							Name: <%= text_field_tag :mentor_name, params[:mentor_name] %>
+							<%= submit_tag "Search", :disable_with => "Searching..." %>
+						<% end -%>
+					</td></tr>
+					<tr><td>
+						<% form_tag :action => 'result' do %>
+							Department:
+							<%= select_tag :mentor_department,
+											options_for_select([["Departments (#{@departments.size})", nil]] + 
+																@departments.map{|k,v| ["#{k} (#{v.size})", k]}.sort,
+											 					params[:mentor_department]), 
+											{ :style => "width: 20em" }%>
+							<%= submit_tag "Lookup", :disable_with => "Looking up..." %>
+						<% end -%>
+					</td></tr>
+				</table>				
+			</div>
+		</td>
+	</tr>
+</table>
+
+
+<% if @result %>
+	<h2>Results
+		<span class="light">&raquo; <%= pluralize (@result.size + @result.collect{|r| r.group_members.size}.sum), "students" %> 
+		presenting <%= pluralize @result.size, "project" %></span></h2>
+	
+	<table>
+		<tr>
+			<th width="25%">Student(s)</th>
+			<th width="25%">Mentor(s)</th>
+			<th>Project</th>
+			<th>Session</th>
+		</tr>
+		
+		<%= render :partial => 'result', :collection => @result, :locals => { :query_strings => @query_strings } %>
+
+		<% if @result.empty? %>
+		<tr class="empty">
+			<td colspan=6>Sorry, but we couldn't find any presenters that matched your query.</td>
+		</tr>
+		<% end -%>
+
+	</table>
+<% end -%>

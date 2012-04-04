@@ -1,0 +1,83 @@
+<%= javascript_tag("function handleCheckBoxes(n,c){bx=$$('.'+n);b=$(n);ac=true;au=true;f=false;t=true;
+    for (i=0;i<bx.length;i++){if(c){bx[i].checked=f;}else if(!bx[i].checked){ac=f;}else if(bx[i].checked){au=f;}}
+    if(!c){if(ac||au){handleCheckBoxes(n,t);}else{b.checked=f;}}else{b.checked=t;}}")%>
+<% make_main_content_blocked %>
+
+<div class="content-block">
+
+	<h1><%=h @service_learning_course.title %><%= "<span class='orange tag'>required</span>" if @service_learning_course.required %>
+		<span class="light right">
+		<%= link_to 'Edit', edit_service_learning_course_path(@unit, @quarter, @service_learning_course), :class => "edit button" %></span>
+		</h1>
+		
+	<table class="borderless paddingless marginless highlightless">
+		<tr>
+			<td>Position Browsing:</td>
+			<td width><%= link_to_remote "<span>#{@service_learning_course.finalized? ? "On" : "Off"}</span>",
+	 								{ :url => finalize_service_learning_course_path(@unit, @quarter, @service_learning_course,
+	 											:return_to => request.request_uri),
+	 								  :indicator => true },
+									{ :class => "#{@service_learning_course.finalized? ? "on" : "off"} switch",
+									  :id => "finalized_button_#{@service_learning_course.id}" }
+									 %>
+				</td>
+			<td>Registration Open:</td>
+			<td width><%= link_to_remote "<span>#{@service_learning_course.open? ? "On" : "Off"}</span>",
+	 								{ :url => open_service_learning_course_path(@unit, @quarter, @service_learning_course,
+	 											:return_to => request.request_uri),
+	 								  :indicator => true },
+									{ :class => "#{@service_learning_course.open? ? "on" : "off"} switch",
+									  :id => "open_button_#{@service_learning_course.id}" }
+									 %>
+				<%- if @service_learning_course.registration_open_time && !@service_learning_course.registration_open_time.past? -%>
+				<small class="light red">
+					Auto-open: <%= @service_learning_course.registration_open_time.to_s(:date_at_time12) %>
+				</small>
+				<% end -%>
+				
+				</td>
+		</tr>
+	</table>
+
+</div>
+
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		<%= link_to_tab("Course Details", "course_details", 
+						{ :id => @service_learning_course, :tab => "course_details" }, "tabview_content") %>
+		<%= link_to_tab("Notes (<span id='course_notes_count'>#{@service_learning_course.notes.size}</span>)", "notes", 
+						{ :id => @service_learning_course, :tab => "notes" }, "tabview_content") %>
+		<%= link_to_tab("Potential Organizations 
+						(<span id='potential_organizations_count'>#{
+						@service_learning_course.potential_organizations.size}</span>)", "organization_matches", 
+						{ :id => @service_learning_course, :tab => "organization_matches" }, "tabview_content") %>
+		<%= link_to_tab("Position Matches (#{@service_learning_course.positions.size})", "position_matches", 
+						{ :id => @service_learning_course, :tab => "position_matches", :filters => @use_pipeline_links }, "tabview_content") %>
+		</ul>
+	</div>
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+	
+		<div class="content" id="tabview_content">
+			<noscript>
+				<%= render :partial => "admin/service_learning/courses/tabs/course_details" %>
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+
+<%= autoload_tab("tabview_content", url_for(:id => @service_learning_course, :tab => ""), "course_details") %>
+
+<% if @use_pipeline_links %>
+  <% sidebar "admin/pipeline/sidebar/pipeline_links" %>
+<% end %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :instructors, :students, :course_note %>

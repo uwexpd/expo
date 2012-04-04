@@ -1,0 +1,10 @@
+page.replace "favorite_button_#{@pipeline_favorite.pipeline_position_id}", :partial => 'remove_favorite_button'
+unless @in_sidebar
+  page.if("$('pipeline_favorite_image_#{@pipeline_favorite.pipeline_position_id}')") do
+    page.replace "pipeline_favorite_image_#{@pipeline_favorite.pipeline_position_id}", :partial => 'remove_favorite_image'
+  end
+  # page.replace 'favorites_link', :partial => 'favorites'
+else
+  # page.replace 'favorites_link', :partial => 'favorites', :locals => {:div_class => "no_float"}
+end
+page.replace_html 'favorite_count', :text => "(#{@pipeline_favorites.size})"

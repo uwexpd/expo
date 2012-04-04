@@ -1,0 +1,51 @@
+<h1>Award Letters
+	<span class="light">&raquo; <%= pluralize @apps.size, "awardee" %></span>
+	<span class="light right">
+		Edit templates:
+		<%= link_to 'students', admin_communicate_template_path(@offering.applicant_award_letter_template), :popup => true rescue nil %>
+		| <%= link_to 'mentors', admin_communicate_template_path(@offering.mentor_award_letter_template), :popup => true rescue nil %>
+	</span></h1>
+	
+<form method="post" id="award_letters_form">
+	
+<table>
+	
+	<tr class="small left">
+		<th><%= select_all_check_box %></th>
+		<th>Name</th>
+		<th>Result</th>
+		<th>Student</th>
+		<th>Mentor</th>
+	</tr>
+	
+	<% for app in @apps %>
+	<tr <%= "class='not_current'" if app.award_letter_sent? && app.mentor_letters_sent? %>>
+		<td><%= select_check_box app %></td>
+
+		<td><%= app.fullname %></td>
+
+		<td><%= app.awarded? ? "Awarded" : "Not Awarded" %></td>
+
+		<td><%= link_to "Letter", {:action => 'award_letter', :id => app, :format => 'pdf'}, :popup => true %>
+			<%= "*" if app.custom_award_letter_text? %>
+			| <%= link_to "Envelope", {:action => 'award_envelope', :id => app, :format => 'pdf'}, :popup => true %>
+			| <%= link_to "Customize", {:action => 'customize_award_letter', :id => app} %>
+			<small class="light"><%= "<br>Sent #{time_ago_in_words(app.award_letter_sent_at)} ago" if app.award_letter_sent? %></small></td>
+
+		<td><%= link_to "Letter", {:action => 'mentor_letter', :id => app, :format => 'pdf'}, :popup => true %>
+			| <%= link_to "Envelope", {:action => 'mentor_envelope', :id => app, :format => 'pdf'}, :popup => true %>
+			| Customize: 
+				<% app.mentors.each_with_index do |mentor, i| %>
+					<%= link_to (i+1).to_s, {:action => 'customize_mentor_letter', :id => mentor} %>
+					<%= "*" if mentor.custom_mentor_letter_text? %>
+				<% end -%>
+			<small class="light">
+			<%= "<br>Sent #{time_ago_in_words(app.mentors.first.mentor_letter_sent_at)} ago" if app.mentor_letters_sent? %></small></td>
+	</tr>
+	<% end -%>
+	
+</table>
+
+<% sidebar :award_letters %>
+
+</form>

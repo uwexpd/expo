@@ -1,0 +1,36 @@
+<!-- Appointments -->
+<%
+detail = ""
+user_person_ids = unit.users.collect(&:person_id).compact
+staff_person_ids_condition = "staff_person_id IN (#{user_person_ids.join(",")}) OR " unless user_person_ids.empty?
+appointments = Appointment.find(:all, 
+	:include => [:staff_person, :student],
+	:conditions => ["(#{staff_person_ids_condition} unit_id = ?) 
+					AND type IS NULL AND start_time >= ? AND start_time <= ?", 
+					unit.id, @start_quarter.first_day, @end_quarter.next.first_day])
+total = appointments.count
+people = appointments.collect(&:student)
+participants[unit] << people
+appointment_total << people
+
+for staff_person_id, count in appointments.collect(&:staff_person_id).inject(Hash.new(0)) {|h,x| h[x]+=1;h}
+	detail << "<li>#{Person.find(staff_person_id).fullname}: <strong>#{count}</strong></li>" unless count.zero?
+end
+ -%>
+<td class="light-left-border"><%= total.zero? ? "-" : tooltip(total, detail) %></td>
+
+
+<!-- Quick Contacts -->
+<%
+detail = ""
+user_person_ids = unit.users.collect(&:person_id).compact
+staff_person_ids_condition = "staff_person_id IN (#{user_person_ids.join(",")}) OR " unless user_person_ids.empty?
+appointments = Appointment.find(:all, 
+	:conditions => ["(#{staff_person_ids_condition} unit_id = ?) 
+					AND type = 'QuickContact' AND start_time >= ? AND start_time <= ?", 
+					unit.id, @start_quarter.first_day, @end_quarter.next.first_day])
+total = appointments.count
+quick_contact_total << appointments
+
+ -%>
+<td><%= total.zero? ? "-" : total %></td>

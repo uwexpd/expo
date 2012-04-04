@@ -1,0 +1,7 @@
+<li>
+	<%= qf.label(question.attribute_to_update, question.question) %>
+	<%= qf.text_field question.attribute_to_update, :size => question.width %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %>
+	<%= content_tag('p', "#{question.character_limit} character limit", :class => 'question_caption') if question.character_limit? %>
+	<%= display_computed_caption(question.caption) if question.caption? %>
+</li>

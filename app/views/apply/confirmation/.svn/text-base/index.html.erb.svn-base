@@ -1,0 +1,38 @@
+<%= title @offering.title, "Confirm Your Participation" %>
+
+<%= render :partial => "apply/switch" if @application_count > 1 %>
+
+<h1>Confirm Your Participation</h1>
+<%= textilize @offering.confirmation_instructions %>
+
+<% form_for :confirmation, @confirmer, :url => { :action => 'confirm' } do |f| %>
+	
+	<table class="borderless extra_padding" style="width: 55%">
+
+		<tr>
+			<td><%= f.radio_button :confirmed, true %></td>
+			<td><%= f.label :confirmed_true, textilize_without_paragraph(ERB.new(@offering.confirmation_yes_text).result(binding)) %></td>
+		</tr>
+		
+		<tr>
+			<td><%= f.radio_button :confirmed, false %></td>
+			<td><%= f.label :confirmed_false, "No, I will not be participating in the #{@offering.title}." %>
+				<% unless @is_group_member %>
+					<br><small>Note: This will cancel your application.</small>
+				<% end -%></td>
+					
+		</tr>
+		
+	</table>
+	
+	<div class="progress_nav_buttons">
+			<% if @confirmer.confirmed.nil? || Date.today <= Date.new(2011, 04, 15) #TODO: Add @confirmer.offering.confirm_date %>
+				<%= f.submit "Submit your confirmation →", :disable_with => "Submitting confirmation..." %>
+			<% else %>
+				<p class="grey">You've confirmed your participation. Please contact urp@uw.edu if needs to change your participation.</p>	
+			<% end -%>
+	</div>
+
+<% end -%>
+
+<%= render :partial => "sidebar", :locals => { :page => 'index' } %>

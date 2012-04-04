@@ -1,0 +1,37 @@
+<% form_url = service_learning_organization_path(@unit, @quarter, @organization) %>
+
+<h3>Status &amp; Staff Contact</h3>
+
+
+<% form_for @organization_quarter, :url => form_url do |f| -%>
+
+	Currently assigned to: 
+	<br><strong><%= @organization_quarter.staff_contact_user.fullname rescue "(no one)" %></strong>
+	(<%= link_to_function "change", "Effect.toggle('staff_contact_user', 'blind', {duration: 0.25})" %>)
+
+	<div id="staff_contact_user" style="display:none">
+		Assign to:
+		<%= f.collection_select :staff_contact_user_id,
+		 						@unit.users.uniq,
+								:id, :fullname %>
+
+		<%= f.submit "Change" %>
+	</div>
+
+<br><br>
+
+	Current Status: 
+	<br><strong><%= @organization_quarter.status.title rescue "(New)" %></strong>
+	(<%= link_to_function "change", "Effect.toggle('change_status', 'blind', {duration: 0.25})" %>)
+
+	<div id="change_status" style="display:none">
+		Change to:
+		<%= f.select :status,
+					OrganizationQuarterStatusType.find(:all).collect{|t| [t.title, t.id]},
+					:selected => @organization_quarter.status.type.id,
+					:prompt => true %>
+
+		<%= f.submit "Change" %>
+	</div>
+
+<% end -%>

@@ -1,0 +1,37 @@
+10
+
+dir
+2195
+svn+ssh://isidore/usr/local/svn/exporepo/trunk/lib/generators/expo_scaffold/templates/tests
+svn+ssh://isidore/usr/local/svn/exporepo
+
+
+
+2009-08-19T22:11:39.218816Z
+1303
+okeelee
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8539ea28-dac5-4dad-ab9e-748f88f55080
+
+shoulda
+dir
+
+testunit
+dir
+
+rspec
+dir
+

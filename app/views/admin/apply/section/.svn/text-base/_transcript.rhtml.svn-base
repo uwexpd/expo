@@ -1,0 +1,12 @@
+<% print_only ||= false %>
+<% audience ||= :admin %>
+
+<h2>Student Transcript</h2>
+
+<% if @app.person.is_a?(Student) %>
+	<%= render :partial => "admin/students/transcript", :object => @app.person, :locals => { :print_only => print_only, :audience => audience } %>
+<% else %>
+	<big><div class="small warning">
+		This interface only displays transcript for UW students. For non-UW students, please see <strong>Essay &#38; Files</strong> tab.
+	</div></big>
+<% end %>

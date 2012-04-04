@@ -1,0 +1,9 @@
+<table>
+
+	<% @task.application_status_types.each do |t| %>
+		<tr><td width=40%><%= t.name.titleize %></td>
+			<td width=60%><%= status_email_view_links_array(t.name, @offering).join("<br>") %></td>
+		</tr>
+	<% end -%>
+	
+</table>

@@ -1,0 +1,3 @@
+class ActivityCourseStudent < Activity
+  
+end

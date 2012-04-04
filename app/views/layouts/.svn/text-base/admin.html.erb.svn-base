@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="shortcut icon" href="/favicon.ico" />
+	
+	<title><%= strip_tags session[:breadcrumbs].title(" &raquo; ", :skip_first => true) %></title>
+	
+	<%= stylesheet_link_tag 'shared', :media => "all" %>
+	<!--[if lte IE 7]><%= stylesheet_link_tag 'shared_ie', :media => "all" %><![endif]-->
+	<%= stylesheet_link_tag 'admin', :media => "all" %>
+	<!--[if lte IE 7]><%= stylesheet_link_tag 'admin_ie', :media => "all" %><![endif]-->
+	<%= stylesheet_link_tag 'print', :media => "print" %>
+	<%= javascript_include_tag :defaults %>
+	
+	<%= javascript_include_tag 'routing_navigator' if RAILS_ENV == 'development' %>
+    <%= stylesheet_link_tag 'routing_navigator' if RAILS_ENV == 'development' %>
+
+	<% if @uses_google_maps %>
+	<!-- Google Maps -->
+		<%= GMap.header %>
+		<%= @map.to_html unless @map.blank? %>
+	<% end -%>
+
+	<!-- Editors -->
+	<%= javascript_include_tag "fckeditor/fckeditor" %>
+	<%= include_tiny_mce_if_needed %>
+	<%= javascript_include_tag "tiny_mce_customizations" if using_tiny_mce? %>
+
+	<%= javascript_include_tag "swfobject" if @uses_charts %>
+	
+	<% if @uses_highcharts %>
+		<%= javascript_include_tag 'jquery-1.3.2.min', 'highcharts' %>
+		<!--[if IE]>
+		    <%= javascript_include_tag 'excanvas.compiled' %>
+		<![endif]-->
+	<% end -%>
+	
+	<%= yield :head %>
+	
+</head>
+
+<body class="<%= controller.controller_name %> <%= controller.action_name %> <%= RAILS_ENV %>">
+
+<%= content_tag('div', "<span>#{RAILS_ENV}</span>", :class => 'rails_env', :id => RAILS_ENV) if RAILS_ENV != 'production' %>
+
+<%= render :partial => "admin/shared/update_parent_select_js" if session[:dom_id_to_update] && @new_select_value %>
+
+
+<%= yield :outside_layout %>
+
+
+
+<!-- wrap -->
+<div id="wrap">
+  
+	<%= content_tag('div', yield(:confidentiality_note) || "CONFIDENTIAL", :class => 'confidentiality_note') %>
+
+	<%= content_tag 'div', indicator_image + ' Loading... ', indicator_options('global') %>
+
+	<!-- header -->
+	<div id="header">
+		<ul id="account-nav">
+			<% if logged_in? %>
+				<li id="username">
+					<%= render :partial => "shared/username_note" %></li>
+				<li><%= link_to_unless_current "Edit Your Profile", profile_path(:return_to => request.url) %></li>
+				<li><%= link_to "Log out", logout_path %></li>
+				<% if current_user.admin? %>
+					<li><%= render :partial => "shared/save_favorite" %></li>
+				<% end %>
+			<% end %>
+		</ul>
+		
+		<div id="w-patch"></div>
+
+		<h1><%= link_to 'EXP-Online', root_path %></h1>
+		
+		<div id="subtitle">
+			<%= @header_subtitle %>
+			<%= yield :header_subtitle %>
+		</div>
+		
+	</div>
+	<!-- /header -->
+
+	<!-- content -->
+	<div id="content">
+
+		<!-- main -->
+		<div id="main" class="<%= yield :main_class %>">
+			
+			<div id="breadcrumbs">
+				<%= render :partial => "admin/breadcrumbs" %>
+			</div>
+
+			<div id="flashes">
+				<% flash.each do |key, msg| %>
+					<% hide_button = link_to_function "hide", "Effect.BlindUp('#{key}', { duration: 0.5 })", :class => "hide" %>
+					<%= content_tag :div, hide_button + msg, :id => "#{key}" %>
+				<% end %>
+				<%#= javascript_tag "Effect.BlindUp.delay(5, 'flashes')" unless flash.values.compact.empty? %>
+			</div>
+
+			<div id="main-content" class="<%= yield :main_content_class %>">
+				
+				<%= yield :layout %>
+				
+			</div>
+			
+			<!-- footer -->
+			<div id="footer">
+				<p>
+					Copyright &copy; 2007&ndash;<%= Time.now.year %> <a href="http://www.washington.edu">University of Washington</a>.
+					Problems, questions or suggestions? Send an e-mail to <%= auto_link CONSTANTS[:system_help_email] %>.
+				</p>
+			</div>
+			<!-- /footer -->
+			
+			<%= render :partial => "/dev_helper" if RAILS_ENV == 'development' %>
+			
+			
+		</div>
+		<!-- /main -->
+
+		<!-- sidebar -->
+		<div id="sidebar">
+			<%= yield :sidebar %>
+		</div>
+		<!-- /sidebar -->
+
+	</div>
+	<!-- /content -->
+
+
+	
+</div>
+<!-- /wrap -->
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-5911676-4']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+
+<%- if @uses_highcharts -%>
+	<script type="text/javascript">
+	    $(document).ready(function() {
+	        <%= yield :javascript %>
+	    });
+	</script>
+<% end -%>
+
+</body>
+</html>
+
+

@@ -1,0 +1,16 @@
+<p><strong>Your interview time is:</strong></p>
+	<ul>
+		<li>
+			<%= interview_time.start_time_pretty %>
+			<br><%= interview_time.location %>
+			<br><em>Interviews last <%= interview_time.offering.interview_time_for_applicants %> minutes.</em>
+		</li>
+	</ul>
+
+<p><strong>Your interview committee consists of the following individuals:</strong></p>
+	<ul>
+		<% interview_time.interviewers.each do |i| %>
+			<li><%= i.person.fullname %>
+				(<%= auto_link i.person.email %>)</li>
+		<% end %>
+	</ul>

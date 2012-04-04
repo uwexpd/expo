@@ -1,0 +1,15 @@
+<h1>Edit Equipment Category</h1>
+
+<% upload_form_for :equipment_category, @equipment_category, 
+			:url => @equipment_category, 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', @equipment_category, :class => 'cancel button' %>
+
+<% end %>

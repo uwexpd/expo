@@ -1,0 +1,4 @@
+<h3>Tasks for this Phase
+	<span class="light"><%= link_to "see all", admin_apply_phase_tasks_path(@offering, @phase) %></span></h3>
+
+<%= render :partial => "admin/apply/phases/tasks/tasks" %>

@@ -1,0 +1,42 @@
+<% fields_for "population[condition_attributes][#{condition.id}]", condition do |cf| %>
+
+<tr id="condition_<%= condition.id %>" class="condition">
+	
+	<td><%= cf.select :attribute_name, condition.possible_attributes, :include_blank => true %></td>
+		<%= observe_field "population_condition_attributes_#{condition.id}_attribute_name", 
+							:url => refresh_dropdowns_population_condition_path(@population, condition.id || "new"),
+							:submit => "condition_#{condition.id}",
+							:indicator => "condition_indicator_#{condition.id || "new"}" %>
+	
+	<td id="<%= "condition_#{condition.id}_eval_method_container" %>">
+		<%= render :partial => "admin/populations/conditions/eval_method_dropdown", :object => condition %>
+		</td>
+		<%= observe_field "population_condition_attributes_#{condition.id}_eval_method_container", 
+							:url => refresh_dropdowns_population_condition_path(@population, condition.id || "new"),
+							:submit => "condition_#{condition.id}",
+							:indicator => "condition_indicator_#{condition.id || "new"}" %>
+							
+	<td id="<%= "condition_#{condition.id}_value_container" %>">
+		<%= render :partial => "admin/populations/conditions/value_dropdown", :object => condition %>
+		</td>
+		<%= observe_field "population_condition_attributes_#{condition.id}_value_container", 
+							:url => refresh_dropdowns_population_condition_path(@population, condition.id || "new"),
+							:submit => "condition_#{condition.id}",
+							:indicator => "condition_indicator_#{condition.id || "new"}" %>
+	
+	<td><%= link_to_remote "<span>Remove</span>",
+	 						{:url => population_condition_path(@population, condition),
+	 						:method => :delete,
+							:indicator => "condition_indicator_#{condition.id}"},
+							:class => "icon-left no-text trash" %>
+		</td>
+		
+	<td><%= indicator "condition_indicator_#{condition.id}" %>
+		
+		<%= cf.hidden_field :id %>
+		<%= cf.hidden_field :should_destroy %>
+		</td>
+	
+</tr>
+
+<% end -%>

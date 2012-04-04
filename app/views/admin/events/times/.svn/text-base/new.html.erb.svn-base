@@ -1,0 +1,13 @@
+<h1>New Time</h1>
+
+<% form_for :time, @time, :url => event_times_path(@event) do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', event_path(@event) %>
+
+<% end %>

@@ -1,0 +1,8 @@
+unless @service_learning_course.no_filters
+  page.hide "filter_match_block"
+  page.replace_html "filter_match_block", :partial => "pipeline_filter_matches" 
+  page.visual_effect :blind_down, "filter_match_block"
+else
+  page.visual_effect :blind_up, "filter_match_block"
+end
+page.hide "toggle_filters_indicator"

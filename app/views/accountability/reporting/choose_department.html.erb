@@ -1,0 +1,21 @@
+<h1>Welcome, <%= @my.firstname %>.</h1>
+
+<p>You're authorized to report accountability numbers for multiple departments. Please select the department that you'd like to view or edit right now. You will be able to come back to this page later to make changes to your other department(s).</p>
+
+<%= form_tag %>
+
+	<ul class="link-list">
+		
+		<% for dauth in @department_authorizations %>
+		<li onClick="$('accountability_department_authid_<%= dauth.id %>').click()">
+			<%= radio_button_tag :accountability_department_authid, dauth.id, session[:accountability_department_authid].to_i == dauth.id %>
+			<%= label_tag "accountability_department_authid_#{dauth.id}", dauth.authorizable.name %>
+		</li>
+		<% end -%>
+		
+	</ul>
+	
+	<br>
+	<center><%= submit_tag "Continue" %></center>
+	
+</form>

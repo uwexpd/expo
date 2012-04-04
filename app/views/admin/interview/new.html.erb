@@ -1,0 +1,10 @@
+<h3>Create New Interview Time</h3>
+
+<%= error_messages_for :offering_interview %>
+
+<% form_for :offering_interview, :url => { :action => 'create' } do |f| %>
+
+	<%= render :partial => "form", :locals => { :f => f } %>
+	<%= f.submit "Create Interview Time" %>
+	
+<% end %>

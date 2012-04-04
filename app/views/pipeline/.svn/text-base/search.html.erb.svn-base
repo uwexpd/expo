@@ -1,0 +1,15 @@
+<h1><%= "#{@service_learning_course.nil? ? 'Pipeline Volunteer' : @service_learning_course.title} Position Search" %></h1>
+
+<% if @service_learning_course.nil? || @service_learning_course.finalized %>
+	<% if @service_learning_course.nil? || !@service_learning_course.no_filters %>
+  		<% form_remote_tag(:url => pipeline_search_path(), :html => {:id => "pipeline_search_form"}, :indicator => "search_indicator") do %>
+    		<%= render :partial => "search_fields", :locals => {:display_for_admin => false} %>
+    		<%= (hidden_field_tag "course_abbrev", @course_link.abbrev) unless @course_link.nil? %>
+  		<% end %>
+	<% end %>
+
+	<%= render :partial => "results" %>
+
+<% end %>
+
+<% sidebar :navigation, :confirmed_positions %>

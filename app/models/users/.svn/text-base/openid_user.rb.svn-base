@@ -1,0 +1,2 @@
+class OpenidUser < User
+end

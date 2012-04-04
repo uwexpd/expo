@@ -1,0 +1,7 @@
+page.replace_html "bg_check_item_#{@student.id}", "#{link_to_remote "Clear student background check", 
+                                                            :url => {:controller => "pipeline",
+                                                                      :action => "clear_background_check",
+                                                                      :person_id => @student.id,
+                                                                      :student_tab => true },
+                                                            :loading => "$('bg_check_#{@student.id}').show()"}"
+page << "$('bg_check_#{@student.id}').hide();"

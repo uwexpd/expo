@@ -1,0 +1,3 @@
+page.replace "phase_task_#{@task.id}", :partial => "task"
+#page.replace "tasks", :partial => "tasks"
+#page.visual_effect :highlight, "tasks_list_task_#{@task.id}"

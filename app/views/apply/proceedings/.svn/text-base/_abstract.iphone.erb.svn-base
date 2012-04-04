@@ -1,0 +1,58 @@
+<% reference_quarter ||= @reference_quarter || Quarter.find_by_date(abstract.offering.deadline) %>
+
+<li class="abstract">
+	
+	<a href="<%= apply_proceedings_url(@offering, 'show', :id => abstract) %>">
+	
+		<span class="project_title"><%= abstract.stripped_project_title.strip %></span>
+
+		<dl class="inline-definitions">
+
+			<% cache(:controller => 'proceedings', :action => 'abstract_presenters', :id => abstract.id, :format => :iphone) do %>
+
+			<dt><%= pluralize_without_count (1 + abstract.group_members.count), "Presenter" %></dt>
+			<dd>
+
+				<ul>
+					<!-- Primary presenter -->
+					<li><% 	presenter = [(content_tag(:span, abstract.person.firstname_first, :class => "student_name") rescue "Unknown")]
+							presenter << "#{abstract.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}"
+						    presenter << "#{content_tag(:span, abstract.person.majors_list(true, ", ", reference_quarter), :class => "student_major") rescue nil}"
+						    presenter << "#{abstract.person.institution_name rescue nil}" unless abstract.person.is_a?(Student)
+					%><%= presenter.join(", ") %>
+
+					<!-- Primary presenter scholarships -->
+				    <%- unless abstract.other_awards.empty? -%>
+						<%= content_tag(:span, abstract.other_awards.sort.collect(&:scholar_title).join(", "), :class => "awards_list") %>
+				    <% end -%>
+					</li>
+
+					<!-- Group members -->
+					<% for group_member in abstract.group_members %>
+					<li>
+						<%= group_member.info_detail_line(true) %>
+						<%= content_tag(:span, group_member.person.awards_list, :class => "awards_list") unless group_member.person.awards_list.blank? rescue nil %>
+					</li>
+					<% end -%>
+
+				</ul>
+			</dd>
+
+			<dt><%= pluralize_without_count abstract.mentors.count, "Mentor" %></dt>
+			<dd>
+				<ul>
+
+					<!-- Mentors -->
+					<% for mentor in abstract.mentors %>
+						<li><%= mentor.info_detail_line(true) %></li>
+					<% end -%>
+
+				</ul>
+			</dd>
+			<% end -%>
+	
+		</dl>
+
+	</a>
+
+</li>

@@ -1,0 +1,54 @@
+<div id="date_range_select">
+	<label>Dates of Reservation</label>
+	
+	<span id="date_range_error" class="error-message"></span>
+
+	<div id="pickup_date">
+		<strong>Pick up on:</strong>
+
+		<% valid_date_checks = ["date >= (new Date()).stripTime()",
+								"date.getDay() != 0",
+								"date.getDay() != 6",
+								"date < Date.parse(\"#{Quarter.current_quarter.next.first_day.to_s(:long)}\")"
+								]
+
+		for holiday in UwCalendar.holidays.keys
+			holiday_check = "!(date.getFullYear() == '#{holiday.strftime("%Y")}' && date.getMonth() == '#{holiday.strftime("%m").to_i-1}' && date.getDate() == '#{holiday.strftime("%d").to_i}')"
+			valid_date_checks << holiday_check
+		end %>
+
+		<%= calendar_date_select :reservation, 
+									:start_date, 
+									:time => false, 
+									:popup => 'force',
+									:valid_date_check => valid_date_checks.join(" && "),
+									:year_range => Time.now..1.year.from_now,
+									:onchange => remote_function(
+										:url => { :action => 'update', :id => @reservation },
+										:submit => 'date_range_select',
+										:indicator => 'global'
+									) %>
+	</div>
+	
+	<div id="return_date" style="<%= "display:none" unless @reservation.start_date %>">
+		<strong>Return by 4 pm on:</strong>
+		
+		<%= select :reservation, 
+					:end_date, 
+					@reservation.end_date_choices[:dates], 
+					:disabled => @reservation.end_date_choices[:disabled], 
+					:selected => (@reservation.end_date.to_s(:db) rescue nil),
+					:prompt => "-- Please select your return date --" %>
+					
+					<%#  + [["I'd like to reserve the equipment longer", "extend"]] %>
+					
+		<%= observe_field :reservation_end_date,
+							:url => { :action => 'update', :id => @reservation },
+							:submit => 'date_range_select',
+							:indicator => 'global' %>
+		
+	</div>
+										
+</div>
+
+<%= javascript_tag "$('reservation_start_date').next().onclick()" unless @reservation.start_date %>

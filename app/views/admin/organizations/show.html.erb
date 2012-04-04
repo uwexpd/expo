@@ -1,0 +1,63 @@
+<p>
+  <b>Name:</b>
+  <%=h @organization.name %>
+</p>
+
+<p>
+  <b>Default location:</b>
+  <%=h @organization.default_location_id %>
+</p>
+
+<p>
+  <b>Parent organization:</b>
+  <%=h @organization.parent_organization_id %>
+</p>
+
+<p>
+  <b>Mailing line 1:</b>
+  <%=h @organization.mailing_line_1 %>
+</p>
+
+<p>
+  <b>Mailing line 2:</b>
+  <%=h @organization.mailing_line_2 %>
+</p>
+
+<p>
+  <b>Mailing city:</b>
+  <%=h @organization.mailing_city %>
+</p>
+
+<p>
+  <b>Mailing state:</b>
+  <%=h @organization.mailing_state %>
+</p>
+
+<p>
+  <b>Mailing zip:</b>
+  <%=h @organization.mailing_zip %>
+</p>
+
+<p>
+  <b>Website url:</b>
+  <%=h @organization.website_url %>
+</p>
+
+<p>
+  <b>Main phone:</b>
+  <%=h @organization.main_phone %>
+</p>
+
+<p>
+  <b>Mission statement:</b>
+  <%=h @organization.mission_statement %>
+</p>
+
+<p>
+  <b>Approved:</b>
+  <%=h @organization.approved %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_organization_path(@organization) %> |
+<%= link_to 'Back', params[:return_to] || admin_organizations_path %>

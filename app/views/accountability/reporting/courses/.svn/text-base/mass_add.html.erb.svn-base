@@ -1,0 +1,75 @@
+<% make_main_content_blocked %>
+<div class="content-block">
+	<h1 class="big-icon presentation">Add <%= @year %> Courses</h1>
+	<%= HelpText.caption :reporting_interface_report_courses_add, AccountabilityReport %>	
+</div>
+
+<%- for abbrev, results in @courses -%>
+<div class="content-block" id="results_<%= abbrev.hash %>" class="icon-left">
+	<h3>You entered <strong>"<%= abbrev %>"</strong>. We found <%= pluralize((results[:courses].collect(&:last).flatten.collect(&:size).sum rescue 0), "course") %>.</h3>
+
+	<div id="results_form_<%= abbrev.hash %>">
+	<%- if results[:courses].nil? || results[:courses].empty? -%>
+		<span class="error-message">ERROR: <%= results[:message] || "No courses found" %></span>
+	<%- else -%>
+		<% form_remote_tag  :url => mass_create_accountability_reporting_courses_url(@year), 
+							:method => "put",							
+							:before => "if($F('activity_type_id_#{abbrev.hash}')==''){
+							 		$('error_#{abbrev.hash}').innerHTML='Please choose an activity type.'; 
+									$('activity_type_id_#{abbrev.hash}').addClassName('fieldWithErrors');
+									$('indicator_add_#{abbrev.hash}').hide();
+									return false;
+								}",
+							:indicator => "indicator_add_#{abbrev.hash}" do -%>
+	
+			<table>
+				<tr class="small">
+					<th>Course/Section</th>
+					<% for quarter in @quarters %>
+						<th><%= quarter.abbrev %></th>
+					<% end -%>
+				</tr>
+
+				<% for course_title, quarters in results[:courses] %>
+				<tr>
+					<td><%= course_title %></td>
+					<% for quarter in @quarters %>
+					<td>
+						<% if quarters[quarter] %>
+							<% rand = rand(100000000) %>
+							<%= check_box_tag "course_ids[]", quarters[quarter].id, true, :id => "course_ids_#{rand}" %>
+							<small class="light">
+								<label for="course_ids_<%= rand %>">
+								<%= pluralize quarters[quarter].registrants_count, "student" %>
+								</label>
+							</small>
+						<% end -%>
+					</td>
+					<% end -%>
+				</tr>
+				<% end -%>
+			</table>
+		
+			<p>Activity Type: <%= select_tag :activity_type_id, 
+											"<option value=\"\">-- Select --</option>" + options_from_collection_for_select(@activity_types, :id, :title, params[:activity_type_id].to_i),
+											:id => "activity_type_id_#{abbrev.hash}" %>
+				<%= submit_tag "Add these courses" %>
+				<%= indicator :id => "indicator_add_#{abbrev.hash}" %>
+				<span class="error-message" id="error_<%= abbrev.hash %>">
+				</p>
+			<%= hidden_field_tag :abbrev_hash, abbrev.hash %>
+		<% end -%>
+	<% end -%>
+	</div>
+</div>
+<% end -%>
+
+<% if @courses.empty? %>
+	<div class="error-message content-block">
+		<h3>Oops!</h3>
+		You didn't enter any courses to add. Please try again.
+	</div>
+<% end -%>
+
+<% sidebar :done_adding unless @courses.empty? %>
+<% sidebar :faq %>

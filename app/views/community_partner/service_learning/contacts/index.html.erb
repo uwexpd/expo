@@ -1,0 +1,52 @@
+<h1>Organization Contacts
+	<span class="light">&raquo; <%= @organization.name %></span></h1>
+
+<table>
+  <tr>
+	<th>Name</th>
+	<th>Type</th>
+	<th>Supervisor for</th>
+	<th>Functions</th>
+  </tr>
+
+<% for contact in @organization_contacts %>
+  <tr>
+
+	<td class="icon-left" id="organization_contact">
+		<%= h contact.fullname %>
+		<%= "<b>(You)</b>" if contact.person == @current_user.person %>
+		<br />
+		<small><%= auto_link contact.person.email %></small>
+	</td>
+		
+	<td></td>
+	
+	<td>
+		<small>
+		<ul>
+		<% for position in contact.supervised_positions %>
+			<li><%= link_to position.title, community_partner_service_learning_position_path(position.quarter, position) %>
+				(<%= position.organization_quarter.quarter.title %>)
+				</li>
+		<% end -%>
+		</ul>
+		</small>
+	</td>
+		
+    <td><%= link_to 'Show', community_partner_service_learning_organization_contact_path(@quarter, contact) %>
+    	| <%= link_to 'Edit', edit_community_partner_service_learning_organization_contact_path(@quarter, contact) %>
+    	<% unless contact.person == @current_user.person %>
+			| <%= link_to 'Remove', community_partner_service_learning_organization_contact_path(@quarter, contact), 
+						:confirm => 'Are you sure you want to remove this person from your organization?', :method => :delete %>
+		  <% end -%>
+		<br>
+		<small><%= link_to 'Send Login E-mail', 
+							send_login_link_community_partner_service_learning_organization_contact_path(@quarter, contact),
+							:confirm => "Are you sure you want to send a login e-mail to #{contact.fullname}?" %></small>
+	</td>
+	
+  </tr>
+<% end %>
+</table>
+
+<% sidebar :new %>

@@ -1,0 +1,107 @@
+<% hide_title ||= false %>
+<% unless hide_title %>
+	<h2>Main Details</h2>
+<% end -%>
+
+<dl class="inline-definitions">
+
+	<dt>Name <%= required %></dt>
+	<dd><%= f.text_field :name, :style => "width: 99%" %>
+		<p class="caption">The official name of this offering. This will automatically be combined with the quarter or year
+			of the offering. Example: Entering "Mary Gates Leadership Scholarship" will be displayed as "Mary Gates Leadership
+			Scholarship Autumn 2008" when displayed in lists.</p></dd>
+
+	<dt>Unit <%= required %></dt>
+	<dd><%= f.collection_select :unit_id, @current_user.units, :id, :name, :include_blank => true %>
+		<p class="caption">The unit that sponsors this Offering. Determines how the offering is grouped in lists and 
+			who has access to it.</p></dd>
+
+	<dt>Open date</dt>
+	<dd><%= f.datetime_select :open_date %></dd>
+
+	<dt>Deadline</dt>
+	<dd><%= f.datetime_select :deadline %></dd>
+
+	<dt>Description</dt>
+	<dd><%= f.text_area :description, :rows => 5, :style => "width: 99%" %>
+		<p class="caption">Displayed in public listings of available offerings when a student logs in.</p></dd>
+
+	<dt>Contact name</dt>
+	<dd><%= f.text_field :contact_name %>
+		<p class="caption">This contact information is displayed in error messages and other messages.</p></dd>
+
+	<dt>Contact email</dt>
+	<dd><%= f.text_field :contact_email %></dd>
+
+	<dt>Contact phone</dt>
+	<dd><%= f.text_field :contact_phone %></dd>
+
+	<dt>Notifications email</dt>
+	<dd><%= f.text_field :notify_email %>
+		<p class="caption">Where should notifications of submitted applications go? Separate multiple email addresses with commas.</p></dd>
+
+	<dt>Quarter offered</dt>
+	<dd><%= f.collection_select :quarter_offered_id, Quarter.all, :id, :title, :include_blank => true %></dd>
+
+	<dt>Year offered</dt>
+	<dd><%= f.select :year_offered, 1995..Time.now.year+5, :include_blank => true %>
+		<p class="caption">Specify a year instead of a quarter if this offering spans more time or only happens annually.</p></dd>
+
+	<dt>Destroy by</dt>
+	<dd><%= f.text_field :destroy_by %>
+		<p class="caption">This date is added to the top of pages when printed or converted to PDF.</p></dd>
+	
+	<dt>Alt. Stylesheet</dt>
+	<dd><%= f.select :alternate_stylesheet,
+	 				Dir.glob("public/stylesheets/*").collect{|filename| [File.basename(filename), File.basename(filename, ".css")]},
+					:include_blank => true %>
+		<p class="caption">Offerings can be styled differently to match a specific brand or event "look." Choosing a
+			stylesheet here will automatically apply it <strong>after</strong> the default styles on the student side,
+			the mentor side, the reviewer side, etc.</p></dd>
+					
+	<dt>Notes</dt>
+	<dd><%= f.text_area :notes, :rows => 5, :style => "width: 99%" %>
+		<p class="caption">Use this space to track internal notes about this offering.</p></dd>
+
+</dl>
+
+<h2>Accountability Settings</h2>
+<p class="intro">If students from this application process should be included in accountability data, change these settings to
+	control the way that applications will be counted.</p>
+
+<dl class="inline-definitions">
+	
+	<dt>Activity Type</dt>
+	<dd><%= f.collection_select :activity_type_id, 
+								ActivityType.all, 
+								:id, :title, 
+								:include_blank => "Do not include in accountability reports" %>
+		<p class="caption">Choose the type of activity that this work is eligible to be counted for.</p></dd>
+
+	<%= observe_field :offering_activity_type_id,
+	 					:function => "if ($F('offering_activity_type_id') == '') { 
+										$('accountability_fields').hide()
+									  } else {
+										$('accountability_fields').show()
+									  }"  %>
+
+	<div id="accountability_fields" style="<%= "display:none" if @offering.activity_type.nil? %>">
+		
+		<dt>Count Method</dt>
+		<dd><%= f.select :count_method_for_accountability, %w(awardees complete presenters), :include_blank => true %>
+			<p class="caption">Determines which applicants should be counted. <strong>Awardees</strong> = only applicants who
+				have been awarded. <strong>Complete</strong> = applicants who have move past the "complete" status. 
+				<strong>Presenters</strong> = all applicants (including group members) who are included in a presentation
+				session (only used for offering processes that include sessions).</p>
+			</dd>
+
+		<dt>Quarter</dt>
+		<dd><%= f.collection_select :accountability_quarter_id, Quarter.all, :id, :title, :include_blank => "Use offering quarter" %>
+			<p class="caption">If this activity should be counted for a different quarter for accountability purposes,
+				set that quarter here. The default option is to use the offering quarter. <strong>Note:</strong> you must
+				set this value if this offering does not have an offering quarter; otherwise, it will not be counted at all.
+				</p></dd>
+
+	</div>
+	
+</dl>

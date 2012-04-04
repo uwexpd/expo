@@ -1,0 +1,110 @@
+<h3>Course Matching
+	<span><%= link_to_function "edit", "Effect.toggle('course_matching_display', 'slide', {duration: 0.25});
+										Effect.toggle('course_matching_form', 'blind', {duration: 0.25})" %></span>
+		</h3>
+
+<div id="course_matching_display">
+<table class="highlightless">
+
+	<tr>
+		<td><strong>Number of slots:</strong></td>
+		<td><strong><%= @service_learning_position.placements.count %></strong></td>
+	</tr>
+	
+
+<% for course in @service_learning_position.courses.sort{|x,y| x.title<=>y.title} %>
+	<tr>
+		<td><%= link_to course.title, service_learning_course_path(@unit, @quarter, course) %></td>
+		<td><%= @service_learning_position.placements.for(course).size %></td>
+	</tr>
+<% end -%>
+
+<% unless @service_learning_position.placements.unallocated.empty? %>
+  <% unless @use_pipeline_links %>
+  	<tr>
+  		<td><font class="grey">Unallocated</font></td>
+  		<td><font class="grey"><%= @service_learning_position.placements.unallocated.size %></font></td>
+  	</tr>
+  <% else %>
+    <tr>
+  		<td>Volunteer Positions</td>
+  		<td><%= @service_learning_position.placements.unallocated.size %></td>
+  	</tr>
+  <% end %>
+<% end -%>
+
+</table>
+</div>
+
+
+<div id="course_matching_form" style="display:none">
+
+<% form_for @service_learning_position, :url => service_learning_organization_position_path(@unit, @quarter, @organization, @service_learning_position) do |f| -%>
+
+	<% javascript 'add_and_subtract_field' %>
+
+	<table class="highlightless">
+
+		<tr>
+			<td>Number of slots</td>
+			<td width=70 align=center><strong><%= @service_learning_position.placements.count %></strong></td>
+		</tr>
+	
+  <% courses = @use_pipeline_links ? @service_learning_position.courses.sort{|x,y| x.title<=>y.title} : @service_learning_position.organization_quarter.potential_courses.sort{|x,y| x.title<=>y.title} %>
+	<% for course in courses %>
+		<tr>
+			<td><%= link_to course.title, service_learning_course_path(@unit, @quarter, course) %></td>
+			<td align=right>
+				<%= link_to_function "&nbsp;", "subtract_from('service_learning_position_slots_for_#{course.id}', #{@service_learning_position.placements.for(course).reject{|p| !p.filled?}.size});
+										   update_unallocated_field($('unallocated_field'), $$('input.course_matching'), #{@service_learning_position.placements.count})", :class => 'subtract-button' %>
+				<%= text_field_tag "service_learning_position[slots_for][#{course.id}]",
+				 					@service_learning_position.placements.for(course).size,
+									:class => "course_matching",
+									:size => 2,
+									:disabled => false,
+									:style => "border:none; text-align: center;" %>
+				<%= link_to_function "&nbsp;", "add_to('service_learning_position_slots_for_#{course.id}', #{@service_learning_position.placements.size}, $$('input.course_matching'), $('unallocated_field'));
+										   update_unallocated_field($('unallocated_field'), $$('input.course_matching'), #{@service_learning_position.placements.count})", :class => 'add-button' %>
+				</td>
+		</tr>
+	<% end -%>
+  
+	<% unless @use_pipeline_links %>
+  	<tr>
+  		<td><font class="grey">Unallocated</font></td>
+  		<td align=center><font class="grey">
+  			<span id="unallocated_field"><%= @service_learning_position.placements.unallocated.size %></font></td>
+  	</tr>
+  <% else %>
+    <tr>
+  		<td>Volunteer Positions</td>
+  		<td align=center><%= @service_learning_position.placements.unallocated.size %></td>
+  	</tr>
+  <% end %>
+
+	</table>
+
+	<div id="js_errors" class="error-message" style="padding:.5em"></div>
+
+	<%= f.submit "Save Changes", :disable_with => 'Saving...' %>
+<% end -%>
+
+<% if @use_pipeline_links %>
+  <% remote_form_for :update_course_slots, @service_learning_position, 
+        :url => update_course_slots_admin_pipeline_organization_position_path(@quarter, @organization, @service_learning_position),
+        :loading  => "$('update_course_slots_indicator').show()",
+        :loaded => "$('update_course_slots_indicator').hide()" do |f| -%>
+    <table class="highlightless">
+      <tr><td></td><td></td></tr>
+      <tr>
+        <td><%= select_tag "update_course_slots[course_id]", options_for_select([["Update Course Slots", ""], ["Volunteer","v"]] + ServiceLearningCourse.find_all_by_unit_id_and_quarter_id(@unit.id,@quarter.id).collect{|slc| [slc.title, slc.id]}), :style => "width:200px;" %></td>
+        <td><%= f.text_field :number_of_slots, :size => 2, :value => 0 %></td>
+      </tr>
+    </table>
+
+    <%= f.submit "Update Course Slots", :disable_with => 'Saving...' %>
+    <%= indicator("update_course_slots_indicator") %>
+  <% end -%>
+<% end %>
+
+</div>

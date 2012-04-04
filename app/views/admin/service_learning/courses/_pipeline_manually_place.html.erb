@@ -1,0 +1,33 @@
+<div id="add_student_position" class="hidden_scroll_box tall">
+  <% previous_organization = nil %>
+  <% @pipeline_positions.sort!{|x,y| x.organization.name <=> y.organization.name}.each do |position| %>
+    <% unless previous_organization == position.organization %>
+      <div class="addable_pipepline_position_header">
+        <%= position.organization.name %> 
+      </div>
+    <% end %>
+    <% if position.use_slots %>
+      <% open_slots_count = position.placements.open_for(@service_learning_course).size %>
+    <% end %>
+    <div id="pipepline_position_<%= position.id %>" class="addable_pipepline_position <%= "full" if (open_slots_count && open_slots_count == 0)%>">
+      <div>
+        <%= link_to_remote "Place", {:url => place_pipeline_position_service_learning_course_url(
+                                              @unit, @quarter, @service_learning_course,
+                                              :position_id => position.id,
+                                              :course_id => params[:id]),
+                                     :with => "'student_id=' + $('current_student_id').value + 
+                                               '&send_confirmation_email=' + $('send_confirmation_email').checked ",
+                                     :indicator => "global"},
+                                     :class => "button" %>
+        <% if position.use_slots %>
+          <span class="outline tag"><span id="slots_left_<%= position.id %>">
+            <%= open_slots_count %></span> left
+          </span>
+        <% end %>
+        <%= position.title %>
+      </div>
+    </div>
+    
+    <% previous_organization = position.organization %>
+  <% end %>
+</div>

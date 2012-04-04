@@ -1,0 +1,2 @@
+<%= @offering.interviewers.size %> identified
+- <font class="smaller"><%= link_to "View full list", {:controller => "interviewer", :offering => @offering}, :popup => true %></font>

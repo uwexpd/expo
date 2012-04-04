@@ -1,0 +1,2 @@
+<% result = @user_application.instance_eval(question.full_attribute_name) %>
+<%= (question.options.find_by_value("#{result}") || question.options.find_by_title("#{result}")).try(:title) unless result.nil? %>

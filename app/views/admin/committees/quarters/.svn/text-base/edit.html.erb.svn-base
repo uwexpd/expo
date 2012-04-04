@@ -1,0 +1,14 @@
+<h1>Edit Committee Quarter
+	<span class="light">&raquo; <%= @committee.name %></span></h1>
+	
+<% form_for [:admin, @quarter], :url => admin_committee_quarter_url(@committee, @quarter) do |f| %>
+	<%= f.error_messages %>
+	
+	<dl class="inline-definitions">
+		<%= render :partial => "fields", :locals => { :f => f } %>
+	</dl>
+		
+	<%= f.submit "Save", :disable_with => "Saving..." %>
+	
+<% end -%>
+

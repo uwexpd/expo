@@ -1,0 +1,42 @@
+<h1>Awardees for <%= @offering.quarter_offered.title %></h1>
+
+<h3>Students (<%= @apps.size %>)
+	<span class="right"><%= link_to "Download in Excel", {:format => 'xls'}, :class => 'icon-left xls button' %></span></h3>
+
+<table>
+
+	<% @apps.each do |a| %>
+		<tr>
+		<td><%= a.person.student_no %></td>
+		<td><%= a.person.firstname %></td>
+		<td><%= a.person.lastname %></td>
+		<td><%= a.person.sdb.majors_list %></td>
+		<td><%= eval("a.person.sdb.address.full_#{a.local_or_permanent_address}_address") rescue nil %></td>
+		<td><%= a.award_list("<br>") %></td>
+		</tr>
+	<% end %>
+
+</table>
+
+
+<h3>Mentors
+	<span class="right"><%= link_to "Download in Excel", {:action => 'mentors', :format => 'xls'}, :class => 'icon-left xls button' %></span></h3>
+
+<table>
+
+	<% @apps.each do |a| %>
+		<% a.mentors.each do |m| %>
+			<tr>
+			<td><%= m.firstname %></td>
+			<td><%= m.lastname %></td>
+			<td><%= address_block(m.person) unless m.person.nil? %></td>
+			<td><%= a.person.firstname %></td>
+			<td><%= a.person.lastname %></td>
+			</tr>
+		<% end %>
+	<% end %>
+
+</table>
+
+
+<% sidebar :quick_access, :search %>

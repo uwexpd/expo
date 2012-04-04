@@ -1,0 +1,20 @@
+<% make_main_content_full_width %>
+
+<%= javascript_include_tag "tablesort" %>
+
+<h1>Invitees
+	<span class="right"><%= link_to "Download Excel", { :format => :xls }, :class => 'icon-left xls button' %></span>
+	</h1>
+
+<% form_id = @use_pipeline_links ? 'students_form' : 'invitees_form' %>
+<%= form_tag admin_communicate_write_email_url, :id => form_id %>
+	
+	<div class="edge-to-edge">
+
+		<table class="sortable groupable" id="invitees_table">
+			<%= render :partial => "admin/events/times/invitees" %>
+		</table>
+
+	</div>
+	
+</form>

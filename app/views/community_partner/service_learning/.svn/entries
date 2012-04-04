@@ -1,0 +1,80 @@
+10
+
+dir
+2195
+svn+ssh://isidore/usr/local/svn/exporepo/trunk/app/views/community_partner/service_learning
+svn+ssh://isidore/usr/local/svn/exporepo
+
+
+
+2012-03-07T22:36:38.688242Z
+2190
+joshlin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8539ea28-dac5-4dad-ab9e-748f88f55080
+
+index.html.erb
+file
+
+
+
+
+2011-02-16T01:11:35.000000Z
+a87530dbb638602518ac9b438d22bd77
+2010-08-17T20:17:07.830076Z
+1859
+mharris2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1963
+
+courses
+dir
+
+organization
+dir
+
+positions
+dir
+
+sidebar
+dir
+
+students
+dir
+
+contacts
+dir
+

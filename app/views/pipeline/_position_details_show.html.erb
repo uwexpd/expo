@@ -1,0 +1,85 @@
+<div id="pipeline_position_<%= @pipeline_position.id %>">
+
+	<div id="confirmed_position_overlay_<%= @pipeline_position.id %>" class="confirmed_position_overlay big-border box" style="display:none;"></div>
+
+	<div id="pipeline_position_confirm_check_<%= @pipeline_position.id %>" class="pipeline_position_confirm_check big-border box" style="display:none">
+
+	  <%= render :partial => "confirm_position_warning" %>
+
+	  <div class="position_buttons_left">
+	  <%= link_to_function "Cancel", 
+							"Effect.BlindUp('pipeline_position_confirm_check_#{@pipeline_position.id}', { duration: 0.25 }); 
+							 Element.hide.delay(0.25, 'global_overlay');",
+							:class => "cancel button", :id => "confirm_cancel_#{@pipeline_position.id}" %>
+		</div>
+		<div class="position_buttons_right">
+	  <%= indicator("confirm_indicator_#{@pipeline_position.id}") %>
+	  <%= link_to_remote "Continue With Confirmation", 
+	       {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
+	        :action => "confirm_position", :id => @pipeline_position.id, :from_action => "show" }, 
+	        :indicator => "confirm_indicator_#{@pipeline_position.id}",
+	        :before => "this.disabled=true;this.onclick=function(){return false;}; $('confirm_cancel_#{@pipeline_position.id}').onclick=function(){return false;};$('global_overlay').stopObserving('click');"}, 
+	        :class => "button" %>
+	  </div>
+	</div>
+	
+	<div class="content-block" id="pipeline_position_details_<%= @pipeline_position.id %>">
+
+		<h1><%= @pipeline_position.organization.name %></h1>
+		<h3><%= @pipeline_position.title(false,false,false) %></h3>
+
+		<dl class="inline-definitions">
+
+			<% unless @pipeline_position.description.blank? %>
+				<dt>Description</dt>
+				<dd><%= @pipeline_position.description %></dd>
+			<% end %>
+
+			<% unless @pipeline_position.organization.mission_statement.blank? %>
+				<dt>About the School</dt>
+				<dd><%= @pipeline_position.organization.mission_statement %></dd>
+			<% end %>
+	
+			<% unless @pipeline_position.organization.website_url.blank? %>
+				<dt>School Website</dt>
+				<dd><%= @pipeline_position.organization.website_url %></dd>
+			<% end %>
+
+			<% unless @pipeline_position.location.nil? || @pipeline_position.location.bus_directions.blank? %>
+				<dt>Bus Directions</dt>
+				<dd id="pipeline_bus_directions"><%= @pipeline_position.location.bus_directions %></dd>
+			<% end %>
+
+			<dt>Subjects</dt>
+			<dd>
+				<% for subject in @pipeline_position.subjects %>
+					<%= subject.name %><br />
+				<% end %>
+				<% if @pipeline_position.subjects.empty? %>
+					Unknown
+				<% end %>
+			</dd>
+
+			<dt>Grade Levels</dt>
+			<dd>
+				<% for grades in @pipeline_position.grade_levels %>
+					<%= grades.name %><br />
+				<% end %>
+				<% if @pipeline_position.grade_levels.empty? %>
+					Unknown
+				<% end %>
+			</dd>
+
+			<dt>Formats</dt>
+			<dd>
+				<% for tutoring_type in @pipeline_position.tutoring_types %>
+					<%= tutoring_type.name %><br />
+				<% end %>
+				<% if @pipeline_position.tutoring_types.empty? %>
+					Unknown
+				<% end %>
+			</dd>
+
+		</dl>
+	</div>
+</div>

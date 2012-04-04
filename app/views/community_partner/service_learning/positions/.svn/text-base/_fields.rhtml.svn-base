@@ -1,0 +1,135 @@
+<div class="horizontal tabview">
+
+	<div id="frame">
+
+		<div class="content-topper">
+			<table class="admin_phases">
+				<tr>
+				  <% sequence_num = 0 %>
+					<td class="first current" id="tab_pane_link_basic_info">
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Basic Info</div>
+												<div class=\"arrow\"></div>",
+											 :basic_info, :link_only => true %>
+					</td>
+					<td id="tab_pane_link_description">
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Description</div>
+												<div class=\"arrow\"></div>",
+											 :description, :link_only => true %>
+					</td>
+					<% unless @use_pipeline_links %>
+					<td id="tab_pane_link_requirements">
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Requirements</div>
+												<div class=\"arrow\"></div>",
+											 :requirements, :link_only => true %>
+					</td>
+					<% end %>
+					<td id="tab_pane_link_scheduling">
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Scheduling</div>
+												<div class=\"arrow\"></div>",
+											 :scheduling, :link_only => true %>
+					</td>
+					<td id="tab_pane_link_location">
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Location</div>
+												<div class=\"arrow\"></div>",
+											 :location, :link_only => true %>
+					</td>
+					<% unless @use_pipeline_links %>
+						<td id="tab_pane_link_orientation">
+							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+													<div class=\"name\">Orientation</div>
+													<div class=\"arrow\"></div>",
+												 :orientation, :link_only => true %>
+						</td>
+					<% else %>
+						<td id="tab_pane_link_subjects">
+							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+													<div class=\"name\">Subjects</div>
+													<div class=\"arrow\"></div>",
+												 :subjects, :link_only => true %>
+						</td>
+						<td id="tab_pane_link_grade_levels">
+							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+													<div class=\"name\">Grade Levels</div>
+													<div class=\"arrow\"></div>",
+												 :grade_levels, :link_only => true %>
+						</td>
+						<td id="tab_pane_link_tutoring_formats">
+							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+													<div class=\"name\">Tutoring Formats</div>
+													<div class=\"arrow\"></div>",
+												 :tutoring_formats, :link_only => true %>
+						</td>
+	    			<% end %>
+					<td id="tab_pane_link_finish">
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Finish/Submit</div>
+												<div class=\"arrow\"></div>",
+											 :finish, :link_only => true %>
+					</td>
+					
+				</tr>
+			</table>
+		</div>
+
+
+		<% tab_pane :basic_info, :selected => true do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/basic_info",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+
+		<% tab_pane :description do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/description",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+<% unless @use_pipeline_links %>
+		<% tab_pane :requirements do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/requirements",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+<% end %>
+		<% tab_pane :scheduling do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/scheduling",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+
+		<% tab_pane :location do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/location",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+<% unless @use_pipeline_links %>
+		<% tab_pane :orientation do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/orientation",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+<% else %>
+		<% tab_pane :subjects do %>
+			<%= render :partial => "admin/pipeline/organizations/positions/tabs/subjects",
+			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
+		<% end -%>
+		
+		<% tab_pane :grade_levels do %>
+			<%= render :partial => "admin/pipeline/organizations/positions/tabs/grade_levels",
+			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
+		<% end -%>
+		
+		<% tab_pane :tutoring_formats do %>
+			<%= render :partial => "admin/pipeline/organizations/positions/tabs/tutoring_formats",
+			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
+		<% end -%>
+<% end %>
+		<% tab_pane :finish do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/finish",
+			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
+		<% end -%>
+
+	</div>
+</div>
+
+<%= javascript_tag("window.location.hash = '#{@current_tab_pane}'") if @current_tab_pane %>
+
+<%= autoload_tab_pane %>

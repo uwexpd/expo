@@ -1,0 +1,14 @@
+<li>
+	<fieldset>
+		<legend><%= question.question %>
+				<%= content_tag('em', '*', :class => 'required') if question.required? %>
+				</legend>
+		
+		<label><%= qf.radio_button(question.attribute_to_update, "local") %> 
+				My Local Address (<%= @user_application.person.sdb.address.full_local_address('text', ', ') %>)</label>
+				
+		<label><%= qf.radio_button(question.attribute_to_update, "permanent") %> 
+				My Permanent Address (<%= @user_application.person.sdb.address.full_permanent_address('text', ', ') %>)</label>
+		
+	</fieldset>
+</li>

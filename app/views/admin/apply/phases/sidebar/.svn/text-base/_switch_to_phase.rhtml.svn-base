@@ -1,0 +1,7 @@
+<h3>Switch to this Phase</h3>
+
+<center>
+	<%= button_to "Switch to this Phase", switch_to_admin_apply_phase_path(@offering, @phase) %>
+
+	<small class="grey"><b>Current Phase:</b> <%= @offering.current_offering_admin_phase.name rescue "None" %></small>
+</center>

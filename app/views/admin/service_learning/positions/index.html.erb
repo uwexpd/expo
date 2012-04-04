@@ -1,0 +1,145 @@
+<% @service_learning_positions ||= @pipeline_positions %>
+
+<h1>Positions
+	<span>&raquo; <%= @quarter.title %></span>
+	</h1>
+
+<% if @use_pipeline_links && !@migrate_to_current_quarter %>
+<small>
+<%= link_to "Migrate Positions from #{@quarter.prev.title}", 
+                service_learning_positions_path(:quarter_abbrev => @quarter.prev.abbrev, 
+                                              :quarter_from => @quarter.abbrev)%>
+
+</small>
+<%= link_to_function "<span>(other)</span>", "Effect.toggle('migrate_quarter_select', 'slide')" %>
+
+<div id="migrate_quarter_select" style="display:none">
+  <div>
+  <% quarter = @quarter.prev.prev %>
+  <% (1..8).each do %>
+    <div>
+      <%= link_to "Migrate Positions from #{quarter.title}", 
+                  service_learning_positions_path(:quarter_abbrev => quarter.abbrev, 
+                                                  :quarter_from => @quarter.abbrev)%>
+    </div>
+    <% quarter = quarter.prev %>
+  <% end %>
+  </div>
+</div>
+
+<% end %>
+
+<% form_tag migrate_to_current_quarter_service_learning_positions_path do %>
+
+<table class="with-icons">
+  <tr class="small left">
+  <th>Title</th>
+  <th>Filled</th>
+ 	<th>Total</th>
+	<% unless @use_pipeline_links %>
+    <th>Unallocated</th>
+  <% else %>
+    <th>Slots Required</th>
+  <% end %>
+	<th colspan=3>Functions</th>
+	<% if @migrate_to_current_quarter %>
+	<th>Migrate Positions <%= select_all_check_box %></th>
+	<% end %>
+  </tr>
+
+<% current_organization = nil %>
+<% total_placements_count = 0; total_placements_filled_count = 0; total_unallocated_slots_count = 0; %>
+<% for service_learning_position in @service_learning_positions %>
+
+	<% if current_organization != service_learning_position.organization %>
+		<tr class="rowset-header">
+			<td colspan=7>
+				<%= link_to service_learning_position.organization_quarter.organization.name, 
+							service_learning_organization_path(@unit, 
+							@quarter, service_learning_position.organization_quarter.organization) %>
+			</td>
+			<% if @migrate_to_current_quarter %>
+			  <td></td>
+			<% end %>
+		</tr>
+		<% current_organization = service_learning_position.organization %>
+	<% end -%>
+
+	<% placements_count = service_learning_position.total_placements_count.nil? ? 0 : service_learning_position.total_placements_count %>
+	<% placements_filled_count = service_learning_position.filled_placements_count.nil? ? 0 : service_learning_position.filled_placements_count %>
+	<% unallocated_slots_count = service_learning_position.unallocated_placements_count.nil? ? 0 : service_learning_position.unallocated_placements_count %>
+		
+	<% total_placements_count += placements_count %>
+	<% total_placements_filled_count += placements_filled_count %>
+	<% total_unallocated_slots_count += unallocated_slots_count %>
+
+	<tr <%= "class='filled'" if placements_count == placements_filled_count %>>
+
+		<td>
+		  <%= link_to service_learning_position.title, 
+				  service_learning_organization_position_path(@unit, 
+				  @quarter, service_learning_position.organization, service_learning_position) %>
+		</td>
+		
+		<td class="placements_filled_count"><span><%= placements_filled_count %></span></td>
+		<td class="placements_count"><span><%= placements_count %></span></td>
+		
+		<% unless @use_pipeline_links %>
+      <td class="unallocated_slots_count"><span><%= unallocated_slots_count %></span></td>
+    <% else %>
+      <td><%= service_learning_position.use_slots == true ? "<span class='green'>Yes</span>" : "No" %></td>
+    <% end %>
+		
+		
+		<td>
+		  <%= link_to 'Show', 
+						service_learning_organization_position_path(@unit, 
+						@quarter, service_learning_position.organization, service_learning_position) %>
+		</td>
+		<td>
+		  <%= link_to 'Edit', 
+						edit_service_learning_organization_position_path(@unit, 
+						@quarter, service_learning_position.organization, service_learning_position) %>
+		</td>
+		<td>
+		  <%= link_to 'Delete', 
+						service_learning_organization_position_path(@unit, 
+						@quarter, service_learning_position.organization, service_learning_position), 
+						:confirm => 'Are you sure?', :method => :delete %>
+		</td>
+		<% if @migrate_to_current_quarter %>
+		  <td><%= check_box_tag "position_ids[]", service_learning_position.id, false, :class => "select_check_box" %></td>
+		<% end %>
+  </tr>
+<% end %>
+
+	<tr class="rowset-header">
+		<td>Totals:</td>
+		<td class="placements_filled_count"><span><%= total_placements_filled_count %></span></td>
+		<td class="placements_count"><span><%= total_placements_count %></span></td>
+		<% unless @use_pipeline_links %>
+		<td class="unallocated_slots_count"><span><%= total_unallocated_slots_count %></span></td>
+		<% else %>
+		<td></td>
+		<% end %>
+		<td colspan=3></td>
+	</tr>
+</table>
+
+<% if @migrate_to_current_quarter %>
+  <%= hidden_field_tag "quarter_from", @quarter_to_migrate_to.abbrev %>
+  <div id="migrate_to_current_quarter_button">
+    <%= submit_tag "Migrate All Checked to #{@quarter_to_migrate_to.title}" %>
+  
+  </div>
+<% end %>
+
+<% end %>
+
+<br />
+
+<% if @use_pipeline_links %>
+  <% sidebar "admin/pipeline/sidebar/pipeline_links" %>
+<% end %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>

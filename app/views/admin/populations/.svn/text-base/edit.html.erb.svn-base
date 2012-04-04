@@ -1,0 +1,46 @@
+<h1>Edit Query</h1>
+
+<% form_for :population, @population, 
+			:url => population_path(@population), 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+
+
+	<% unless @population.is_a?(ManualPopulation) %>
+		<div class="big-border box" id="conditions_container" <%= "style='display:none'" if @population.custom_query? %>>
+
+			<h4 class="icon-left select-list">
+				That match
+				<%= f.select :condition_operator, [:any, :all] %>
+				of the following conditions:
+				</h4>
+
+			<table id="conditions">
+				<%= render :partial => "admin/populations/conditions/condition", 
+							:collection => @population.conditions,
+							:locals => { :f => f } %>
+
+			</table>
+
+			<%= link_to_remote "Add another condition",
+			 					{:url => population_conditions_path(@population, "condition[skip_validations]" => true),
+			 					:method => :post,
+								:indicator => "new_condition"},
+								:class => "add button" %>
+			<%= indicator "new_condition" %>
+	
+		</div>
+	
+		<%= render :partial => "result_variant", :locals => { :f => f } %>
+	<% end -%>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', population_path(@population), :class => 'cancel button' %>
+
+<% end %>
+
+<% sidebar :actions %>

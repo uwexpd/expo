@@ -1,0 +1,3 @@
+page.visual_effect :fade, "course_match_#{params[:course_id]}"
+page.replace_html :potential_courses_count, :text => @organization_quarter.potential_courses.size
+page.visual_effect :highlight, :potential_courses_count

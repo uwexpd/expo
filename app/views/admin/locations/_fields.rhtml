@@ -1,0 +1,43 @@
+<% prefix ||= f.object_name %>
+<% object ||= f.object || Location.new %>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%= text_field_tag "#{prefix}[title]", object.title, :style => "width: 90%" %></dd>
+
+	<dt>address</dt>
+	<dd><%= text_field_tag "#{prefix}[address_line_1]", object.address_line_1, :style => "width: 90%" %>
+		<br><%= text_field_tag "#{prefix}[address_line_2]", object.address_line_2, :style => "width: 90%" %>
+		<br><%= text_field_tag "#{prefix}[address_city]", object.address_city, :size => 15 %>,
+			<%= select_tag "#{prefix}[address_state]", 
+							options_for_select(US_STATES, object.address_state) %>
+			<%= text_field_tag "#{prefix}[address_zip]", object.address_zip, :size => 10 %>
+		</dd>
+
+
+	<dt>driving directions</dt>
+	<dd><%= text_area_tag "#{prefix}[driving_directions]", object.driving_directions, 
+							:rows => 5, :style => "width: 90%" %></dd>
+
+
+
+	<dt>bus directions</dt>
+	<dd><%= text_area_tag "#{prefix}[bus_directions]", object.bus_directions, 
+							:rows => 5, :style => "width: 90%" %></dd>
+
+	<dt>notes</dt>
+	<dd><%= text_area_tag "#{prefix}[notes]", object.notes, 
+							:rows => 5, :style => "width: 90%" %></dd>
+	
+	<% if !object.organization.nil? && object.organization.class == School %>
+	<dt>neighborhood </dt>
+	<dd><small>ex: South, South West, Central, etc..</small>
+	    <%= text_field_tag "#{prefix}[neighborhood]", object.neighborhood, :style => "width: 90%" %></dd>
+	<% end %>
+
+</dl>
+
+<%= hidden_field_tag "#{prefix}[new_location]", true if object.new_record? %>
+<%= hidden_field_tag "#{prefix}[location_id]", object.id %>
+<%= hidden_field_tag "#{prefix}[needs_update]", true %>

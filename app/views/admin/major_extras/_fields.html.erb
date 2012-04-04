@@ -1,0 +1,20 @@
+<dl class="inline-definitions">
+	
+	<% if @majors %>
+	<dt><%= f.label :major_id %></dt>
+	<dd><%= f.collection_select :major_id,  @majors , :id, :major_full_nm, {:prompt => "Pick a major"}%></dd>
+	<% end %>
+	
+	<dt><%= f.label :fixed_name %></dt>
+	<dd><%= f.text_field :fixed_name %></dd>
+	
+	<dt><%= f.label :chair_name %></dt>
+	<dd><%= f.text_field :chair_name %></dd>
+
+	<dt><%= f.label :chair_email %></dt>
+	<dd><%= f.text_field :chair_email %></dd>
+
+	<dt><%= f.label :discipline_category_id %></dt>
+	<dd><%= f.collection_select :discipline_category_id,  DisciplineCategory.all, :id, :name, {:prompt => true}%></dd>
+	
+</dl>

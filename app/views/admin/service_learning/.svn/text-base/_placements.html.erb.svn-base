@@ -1,0 +1,44 @@
+<%= javascript_include_tag "tablesort" %>
+<% form_tag admin_communicate_write_email_url, :id => 'placements_form' do %>
+  
+  <table class="sortable groupable" id="invitees_table">
+	<tr>
+  		<th class="nosort"><%= select_all_check_box %></th>
+  		<th class="sortfirstasc" width="25%"><div class="sort-icon">Name</div></th>  		
+  		<th id="expected_sort" class="groupvalue"><div class="sort-icon">Course</div></th>
+  		<th id="attended_sort" class="groupvalue"><div class="sort-icon">Position</div></th>
+		<th class="groupvalue"><div class="sort-icon">Organization</div></th>
+  	</tr>
+    
+  	<% for placement in placements %>
+  	  <tr id="placement_<%= placement.id %>">
+      	<td><%= select_check_box(placement) %>
+      	<td>
+      	  <% if placement.person.is_a? Student %>
+      	    <%= link_to placement.person.fullname, admin_student_path(placement.person, :anchor => 'service_learning') %>
+      	  <% else %>
+      	    <%=h placement.person.fullname rescue placement.fullname rescue "#error" %>
+      	  <% end %>
+      	</td>      	
+      	
+      	<td value="<%= placement.course.nil? ? 'Unknown course' : placement.course.title %>">
+      	  <%= placement.course.nil? ? 'Unknown course' : link_to(placement.course.title,
+ 				service_learning_course_path(@unit, @quarter, placement.course)) %>
+      	</td>
+      	
+      	<td value="<%= placement.title %>">
+      	  <%= link_to placement.title,
+              service_learning_organization_position_path(
+          	  @unit, @quarter, placement.organization, placement.position) %>
+      	</td>
+
+      	<td value="<%= placement.organization.try(:name) %>">
+      	  <%= link_to placement.organization.try(:name),
+              service_learning_organization_path(
+          	  @unit, @quarter, placement.organization) %>
+      	</td>
+      	      
+      </tr>
+  	<% end %>
+  </table>
+<% end %>

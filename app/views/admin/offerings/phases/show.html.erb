@@ -1,0 +1,20 @@
+<h1 class="big-icon tasks"><%= @phase.name %>
+	<span class="light right"><%= link_to "Edit", edit_offering_phase_path(@offering, @phase), :class => 'edit button' %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>name</dt>
+	<dd><%= @phase.name %></dd>
+
+	<dt>display as</dt>
+	<dd><%= @phase.display_as %></dd>
+	
+	<dt>sequence</dt>
+	<dd><%= @phase.sequence %></dd>
+
+	<dt>notes</dt>
+	<dd><%= textilize_without_paragraph @phase.notes %></dd>
+
+</dl>
+
+<% sidebar :associations, :phases %>

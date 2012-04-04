@@ -1,0 +1,21 @@
+<h3>Application Status
+	<span>
+		<%= link_to "history", :action => "history", :id => @app %> | 
+		<%= link_to_function "change", "Element.toggle('assign_new_status')" %>
+	</span>
+	</h3>
+
+<strong><%= print_status @app %></strong>
+<br><em>The student sees "<%= print_public_status(@app) %>."</em>
+
+<div id="assign_new_status" style="display:none">
+	<% form_for :app, @app, :url => { :action => 'update', :id => @app } do |f| %>
+		<%= f.collection_select :new_status, 
+								@offering.statuses.find(:all, :order => 'sequence ASC'), 
+								:application_status_name,
+								:application_status_title,
+								:prompt => true %>
+		
+		<%= f.submit "Assign Status" %>
+	<% end %>
+</div>

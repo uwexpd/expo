@@ -1,0 +1,24 @@
+<% title("Service-Learning Registration", @quarter.title) %>
+
+<h2>Welcome, <%= @student.firstname %>.</h2>
+
+<p>You are currently enrolled in multiple service-learning courses. <b color=red>Please note that you can only register for one service-learning course online.</b> Please <a href="http://depts.washington.edu/leader/about/contact.html">contact the Carlson Center staff</a> to register for additional positions.</p>
+
+<p>For which service-learning course would you like to choose a position?
+
+<form>
+	<table>
+	<% for course in @enrolled_service_learning_courses %>
+		<tr>
+			<td><input type=radio name="course" value="<%= course.id %>" id="course_<%= course.id %>"></td>
+			<td><label for="course_<%= course.id %>"><%= course.title %></label></td>
+		</tr>
+	<% end -%>
+	</table>
+
+	<center>
+		<input type=submit value="Choose">
+	</center>
+
+</form>
+

@@ -1,0 +1,5 @@
+page.replace 'favorite_page_controls', :partial => 'shared/save_favorite'
+
+page.if "$('favorite_pages')" do
+  page.replace 'favorite_pages', :partial => 'shared/favorite_pages'
+end

@@ -1,0 +1,56 @@
+<h1 class="big-icon people">Upload <%= @year %> Individual Involvement File</h1>
+
+<%= HelpText.caption :reporting_interface_report_individual_upload_map, AccountabilityReport %>
+
+<% form_tag({:action => 'upload_create'}, :method => :put) do %>
+
+	<table>
+		<tr>
+			<th>Our Field Name</th>
+			<th>Matching Column in Your File</th>
+		</tr>
+	
+		<% for heading in @file.headings_options %>
+		<tr>
+			<td><%= heading.titleize %></td>
+			<td><%= select_tag "heading_map[#{heading}]", "<option value=\"\"></option>" +
+			 					options_from_collection_for_select(@file.headings, 
+									:to_s, :to_s, 
+									((params[:heading_map][heading] rescue nil) || @file.best_column_heading_match_for(heading).to_s)),
+								:class => ("fieldWithErrors" if @file.column_mapping_errors.include?(heading)) %>
+				<% if heading == "activity_type" %>
+					<%= separator %>
+					<%= link_to_function "Manually choose this", "Effect.toggle('activity_type_override_form', 'blind')" %>
+					<div id="activity_type_override_form" style="margin-top: 5px;<%= "display:none" if (params[:heading_map][:activity_type_override].blank? rescue true) %>">
+						Override Activity Type for all records:
+						<%= select_tag "heading_map[activity_type_override]", "<option value=\"\"></option>" + 
+						 				options_from_collection_for_select(@activity_types,
+											:id, :title,
+											(params[:heading_map][:activity_type_override].to_i rescue nil)) %>
+						<p class="caption" style="margin-top:0">If you didn't specify the activity type in your upload file, choose it here.</p>
+					</div>
+				<% end -%>
+				</td>
+		</tr>	
+		<% end -%>
+
+	</table>
+
+	<small>
+		<p><span class="red">IMPORTANT!</span> By default, we expect your hours to be reported <strong>by week</strong>. If the activities 
+			you are reporting are the <strong>total number of hours</strong> for the quarter, check the box below:</p>
+	
+		<div class="left-indent">
+			<%= check_box_tag "hours_are_totals", true, params[:hours_are_totals] %>
+			<label for="hours_are_totals">This file reports hours as <strong>totals for the quarter</strong>.</label>
+		</div>
+	</small>
+
+	<br />
+	<center>
+		<%= submit_tag "Continue", :disable_with => "Importing records... please be patient." %>
+	</center>
+
+	<%= hidden_field_tag :filename, @file.filename %>
+
+<% end -%>

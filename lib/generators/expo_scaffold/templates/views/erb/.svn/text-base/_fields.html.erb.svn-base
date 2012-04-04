@@ -1,0 +1,7 @@
+<dl class="inline-definitions">
+	<%- for attribute in attributes -%>	
+	<dt><%%= f.label :<%= attribute.name %> %></dt>
+	<dd><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %></dd>
+	<%- end -%>
+
+</dl>

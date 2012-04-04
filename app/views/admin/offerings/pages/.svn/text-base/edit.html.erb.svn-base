@@ -1,0 +1,13 @@
+<h1>Editing Page</h1>
+
+<% form_for :page, @page, :url => offering_page_path(@offering, @page), :html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<span class="separator">&mdash; or &mdash;</span>
+	<%= link_to 'Cancel', offering_page_path(@offering, @page) %>
+
+<% end %>

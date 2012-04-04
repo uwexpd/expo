@@ -1,0 +1,43 @@
+<% klass = @population.starting_objects_class if @population.starting_objects_class %>
+<div class="big-border grey box" id="result_variant" <%= "style='display:none'" if @population.custom_query? %>>
+
+	<h4 class="icon-left select-list">Choose a different result set for output:</h4>
+
+	<dl class="inline-definitions">
+
+		<dt>Result set</dt>
+		<% associations = klass.reflect_on_all_associations(:has_many).map{|a| a.name.to_s}.sort rescue [] %>
+		<dd>
+			
+			<div id="result_variant_container" style="<%= "display:none" if @population.custom_result_variant? %>">
+				<%= select :population,
+							:result_variant, 
+							associations,
+							{:include_blank => "Use the starting set"} %>
+			
+				<%= separator %>
+				<%= link_to_function "Customize", 
+									"Effect.toggle('custom_result_variant_container', 'blind', {duration: 0.25});
+									 Effect.toggle('result_variant_container', 'blind', {duration: 0.25});",
+									:id => 'customize_result_variant_link',
+									:class => 'smaller' %>
+			</div>
+
+			<div id="custom_result_variant_container" style="<%= "display:none" unless @population.custom_result_variant? %>">
+				<%= text_field :population, :custom_result_variant %>
+			
+				<%= separator %>
+				<%= link_to_function "Choose from list", 
+									"Effect.toggle('custom_result_variant_container', 'blind', {duration: 0.25});
+									 Effect.toggle('result_variant_container', 'blind', {duration: 0.25});
+									 $('population_custom_result_variant').clear()",
+									:id => 'choose_result_variant_link',
+									:class => 'smaller' %>
+			</div>
+			
+			
+			</dd>
+
+	</dl>
+
+</div>

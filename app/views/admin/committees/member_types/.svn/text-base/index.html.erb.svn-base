@@ -1,0 +1,38 @@
+<h1>Member Types
+	<span class="light right"><%= link_to "Add new member type", new_admin_committee_member_type_path(@committee), :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'member_types_form' %>
+
+<table>
+	<tr>
+		<th>Committee</th>
+		<th>Name</th>
+		<th>Max Number Of Applicants Per Reviewer</th>
+		<th>Extra Instructions</th>
+		<th>Extra Instructions Link Text</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for member_type in @member_types %>
+	<tr id="member_type_<%= member_type.id %>">
+		<td><%=h member_type.committee_id %></td>
+		<td><%=h member_type.name %></td>
+		<td><%=h member_type.max_number_of_applicants_per_reviewer %></td>
+		<td><%=h member_type.extra_instructions %></td>
+		<td><%=h member_type.extra_instructions_link_text %></td>
+		<td><%= link_to "Show", admin_committee_member_type_path(@committee, member_type) %></td>
+		<td><%= link_to "Edit", edit_admin_committee_member_type_path(@committee, member_type) %></td>
+		<td><%= link_to_remote "Destroy", 
+						:url => admin_committee_member_type_path(@committee, member_type), 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @member_types.empty? %>
+	<tr class="empty">
+		<td colspan=10>No member types exist. <%= link_to "Create one.", new_admin_committee_member_type_path(@committee) %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>

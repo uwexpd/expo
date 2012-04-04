@@ -1,0 +1,26 @@
+<h1>New Manual Student Query</h1>
+
+<% form_for :stats, :url => { :action => 'resolve_conflicts'} do |f| %>
+
+<dl class="inline-definitions">
+
+	<dt>Query Title</dt>
+	<dd><%= text_field_tag :title, (params[:title] rescue nil), :size => 100 %>
+		<p class="caption">Enter a title if you'd like to save this query for future use. If you
+			leave the title blank, this query will only available temporarily.</p>
+		</dd>
+
+	<dt>Search Items</dt>
+	<dd>Enter one student number, UW NetID, or name per line:<br>
+		<%= text_area_tag "q", (params[:q]), :rows => 20, :cols => 30 %>
+		</dd>
+		
+</dl>
+
+<p>
+<%= f.submit "Submit Query", :disable_with => "Finding students..." %>
+</p>
+
+<% end %>
+
+<% sidebar :search_tips %>

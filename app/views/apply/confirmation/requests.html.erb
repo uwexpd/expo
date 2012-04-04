@@ -1,0 +1,38 @@
+<%= title @offering.title, "Special Requests" %>
+
+<%= render :partial => "apply/switch" if @application_count > 1 %>
+
+<h1>Do you have any special requests?</h1>
+
+<%= textilize ERB.new(@offering.special_requests_text).result(binding) %>
+
+<div style="margin-left: 17em">
+<% form_for :requests, @user_application, :url => { :action => 'requests' } do |f| %>
+	
+	<%= f.error_messages %>
+
+	<blockquote>
+		<% if @group_member %>
+			<p class="small warning">Only primary applicants can submit special requests. Please contact your 
+				group's primary applicant to make changes to this page.
+			</p>
+		<% end -%>
+
+		<p>
+			<%= f.text_area :special_requests, :disabled => @group_member, :rows => 4, :style => "width: 50%" %>
+		</p>
+	
+	</blockquote>
+
+	<p>
+		<%= f.submit "Submit", :disable_with => "Submitting..." %>
+	</p>
+	
+<% end -%>
+</div>
+
+<div class="progress_nav_buttons">
+	<%= button_to "Next: Return to Application Welcome Page →", apply_url(@offering), :method => :get %>
+</div>
+
+<%= render :partial => "sidebar", :locals => { :page => 'requests' } %>

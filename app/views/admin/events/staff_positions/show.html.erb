@@ -1,0 +1,28 @@
+<h1><%=h @staff_position.title %>
+	<span class="light right"><%= link_to "Edit", edit_event_staff_position_path(@event, @staff_position), :class => 'edit button' %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%= @staff_position.title %></dd>
+
+	<dt>description</dt>
+	<dd><%= textilize_without_paragraph @staff_position.description %></dd>
+
+	<dt>instructions</dt>
+	<dd><%= textilize_without_paragraph @staff_position.instructions %></dd>
+
+	<dt>training session</dt>
+	<dd><%= @staff_position.training_session_event.title rescue "<span class=light>None</span>" %></dd>
+
+	<dt>restrictions</dt>
+	<dd><%= @staff_position.restrictions %></dd>
+
+	<dt>require all shifts</dt>
+	<dd><%= @staff_position.require_all_shifts? ? "Yes" : "No" %></dd>
+
+</dl>
+
+<%= render :file => "admin/events/staff_positions/shifts/index.html.erb" %>
+
+<% sidebar :staff_positions, :with_selected %>

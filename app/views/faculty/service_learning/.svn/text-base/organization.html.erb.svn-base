@@ -1,0 +1,29 @@
+<h1>Organization Information</h1>
+
+<dl class="inline-definitions">
+	
+	<% if @organization.parent_organization %>
+	<dt>parent organization</dt>
+	<dd><%=h @organization.parent_organization.name %></dd>
+	<% end -%>
+	
+	<dt>address</dt>
+	<dd><%=h @organization.mailing_line_1 %>
+		<%= "<br />" + h(@organization.mailing_line_2) unless @organization.mailing_line_2.blank? %>
+		<br /><%=h @organization.mailing_city %>, <%=h @organization.mailing_state %> <%=h @organization.mailing_zip %>
+		</dd>
+
+	<dt>website</dt>
+	<dd><%= auto_link @organization.website_url %></dd>
+	
+	<dt>main phone</dt>
+	<dd><%= phone_number @organization.main_phone %></dd>
+	
+	<dt>mission statement</dt>
+	<dd><small><%= simple_format @organization.mission_statement %></small></dd>
+		
+</dl>
+
+<br>
+
+<%= link_to "&#x2190; Back to Student Listing", faculty_service_learning_path(:action => 'students', :quarter_abbrev => @quarter) %>

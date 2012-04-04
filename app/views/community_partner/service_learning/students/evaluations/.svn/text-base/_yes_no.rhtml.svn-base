@@ -1,0 +1,26 @@
+<p><%= question.question %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %>
+<br>
+<div class="left-indent">
+	
+	<table class="borderless highlightless">
+		<tr>
+		<% for i in ["Yes", "No, but is expected to by the end of the quarter", "No, and is *not* expected to by the end of the quarter"] %>
+			<td width=10 <%= "class='selected'" if @evaluation.submitted? && r.object.response == i.to_s %>>
+				<%= r.radio_button :response, i, :disabled => @evaluation.submitted? %>
+			</td>
+			<td><%= i %></td>
+		<% end -%>
+		</tr>
+	</table>
+		
+	<div class="question_<%= question.id %>_notes" style="display:none;">
+		<%#= observe_field "evaluation[response][#{question.id}]_response_not_yet", 
+							:function => "Element.toggle('question_#{question.id}_notes)" %>
+		Please explain:
+		<%= r.text_area :notes, :disabled => @evaluation.submitted? %>
+	</div>
+	<%= content_tag('div', response.errors.full_messages, :class => 'error-message') %>
+	
+</div>
+</p>

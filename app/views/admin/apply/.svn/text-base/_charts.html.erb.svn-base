@@ -1,0 +1,72 @@
+<script type="text/javascript">
+	// var base_url = '<%#= offering_charts_url %>?t='
+	var root_url = 'https://<%= CONSTANTS[:base_system_url] %>'
+
+function updateChart(request)
+{
+	$("<%= @offering_graph_object[1] %>").load( request.responseText );
+}
+
+</script>
+
+<div class="tabview charts">
+	<div id="tabs">
+		<ul class="">
+			<li id="chart_option_1" class="current">
+				<%= link_to_remote "Apps by day", 
+									:url => offering_line_graph_applicants_charts_url(:o => @offering.id), 
+									:complete => "updateChart(request)", 
+									:loading => "$$('.tabview.charts #tabs li.current').invoke('removeClassName','current'); 					
+												$('chart_option_1').addClassName('current')", 
+									:indicator => "global" %></li>
+			<li id="chart_option_2">
+				<%= link_to_remote "Totals by standing", 
+									:url => offering_pie_graph_standings_charts_url(:o => @offering.id), 
+									:complete => "updateChart(request)", 
+									:loading => "$$('.tabview.charts #tabs li.current').invoke('removeClassName','current');
+									 			$('chart_option_2').addClassName('current')", 
+									:indicator => "global" %></li>
+			<li id="chart_option_3">
+				<%= link_to_remote "App statuses", 
+									:url => offering_bar_graph_statuses_charts_url(:o => @offering.id), 
+									:complete => "updateChart(request)", 
+									:loading => "$$('.tabview.charts #tabs li.current').invoke('removeClassName','current');
+									 			$('chart_option_3').addClassName('current')", 
+									:indicator => "global" %></li>
+			<% unless @offering.application_for_offerings.awarded.empty? %>
+			<li id="chart_option_4">
+				<%= link_to_remote "Awarded amounts", 
+									:url => offering_bar_graph_awarded_charts_url(:o => @offering.id), 
+									:complete => "updateChart(request)", 
+									:loading => "$$('.tabview.charts #tabs li.current').invoke('removeClassName','current');
+									 			$('chart_option_4').addClassName('current')", 
+									:indicator => "global" %></li>
+			<% end %>
+			<% if @offering.uses_awards? %>
+			<li id="chart_option_5">
+				<%= link_to_remote "Requested amounts", 
+									:url => offering_bar_graph_awarded_charts_url(:o => @offering.id, :r => "yes"), 
+									:complete => "updateChart(request)", 
+									:loading => "$$('.tabview.charts #tabs li.current').invoke('removeClassName','current');
+									 			$('chart_option_5').addClassName('current')", 
+									:indicator => "global" %></li>
+			<% end -%>
+			<% if @offering.sessions.size > 0 %>
+			<li id="chart_option_6">
+				<%= link_to_remote "Offering Sessions", 
+									:url => offering_hbar_sessions_charts_url(:o => @offering.id), 
+									:complete => "updateChart(request)", 
+									:loading => "$$('.tabview.charts #tabs li.current').invoke('removeClassName','current');
+									 			$('chart_option_6').addClassName('current')", 
+									:indicator => "global" %></li>
+			<% end %>
+		</ul>
+	</div>
+		
+	<div id="frame" class="short">	
+		<div id="chart-container">
+			<%= @offering_graph_object[0] %>
+		</div>
+	</div>
+</div>
+

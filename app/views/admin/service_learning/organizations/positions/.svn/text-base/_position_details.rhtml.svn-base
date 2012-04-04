@@ -1,0 +1,103 @@
+<% admin ||= false %>
+<% student_view ||= false %>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><strong><%= service_learning_position.title %></strong></dd>
+
+	<% if admin %>
+	<dt>organization</dt>
+	<dd><%= link_to service_learning_position.organization.name, service_learning_organization_path(@unit, @quarter, service_learning_position.organization ) %></dd>
+	
+		<% if service_learning_position.previous %>
+		<dt>copied from</dt>
+		<dd><%= link_to "#{service_learning_position.previous.title} (#{service_learning_position.previous.quarter.title})",
+		 				service_learning_organization_position_path(@unit, service_learning_position.previous.quarter,
+		 															service_learning_position.organization,
+																	service_learning_position.previous ),
+						:popup => true %></dd>
+		<% end -%>
+
+	<% end -%>
+	
+	<% if student_view %>
+	<dt>organization</dt>
+	<dd><%= service_learning_position.organization.name %>
+		<p class="smaller">
+		<%= link_to_function "About this organization", "Effect.toggle('about_organization', 'blind', {duration: 0.25})" %></p>
+		<div id="about_organization" style="display:none">
+			<p><%= truncate_to_whitespace_with_link @position.organization.mission_statement %></p>
+			<p>Website:<a href="http://<%= @position.organization.website_url %>" target="_blank">
+						<%= @position.organization.website_url %></a></p>
+		</div>
+	</dd>
+	<% end -%>
+
+	<% unless service_learning_position.context_description.blank? %>
+		<dt>context</dt>
+		<dd><%= service_learning_position.context_description %></dd>
+	<% end -%>
+
+	<% unless service_learning_position.description.blank? %>
+		<dt>work description</dt>
+		<dd><%= service_learning_position.description %></dd>
+	<% end -%>
+
+	<% unless service_learning_position.impact_description.blank? %>
+		<dt>impact</dt>
+		<dd><%= service_learning_position.impact_description %></dd>
+	<% end -%>
+
+	<dt>supervisor</dt>
+	<dd><%= service_learning_position.supervisor.person.fullname rescue nil %>
+		<%= "<br />" + auto_link(service_learning_position.supervisor.person.email) rescue nil %>
+		<%= "<br />" + phone_number(service_learning_position.supervisor.person.phone.to_i) rescue nil %>
+		</dd>
+
+	<dt>location</dt>
+	<dd><%= service_learning_position.location.title rescue "None" %>
+		<br><%= address_block(service_learning_position.location) %>
+		</dd>
+	
+	<% if service_learning_position.location; location = service_learning_position.location %>
+		<% unless location.driving_directions.blank? %>
+			<dt>driving notes</dt>
+			<dd><%= auto_link(simple_format(location.driving_directions)) %></dd>
+		<% end -%>
+
+		<% unless location.bus_directions.blank? %>
+			<dt>bus notes</dt>
+			<dd><%= auto_link(simple_format(location.bus_directions)) %></dd>
+		<% end -%>
+
+		<% unless location.notes.blank? %>
+			<dt>location notes</dt>
+			<dd><%= auto_link(simple_format(location.notes)) %></dd>
+		<% end -%>
+	<% end -%>
+	
+	<% unless service_learning_position.alternate_transportation.blank? %>
+		<dt>alt. transportation</dt>
+		<dd><%= service_learning_position.alternate_transportation %></dd>
+	<% end -%>
+
+	<% if !student_view && !service_learning_position.ideal_number_of_slots.nil? %>
+		<dt>ideal number</dt>
+		<dd><%= pluralize service_learning_position.ideal_number_of_slots, "student" %></dd>
+	<% end -%>
+
+	<dt>requirements</dt>
+	<dd><%= "Must be #{service_learning_position.age_requirement} years old<br>" unless service_learning_position.age_requirement.blank? %>
+		<%= "Must commit for #{service_learning_position.duration_requirement}<br>" unless service_learning_position.duration_requirement.blank? %>
+		<%= "Background check required<br>" if service_learning_position.background_check_required? %>
+		<%= "TB test required<br>" if service_learning_position.tb_test_required? %>
+		<%= "Other paperwork: #{service_learning_position.paperwork_requirement}<br>" unless service_learning_position.paperwork_requirement.blank? %>
+		</dd>
+
+	<% unless service_learning_position.skills_requirement.blank? %>
+		<dt>skills needed</dt>
+		<dd><%= service_learning_position.skills_requirement %></dd>
+	<% end -%>
+
+</dl>

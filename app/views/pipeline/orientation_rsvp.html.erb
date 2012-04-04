@@ -1,0 +1,13 @@
+<h1>RSVP for an Orientation Time</h1>
+<p><%= simple_format @rsvp_event_times.first.event.description rescue nil %></p>
+
+<% unless @rsvp_event_times.empty? %>
+  <%= render :partial => "rsvp/event_rsvp", 
+             :locals => {:current_date => nil, 
+                         :return_to => {},
+                         :event_times => @rsvp_event_times } %>
+<% else %>
+  <div class="empty">Sorry there are not orientations available at this time, please check back later.</div>
+<% end %>
+
+<% sidebar :orientation_help, :navigation %>

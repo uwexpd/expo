@@ -1,0 +1,26 @@
+<% pipeline_positions ||= [] %>
+<table>
+	
+	<tr class="small left">
+		<th>Organization</th>
+		<th>Position</th>
+		<th>Slots Required</th>
+		<th>Course Slots</th>
+	</tr>
+	
+<% for position in pipeline_positions %>
+	
+	<tr class='<%= "red-highlight" if (position.use_slots == true && position.placements.for(@service_learning_course).size == 0) %>'>
+		<td>
+			<%= link_to position.organization.name, service_learning_organization_path(@unit, @quarter, position.organization) %>
+		</td>
+	
+		<td><%= link_to position.title, service_learning_organization_position_path(@unit, @quarter, position.organization, position) %></td>
+		<td><%= position.use_slots == true ? "Yes" : "No" %></td>
+		<td><%= position.use_slots == true ? position.placements.for(@service_learning_course).size : "N/A" %></td>
+	</tr>
+
+	
+<% end -%>
+
+</table>

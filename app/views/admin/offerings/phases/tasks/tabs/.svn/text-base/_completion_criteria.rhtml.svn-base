@@ -1,0 +1,73 @@
+<h2>Completion Criteria</h2>
+
+<dl class="inline-definitions">
+
+	<dt>Column Header</dt>
+	<dd><%= f.text_field :progress_column_title %>
+		<p class="caption">If blank, the task name will be used as the column header</p></dd>
+
+	<dt>Context</dt>
+	<dd><%= f.select :context, %w(applicant mentors group_members reviewers interviewers) %></dd>
+
+	<dt>Update caches?</dt>
+	<dd><small><%= check_box_tag "task[update_task_completion_status_caches_after_save]", true, false %>
+		<label for="task_update_task_completion_status_caches_after_save">Update task completion status caches after saving</label>
+		</small>
+		<p class="caption">If you've made changes that affect task completion status, checking this box
+			forces EXPO to re-examine all relevant records and update their caches that keep track of
+			whether or not they have completed certain tasks. By default, keep this checked.</dd>
+	
+</dl>
+
+<h2>Applicant List Display</h2>
+
+<dl class="inline-definitions">
+	
+	<dt>Show?</dt>
+	<dd><%= f.check_box :show_for_in_progress %> 
+		<label for="task_show_for_in_progress">For <span class="blue-background">Action Required</span> applications in this phase</label>
+		
+		<br><%= f.check_box :show_for_success %>
+		<label for="task_show_for_success">For <span class="green-background">Moving Forward</span> applications in this phase</label>
+
+		<br><%= f.check_box :show_for_failure %>
+		<label for="task_show_for_failure">For <span class="red-background">Stopping Here</span> applications in this phase</label>
+	</dd>
+
+	<dt>Completion Criteria</dt>
+	<dd><%= f.text_area :completion_criteria, :rows => 4, :class => 'code' %></dd>
+
+	<dt>Progress Criteria</dt>
+	<dd><%= f.text_area :progress_display_criteria, :rows => 4, :class => 'code' %></dd>
+
+</dl>
+
+<h2>Reviewer/Interviewer List Display</h2>
+
+<dl class="inline-definitions">
+
+	<dt>Show?</dt>
+	<dd><%= f.check_box :show_for_context_object_tasks %>
+		<label for="task_show_for_context_object_tasks">For <span class="grey-background">Reviewer/Interviewer</span>
+			 tasks in this phase</label>
+		</dd>
+		
+	<dt>Completion Criteria</dt>
+	<dd><%= f.text_area :context_object_completion_criteria, :rows => 4, :class => 'code' %>
+		<p class="caption">To reference this Offering, use <code>@offering</code>.</p></dd>
+
+	<dt>Progress Criteria</dt>
+	<dd><%= f.text_area :context_object_progress_display_criteria, :rows => 4, :class => 'code' %></dd>
+
+</dl>
+
+<%= observe_field "task_context", 
+					:function => "$('task_update_task_completion_status_caches_after_save').checked = true" %>
+<%= observe_field "task_completion_criteria", 
+					:function => "$('task_update_task_completion_status_caches_after_save').checked = true" %>
+<%= observe_field "task_progress_display_criteria", 
+					:function => "$('task_update_task_completion_status_caches_after_save').checked = true" %>
+<%= observe_field "task_context_object_completion_criteria", 
+					:function => "$('task_update_task_completion_status_caches_after_save').checked = true" %>
+<%= observe_field "task_context_object_progress_display_criteria", 
+					:function => "$('task_update_task_completion_status_caches_after_save').checked = true" %>

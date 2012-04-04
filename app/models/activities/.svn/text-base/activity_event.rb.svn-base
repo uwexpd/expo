@@ -1,0 +1,3 @@
+class ActivityEvent < Activity
+  
+end

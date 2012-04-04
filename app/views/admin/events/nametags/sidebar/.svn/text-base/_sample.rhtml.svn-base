@@ -1,0 +1,21 @@
+<h3>Sample Nametag</h3>
+
+<div class="grey box">
+	<font face="Times, serif">
+	<center>
+	<small><%= @event.title %></small>
+	<br>
+	<br>
+	<strong style="font-size: 160%">First Line</strong>
+	<br>
+	<i style="font-size: 130%">Second Line</i>
+	<br>
+	<br>
+	<span style="font-size: 130%">THIRD LINE</span>
+	<br>
+	<br>
+	<%= @event.unit.name %>
+	</center>
+	</font>
+</div>
+	

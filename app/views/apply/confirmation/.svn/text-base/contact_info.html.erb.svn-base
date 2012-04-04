@@ -1,0 +1,54 @@
+<%= title @offering.title, "Update Your Contact Information" %>
+
+<%= render :partial => "apply/switch" if @application_count > 1 %>
+
+<h1>Update Your Contact Information</h1>
+<p>Please take a moment to confirm or update your contact information. This information will be used in publications, name tags, etc.</p>
+
+<div style="margin-left: 16em">
+
+	<span class="light">Last updated <%= relative_timestamp @confirmer.person.contact_info_updated_at %></span>
+	
+	<% form_for :person, @confirmer.person, :url => { :action => 'contact_info' } do |f| %>
+
+		<%= f.error_messages %>
+
+		<dl class="inline-definitions">
+		
+			<%= render :partial => "shared/person_fields", :object => f, 
+						:locals => { :show_student_fields => true, 
+									:show_address_fields => :false,
+									:show_salutation_field => true,
+									:show_title_field => :false
+									 } %>
+	
+			<dt>scholarships earned</dt>
+			<dd>
+				<table class="highlightless borderless">
+					<% for other_award in @offering.other_award_types.sort %>
+					<tr>
+						<td>
+							<%= check_box_tag "person[award_ids][#{other_award.award_type_id}]", true,
+												@confirmer.person.earned_award?(other_award.award_type) %>
+							<%= label_tag "person_award_ids_#{other_award.award_type_id}", other_award.title %>
+						</td>
+					</tr>
+					<% end -%>
+				</table>
+			</dd>
+
+		</dl>
+
+		<p><%= f.submit "Update my contact information", :disable_with => "Updating..." %>
+			<%= f.submit "My information is OK as is", :name => "no_updates", :disable_with => "Saving..." %></p>
+		
+	<% end -%>
+
+</div>
+
+<div class="progress_nav_buttons">
+	<%= button_to "Next: Workshops →", { :action => "workshops" }, :method => :get %>
+</div>
+
+
+<%= render :partial => "sidebar", :locals => { :page => 'contact_info' } %>

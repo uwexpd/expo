@@ -1,0 +1,10 @@
+<%
+# replace %link% with a link to the Apply controller
+# @text.gsub!("%link%", @link) unless @link.blank?
+
+# replace %attribute% with @application_for_offering.attribute
+# @text = @text.gsub(/\%([a-z0-9_.]+)\%/) { |a| eval("@obj.#{a.gsub!(/\%/,'')}") rescue nil }
+
+@text = TextTemplate.parse(@text, @object, @link)
+
+%><%= @text %>

@@ -1,0 +1,9 @@
+dom_id = "appointment_#{@appointment.id}"
+
+page.if "$('#{dom_id}')" do
+  page.visual_effect :fade, dom_id
+end
+
+page.if "$('appointments_count')" do
+  page << "$('appointments_count').innerHTML = $('appointments_count').innerHTML - 1"
+end

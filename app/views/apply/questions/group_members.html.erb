@@ -1,0 +1,69 @@
+<div id="group_members_<%= question.id %>">
+<li>
+	<fieldset>
+		<legend>
+			<%= question.question %>
+			<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		</legend>
+		
+		<div class="left-indent">
+			<%= radio_button_tag :group, "no", qf.object.group_members.empty?, :onClick => "$('group_members').hide()" %>
+			<label for="group_no" class="default">No, I am the sole presenter.</label>
+
+			<br><br>
+			
+			<%= radio_button_tag :group, "yes", !qf.object.group_members.empty?, :onClick => "$('group_members').show()" %>
+			<label for="group_yes" class="default">Yes, I am submitting this application on behalf of my team.</label>
+
+			<div id="group_members" style="margin: 2em; display: <%= qf.object.group_members.empty? ? "none" : "block" %>">
+	
+				<table class="highlightless">
+					<tr>
+						<th colspan=3>Co-Presenters</th>
+					</tr>
+					<tr>
+						<td class="person"><%= qf.object.fullname %>
+											<br><small class="note">(you)</small></td>
+						<td colspan=2><%= qf.object.person.email %></td>
+					</tr>
+
+					<% for group_member in qf.object.group_members.valid %>
+					<tr>
+						<td class="person <%= group_member.verified? ? "verified" : "unverified" %>">
+							<%= group_member.fullname %>
+							<%= "<br><small class=\"note\">Unverified</small>" unless group_member.verified? %>
+							<%= "<br><small class=\"note\">Verified</small>" if group_member.verified? %>
+						</td>
+						<td>
+							<%= group_member.email %>
+							<% unless group_member.verified? %>
+								<br><small class="light">Verification e-mail sent 
+													<%= time_ago_in_words group_member.validation_email_sent_at rescue "unknown" %> ago.
+									<%= link_to "Send again", 
+												{:action => 'update', :page => @page.ordering, :resend_group_member => group_member.id} %>
+								</small>
+							<% end -%>
+						</td>
+						<td><%= link_to "Remove", 
+										{:action => 'update', :page => @page.ordering, :remove_group_member => group_member.id}, 
+										:confirm => "Are you sure you want to remove this group member?" unless @user_application.submitted? %>
+						</td>
+					</tr>
+					<% end -%>
+				</table>
+				
+				<% unless @user_application.submitted? %>
+					<br><%= link_to_function "Add another", 
+								"Effect.toggle('new_group_member', 'blind', {duration: 0.25})",
+								:class => 'add button' %>
+
+					<div id="new_group_member" class="yellow box" style="display:<%= @group_member.nil? && !qf.object.group_members.empty? ? "none" : "block" %>">
+						<%= render :partial => "new_group_member", :locals => { :question => question, :qf => qf} %>
+					</div>
+				<% end -%>
+
+			</div>
+		</div>
+	</fieldset>
+</li>
+</div>

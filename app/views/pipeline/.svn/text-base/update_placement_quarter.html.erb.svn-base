@@ -1,0 +1,27 @@
+<h1>Pipeline Position Quarter Update Confirmation</h1>
+
+<% unless @error %>
+  <% if @new_position.nil? %>
+    <p>
+      By clicking the button below you will be confirming that you are continuing with the <%= @pipeline_placement.title %>
+      position at <%= @pipeline_placement.organization.name %>
+    </p>
+    <p>
+      If you do not want to migrate the position to <%= @quarter.title %> close this window or go to the <%= link_to "Pipeline Search", pipeline_base_path %> page and search for another.
+    </p>
+    <%= link_to "Update placement to #{@quarter.title}", {:controller => "pipeline", :action => "update_placement_quarter", :migrate => true}, {:class => 'button'} %>
+  <% else %>
+    <p>
+      Your placement has been updated to this quarter.
+    </p>
+    <p>
+      <%= @pipeline_placement.title(false,false,false) %>
+    </p>
+    <p>
+      <%= @pipeline_placement.oranization.name %>
+    </p>
+  <% end %>
+
+<% else %>
+  <h2><%= @error %></h2>
+<% end %>

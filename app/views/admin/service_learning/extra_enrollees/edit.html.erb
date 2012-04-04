@@ -1,0 +1,12 @@
+<h1>Editing extra_enrollee</h1>
+
+<%= error_messages_for :extra_enrollee %>
+
+<% form_for(@extra_enrollee) do |f| %>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @extra_enrollee %> |
+<%= link_to 'Back', extra_enrollees_path %>

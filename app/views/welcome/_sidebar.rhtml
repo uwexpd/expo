@@ -1,0 +1,24 @@
+<% if @units %>
+
+	<% content_for :right_sidebar do %>
+
+		<h3>Looking for more ways to enrich your undergraduate experience?</h3>
+		<p class="learn_more"><%= link_to "Learn more about EXP &#x2192;", "http://exp.washington.edu/", :popup => true %></p>
+		
+		<% for unit in @units %>
+		
+			<h4><%= unit.name %></h4>
+			<p><%= unit.description %></p>
+		
+			<% if unit.engage_url %>
+				<p class="learn_more"><%= link_to "Learn more &#x2192;", 
+													unit.engage_url, 
+													:popup => true, 
+													:title => "Learn more about the #{unit.name}" %></p>
+			<% end -%>
+
+		<% end -%>
+
+	<% end -%>
+	
+<% end -%>

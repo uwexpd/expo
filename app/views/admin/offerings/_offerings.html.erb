@@ -1,0 +1,22 @@
+<% past_offerings = false %>
+<% current_offerings = false %>
+
+<% for offering in @offerings %>
+
+	<% if past_offerings == false && offering.quarter_offered && offering.quarter_offered < Quarter.current_quarter %>
+		<tr class="rowset-header">
+			<td colspan=6>Past Offerings</td>
+		</tr>
+		<% past_offerings = true; current_offerings = true %>
+		
+	<% elsif !current_offerings %>
+		<tr class="rowset-header">
+			<td colspan=6>Current Offerings</td>
+		</tr>
+		<% current_offerings = true %>	
+		
+	<% end -%>
+
+	<%= render :partial => 'offering', :object => offering %>
+
+<% end %>

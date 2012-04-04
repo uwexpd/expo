@@ -1,0 +1,98 @@
+<h2>Session</h2>
+
+<%= error_messages_for :app %>
+
+<p><strong>Currently assigned to: </strong>
+	<span id="session_title">
+		<% if @app.offering_session %>
+			<%= link_to(@app.offering_session.title, offering_session_url(@offering, @app.offering_session)) %>
+		<%- else -%>
+			<font class="light">None</font>
+		<% end -%>
+	</span>
+	(<%= link_to_function "change", "Effect.toggle('change_session', 'blind', {duration: 0.25})" %>)
+	</p>
+	
+<div id="change_session" style="display:none">
+	<% remote_form_for 	:app, @app, 
+						:url => { :action => "assign_session", :id => @app }, 
+						:indicator => true, 
+						:update => 'tabview_content' do |f| %>
+		Assign to: <%= f.collection_select :offering_session_id, 
+											@offering.sessions.for_type(@app.application_type_id), 
+											:id, :title, :include_blank => "None" %>
+											
+		<% if @offering.location_sections %>
+		<br>New Location Section: <%= f.collection_select :location_section_id,
+		 												@offering.location_sections,
+		 												:id, :title, :include_blank => "None" %>
+		<br>New Easel Number: <%= f.text_field :easel_number, :size => 3 %>
+			<%= f.check_box :lock_easel_number %>
+			<%= f.label :lock_easel_number, "Lock this easel number to this presentation" %>
+				
+		<% end -%>
+		
+		<br><%= f.submit "Assign" %>
+	<% end -%>
+</div>
+
+<% if @app.offering_session %>
+<ul>
+	
+	<li><strong>Moderator:</strong>
+		<%= @app.offering_session.moderator.nil? ? "<font class='light'>None assigned</font>" : @app.offering_session.moderator.fullname %>
+		</li>
+	
+	<%- if @app.offering_session.moderator -%>
+	<li><strong>Moderator Response:</strong>
+		<% if @app.application_moderator_decision_type.nil? %>
+			<em>No response</em>
+		<%- else -%>
+			<span class='highlight'><%= @app.application_moderator_decision_type.title %></span>
+		<% end -%>
+		</li>
+	<% end -%>
+		
+	<%- unless @app.moderator_comments.blank? -%>
+	<li><strong>Moderator Comments:</strong>
+		<%=h @app.moderator_comments %>
+		</li>
+	<% end -%>
+	
+	<%- if @app.location_section -%>
+	<li><strong>Location Section:</strong>
+		<%=h @app.location_section.title %>
+		</li>
+	<% end -%>
+	
+	<%- unless @app.easel_number.blank? -%>
+	<li><strong>Easel Number:</strong>
+		<%=h @app.easel_number %>
+		<%= "<span class='highlight'>(LOCKED)</span>" if @app.lock_easel_number? %>
+		</li>
+	<% end -%>
+	
+</ul>
+<% end -%>
+
+<% unless @app.special_requests.blank? %>
+<div>
+	<strong>Special Requests:</strong>
+	<%=h @app.special_requests %>
+</div>
+<br>
+<% end -%>
+
+<div id="session_discipline_breakdown">
+	<%= link_to_remote "View location breakdown for #{@app.mentor_department}", 
+						:url => disciplines_offering_sessions_url(@offering, 
+								:application_type_id => @app.application_type_id,
+								:department => @app.mentor_department),
+						:update => 'session_discipline_breakdown',
+						:method => :get,
+						:indicator => true %>
+</div>
+<%= link_to "View location breakdown for all disciplines", 
+			disciplines_offering_sessions_url(@offering, :application_type_id => @app.application_type_id) %>
+
+

@@ -1,0 +1,13 @@
+<li>
+	<%= question.question %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %>
+	
+	<div class="question_block" id="awards">
+	<% @current_quarter_for_dropdown = @offering.first_eligible_award_quarter || @offering.quarter_offered %>
+	<%= render :partial => 'award', :collection => @user_application.awards %>
+	</div>
+
+	<%= content_tag('p', "#{question.caption}", :class => 'question_caption') unless question.caption.blank? %>
+
+		
+</li>

@@ -1,0 +1,32 @@
+<% disabled ||= false %>
+<% condition = value_dropdown %>
+<% dom_id = "population[condition_attributes][#{condition.id}][value]" %>
+
+<%- if condition.values == "boolean" -%>
+
+	<%= radio_button_tag dom_id, true, condition.value == "true" %>
+	<%= label dom_id, "true" %>
+
+	<%= radio_button_tag dom_id, false, condition.value == "false" %>
+	<%= label dom_id, "false" %>
+	
+<%- elsif condition.values.is_a?(Hash) && condition.values.include?("collection") -%>
+
+	<%= select_tag dom_id, 
+					options_from_collection_for_select(condition.values_collection, 
+														condition.values["ids"], 
+														condition.values["titles"],
+														condition.value_with_typecast), 
+					:disabled => disabled %>
+
+<%- elsif condition.values.is_a?(Array) -%>
+
+	<%= select_tag dom_id, 
+					options_for_select(condition.values, condition.value_with_typecast), 
+					:disabled => disabled %>
+
+<%- else -%>
+
+	<%= text_field_tag dom_id, condition.value %>
+	
+<% end -%>

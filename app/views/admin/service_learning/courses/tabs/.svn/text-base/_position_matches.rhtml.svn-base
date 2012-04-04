@@ -1,0 +1,96 @@
+<% if @use_pipeline_links %>
+
+<%= check_box_tag "require_slots", "true", @service_learning_course.no_filters, 
+      :onchange => "$('toggle_filters_indicator').show();"+remote_function(
+            :url => toggle_use_filters_service_learning_course_path(@unit,@quarter,@service_learning_course), 
+            :with => "'checked='+$('require_slots').checked") %>
+<label for="require_slots">Do not use filters for the Course, use slot based placement.</label>
+<%= content_tag 'span', indicator_image + 'Saving...', indicator_options(:id => 'toggle_filters_indicator') %>
+
+<div id="filter_match_block">
+  <% unless @service_learning_course.no_filters %>
+  <%= render :partial => "pipeline_filter_matches" %>
+  <% end %>
+</div>
+<% end %>
+
+<h2 class="icon-left positions">Position Matches</h2>
+
+<%= link_to "Print", positions_print_service_learning_course_path(@unit, @quarter, @service_learning_course), :class => 'print icon-left button' %>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'position_matches_form' %>
+	<input type=hidden name="group_variant" id="group_variant" value="">
+	
+<table>	
+	<tr class="small left">
+		<th><%= select_all_check_box %></th>
+		<th>Organization</th>
+		<th>Position</th>
+		<th class="center">Slots filled</th>
+		<th class="center">Slots for this class</th>
+		<th>Other&nbsp;Slots</th>
+		<% if @use_pipeline_links %>
+		<th>Slots Required</th>
+		<% end %>
+	</tr>
+
+<% total_slots_for_class = 0; total_slots_filled = 0; %>
+	
+<% for organization in @service_learning_course.organizations.sort %>
+<% positions = @service_learning_course.positions.offered_by(organization).uniq %>
+	
+	<tr>
+		<td rowspan=<%= positions.size + 1 %>><%= select_check_box(organization) %></td>
+		<td rowspan=<%= positions.size + 1 %>>
+			<%= link_to organization.name, service_learning_organization_path(@unit, @quarter, organization) %>
+		</td>
+		
+	</tr>
+	
+	<% for position in positions %>
+	<% slots_for_class = position.placements.for(@service_learning_course).size %>
+	<% slots_filled = slots_for_class - position.placements.open_for(@service_learning_course).size %>
+	<% total_slots_for_class += slots_for_class; total_slots_filled += slots_filled %>
+	
+		<tr>
+			<td><%= link_to position.title, service_learning_organization_position_path(@unit, @quarter, organization, position) %></td>
+			<td class="center"><%= slots_filled %></td>
+			<td class="center"><%= slots_for_class %></td>
+			<td class="smaller">
+				<% unless position.placements_breakdown("", :exclude => @service_learning_course).nil? %>
+					<small><%= link_to_function "Details", "Effect.toggle('allocations_#{position.id}', 'blind', {duration: 0.1})" %></small>
+					<div id="allocations_<%= position.id %>" class="light overlay box" style="display:none; width: 15em">
+						<%= render :partial => "placements_overlay", :object => position %>
+					</div>
+				<% end -%>
+			</td>
+			<% if @use_pipeline_links %>
+			<td><%= position.use_slots == true ? "Yes" : "No" %></td>
+			<% end %>
+		</tr>
+
+	<% end -%>
+	
+<% end -%>
+
+<tr class="grey">
+	<td colspan=3><b>Total Slots:</b></td>
+	<td class="center"><b><%= total_slots_filled %></b></td>
+	<td class="center"><b><%= total_slots_for_class %></b></td>
+	<td></td>
+</tr>
+
+</table>
+
+</form>
+
+<div class="buttons">	
+	<%= link_to_submit "Email primary service_learning contacts",
+							'position_matches_form', 
+							:link_options => {:class => "icon-left email button"},
+							:group_variant => "primary_service_learning_contacts" %>
+	<%= link_to_submit "Email all position supervisors", 
+							'position_matches_form', 
+							:link_options => {:class => "icon-left email button"},
+							:group_variant => "position_supervisor_contacts" %>
+</div>

@@ -1,0 +1,15 @@
+<h1>Equipment Reservation #<%= @equipment_reservation.id_s %></h1>
+
+<% form_for :equipment_reservations, @equipment_reservation, 
+			:url => equipment_reservation_path(@equipment_reservation), 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', equipment_reservation_path(@equipment_reservation), :class => 'cancel button' %>
+
+<% end %>

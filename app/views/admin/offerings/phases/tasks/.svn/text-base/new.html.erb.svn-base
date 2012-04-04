@@ -1,0 +1,20 @@
+<% make_main_content_blocked %>
+
+<% form_for :task, @task, :url => offering_phase_tasks_path(@offering, @phase) do |f| %>
+
+	<div class="content-block">
+
+		<h1>New Task</h1>
+
+		<%= f.error_messages %>
+
+		<%= f.submit "Create", :disable_with => 'Creating...' %>
+		<%= separator %>
+		<%= link_to 'Cancel', offering_phase_tasks_path(@offering, @phase) %>
+
+	</div>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+
+<% end %>
+

@@ -1,0 +1,1 @@
+page.replace_html "major_extra_dc_#{ @major_extra[:id] }", "#{ @major_extra.discipline_category.name }"

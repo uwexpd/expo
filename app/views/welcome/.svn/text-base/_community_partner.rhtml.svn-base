@@ -1,0 +1,11 @@
+<tr class="rowset-header">
+	<td colspan=2>Community Partner</td>
+</tr>
+
+<tr class="empty">
+	<td colspan=2>
+		You are listed as an organization contact.
+		<br>
+		<%= link_to "Click here to edit organization information and position descriptions.", :controller => 'community_partner' %>
+	</td>
+</tr>

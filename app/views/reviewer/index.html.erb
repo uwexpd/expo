@@ -1,0 +1,27 @@
+<% mark_as_confidential @offering.confidentiality_note %>
+
+<% title "Application Review", @offering.name %>
+
+<!-- <h1>Your Contact Information
+	<span class="heading_inline"><%= link_to "Edit your contact information", :action => "update" %></span>
+	</h1>
+	<%#= render :partial => "contact_info" %>
+<br> -->
+
+<h2>Your Applications
+	<span style="float:right"><%= link_to (params[:comments] == 'hide' ? 'Show Comments' : 'Hide Comments'), :comments => (params[:comments] == 'hide' ? 'show' : 'hide') %></span>
+	</h2>
+<p>Please review the following student applications.</p>
+<table class="highlightless">
+	<tr>
+		<th>Student/Project</th>
+		<th>Major</th>
+		<th>GPA</th>
+		<th>Class</th>
+		<th>Current Credits</th>
+		<th>View Application</th>
+	</tr>
+	
+	<%= render :partial => "application_for_review", :collection => @apps %>
+	
+</table>

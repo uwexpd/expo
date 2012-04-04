@@ -1,0 +1,41 @@
+<% make_main_content_full_width %>
+
+<span id="status" style="display:none"></span>
+
+<% remote_form_for :release, :url => { :action => :release }, :html => { :id => 'email_queue_form'} do |f| %>
+
+<h1 style="float:left"><%= "My " unless params[:all] %>E-mail Queue
+	<span class="light" id="email_count_text">(<%= @emails.size %>)</span>
+	</h1>
+
+<div style="float:left; margin-left: 20px; <%= "display:none" unless @emails.size > 15 %>" id="control_buttons_top">
+	<br />
+	<%= render :partial => "control_buttons" %>
+</div>
+
+<br style="clear:left">
+
+<div id="email_queue_table">
+	<%= render :partial => "table" %>
+
+	<%= hidden_field_tag :pid %>
+</div>
+
+<% unless @emails.empty? %>
+<div id="control_buttons_bottom">
+	<br><center><%= render :partial => "control_buttons" %></center>
+</div>
+<% end -%>
+	
+<% end %>
+
+<% javascript_tag do %>
+	do_checks = false
+	email_count = <%= @emails.size %>
+<% end -%>
+
+<%= periodically_call_remote(:url => { :action => 'check_queue_status' },
+							:frequency => 1,
+							:submit => "email_queue_table",
+							:condition => "do_checks",
+							:before => "do_checks = false") %>

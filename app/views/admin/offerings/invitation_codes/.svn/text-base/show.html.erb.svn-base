@@ -1,0 +1,26 @@
+<h1><%=h @invitation_code.offering.name %> - <%=h @invitation_code.code %> 
+	<span class="light right"><%= link_to "Edit", edit_offering_invitation_code_path(@offering, @invitation_code), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@invitation_code) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>offering</dt>
+	<dd><%=h @invitation_code.offering.name %></dd>
+
+	<dt>code</dt>
+	<dd><%=h @invitation_code.code %></dd>
+
+	<dt>application for offering</dt>
+	<dd><%=h @invitation_code.application_for_offering_id %></dd>
+
+	<dt>note</dt>
+	<dd><%=h @invitation_code.note %></dd>
+
+	<dt>institution</dt>
+	<dd><%=h @invitation_code.institution.institution_name if @invitation_code.institution %></dd>
+
+
+</dl>
+
+	<% sidebar "/admin/offerings/sidebar/settings" %>

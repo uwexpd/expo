@@ -1,0 +1,8 @@
+<h3>Accountability Years</h3>
+
+<ul class="link-list">
+	<% for year in AccountabilityReport.years %>
+		<li><%= link_to_unless_current "#{year}", :year => year %></li>
+	<% end -%>
+</ul>
+	

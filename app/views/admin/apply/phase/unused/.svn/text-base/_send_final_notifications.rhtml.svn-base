@@ -1,0 +1,104 @@
+<h4>Edit E-mail texts:</h4>
+	<ul>
+	<li>For awarded:
+		<%= status_email_view_links(ApplicationStatusType.find_by_name("awarded"), @offering, true, {}, nil) %></li>
+	<li>For awarded with contingency:
+		<%= status_email_view_links(ApplicationStatusType.find_by_name("awarded_with_contingency"), @offering, true, {}, nil) %></li>
+	<li>For not awarded:
+		<%= status_email_view_links(ApplicationStatusType.find_by_name("not_awarded_after_interview"), @offering, true, {}, nil) %></li>
+	</ul>
+
+
+<% form_for :send_final_notifications, :url => { :action => "mass_status_change" } do |f| %>
+
+<% @apps_awarded = @apps.reject {|a| a.current_status_name != "decision_approved" && a.current_status_name != "awaiting_dean_approval" } %>
+
+<table>
+
+	<tr>
+		<th>Student Name</th>
+		<th>Dean Approved?</th>
+		<th>Quarters</th>
+		<th>Interview Committee</th>
+		<th>Committee Decision</th>
+	</tr>
+
+	<% for @application_for_offering in @apps_awarded %>
+	<% a = @application_for_offering %>
+		<tr>
+			<td><%= check_box_tag("select[#{a.id}]", a.id, false, :disabled => a.current_status_name=="awaiting_dean_approval") %>
+				<%= a.person.fullname %></td>
+
+			<td><%= a.current_status_name == "awaiting_dean_approval" ? "Waiting" : "Yes" %>
+
+			<td class="smaller"><%= a.award_list("<br>", false) %></td>
+			
+			<td class="smaller"><%= a.interview.interviewer_list("<br>") %> <% # TODO -------- add "feedback person" %></td>
+
+			<td><%= a.interview_committee_decision %>
+				<% if a.includes_contingency? %>
+					(<%= link_to_function "view terms", "Element.toggle(contingency_terms_#{a.id})" %>)
+					<div style="display:none; width: 200px" class="yellow box" id="contingency_terms_<%= a.id %>">
+						<strong>Contingency Terms:</strong>
+						(<%= link_to_function "hide", "Element.toggle(contingency_terms_#{a.id})" %>)
+						<br><%= simple_format a.contingency_terms %>
+					</div>
+					<div class="smaller">
+						Check in by <%= a.contingency_checkin_date.to_s(:long) %>
+					</div>
+				<% end %>
+				</td>
+		</tr>
+
+	<% end %>
+
+</table>
+<br>
+
+<p>Set status to:
+	<select name="new_status">
+		<option value="">-- Select --</option>
+		<option value="awarded">Awarded</option>
+		<option value="awarded_with_contingency">Awarded with Contingency</option>
+	</select>
+
+<%= f.submit "Queue final decision notifications" %>
+
+<% end %>
+
+
+<% form_for :send_final_notifications, :url => { :action => "mass_status_change" } do |f| %>
+
+<% @apps_awarded = @apps.reject {|a| !a.interview_decision_made? || (a.interview_decision_made? && a.awarded_by_interview_committee?) } %>
+
+<table>
+
+	<tr>
+		<th>Student Name</th>
+		<th>Committee Decision</th>
+	</tr>
+
+	<% for @application_for_offering in @apps_awarded %>
+	<% a = @application_for_offering %>
+		<tr>
+			<td><%= check_box_tag("select[#{a.id}]", a.id, false, :disabled => a.current_status_name=="awaiting_dean_approval") %>
+				<%= a.person.fullname %></td>
+
+			<td><%= a.interview_committee_decision %>
+				</td>
+		</tr>
+
+	<% end %>
+
+</table>
+<br>
+
+<p>Set status to:
+	<select name="new_status">
+		<option value="">-- Select --</option>
+		<option value="not_awarded_after_interview">Not Awarded After Interview</option>
+	</select>
+
+<%= f.submit "Queue final decision notifications" %>
+
+<% end %>

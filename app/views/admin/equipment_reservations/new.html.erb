@@ -1,0 +1,13 @@
+<h1>New Equipment Reservation</h1>
+
+<% form_for :equipment_reservations, @equipment_reservations, :url => equipment_reservations_path(@equipment_reservation) do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', equipment_reservations_path(@equipment_reservation), :class => 'cancel button' %>
+
+<% end %>

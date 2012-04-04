@@ -1,0 +1,16 @@
+for app in @application_for_offerings
+  page.if("$('add_favorite_link_#{app.id}')") do
+    page.replace "add_favorite_link_#{app.id}", :partial => 'apply/proceedings/add_favorite', :object => app
+  end
+end
+
+page.if("$('favorite_abstracts')") do
+  page.show "favorite_abstracts"
+  page.replace_html "favorite_abstracts_count", :text => "(#{@favorite_abstracts.size})"
+  page.visual_effect :highlight, "favorite_abstracts_count"
+end
+
+page.if("$('favorite_abstracts_header_count')") do
+  page.replace_html "favorite_abstracts_header_count", :text => "(#{@favorite_abstracts.size})"
+  page.visual_effect :highlight, "favorite_abstracts_header_count"
+end

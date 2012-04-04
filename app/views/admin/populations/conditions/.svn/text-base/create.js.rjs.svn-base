@@ -1,0 +1,3 @@
+page.insert_html(:bottom, :conditions, 
+				:partial => "admin/populations/conditions/condition", 
+				:object => @condition)

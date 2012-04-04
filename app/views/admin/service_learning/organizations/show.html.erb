@@ -1,0 +1,80 @@
+<% positions = @organization_quarter.positions %>
+<% placements = @organization_quarter.placements %>
+
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	
+	<h1 style="margin-bottom: 0">
+		<%= @organization.name %>
+
+		<% if @organization.inactive? %>
+			<span class="inactive tag">Inactive
+			<%= " until #{@organization.next_active_quarter.title}" if @organization.next_active_quarter %></span>
+		<% end -%>
+
+		<% if @organization.archive? %>
+			<span class="archived tag">ARCHIVED</span>
+		<% end -%>
+
+		<span class="right">
+		<%= link_to "Edit", 
+					edit_admin_organization_path(@organization, :return_to => request.request_uri), 
+					:class => "edit button" %>
+			</span>
+	
+	</h1>
+	<% unless @other_organization_quarters.blank? %>
+		<div class="other_organization_quarters">
+		<% for organization_quarter in @other_organization_quarters %>
+			<span class="tag"><%= organization_quarter.unit.name %></span>
+		<% end -%>
+		</div>
+	<% end -%>	
+</div>
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		  <%= link_to_tab("Organization Info", "organization_info", 
+      				{ :id => @organization, :tab => "organization_info" }, "tabview_content") %>
+      <%= link_to_tab("Contacts (#{@organization.contacts.size})", "contacts", 
+      				{ :id => @organization, :tab => "contacts" }, "tabview_content") %>
+      <%= link_to_tab("Positions (#{positions.size})", "positions", 
+      				{ :id => @organization, :tab => "positions" }, "tabview_content") %>
+      <%= link_to_tab("Students (#{placements.filled.size})", "students", 
+      				{ :id => @organization, :tab => "students" }, "tabview_content") %>
+      <%= link_to_tab("Course Matches (<span id='potential_courses_count'>#{
+      				@organization_quarter.potential_courses.size}</span>)", "course_matches", 
+      				{ :id => @organization, :tab => "course_matches" }, "tabview_content") %>
+      <%= link_to_tab("Site Notes (<span id='site_notes_count'>#{@organization.notes.size}</span>)", "site_notes", 
+      				{ :id => @organization, :tab => "site_notes" }, "tabview_content") %>
+      <%= link_to_tab("Quarters (<span id='quarters_count'>#{@organization.organization_quarters.for_unit(@unit).size}</span>)", "quarters", 
+      				{ :id => @organization, :tab => "quarters" }, "tabview_content") if @organization.organization_quarters.for_unit(@unit).size > 1 %>
+		</ul>
+	</div>
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+	
+		<div class="content" id="tabview_content">
+			<noscript>
+				<%= render :partial => "admin/service_learning/organizations/tabs/organization_info" %>
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+
+<%= autoload_tab("tabview_content", url_for(:id => @organization, :tab => ""), "organization_info") %>
+
+<% if @use_pipeline_links %>
+  <% sidebar "admin/pipeline/sidebar/pipeline_links" %>
+<% end %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar "admin/service_learning/organizations/sidebar/status",
+           "admin/service_learning/organizations/sidebar/site_note" %>

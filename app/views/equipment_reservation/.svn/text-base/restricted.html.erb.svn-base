@@ -1,0 +1,17 @@
+<% make_main_content_full_width %>
+<% content_for :main_content_class, "permission_denied" %>
+
+<%= title link_to("EXPD Equipment Loan Program", :action => 'index') %>
+
+<h1>You are not allowed to checkout equipment at this time.</h1>
+
+<% if @current_user.person.equipment_reservation_restriction? %>
+	<p>You cannot checkout equipment until 
+		<%= @current_user.person.equipment_reservation_restriction_until.to_s(:date_with_day_of_week) %> 
+		because a restriction has been placed on your student record.</p>
+<% end -%>
+
+<% if @current_user.person.current_credits.zero? %>
+	<p>You must be a current, registered student in order to checkout equipment. 
+		Our records indicate that you are not registered for <%= Quarter.current_quarter.title %>.</p>
+<% end -%>

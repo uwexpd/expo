@@ -1,0 +1,12 @@
+<li>
+
+	<p><%= question.question %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %></p>
+
+	<table class="highlightless borderless" id="mentors">
+		<%= render :partial => 'mentor', :collection => @user_application.mentors %>
+	</table>
+	
+	<p><%= submit_tag( "Add another #{@offering.mentor_title} (if needed)", :name => "add_mentor_button", :id => "add_mentor_button") if @user_application.more_mentors_ok? && !@user_application.submitted? %></p>
+
+</li>

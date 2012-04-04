@@ -1,0 +1,4 @@
+page.replace_html :app_fullname, :text => @app.fullname
+page.replace_html :scoring_pane, :partial => 'interviewer/sidebar/scoring'
+page << "$$('tr.highlight').invoke('removeClassName', 'highlight')"
+page << "$('app_#{@app.id}').addClassName('highlight')"

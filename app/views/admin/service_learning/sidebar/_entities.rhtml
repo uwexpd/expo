@@ -1,0 +1,40 @@
+<h3>Quick Links</h3>
+
+<ul class="link-list">
+
+	<li><%= link_to "Jump to <strong>#{@quarter.next.title}</strong>", 
+					service_learning_home_path(@unit, @quarter.next), 
+					:class => "icon-left go-next" %></li>
+
+	<% if @quarter != Quarter.current_quarter && @quarter.next != Quarter.current_quarter %>
+	<li><%= link_to "Jump to <strong>#{Quarter.current_quarter.title}</strong>", 
+					service_learning_home_path(@unit, Quarter.current_quarter), 
+					:class => "icon-left #{@quarter < Quarter.current_quarter ? "go-next" : "go-previous"}" %></li>
+	<% end -%>
+	
+	<li><%= link_to "Organizations <span>(#{@quarter.organization_quarters.find_all_by_unit_id(@unit.id).size})</span>", 
+					service_learning_organizations_path(@unit, @quarter), 
+					:class => "icon-left organizations" %></li>
+					
+	<li><%= link_to "Positions <span>(#{@quarter.service_learning_positions.for_unit(@unit).size})</span>", 
+					service_learning_positions_path(@unit, @quarter),
+					:class => "icon-left positions" %></li>			
+					
+	<li><%= link_to "Courses <span>(#{@quarter.service_learning_courses.for_unit(@unit).size})</span>", 
+					service_learning_courses_path(@unit, @quarter),
+					:class => "icon-left courses" %></li>
+	
+	<li><%= link_to "Placements <span>(#{@quarter.service_learning_placements.select{|p| p.unit_id == @unit.id && p.filled? }.size})</span>", 
+					service_learning_placements_path(@unit, @quarter),
+					:class => "icon-left placements" %></li>	
+	
+	<li><%= link_to "Students", 
+					service_learning_students_path(@unit, @quarter),
+					:class => "icon-left students" %></li>
+
+	<%- if 4.weeks.ago > @quarter.first_day -%>
+	<li><%= link_to "Mid-Quarter Check-in", 
+					service_learning_mid_quarter_path(@unit, @quarter) %></li>
+	<% end -%>
+	
+</ul>

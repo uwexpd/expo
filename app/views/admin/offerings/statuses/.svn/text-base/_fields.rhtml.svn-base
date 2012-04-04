@@ -1,0 +1,32 @@
+<dl class="inline-definitions">
+
+	<dt>status</dt>
+	<dd><%= f.collection_select :application_status_type_id, ApplicationStatusType.all.sort_by(&:name), :id, :name, :prompt => true %></dd>
+
+	<dt>public title</dt>
+	<dd><%= f.text_field :public_title %></dd>
+
+	<dt>disallow user edits?</dt>
+	<dd><%= f.check_box :disallow_user_edits %></dd>
+
+	<dt>disallow all edits?</dt>
+	<dd><%= f.check_box :disallow_all_edits %></dd>
+
+	<dt>message</dt>
+	<dd><%= f.text_area :message, :cols => 60, :rows => 15 %></dd>
+
+	<dt>sequence</dt>
+	<dd><%= f.select :sequence, 1..(@offering.statuses.max.sequence+1 rescue 1) %></dd>
+
+	<dt>restrictions</dt>
+	<dd><%= f.check_box :allow_application_edits %>
+		<%= f.label :allow_application_edits, "Allow user to edit application details" %>
+		<br>
+		<%= f.check_box :allow_abstract_revisions %>
+		<%= f.label :allow_abstract_revisions, "Allow user to submit a revised abstract" %>
+		<br>
+		<%= f.check_box :allow_abstract_confirmation %>
+		<%= f.label :allow_abstract_confirmation, "Allow user to confirm minor abstract revisions" %>	
+		</dd>
+
+</dl>

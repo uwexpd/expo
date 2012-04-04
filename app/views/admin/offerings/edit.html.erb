@@ -1,0 +1,22 @@
+<%= make_main_content_blocked %>
+
+<% upload_form_for :offering, @offering, :url => offering_path(@offering), :html => { :method => :put, :id => 'offering_form' } do |f| %>
+
+	<div class="content-block">
+
+		<h1><%= @offering.title %></h1>
+
+		<%= f.error_messages %>
+		<%= f.submit "Save &amp; Close", :disable_with => 'Saving...' %>
+		<%= separator "or" %>
+		<%= link_to 'Cancel', offering_path(@offering), :class => "cancel button" %>
+
+		<span id="js_errors" class="error-message" style="padding:.5em"></span>
+		
+	</div>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+<% end %>
+
+<% sidebar :settings, :more_settings, :save %>

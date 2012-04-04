@@ -1,0 +1,35 @@
+<h1>Edit Guest Details</h1>
+
+<% form_for :guest, @guest, :action => 'guest' do |f| %>
+	
+	<%= f.error_messages %>
+	
+	<dl class="inline-definitions">
+
+		<dt>firstname</dt>
+		<dd><%= f.text_field :firstname %></dd>
+
+		<dt>lastname</dt>
+		<dd><%= f.text_field :lastname %></dd>
+
+		<dt>uw campus</dt>
+		<dd><%= f.check_box :uw_campus %></dd>
+
+		<dt>address/box</dt>
+		<dd><%= f.text_area :address_block, :rows => 4, :style => 'width: 95%' %></dd>
+
+		<dt>postcard text
+			<small class="light">
+			<br><%= link_to_function "Load Default", 
+					"$('guest_postcard_text').value='#{escape_javascript(@guest.default_postcard_text)}'" %>
+			<br><%= link_to_function "Clear Customization", 
+					"$('guest_postcard_text').value=''" %>					
+			</small>
+			</dt>
+		<dd><%= f.text_area :postcard_text, :rows => 25, :style => 'width: 95%' %></dd>
+
+	</dl>
+	
+	<%= f.submit "Update", :disable_with => 'Updating...' %>
+	
+<% end -%>

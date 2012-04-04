@@ -1,0 +1,67 @@
+<table>
+	<tr class="small left">
+		<th>Reviewer</th>
+		<% if @offering.uses_scored_review? %>
+			<% for review_criterion in @offering.review_criterions.sort %>
+				<th width=60 class="center" align=center><%= review_criterion.title %></th>
+			<% end -%>
+			<th width=60 class="center">Total</th>
+			<th>Finalized?</th>
+		<% end -%>
+	</tr>
+	
+	<%= render :partial => "applicant_reviewer", :collection => @app.reviewers %>
+	
+	<% if @offering.uses_scored_review? %>
+	<tr class="total">
+		<td>Average Scores:
+			<br><small class="light">(Does not include committee)</small></td>
+		<% for review_criterion in @offering.review_criterions.sort %>
+			<td><%= '%.2f' % @app.average_score(review_criterion) %></td>
+		<% end -%>
+		<td colspan=2><%= '%.2f' % @app.average_score %></td>
+	</tr>
+	<% end -%>
+
+	<% if @app.reviewers.empty? %>
+	<tr class="empty">
+		<td colspan=<%= @offering.review_criterions.size + 3 %>>
+			No reviewers assigned.
+		</td>
+	</tr>
+	<% end -%>
+	
+	<%- unless @app.offering.reviewers_for(@app).blank? -%>
+	<tr>
+		<td colspan=<%= @offering.review_criterions.size %>>
+			
+			<div id="assign_reviewer">
+				<% remote_form_for :app, @app, :url => { :action => 'update', :id => @app, :tab => "review_committee" }, :indicator => "assign_reviewer_#{@app.id}" do |f| %>
+					<%= f.label :new_reviewer, "Add Another Reviewer:" %>
+					<%= f.collection_select :new_reviewer, 
+											@app.offering.reviewers_for(@app).sort,
+											:id,
+											'fullname' %>
+					<%= f.submit "Add" %>
+					<%= indicator "assign_reviewer_#{@app.id}" %>
+				<% end %>
+			</div>				
+		</td>
+		<td colspan = 3>
+			<div id="drop_reviewer">
+				<% remote_form_for :app, @app, :url => { :action => 'update', :id => @app, :tab => "review_committee" }, :indicator => "drop_reviewer_#{@app.id}" do |f| %>
+					<%= f.label :remove_reviewer, "Drop a Reviewer:" %>
+					<%= f.collection_select :remove_reviewer, 
+											@app.reviewers.reject{|r|r.committee_member_id.nil?},
+											:committee_member_id,
+											'fullname' %>
+					<%= f.submit "Drop", :confirm => 'Are you sure you want to drop this reviewer ?'  %>
+					<%= indicator "drop_reviewer_#{@app.id}" %>
+				<% end %>
+			</div>			
+		</td>
+	</tr>
+	<%- end -%>
+
+	
+</table>

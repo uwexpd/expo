@@ -1,0 +1,9 @@
+page.replace_html "condition_#{@condition.id}_eval_method_container", 
+              :partial => "eval_method_dropdown", 
+              :object => @condition, 
+              :locals => { :disabled => false}
+              
+page.replace_html "condition_#{@condition.id}_value_container", 
+              :partial => "value_dropdown", 
+              :object => @condition, 
+              :locals => { :disabled => false}

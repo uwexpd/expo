@@ -1,0 +1,42 @@
+<% form_for :send_to_financial_aid, :url => admin_apply_action_url(:offering => @offering, :action => "send_to_financial_aid") do |f| %>
+
+<% @apps_awaiting_acceptance = @offering.application_for_offerings.awaiting_financial_aid_approval %>
+
+<p>There are <%= pluralize @apps_awaiting_acceptance.size, "application" %> waiting for financial aid approval.
+(<%= link_to_function "View full list", "Effect.toggle('applicant_list_#{@task.id}', 'blind', {duration: 0.25})" %>)</p>
+
+<div id="applicant_list_<%= @task.id %>" style="display:none">
+<table>
+	<tr>
+		<th>Student Name</th>
+		<th>Awarded?</th>
+		<th>Dean Approved?</th>
+	</tr>
+
+	<% for @application_for_offering in @apps_awaiting_acceptance %>
+	<% a = @application_for_offering %>
+		<tr>
+			<td><%#= check_box_tag "select[#{a.id}]", a.id %>
+				<%= a.person.fullname %></td>
+			<td><%= a.awarded? ? "<span class='green-check'>X</span>" : "" %></td>
+			<td><%= a.dean_approved? ? "<span class='green-check'>X</span>" : "" %></td>
+		</tr>
+
+	<% end %>
+
+</table>
+</div>
+
+<strong>UW NetID of financial aid approver:</strong>
+<%= text_field_tag :financial_aid_approver_uw_netid, @offering.financial_aid_approver_uw_netid %>
+
+<br>
+<strong>UW NetID of fund disburser:</strong>
+<%= text_field_tag :disbersement_approver_uw_netid, @offering.disbersement_approver_uw_netid %>
+
+<br>
+<%#= hidden_field_tag "new_status", "awaiting_financial_aid_approval" %>
+<%= f.submit "Send Request for Financial Aid Eligibility Approval" %>
+<em class="light"><%= "Last sent #{time_ago_in_words(@offering.financial_aid_approval_request_sent_at)} ago." rescue nil %></em>
+
+<% end %>

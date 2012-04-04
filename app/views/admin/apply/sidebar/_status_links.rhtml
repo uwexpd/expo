@@ -1,0 +1,14 @@
+<h3>Status Counts</h3>
+
+<ul class="link-list">
+
+	<% @offering.statuses.sort.reverse.each do |t| %>
+
+		<% count = @offering.application_for_offerings.with_status(t.application_status_name).size %>
+		<% unless count.zero? %>
+			<li><%= link_to "#{t.private_title} (#{count.to_s})", :anchor => "#{t.application_status_name}" %></li>
+		<% end -%>
+		
+	<% end -%>
+	
+</ul>

@@ -1,0 +1,4 @@
+This is a notification that <%= @mentee.fullname %> has submitted an application that includes a mentor with no e-mail access. The mentor's name is <%= @mentor.firstname %> <%= @mentor.lastname %>. You might want to contact <%= @mentee.firstname %> (<%= @mentee.email %>) to coordinate.
+
+Thank you,
+EXP-Online

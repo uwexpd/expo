@@ -1,0 +1,11 @@
+<h3>Mentor Types</h3>
+
+<ul class="link-list">
+
+	<% for mentor_type, nominees in @nominees %>
+		<li>
+			<%= link_to "#{mentor_type.title} (#{nominees.size})", :anchor => mentor_type.title %>
+		</li>
+	<% end -%>
+	
+</ul>

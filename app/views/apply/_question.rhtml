@@ -1,0 +1,13 @@
+<% 
+current_model_with_brackets = question.model_to_update.blank? ? '' : "[extra_attributes][#{question.model_to_update}][]"
+current_model_with_period = question.model_to_update.blank? ? '' : ".#{question.model_to_update}"
+
+
+fields_for "user_application#{current_model_with_brackets}", eval("@user_application#{current_model_with_period}") do |qf| %>
+
+	<%= "<div class='questionWithError'>" if page.errors.on("q#{question.id}") %>
+		<%= render :file => "apply/questions/#{question.display_as}", :locals => { :qf => qf, :question => question } %>
+	
+	<%= "</div>" if page.errors.on("q#{question.id}") %>
+
+<% end %>

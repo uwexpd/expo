@@ -1,0 +1,44 @@
+<table>
+
+	<tr class="small left">
+		<th><%= select_all_check_box @task.id %></th>
+		<th>Student</th>
+		<% @offering.max_number_of_awards.times do |i| %>
+			<th>Award <%= i+1 %> Quarter</th>
+		<% end -%>
+		<th>Awarded</th>
+		<th>Dean Approved</th>
+		<th>Fin. Aid Approved</th>
+		<th>Disbursed</th>
+		<th>Closed</th>
+		
+		
+	</tr>
+	
+	<% apps = @offering.application_for_offerings.awarded.sort_by(&:fullname) %>
+
+	<% apps.each do |a| %>
+
+		<tr>
+			<td><%= select_check_box(a, @task.id) %></td>
+			
+			<td><%= link_to a.person.fullname, :action => "show", :id => a.id %>
+				<br><small class="light"><%= a.person.student_no %></small></td>
+			
+			<% @offering.max_number_of_awards.times do |i| %>
+				<% i ||= 0 %>
+				<td><%= a.awards.valid.sort[i].requested_quarter.abbrev rescue nil %>
+				<br><small class="light"><%= a.awards.valid.sort[i].amount_awarded rescue nil %></small></td>
+				<% i += 1 %>
+			<% end -%>
+			
+			<td><%= a.awarded? ? "<span class=green-check>X</span>" : "" %></td>
+			<td><%= a.dean_approved? ? "<span class=green-check>X</span>" : "" %></td>
+			<td><%= a.financial_aid_approved? ? "<span class=green-check>X</span>" : "" %></td>
+			<td><%= a.disbursed? ? "<span class=green-check>X</span>" : "" %></td>
+			<td><%= a.closed? ? "<span class=green-check>X</span>" : "" %></td>
+		</tr>
+		
+	<% end %>
+
+</table>

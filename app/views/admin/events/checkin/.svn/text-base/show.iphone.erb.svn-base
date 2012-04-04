@@ -1,0 +1,145 @@
+<!-- <div class="toolbar">
+    <h1 id="pageTitle">Details</h1>
+	<%= link_to "Check-in", {:action => 'index'}, :class => 'button' %>
+</div> -->
+
+<div id="details_<%= @invitee.id %>" class="panel" title="Details" selected="true">
+
+	<h2><%= @invitee.invitable.lastname_first %></h2>
+
+	<% unless @invitee.checked_in? %>
+		<%= link_to_remote "Check in #{indicator(:id => 'checkin')}", 
+							{ :url => { :action => 'checkin', :id => @invitee, :mobile => true },
+							  :indicator => 'checkin' },
+							:class => 'fullButton',
+							:type => 'default',
+							:id => "checkin_button_#{@invitee.id}" %>
+							
+	<% end -%>
+	<span id="error_<%= @invitee.id %>" class="error-message"></span>
+
+	<fieldset>
+
+		<div class="row">
+			<label>Status</label>
+			<span <%= "class='green'" if @invitee.checked_in? %> id="checkin_status_<%= @invitee.id %>">
+				<%- if @invitee.checked_in? -%>
+					Checked in <%= relative_timestamp(@invitee.checkin_time) %>
+				<%- else -%>
+					Not checked in
+				<% end -%>
+			</span>
+		</div>
+
+		<% if @event.show_application_location_in_checkin? %>
+		
+			<div class="row">
+				<label>Project</label>
+				<span><%= @invitee.application_for_offering.stripped_project_title.strip %></span>
+			</div>
+
+			<div class="row">
+				<label>Member</label>
+				<span><%= @invitee.invitable.is_a?(ApplicationGroupMember) ? "Group Member" : "Primary Presenter" %></span>
+			</div>
+
+			<div class="row">
+				<label>Type</label>
+				<span><%= @invitee.invitable.app.application_type.title rescue nil %></span>
+			</div>
+
+			<% app = @invitee.invitable.app if @invitee.invitable.respond_to?(:app) %>
+			<% if app %>
+
+				<% sess = app.offering_session %>
+				<% if sess %>
+
+					<div class="row">
+						<label>Session</label>
+						<span><%= sess.title(:include_identifier => true) %></span>
+					</div>
+
+					<div class="row">
+						<label>Time</label>
+						<span><%= sess.time_detail %></span>
+					</div>
+		
+					<% unless sess.location.blank? %>
+					<div class="row">
+						<label>Location</label>
+						<span><%= sess.location %></span>
+					</div>
+					<% end -%>
+			
+				<% end -%>
+
+				<% unless app.location_section.try(:title).blank? %>
+					<div class="row">
+						<label>Location</label>
+						<span>
+							<ul class="bulletless">
+								<%= "<li>#{content_tag(:font, app.location_section.title, 
+										:style => "color:##{app.location_section.color}") rescue nil}</li>"  rescue nil %>
+								<%= "<li>Easel ##{app.easel_number rescue nil}</li>" if app.easel_number rescue nil %>
+							</ul>
+						</span>
+					</div>
+				<% end -%>
+
+			<% end -%>
+		
+		<% end -%>
+
+		<div class="row">
+			<label>ID</label>
+			<span><%= @invitee.invitable_type.to_s %> <%= @invitee.invitable_id.to_s %></span>
+		</div>
+
+	</fieldset>
+
+	<!-- Group members -->
+	<% if @event.show_application_location_in_checkin? %>
+		<% if @invitee.invitable.respond_to?(:app) && !@invitee.invitable.app.group_members.empty? %>
+			<h2>Group Members</h2>
+			<fieldset class="group_members">
+
+			<ul class="link-list">
+
+			<% if @invitee.invitable.is_a?(ApplicationGroupMember) %>
+		
+				<% if primary_invitee = @invitee.invitable.app.event_invitees.for_event(@event).first %>
+				<li>
+					<a href="<%= url_for(:action => 'show', :id => primary_invitee) %>">
+						<%= primary_invitee.invitable.firstname_first %>
+						<% if primary_invitee.checked_in? %>
+							<small class="green"><%= relative_timestamp(primary_invitee.checkin_time) %></small>
+						<% else %>
+							<small class="red">Not checked in.</small>
+						<% end -%>
+					</a>
+				</li>
+				<% end -%>
+
+			<% else -%>
+
+				<% for group_member in @invitee.invitable.app.group_members %>
+				<li>
+					<% group_invitee = group_member.event_invitees.for_event(@event).first %>
+					<a href="<%= url_for(:action => 'show', :id => group_invitee) %>">
+						<%= group_member.firstname_first %>
+						<% if group_invitee.checked_in? %>
+							<small class="green"><%= relative_timestamp(group_invitee.checkin_time) %></small>
+						<% else %>
+							<small class="red">Not checked in.</small>
+						<% end -%>
+					</a>
+				</li>
+				<% end -%>
+
+			<% end -%>
+			</fieldset>
+		
+		<% end -%>
+	<% end -%>
+
+</div>

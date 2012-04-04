@@ -1,0 +1,10 @@
+page.if("$('results_form_#{params[:abbrev_hash]}')") do
+  page.replace_html "results_form_#{params[:abbrev_hash]}", :partial => 'mass_create_result'
+  
+  if @errors.empty?
+    page << "$('results_#{params[:abbrev_hash]}').addClassName('green-background')"
+    page << "$('results_#{params[:abbrev_hash]}').addClassName('complete')"
+  else
+    page << "$('results_#{params[:abbrev_hash]}').addClassName('red-background')"
+  end
+end

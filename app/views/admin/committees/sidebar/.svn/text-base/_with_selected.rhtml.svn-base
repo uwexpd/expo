@@ -1,0 +1,5 @@
+<h3>With Selected</h3>
+
+<ul class="icons">
+	<li class="email"><%= link_to_submit "Send mass e-mail", 'committee_members_form' %></li>
+</ul>

@@ -1,0 +1,31 @@
+<h1 class="big-icon people">Upload <%= @year %> Individual Involvement File</h1>
+
+<%= HelpText.caption :reporting_interface_report_courses_note, AccountabilityReport %>
+<br>
+<p>Use this page to upload a file containing all of your individual student involvement. You can use this page multiple times to upload multiple sets of data.<br> 	
+	<b>( <%= link_to "Download an Excel template to start", "http://exp.washington.edu/files/individual_reporting_template.xls", :class => 'icon-left xls' %>)</b>
+</p>
+
+<ul class="pretty">
+	<li>Student Number <span class="light">(e.g., "0123456")</span> or UW NetID <span class="light">(e.g., "hhusky")</span></li>
+	<li>Project Title <span class="light">(either a research or service project title or community partner organization name)</span></li>
+	<li>Activity Type <span class="light">(use the words exactly "Public Service" or "Undergraduate Research")</span></li>
+	<li>Faculty UW NetID <span class="light">(e.g., "jdecosmo")</span></li>
+	<li>Faculty Name</li>
+	<% for quarter in @quarters %>
+		<li>Hours per week in <%= quarter.title %></li>
+	<% end -%>
+</ul>
+
+<% form_tag({:action => 'upload_map'}, :method => :put, :multipart => true) do %>
+	
+	<div class="file blue box">
+		<%= image_tag "icons/filetypes/32/xls.png", :width => "32", :height => "32" %>
+		<strong><%= label_tag :upload_file, "Choose a file to upload:" %></strong>
+		<%= file_field :upload, :file %>
+		<%= submit_tag "Upload" %>
+	</div>
+	
+<% end -%>
+
+<% sidebar :excel_sample, :faq %>

@@ -1,0 +1,15 @@
+<h1>Edit Discipline Category</h1>
+
+<% upload_form_for :discipline_category, @discipline_category, 
+			:url => @discipline_category, 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', @discipline_category, :class => 'cancel button' %>
+
+<% end %>

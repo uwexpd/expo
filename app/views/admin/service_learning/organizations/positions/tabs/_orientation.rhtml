@@ -1,0 +1,41 @@
+<h2>Orientation</h2>
+<p class="intro"><%= HelpText.caption(:orientation_page_intro, ServiceLearningPosition) %></p>
+
+<% fields_for "service_learning_position[orientation]", service_learning_position.orientation, :builder => HelpTextFormBuilder do |orientation| %>
+
+	<%= orientation.collection_select :organization_contact_id, 
+							OrganizationContact.find_all_by_organization_id(service_learning_position.organization),
+							:id, :fullname,
+							:include_blank => "The position supervisor" %>
+	
+	<%= orientation.datetime_select :start_time, :include_blank => true, :twelve_hour => true, :minute_step => 15 %>
+
+	<%= orientation.text_area :notes, :rows => 5, :style => "width: 99%", :class => "mceEditor" %>
+
+	<%= orientation.label_with_caption :different_orientation_location %>
+	<%= orientation.check_box :different_orientation_location, :default => true,
+	 						  :onClick => "Element.toggle('orientation_location_select_div')" %> 
+	Yes, this orientation takes place at a location different from the position location.
+	
+	<div id="orientation_location_select_div" <%= "style='display:none'" unless orientation.object.different_orientation_location? rescue false %>>
+		
+	<label>Orientation Location</label>	
+	<%= render :partial => "admin/locations/location_select",
+				:object => service_learning_position.orientation.location,
+	 			:locals => { :f => orientation,
+							 :attribute => "service_learning_position[orientation][location_id]",
+							 :prefix => "service_learning_position[orientation][location]",
+							 :select_name => "service_learning_position[orientation][location_id]",
+							 :dom_id => "service_learning_position_orientation_location_id",
+							 :organization_id => service_learning_position.organization.id,
+		 					 :choices => service_learning_position.organization.locations.sort.map{|l| [l.title, l.id]}
+							} %>
+	</div>
+
+<% end -%>
+
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Location", :location, :link_only => true, :link_class => "button" %>
+	<%= link_to_tab_pane "Next: Finish &#x2192;", :finish, :link_only => true, :link_class => "strong button" %>
+</div>

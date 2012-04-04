@@ -1,0 +1,27 @@
+<h2>Contact History</h2>
+
+<table>
+
+	<tr class="small left">
+		<th>Date</th>
+		<th>From</th>
+		<th>Subject</th>
+		<th>View</th>
+	</tr>
+
+	<% if @person.contact_histories.empty? %>
+		<tr class="empty">
+			<td colspan=4>No contact history.</td>
+		</tr>
+	<% else %>
+		<% for contact in @person.contact_histories %>
+		<tr>
+			<td><%= relative_timestamp(contact.updated_at)  %></td>
+			<td><%= contact.email.from unless contact.email.nil? %></td>
+			<td><%= contact.email.subject unless contact.email.nil? %></td>
+			<td><%= link_to "View", contact_history_path(contact), :popup => true %></td>
+		</tr>
+		<% end -%>
+	<% end -%>
+
+</table>

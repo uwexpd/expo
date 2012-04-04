@@ -1,0 +1,85 @@
+<%= title @offering.title, "Invite Guests" %>
+
+<%= render :partial => "apply/switch" if @application_count > 1 %>
+
+<h1>Invite Guests</h1>
+<%= textilize @offering.guest_invitation_instructions %>
+
+<div class="yellow box" style="width:50%; margin-left: 17em">	
+	<h2>Add a guest:</h2>
+	
+	<% form_for :guest, @guest, 
+				:url => { :controller => 'apply/confirmation/guests', :action => 'create', :offering => @offering },
+				:html => { :id => 'guests_form' } do |f| %>
+
+		<%= f.error_messages %>
+
+		<dl class="inline-definitions">
+
+			<dt>firstname <%= required %></dt>
+			<dd><%= f.text_field :firstname %></dd>
+
+			<dt>lastname <%= required %></dt>
+			<dd><%= f.text_field :lastname %></dd>
+			
+			<dt></dt>
+			<dd><%= f.check_box :uw_campus %>
+				<small><%= f.label :uw_campus, "This person has a University of Washington address" %></small>
+				</dd>
+			
+			<dt><span id="address_title">address</span> <%= required %></dt>
+			<dd id="address_container">
+				<% address_text_area = f.text_area(:address_block, :cols => 28, :rows => 4) %>
+				<% address_text_field = "Box " + f.text_field(:address_block, :size => 6, :maxlength => 6) %>
+				<%= @guest.uw_campus? ? address_text_field : address_text_area %>
+				</dd>
+
+		</dl>
+
+		<center><%= f.submit "Invite" %></center>
+
+		<%= observe_field :guest_uw_campus, :function => "
+				if ($('guest_uw_campus').checked) {
+					$('address_title').update('uw box number')
+					$('address_container').update('#{address_text_field.gsub("\r\n", " ")}')
+					$('postcard_sample_stamp').addClassName('no_stamp')
+				} else {
+					$('address_title').update('address')
+					$('address_container').update('#{address_text_area.gsub("\r\n", " ")}')
+					$('postcard_sample_stamp').removeClassName('no_stamp')
+				}"
+		%>
+
+		<%= observe_form :guests_form, :frequency => 0.5, :function => "
+				address = $F('guest_firstname') + ' ' + $F('guest_lastname') + '<br>'
+				if ($('guest_uw_campus').checked) {
+					address += 'Box ' + $F('guest_address_block')
+				} else {
+					address += $F('guest_address_block').gsub('\\n', '<br>')
+				}
+				$('postcard_sample').update(address)
+		"
+		 %>
+
+		<h3>Sample Postcard:</h3>
+		<div class="postcard envelope sample">
+			<div class="stamp" id="postcard_sample_stamp"></div>
+			<div class="address" id="postcard_sample">
+				<%= @guest.fullname %><br><%= @guest.formatted_address %>
+			</div>
+			<div class="message"><%= simple_format @offering.parse_guest_postcard_layout(@confirmer) %></div>
+		</div>
+			
+			
+
+	<% end -%>
+</div>
+	
+<div class="progress_nav_buttons">
+	<%= button_to "Next: Nominate Your Mentor →", apply_confirmation_url(:action => 'nominate'), :method => :get %>
+</div>
+
+
+<%= render :partial => "apply/confirmation/sidebar", :locals => { :page => 'guests' } %>
+
+<%= render :partial => "invited_guests" %>

@@ -1,0 +1,8 @@
+<% title_text = @question.help_link_text.blank? ? "Help" : @question.help_link_text %>
+<% content_for(:title) do %>
+	<%= title_text %>
+<% end -%>
+<% content_for(:header) do %>
+	<%= content_tag('h1', title_text, :class => 'title') %>
+<% end -%>
+<%= textilize auto_link(@question.help_text) %>

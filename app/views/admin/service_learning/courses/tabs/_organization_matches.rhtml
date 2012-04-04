@@ -1,0 +1,70 @@
+<h2>Potential Organizations for <%= @quarter.title %></h2>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'potential_organization_form' %>	
+	<input type=hidden name="group_variant" id="group_variant" value="">
+	
+<table>
+	
+	<tr class="small left">
+		<th><%= select_all_check_box %></th>
+		<th colspan=2>Organization</th>	
+	</tr>
+	
+	<% for organization_quarter in @service_learning_course.potential_organizations.sort_by(&:name) %>
+		<tr id="organization_match_<%= organization_quarter.id %>">
+			<td><%= select_check_box(organization_quarter) %></td>
+			<td><%= link_to organization_quarter.organization.name, 
+			 				service_learning_organization_path(@unit, @quarter, organization_quarter.organization) %></td>
+			<td><%= link_to_remote "Delete", 
+						:url => delete_organization_match_service_learning_course_path(@unit, 
+								@quarter, @service_learning_course, :organization_quarter_id => organization_quarter.id),
+			 			:confirm => "Are you sure?",
+			 			:method => :delete,
+			 			:indicator => true %></td>
+		</tr>
+	<% end -%>
+	
+	<% if @service_learning_course.potential_organizations.empty? %>
+	<tr class="empty">
+		<td>No potential organizations yet. 
+			<%= link_to_function "Add one.", "Element.toggle('add_potential_organization')" %>
+			</td>
+	</tr>
+	<% end -%>
+</table>
+
+</form>
+
+<div class="buttons">
+	<%= link_to_function "Add new potential organization", "Element.toggle('add_potential_organization')", :class => 'add icon-left button' %>
+	<%= link_to_submit "Email primary service_learning contacts",
+							'potential_organization_form', 
+							:link_options => {:class => "icon-left email button"},
+							:group_variant => "organization.primary_service_learning_contacts" %>
+	<%= link_to_submit "Email all position supervisors", 
+							'potential_organization_form', 
+							:link_options => {:class => "icon-left email button"},
+							:group_variant => "organization.position_supervisor_contacts" %>
+</div>
+
+<% remote_form_for @service_learning_course, 
+					:url => service_learning_course_path(@unit, @quarter, @service_learning_course, :anchor => "organization_matches"),
+					:indicator => true do |f| -%>
+
+	<div id="organization_match_error"></div>
+
+	<div id="add_potential_organization" style="display:none">
+		<p>Add another: 
+			<%= f.collection_select :potential_organization_match,
+			 						@quarter.organization_quarters.for_unit(@unit).reject{|o| 
+										@service_learning_course.potential_organizations.include?(o) }.sort_by(&:name),
+									:id, :name,
+									:prompt => true %>
+		
+			<%= f.submit "Add" %>
+		
+			<br><small><%= link_to "Add or change #{@quarter.title} organizations", service_learning_organizations_path(@unit, @quarter) %></small>
+			</p>
+	</div>
+
+<% end -%>

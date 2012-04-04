@@ -1,0 +1,37 @@
+<div id="new_user_appointment">
+<% remote_form_for (@appointment || @my.appointments.new), 
+					:method => :post, 
+					:indicator => 'appointment_indicator',
+					:html => { :id => 'new_appointment_form_form' } do |f| %>
+
+	<%= f.error_messages %>
+	
+	<span class="error-message" id="new_appointment_error"></span>
+
+	<p class="caption">As you type, student names will appear in a drop-down list.</p>
+
+	<dl class="inline-definitions skinny">
+
+		<dt>Student:</dt>
+		<dd><%= student_auto_complete_field :appointment, :student_search, :append_random_suffix => true %></dd>
+
+		<dt>Date:</dt>
+		<dd><%= f.datetime_select :start_time, :minute_step => 15, :twelve_hour => true, 
+							  :datetime_separator => "</dd><dt>Time:</dt><dd>" %></dd>
+
+		<dt>Purpose:</dt>
+		<dd><%= f.text_field :front_desk_notes, :size => 20 %>
+			
+			<br>
+			<%= f.submit "Create" %></dd>
+
+	</dl>
+	
+	<%= f.hidden_field :unit_id, :value => @current_user.units.first.id rescue nil %>
+	<%= f.hidden_field :drop_in, :value => false %>
+	<%= f.hidden_field :source, :value => "admin_root" %>
+	<%= f.hidden_field :contact_type_id, :value => ContactType.find_or_create_by_title("In-person").id %>
+	<%= f.hidden_field :staff_person_id, :value => @current_user.person_id %>
+
+<% end -%>
+</div>

@@ -1,0 +1,22 @@
+<!-- <div class="toolbar">
+    <h1 id="pageTitle">Favorites</h1>
+   	<%= link_to "Home", @header_link, :class => "button", :id => "backButton", :target => "_self" %>
+    <a class="button" href="#lookup_form">Search</a>
+</div>
+ -->
+<div id="favorites" title="Favorites" class="panel">
+
+	<%= link_to "Login to see your saved favorites", 
+				login_url(:return_to => request.request_uri), 
+				:class => 'fullButton', 
+				:target => "_self" unless logged_in? %>
+
+	<fieldset>
+		<ul class="link-list">
+			<%= render :partial => 'apply/proceedings/sorted_abstracts', :object => @abstracts %>
+		</ul>
+	</fieldset>
+
+	<%= "<center><em>You have no favorites saved.</em></center>" if @abstracts.empty? %>
+		
+</div>
