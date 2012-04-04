@@ -1,6 +1,6 @@
-## Exp-Online(expo) is a web tool for managing the University of Washington's Center for Experiential Learning and Diversity (EXPD) program.
+### Exp-Online(expo) is a web tool for managing the University of Washington's Center for Experiential Learning and Diversity (EXPD) program.
 
-## License
+### License
 
 Copyright (c) 2008, University of Washington
 All rights reserved.
