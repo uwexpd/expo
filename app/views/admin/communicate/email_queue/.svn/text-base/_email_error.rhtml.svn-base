@@ -1,2 +1,0 @@
-<td>&nbsp;</td>
-<td colspan=5 class="error-message">ERROR: <%= email_error.error_details %></td>

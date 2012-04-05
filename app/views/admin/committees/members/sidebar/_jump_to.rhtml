@@ -1,9 +1,0 @@
-<h3>Jump To</h3>
-
-<ul class="link-list">
-	<li><%= link_to "Active (#{@committee.members.active.size})", :anchor => "active" %></li>	
-	<li><%= link_to "Inactive (#{@committee.members.inactive.size})", :anchor => "inactive" %></li>	
-	<li><%= link_to "Permanently Inactive (#{@committee.members.permanently_inactive.size})", :anchor => "permanently_inactive" %></li>	
-	<li><%= link_to "Invited but Not Responded (#{@committee.members.not_responded.size})
-					 <br><span>Since #{@committee.response_lifetime_date.to_s(:date_with_full_month)}</span>", :anchor => "not_responded" %></li>	
-</ul>

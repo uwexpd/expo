@@ -1,8 +1,0 @@
-# Move the overlay out of the way before we start deleting things
-page.if("$('global_overlay')") do
-  page << "$('add_user_success').insert({after:$('global_overlay')})"
-end
-
-page.visual_effect :fade, "authorization_#{@authorization.id.to_s}"
-
-page.visual_effect :fade, "row_#{@department.class.to_s}_#{@department.id.to_s}" if @authorizations.empty?

@@ -1,7 +1,0 @@
-\documentclass[10pt]{report}
-\setlength{\parindent}{0in}
-\usepackage{fullpage}
-\usepackage{times}
-\begin{document}
-<%= yield %>
-\end{document}

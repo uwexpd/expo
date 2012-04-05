@@ -1,5 +1,0 @@
-<% if question.attribute_to_update == 'student_no' && !@user_application.person.is_a?(Student) %>
-	n/a
-<% else %>
-	<%= eval "@user_application.person.#{question.attribute_to_update}" rescue "--" %>
-<% end -%>

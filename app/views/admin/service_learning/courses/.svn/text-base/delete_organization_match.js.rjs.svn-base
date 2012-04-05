@@ -1,3 +1,0 @@
-page.visual_effect :fade, "organization_match_#{params[:organization_quarter_id]}"
-page.replace_html :potential_organizations_count, :text => @service_learning_course.potential_organizations.size
-page.visual_effect :highlight, :potential_organizations_count

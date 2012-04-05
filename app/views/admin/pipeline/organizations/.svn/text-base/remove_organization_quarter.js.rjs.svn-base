@@ -1,3 +1,0 @@
-page.remove "organization_quarter_#{params[:organization_quarter_id]}"
-
-page.replace "activate_organization_form", :partial => "activate_organization_form"

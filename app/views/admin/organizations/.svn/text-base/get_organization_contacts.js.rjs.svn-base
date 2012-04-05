@@ -1,5 +1,0 @@
-page.replace_html "organization_contact_select", 
-                  options_for_select([["Select an Organization Contact",nil]]+
-                                       (@organization_contacts.collect{|o| [o.person.lastname_first,o.id]}.sort))
-                                      
-page << "$('organization_contact_select').disabled = false;"

@@ -1,4 +1,0 @@
-dom_id = "application_type_#{@application_type.id}"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-end

@@ -1,7 +1,0 @@
-<%= title link_to("EXPD Equipment Loan Program", :action => 'index') %>
-<h2>Your reservation was submitted.
-	<small class="light">&raquo; Reservation #<%= @reservation.id_s %></small></h2>
-
-<p class="intro">The details of your reservation appear below.</p>
-
-<%= render :partial => "admin/equipment_reservations/summary", :locals => { :admin => false } %>

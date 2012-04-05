@@ -1,3 +1,0 @@
-page.insert_html :bottom, "authorizations_table", :partial => 'authorization', :object => @authorization
-
-page << "$('uw_netid').clear()"

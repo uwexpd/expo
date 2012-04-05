@@ -1,2 +1,0 @@
-page.insert_html :after, 'majors_table_head', :partial => 'new_major_row'
-page.replace 'add_major_sidebar', :partial => 'admin/discipline_categories/sidebar/add_major.rhtml'

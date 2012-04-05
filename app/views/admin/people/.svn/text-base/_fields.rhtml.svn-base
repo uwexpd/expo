@@ -1,7 +1,0 @@
-<dl class="inline-definitions">
-
-	<%= render :partial => "shared/person_fields", :object => f,
-	 			:locals => { :show_title_field => true, 
-							 :show => [:other_department, :organization, :phone, :box_number] }%>
-
-</dl>

@@ -1,7 +1,0 @@
-<ul>
-<% @user_application.group_members.each do |group_member| %>
-	<li><%= group_member.fullname %></li>
-<% end -%>
-</ul>
-
-<%= "None" if @user_application.group_members.empty? %>

@@ -1,5 +1,0 @@
-<h3>Committee Score</h3>
-
-<ul class="link-list">
-	<li><%= link_to "Input committee scores and decisions", review_committee_path %></li>
-</ul>

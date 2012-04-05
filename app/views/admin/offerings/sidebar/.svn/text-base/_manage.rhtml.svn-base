@@ -1,7 +1,0 @@
-<h3>Manage</h3>
-
-<ul class="link-list">
-	
-	<li><%= link_to "Manage student applications", admin_apply_path(@offering), :class => 'icon-left make-change' %></li>
-	
-</ul>

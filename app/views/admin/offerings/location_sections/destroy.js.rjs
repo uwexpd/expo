@@ -1,4 +1,0 @@
-dom_id = "location_section_#{@location_section.id}"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-end

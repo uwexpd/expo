@@ -1,8 +1,0 @@
-<h3>Functions</h3>
-
-<ul class="link-list">
-	
-	<li><%= link_to "Categories (#{EquipmentCategory.all.size})", equipment_categories_path, :class => 'icon-left categories' %></li>
-	<li><%= link_to "Reservations", equipment_reservations_path, :class => "icon-left calendar" %></li>
-	
-</ul>

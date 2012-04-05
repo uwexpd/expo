@@ -1,6 +1,0 @@
-<h1><%= @organization_contact.person.fullname %></h1>
-
-<%= render :partial => "details" %>
-
-<%= link_to 'Edit', edit_organization_contact_path(@organization, @organization_contact) %> |
-<%= link_to 'Back', params[:return_to] || organization_contacts_path(@organization) %>

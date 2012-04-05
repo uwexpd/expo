@@ -1,4 +1,0 @@
-page.hide "note_#{@invitee.id}"
-page.replace "attendee_#{@invitee.id}", :partial => 'attendee', :locals => { :attendee => @invitee }
-page.visual_effect :highlight, "attendee_#{@invitee.id}"
-page << "$('invitee_fullname').select()"

@@ -1,2 +1,0 @@
-page.replace_html "course_matching_sidebar", :partial => "admin/service_learning/organizations/positions/sidebar/course_matching"
-page.replace_html "course_placement_sidebar", :partial => "admin/service_learning/organizations/positions/sidebar/placements"

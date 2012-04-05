@@ -1,8 +1,0 @@
-<h1><%= @mentor.fullname %>
-	<span class="right"><%= link_to "Edit", edit_admin_apply_mentor_path(@offering, @app, @mentor), :class => 'edit button' %></span></h1>
-
-<table class="highlightless">
-
-	<%= render :partial => "admin/apply/mentor", :object => @mentor %>
-	
-</table>

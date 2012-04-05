@@ -1,2 +1,0 @@
-pdf.text "back page"
-pdf.text attendee.id.to_s

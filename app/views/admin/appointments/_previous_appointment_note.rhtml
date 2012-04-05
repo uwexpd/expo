@@ -1,8 +1,0 @@
-This is a follow-up to
-<%= @appointment.previous_appointment.staff_person == @current_user.person ? "your" : "#{@appointment.previous_appointment.staff_person.fullname}'s" %>
-appointment with
-<%= @appointment.student.firstname %>
-on
-<%= @appointment.previous_appointment.start_time.to_s(:date_with_day_of_week) %>.
-
-<%= link_to "Details", @appointment.previous_appointment %>

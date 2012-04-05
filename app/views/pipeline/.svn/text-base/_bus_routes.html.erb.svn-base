@@ -1,9 +1,0 @@
-<dd id="pipeline_bus_directions">
-  <div class="pipeline_clear"></div>
-  <% for route in @routes %>
-    <div class="pipeline_bus_route">
-      <%= route %>
-    </div>
-  <% end %>
-  
-</dd>

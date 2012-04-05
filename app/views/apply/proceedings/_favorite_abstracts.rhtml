@@ -1,4 +1,0 @@
-<li id="favorite_abstracts" style="<%= "display:none" if @favorite_abstracts.empty? %>">
-<%= link_to "Favorite abstracts #{content_tag(:span, "(#{@favorite_abstracts.size})", :id => 'favorite_abstracts_count', :class => 'default')}",
- 				{:controller => 'apply/proceedings/favorites', :action => 'index', :offering => @offering},
- 				:class => 'icon-left favorite' %></li>

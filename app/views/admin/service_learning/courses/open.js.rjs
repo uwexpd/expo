@@ -1,4 +1,0 @@
-dom_id = "open_button_#{@service_learning_course.id}"
-page << "$('#{dom_id}').removeClassName('on')"
-page << "$('#{dom_id}').removeClassName('off')"
-page << "$('#{dom_id}').addClassName('#{@service_learning_course.open? ? "on" : "off"}')"

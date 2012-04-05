@@ -1,7 +1,0 @@
-<h3><strong class="icon-left report">Data Query</strong></h3>
-
-<ul class="link-list">
-	 <li><%= link_to "All invitees", population_path(@event.population(:invitees)), :class => "icon-left people" %></li>
-	 <li><%= link_to "Expected", population_path(@event.population(:attendees)), :class => "icon-left people" %></li>
-	 <li><%= link_to "Attended", population_path(@event.population(:attended)), :class => "icon-left people" %></li>
-</ul>

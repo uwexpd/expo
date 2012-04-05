@@ -1,4 +1,0 @@
-dom_id = "other_award_type_#{@other_award_type.id}"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-end

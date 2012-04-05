@@ -1,7 +1,0 @@
-page.if "$('role_#{@role.id}')" do
-  page.visual_effect :fade, "role_#{@role.id}"
-end
-
-page.if "$('role_count')" do
-  page.replace_html :role_count, :text => @user.roles.size
-end

@@ -1,4 +1,0 @@
-page.show "status_indicator_#{@report.id}"
-page.replace_html "status_#{@report.id}", :text => "Regenerating..."
-
-page << "do_checks_#{@report.id} = true"

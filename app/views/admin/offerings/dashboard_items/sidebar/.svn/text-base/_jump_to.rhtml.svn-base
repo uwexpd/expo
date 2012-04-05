@@ -1,6 +1,0 @@
-<h3>Jump to</h3>
-
-<ul class="link-list">
-	<li><%= link_to "Enabled Items (#{@enabled_dashboard_items.size})", :anchor => "enabled" %></li>	
-	<li><%= link_to "Disabled Items (#{@disabled_dashboard_items.size})", :anchor => "disabled" %></li>
-</ul>

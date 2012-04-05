@@ -1,6 +1,0 @@
-<h3><strong>Print Availabilities</strong></h3>
-
-<ul class="link-list">
-	<li><%= link_to "Students", {:controller => 'apply', :action => 'print_availabilities', :offering => @offering}, :popup => true %></li>
-	<li><%= link_to "Interviewers", {:controller => 'interviewer', :action => 'print_availabilities', :offering => @offering}, :popup => true %></li>
-</ul>

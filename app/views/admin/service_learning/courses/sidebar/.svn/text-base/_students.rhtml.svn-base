@@ -1,5 +1,0 @@
-<h3>Students</h3>
-
-Current Enrollment: 
-<strong><%= @service_learning_course.enrollee_count %></strong>
-<%= link_to "(roster)", :action => "students" %>

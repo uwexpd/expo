@@ -1,9 +1,0 @@
-<div class="session_heading">
-	<%= content_tag(:h2, "Session #{session_heading.identifier}") unless session_heading.identifier.blank? %>
-	<h1><%= session_heading.title %></h1>
-	<h5 class="light inline">
-		<%= session_heading.time_detail %>
-		<%= "| #{session_heading.location}" unless session_heading.location.blank? %>
-		<%= "| Moderated by #{session_heading.moderator.try(:fullname)}" unless session_heading.moderator.try(:fullname).blank? %>
-	</h5>
-</div>

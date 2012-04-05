@@ -1,4 +1,0 @@
-@student_ids.each do |id|
-  page.call("if($('student_orientation_#{id}')) Element.update", "student_orientation_#{id}", @date_string )
-  page.call("if($('student_orientation_#{id}')) Element.removeClassName", "student_orientation_#{id}", 'red' )
-end

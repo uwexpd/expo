@@ -1,2 +1,0 @@
-<%= "#{@offering.interviews.count} interview times set up:" %>
-<%= link_to "View full list", admin_interview_path(@offering, "index") %>

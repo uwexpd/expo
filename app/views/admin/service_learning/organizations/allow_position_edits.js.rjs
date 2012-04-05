@@ -1,4 +1,0 @@
-dom_id = "allow_position_edits_button_#{@organization_quarter.id}"
-page << "$('#{dom_id}').removeClassName('on')"
-page << "$('#{dom_id}').removeClassName('off')"
-page << "$('#{dom_id}').addClassName('#{@organization_quarter.allow_position_edits? ? "on" : "off"}')"

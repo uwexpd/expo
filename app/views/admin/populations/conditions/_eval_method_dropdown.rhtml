@@ -1,6 +1,0 @@
-<% disabled ||= false %>
-
-<%= select_tag "population[condition_attributes][#{eval_method_dropdown.id}][eval_method]", 
-				options_for_select(eval_method_dropdown.possible_eval_methods, eval_method_dropdown.eval_method), 
-				:include_blank => true, 
-				:disabled => disabled %>

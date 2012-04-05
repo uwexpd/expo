@@ -1,8 +1,0 @@
-page.replace "starting_set", :partial => "starting_set"
-page.replace "result_variant", :partial => "result_variant"
-
-page.hide :custom_query
-page.show :starting_set
-page.show :result_variant
-page.show :conditions_container
-page << "$('use_custom_query').value = 'false'"

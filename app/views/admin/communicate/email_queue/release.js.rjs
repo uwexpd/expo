@@ -1,5 +1,0 @@
-page.replace_html :status, :text => "Sending messages..."
-page.show :status
-
-page << "$('pid').value = #{@pid}"
-page << "do_checks = true"

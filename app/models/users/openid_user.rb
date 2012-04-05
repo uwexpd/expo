@@ -1,2 +1,0 @@
-class OpenidUser < User
-end

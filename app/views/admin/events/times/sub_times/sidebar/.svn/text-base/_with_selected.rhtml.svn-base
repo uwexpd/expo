@@ -1,5 +1,0 @@
-<h3>With selected:</h3>
-
-<ul class="icons">
-	<li class="email"><%= link_to_submit "Send mass e-mail", 'invitees_form' %></li>
-</ul>

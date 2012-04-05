@@ -1,3 +1,0 @@
-page.replace_html 'tabview_content', :partial => 'admin/people/tabs/notes'
-page.visual_effect :highlight, "note_#{@note.id}"
-page.replace 'notes_count', @person.notes.size

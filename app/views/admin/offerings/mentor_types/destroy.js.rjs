@@ -1,4 +1,0 @@
-dom_id = "mentor_type_#{@mentor_type.id}"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-end

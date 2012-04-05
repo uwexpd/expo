@@ -1,5 +1,0 @@
-<h3><strong>Add New</strong></h3>
-<ul class="add-links">
-	<li><%= link_to "Organization", new_service_learning_organization_path(@unit, @quarter) %></li>
-	<li><%= link_to "Course", new_service_learning_organization_path(@unit, @quarter) %></li>
-</ul>

@@ -1,7 +1,0 @@
-\documentclass[10pt,twocolumn,twoside]{report}
-\oddsidemargin=-.5in
-\usepackage{times}
-\usepackage{pdfpages}
-\begin{document}
-<%= yield %>
-\end{document}

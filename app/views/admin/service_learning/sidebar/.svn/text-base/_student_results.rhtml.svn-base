@@ -1,5 +1,0 @@
-<ul class="students">
-	<% for student in @students do -%>
-		<li class="student"><%=h student.fullname %></li>
-	<%- end -%>
-</ul>

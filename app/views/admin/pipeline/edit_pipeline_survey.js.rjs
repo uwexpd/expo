@@ -1,1 +1,0 @@
-page.replace_html "pipeline_survey", :partial => 'pipeline_survey_form', :locals => {:student => @student}

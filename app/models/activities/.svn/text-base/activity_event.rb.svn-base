@@ -1,3 +1,0 @@
-class ActivityEvent < Activity
-  
-end

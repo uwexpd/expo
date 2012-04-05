@@ -1,4 +1,0 @@
-page.replace_html "status_#{params[:old_department_id]}", :text => "#{pluralize @success.size, "mentor"} updated"
-page << "$('department_row_#{params[:old_department_id]}').addClassName('full')"
-
-page.replace_html "apps_#{params[:old_department_id]}", :partial => 'mentors_for_cleanup', :locals => { :mentors => @mentors }

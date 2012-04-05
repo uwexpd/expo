@@ -1,3 +1,0 @@
-<h3><strong>Welcome!</strong></h3>
-
-<%= textilize auto_link(@offering.interviewer_help_text) %>

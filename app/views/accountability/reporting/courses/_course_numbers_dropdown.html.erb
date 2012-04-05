@@ -1,2 +1,0 @@
-<option value="">Please select</option>
-<%= options_from_collection_for_select(Curriculum.valid_for(@quarter).find_by_curric_abbr(dept_abbrev).course_numbers(@quarter),:to_s, :to_s)  rescue nil%>

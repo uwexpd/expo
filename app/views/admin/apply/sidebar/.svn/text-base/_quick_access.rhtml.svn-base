@@ -1,3 +1,0 @@
-<h3>Quick Access</h3>
-
-<%= render :partial => "admin/apply/quick_access_links" %>

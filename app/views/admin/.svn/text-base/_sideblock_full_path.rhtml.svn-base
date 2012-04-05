@@ -1,3 +1,0 @@
-<div class="sideblock <%= sideblock_to_render %> <%= options[:class] if options[:class] %>" id="<%= options[:id] if options[:id] %>">
-	<%= render :partial => "#{sideblock_to_render}", :locals => options[:locals] %>
-</div>

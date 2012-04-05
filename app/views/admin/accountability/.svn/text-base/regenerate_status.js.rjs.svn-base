@@ -1,8 +1,0 @@
-if @complete
-  # page << "do_checks_#{params[:id]} = false"
-  page.hide "status_indicator_#{params[:id]}"
-else
-  page << "do_checks_#{params[:id]} = true"
-  page.show "status_indicator_#{params[:id]}"
-end
-page.replace_html "status_#{params[:id]}", :text => AccountabilityReport.status(params[:id])

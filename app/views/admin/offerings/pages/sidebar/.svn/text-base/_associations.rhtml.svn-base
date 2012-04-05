@@ -1,5 +1,0 @@
-<h3>Associations</h3>
-
-<ul class="link-list">
-	<li><%= link_to "Questions", offering_page_questions_path(@offering, @page) %></li>
-</ul>

@@ -1,8 +1,0 @@
-<h1><%= @milestone.title %>
-	<span class="light">&raquo; <%= pluralize @milestone.open_tickets_count, "open ticket" %></span></h1>
-
-<table>
-
-	<%= render :partial => @tickets %>
-
-</table>

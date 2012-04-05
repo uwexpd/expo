@@ -1,1 +1,0 @@
-page.visual_effect :fade, "authorization_#{@authorization.id}"

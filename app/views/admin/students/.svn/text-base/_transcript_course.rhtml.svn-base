@@ -1,7 +1,0 @@
-<tr>
-	<td><%= transcript_course.dept_abbrev %></td>
-	<td><%= transcript_course.course_number %></td>
-	<td><%= transcript_course.course.course_title rescue "<em class='light'>Unknown course title</em>" %></td>
-	<td><%= transcript_course.course_credits %></td>
-	<td><%= transcript_course.grade_formatted %></td>
-</tr>

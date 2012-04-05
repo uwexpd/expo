@@ -1,5 +1,0 @@
-\documentclass[10pt,draft]{report}
-\usepackage{times}
-\begin{document}
-<%= yield %>
-\end{document}

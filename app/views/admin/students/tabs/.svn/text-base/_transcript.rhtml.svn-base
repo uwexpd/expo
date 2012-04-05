@@ -1,3 +1,0 @@
-<h2>Transcript</h2>
-
-<%= render :partial => "admin/students/transcript", :object => @student %>

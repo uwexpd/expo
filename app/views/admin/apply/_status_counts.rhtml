@@ -1,6 +1,0 @@
-<% texts = [] %>
-<% @offering.statuses.sort.reverse.each do |t| %>
-	<% count = @offering.application_for_offerings.with_status(t.application_status_name).size %>
-	<% texts << "<strong>#{count}</strong> #{t.private_title}" unless count.zero? %>
-<% end %>
-<%= texts.join(", ") %>

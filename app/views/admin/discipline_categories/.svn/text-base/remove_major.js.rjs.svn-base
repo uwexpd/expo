@@ -1,6 +1,0 @@
-dom_id = "major_extra_#{@major_extra[:id] }"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-  page.remove dom_id
-end
-page.replace 'add_major_sidebar', :partial => 'admin/discipline_categories/sidebar/add_major.rhtml'

@@ -1,8 +1,0 @@
-<h3><strong>Add New</strong></h3>
-
-<ul class="link-list">
-	
-	<li><%= link_to "Plain Text Template", new_admin_communicate_template_path(:type => 'TextTemplate') %></li>
-	<li><%= link_to "E-mail Template", new_admin_communicate_template_path(:type => 'EmailTemplate') %></li>
-	
-</ul>

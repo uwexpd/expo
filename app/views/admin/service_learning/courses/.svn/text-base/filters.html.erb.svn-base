@@ -1,9 +1,0 @@
-<h1>Filters for <%= @service_learning_course.title %></h1>
-<p>Any filter selected below will be required when the student searches for positions.</p>
-
-<% form_tag({:action => "update_filters"}) do %>
-  <%= render :partial => "pipeline/search_fields", :locals => {:display_for_admin => true} %>
-  <%= hidden_field_tag 'id', @service_learning_course.id %>
-  
-  <%= submit_tag 'Update Filters' %>
-<% end %>

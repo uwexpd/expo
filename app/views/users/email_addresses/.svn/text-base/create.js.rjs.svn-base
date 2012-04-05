@@ -1,6 +1,0 @@
-page.if "$('new_email_address')" do
-  page.hide 'new_email_address'
-  page.if "$('from_select')" do
-    page.replace_html 'from_select', :partial => "admin/communicate/email/from_select", :locals => { :new_from => @email_address.to_header }
-  end
-end

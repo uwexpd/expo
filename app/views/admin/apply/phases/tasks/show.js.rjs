@@ -1,7 +1,0 @@
-page.show "phase_task_contents_#{@task.id}" 
-page.replace_html "phase_task_contents_#{@task.id}", 
-            {:partial => "admin/apply/phase/#{@task.display_as}", 
-            :locals => { :phase_task => @task, :task => @task }}
-
-page.show "phase_task_hide_menu_item_#{@task.id}"
-page.show "phase_task_hide_link_#{@task.id}"

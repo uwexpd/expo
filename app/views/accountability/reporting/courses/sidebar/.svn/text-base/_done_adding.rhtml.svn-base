@@ -1,5 +1,0 @@
-<h3>When You're Finished</h3>
-
-When you're done adding courses, click here to go back to the list:
-<br>
-<center><%= link_to "I'm Done", accountability_reporting_courses_url(@year), :class => "button" %></center>

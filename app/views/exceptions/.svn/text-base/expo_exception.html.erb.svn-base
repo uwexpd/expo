@@ -1,6 +1,0 @@
-<% title("Error") %>
-<div class="restriction failed">
-	<h1><%= @exception.to_s %></h1>
-	<p><%= @exception.detail %></p>
-	<p><%= auto_link @exception.help_text %></p>
-</div>

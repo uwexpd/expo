@@ -1,7 +1,0 @@
-<tr>
-	<td class="light"><%=h ticket.number %></td>
-	<td><%= link_to ticket.title, admin_ticket_path(ticket) %>
-		<%= ticket.tag.to_s.split.collect{|tag| "<span class='tag outline'>#{tag}</span>" } %>
-		</td>
-	<td><%=h ticket.state %></td>
-</tr>

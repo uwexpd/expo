@@ -1,9 +1,0 @@
-<h3>Helpful Links</h3>
-
-<ul class="link-list">
-	
-	<li><%= link_to "Statement of Responsibilities Regarding FERPA Requirements and the Student Database (SDB)", {:action => "ferpa_statement"}, :popup => true %></li>
-	
-	<li><%= link_to "FERPA for Faculty and Staff", "http://www.washington.edu/students/reg/ferpafac.html", :popup => true %></li>
-	
-</ul>

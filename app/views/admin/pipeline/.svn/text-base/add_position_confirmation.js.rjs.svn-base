@@ -1,1 +1,0 @@
-page.replace_html "tabview_content", :partial => "admin/students/tabs/pipeline"

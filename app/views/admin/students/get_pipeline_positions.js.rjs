@@ -1,8 +1,0 @@
-page.hide "add_position_button"
-page.show "cancel_add_position_button"
-
-page.replace_html "pipeline_positions_list", :partial => "pipeline_positions_list"
-
-page << "Effect.BlindDown('pipeline_positions_list');"
-
-page << "$('add_student_position').style.overflowY='scroll';"

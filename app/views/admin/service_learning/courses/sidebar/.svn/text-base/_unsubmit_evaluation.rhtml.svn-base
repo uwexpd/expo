@@ -1,6 +1,0 @@
-<h3>Un-submit evaluation</h3>
-	<p>Click the button below to allow community partners to make changes to this evaluation. Note that the evaluation will be <b>unavailable</b> to faculty to view until the community partner submits it again.</p>
-
-	<center>
-		<%= button_to "Un-submit evaluation", service_learning_unsubmit_student_evaluation_path(@unit, @quarter, @service_learning_course, @evaluation) %>
-	</center>

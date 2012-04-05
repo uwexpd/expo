@@ -1,2 +1,0 @@
-<% quarter_id = eval "@user_application.#{question.full_attribute_name}" %>
-<%= Quarter.find(quarter_id).title unless quarter_id.nil? %>

@@ -1,7 +1,0 @@
-if @help_text.valid?
-  page.hide "details_#{@help_text.id}"
-  page.replace "row_#{@help_text.id}", :partial => 'help_text', :object => @help_text
-  page.visual_effect :highlight, "row_#{@help_text.id}"
-else
-  page.replace_html "error_#{@help_text.id}", :inline => "<%= error_messages_for(:help_text) %>"
-end

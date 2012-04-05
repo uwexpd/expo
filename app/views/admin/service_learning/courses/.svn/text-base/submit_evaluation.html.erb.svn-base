@@ -1,5 +1,0 @@
-<h1>Student Evaluation
-	<%= @evaluation.submitted? ? content_tag(:span, "submitted", :class => 'approved tag') : content_tag(:span, "not submitted", :class => 'tag') %></h1>
-	
-<%= render :partial => "community_partner/service_learning/students/evaluation_form",
- 			:locals => { :form_url => { :action => 'submit_evaluation'} } %>

@@ -1,7 +1,0 @@
-<tr>
-	<td><%= transcript_transfer_course.tfr_uw_curric_ab %></td>
-	<td><%= transcript_transfer_course.tfr_uw_crs_no %></td>
-	<td><%=  "<em class='light'>Unknown course title</em>" %></td>
-	<td><%= transcript_transfer_course.tfr_uw_credits %></td>
-	<td><%= transcript_transfer_course.grade_formatted %></td>
-</tr>

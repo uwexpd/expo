@@ -1,5 +1,0 @@
-<h3><strong>Help</strong></h3>
-
-<p>This page shows you the service-learning positions that have been matched with your courses for <%= @quarter.title %>. The total number of slots available for your students is shown as well. Note that students are not expected to fill every slot.</p>
-
-<p>As always, if you have any questions, feel free to contact the Carlson Center Staff.</p>

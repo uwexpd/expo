@@ -1,2 +1,0 @@
-#page.insert_html :after, 'majors_table_head', :partial => 'new_major_row'
-page.replace 'results', :partial => 'results'

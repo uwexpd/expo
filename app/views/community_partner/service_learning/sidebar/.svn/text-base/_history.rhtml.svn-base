@@ -1,8 +1,0 @@
-<h3>Other Quarters of Involvement</h3>
-
-<ul class="link-list">
-<% for organization_quarter in @organization.organization_quarters.reject{|oq| oq.quarter == @quarter} %>
-	<li><%= link_to organization_quarter.quarter.title,
-	 		community_partner_service_learning_home_path(organization_quarter.quarter, :unit => organization_quarter.unit_id) %></li>
-<% end -%>
-</ul>

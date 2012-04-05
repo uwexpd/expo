@@ -1,6 +1,0 @@
-<h2>Finish</h2>
-<p class="intro"><%= HelpText.caption(:finish_page_intro, ServiceLearningPosition) %></p>
-
-<div class="progress_nav_buttons">
-	<%= f.submit "Submit for Approval" %>
-</div>

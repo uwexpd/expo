@@ -1,4 +1,0 @@
-page.replace_html "flashes", @message
-page.replace "reviewer_#{@old_reviewer.id}", :partial => "reviewer", :object => @old_reviewer
-page.replace "applicant_#{@applicant.id}", :partial => "applicant", :object => @applicant
-page["applicant_mini_#{@old_reviewer.id}_#{@applicant.id}"].visual_effect :puff

@@ -1,9 +1,0 @@
-<table class="highlightless" id="results_table" style="width: 100%;">
-	<tr class="small">
-		<th></th>
-	</tr>
-	<tr class="empty" id="empty_result" style="width: 100%;">
-		<td>Start by typing a student's name in the box above, or swipe a Husky Card. 
-			<p><small>This list will automatically populate as you type.</small></p></td>
-	</tr>
-</table>

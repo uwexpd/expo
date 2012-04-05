@@ -1,7 +1,0 @@
-<tr class="rowset-header" style="background: #fdfbce">
-	<td><h3><%= interview.start_time_pretty %></h3></td>
-	<td colspan=4><%= interview.interviewers.collect {|i| i.offering_interviewer.person.fullname }.join(', ') %></td>
-	<td><%= interview.location %> <%= "(#{interview.notes})" unless interview.notes.blank? %></td>
-</tr>
-
-<%= render :partial => "application_for_review", :object => interview.application_for_offerings.first, :locals => { :interview => interview} %>

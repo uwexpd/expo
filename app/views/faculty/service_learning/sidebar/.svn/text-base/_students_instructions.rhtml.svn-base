@@ -1,7 +1,0 @@
-<h3><strong>Help</strong></h3>
-
-<p>This page shows you a list of the students currently enrolled in your courses for <%= @quarter.title %>. For each student that has been placed into a service-learning position, you'll see the name of the position and the organization at which the student is volunteering. Click on either one for more information.</p>
-
-<p>If a community partner has submitted an evaluation for a student, you can click on the "View Evaluation" link on the right to view the details of the evaluation form that was submitted.</p>
-
-<p>As always, if you have any questions, feel free to contact the Carlson Center Staff.</p>

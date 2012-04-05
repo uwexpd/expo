@@ -1,4 +1,0 @@
-dom_id = "quote_#{@quote.id}"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-end

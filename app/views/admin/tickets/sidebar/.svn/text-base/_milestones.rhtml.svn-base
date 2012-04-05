@@ -1,9 +1,0 @@
-<h3>Milestones</h3>
-
-<ul class="link-list">
-
-	<% for milestone in Milestone.find(:all) %>
-		<li><%= link_to "#{milestone.title} (#{milestone.open_tickets_count})", milestone_admin_tickets_path(:id => milestone) %></li>
-	<% end -%>
-	
-</ul>

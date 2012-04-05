@@ -1,6 +1,0 @@
-if params[:service_learning_course] && params[:service_learning_course][:potential_organization_match]
-  page.replace_html "tabview_content", :partial => "admin/service_learning/courses/tabs/organization_matches"
-  page.visual_effect :highlight, "organization_match_#{params[:service_learning_course][:potential_organization_match]}"
-  page.replace_html :potential_organizations_count, :text => @service_learning_course.potential_organizations.size
-  page.visual_effect :highlight, :potential_organizations_count
-end

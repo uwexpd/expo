@@ -1,4 +1,0 @@
-page.insert_html :before, 'new_attribute_row', 
-                 :partial => "attribute", 
-                 :locals => {:attribute => @attribute, 
-                             :attribute_class => params[:attribute_class]}

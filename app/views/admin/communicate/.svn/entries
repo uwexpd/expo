@@ -1,40 +1,0 @@
-10
-
-dir
-2195
-svn+ssh://isidore/usr/local/svn/exporepo/trunk/app/views/admin/communicate
-svn+ssh://isidore/usr/local/svn/exporepo
-
-
-
-2011-09-07T20:43:38.127445Z
-2114
-joshlin
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-8539ea28-dac5-4dad-ab9e-748f88f55080
-
-email
-dir
-
-email_queue
-dir
-
-contact_history
-dir
-
-templates
-dir
-

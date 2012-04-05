@@ -1,9 +1,0 @@
-<dl class="inline-definitions">
-
-	<dt>title</dt>
-	<dd><%= f.text_field :title %></dd>
-
-	<dt>display method</dt>
-	<dd><%= f.text_area :display_method, :class => 'code' %></dd>
-
-</dl>

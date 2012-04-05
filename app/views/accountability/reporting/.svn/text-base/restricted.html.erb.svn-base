@@ -1,9 +1,0 @@
-<%= make_main_content_full_width %>
-<div class="restriction missing">
-	<h1>What department are you with?</h1>
-	<p>We keep a list of users who report for each department from year to year, but as people come and go, it's hard to keep it up-to-date.</p>
-	<p><strong>We don't have you on our list yet.</strong></p>
-	<p><strong>Please send an e-mail to <%= link_to CONSTANTS[:accountability_email], "mailto:#{CONSTANTS[:accountability_email]}?Subject=Accountability%20Authorization%20Request&Body=Department:" %></strong> with your department name and we'll add you to the list for that department. Then you'll be able to report undergraduate involvement for that department.</p>
-	
-	<p>Thanks for your understanding!</p>
-</div>

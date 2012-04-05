@@ -1,4 +1,0 @@
-<% for app in @apps %>
-	<p class="page-break">&nbsp;</p>
-	<%= render :file => "admin/apply/availability.html.erb", :locals => { :app => app } %>
-<% end -%>

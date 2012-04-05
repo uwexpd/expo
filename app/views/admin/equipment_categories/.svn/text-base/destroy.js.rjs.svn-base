@@ -1,4 +1,0 @@
-dom_id = "equipment_category_#{@equipment_category.id}"
-page.if "$('#{dom_id}')" do
-  page.visual_effect :fade, dom_id
-end

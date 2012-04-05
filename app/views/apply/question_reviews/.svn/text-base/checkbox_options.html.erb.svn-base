@@ -1,8 +1,0 @@
-<% question.options.each do |option| %>
-	<% unless @user_application.get_answer(question.id, option.id) == false  %>
-		<ul>
-			<li><%= option.title %></li>
-		</ul>
-	<% end -%>
-<% end -%>
-

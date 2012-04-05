@@ -1,9 +1,0 @@
-page.if "$('checkin_appointment_#{@appointment.id}')" do
-  page.replace_html "checkin_appointment_#{@appointment.id}", 
-                    :text => content_tag(:span, "Checked in at #{@appointment.check_in_time.to_s(:time12)}", :class => "green")
-end
-
-page.if "$('checkin-controls')" do
-  page.replace_html 'checkin-controls',
-                    :text => content_tag(:span, "Checked in at #{@appointment.check_in_time.to_s(:time12)}", :class => "green")
-end

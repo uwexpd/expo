@@ -1,5 +1,0 @@
-<p>To view <%= @app.person.firstname %>'s application materials, click on the links to the right. On either page, you can enter your personal comments about <%= @app.person.firstname %> and <%= @app.person.his_her %> application. <strong>These comments are viewable only by you</strong>. When the Review Committee meets to make final decisions, you or another member of the committee will be able to enter the "group comments" which will be archived with <%= @app.person.firstname %>'s application and used for feedback.</p>
-
-<p>Your comments will also appear on your <%= link_to "Student List", :action => "index" %> to help you to compare the different students that you are reviewing. You will also be able to print that page and add hand-written notes.</p>
-
-<p>If you have any questions or comments, please send an e-mail to <%= auto_link @app.offering.contact_email %> or call <%= @app.offering.contact_phone %>.</p>

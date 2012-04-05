@@ -1,7 +1,0 @@
-page.if "$('equipment_reservation_#{@equipment_reservation.id}')" do
-  page.replace "equipment_reservation_#{@equipment_reservation.id}", :partial => "equipment_reservation", :object => @equipment_reservation
-end
-
-page.if "$('sidebar_reservation_status')" do
-  page.replace :sidebar_reservation_status, :partial => "admin/equipment_reservations/sidebar/status"
-end

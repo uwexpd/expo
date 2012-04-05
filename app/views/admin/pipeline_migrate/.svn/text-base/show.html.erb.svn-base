@@ -1,2 +1,0 @@
-<%= make_main_content_full_width %>
-<%= render :partial => "migrate_form" %>

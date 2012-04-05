@@ -1,4 +1,0 @@
-<div class="small warning">
-	You haven't submitted your project summary.
-	<%= link_to "Click here", :action => "summary" %> to submit it.
-</div>

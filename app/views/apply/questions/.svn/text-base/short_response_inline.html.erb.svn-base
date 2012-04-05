@@ -1,5 +1,0 @@
-<li>
-	<%= question.question %>
-	<%= qf.text_field question.attribute_to_update, :size => question.width %>
-	<%= content_tag('em', '*', :class => 'required') if question.required? %>
-</li>

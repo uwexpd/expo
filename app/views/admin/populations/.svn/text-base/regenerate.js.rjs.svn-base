@@ -1,5 +1,0 @@
-dom_id = "population_#{@population.id}"
-page.if "$('#{dom_id}')" do
-  page.replace dom_id, :partial => @population
-  page.visual_effect :highlight, "#{dom_id}_objects_count"
-end
