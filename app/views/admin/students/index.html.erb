@@ -1,0 +1,40 @@
+<%= make_main_content_full_width %>
+
+<h1>Students</h1>
+
+<%= form_tag url_for({:controller => 'students', :action => 'show', :id => nil}), :id => "student-search-form", :method => :get %>
+<table>
+	<tr>
+		<td>
+
+			Student number or UW NetID:
+			<%= text_field_tag :search, params[:search] %>
+			<%= submit_tag "Find" %>
+
+		</td>
+		<td>
+
+			Student name:
+			<%= text_field_tag :student_search, nil, :autocomplete => "off" %>
+			<%= observe_field 'student_search', 
+							:frequency => 0.7, 
+							:update => 'results',
+							:url => auto_complete_for_student_anything_admin_students_url(:show => 'table_row'),
+							:indicator => 'global',
+							:with => 'student_search'
+							%>
+			<%= submit_tag "Find" %>
+
+		</td>
+	</tr>
+</table>
+
+<table id="results">
+	<tr class="empty">
+		<td colspan=2>
+			To find a student, search by student number, UW NetID, or name.
+		</td>
+	</tr>
+</table>
+
+</form>

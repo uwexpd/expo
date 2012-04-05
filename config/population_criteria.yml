@@ -1,0 +1,80 @@
+# Valid Population Criteria
+#
+# This file defines the valid population criteria that can be used when defining a Population. For each
+# criteria (e.g., "status" or "student_major"), define the different possible operators that will be
+# given to the user as options when defining his Population. The key is the "human readable" version
+# of the operator, and the value is the actual bit of code that will be evaluated to determine the result
+# of that criteria.
+# 
+# In the eval code, use these shortcuts:
+#       $1  -   the object that will be evaluated (e.g., an ApplicationForOffering object) 
+#       $2  -   the condition that has been defined (e.g., "in_progress")
+#
+status:
+    operators:
+        is:         $1.in_status?($2)
+        past:       $1.passed_status?($2)
+        includes:   $1.includes_status?($2)
+    values:
+        collection: statuses
+        ids:        application_status_name
+        titles:     private_title
+    only_for:
+        - Offering
+
+awarded?:
+    operators:
+        is:         $1.awarded? == $2
+    values:         boolean
+
+student_major:
+    operators:
+        is:         $1.person.majors_list.include?($2)
+        is_not:     !$1.person.majors_list.include?($2)
+
+filled?:
+    operators:
+        is:         $1.filled? == $2
+    values:         boolean
+    only_for:
+        - ServiceLearningPlacement
+        
+organization.id:
+    operators:
+        is:         $1.organization.id.to_s == $2
+    values:
+        collection: organizations
+        ids:        id
+        titles:     name
+    only_for:
+        - ServiceLearningPlacement
+        
+service_learning_course:
+    operators:
+        is:         $1.service_learning_course_id.to_s == $2
+        is_not:         $1.service_learning_course_id.to_s != $2
+    values:
+        collection: service_learning_courses
+        ids:        id
+        titles:     title
+    only_for:
+        - ServiceLearningPlacement
+        
+quarter_offered:
+    operators:
+        later_than: $1.quarter_offered > Quarter.find($2)
+        earlier_than: $1.quarter_offered < Quarter.find($2)
+    values:
+        collection: Quarter.all
+        ids:        id
+        titles:     title
+    only_for:
+        - Offering
+        
+unit_id:
+    operators:
+        is:         $1.unit_id.to_s == $2
+    values:
+        collection: Unit.all
+        ids:        id
+        titles:     name

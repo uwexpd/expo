@@ -1,0 +1,13 @@
+<h1>Editing Status</h1>
+
+<% form_for :status, @status, :url => offering_status_path(@offering, @status), :html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', offering_status_path(@offering, @status) %>
+
+<% end %>

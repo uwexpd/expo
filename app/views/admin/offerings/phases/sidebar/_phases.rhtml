@@ -1,0 +1,14 @@
+<h3>Phases
+	<span class="right light"><%= link_to "see all", offering_phases_path(@offering) %></span>
+	</h3>
+
+<ul class="link-list">
+	
+	<% for phase in @offering.phases.sort %>
+	<li <%= "class='current'" if @phase == phase %>>
+		<%= link_to "<small class='light'>#{phase.sequence}</small> #{phase.name}", 
+					offering_phase_path(@offering, phase) %>
+	</li>
+	<% end -%>
+	
+</ul>

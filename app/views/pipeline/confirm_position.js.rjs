@@ -1,0 +1,34 @@
+if @error_message
+  # page.replace_html "flashes", "<div id='error'>#{@error_message}</div>" 
+  page.alert(@error_message)
+else
+
+  page.if("$('pipeline_position_#{@pipeline_position.id}')"){
+    page.replace "pipeline_position_#{@pipeline_position.id}", 
+                  :partial => (params[:from_action] == 'show' ? "position_details_show" : "position_details"), 
+                  :locals => {:pipeline_position => @pipeline_position.reload}
+  }
+
+  if params[:from_action] == 'show'
+    page.replace "confirmed_position_overlay_#{@pipeline_position.id}",
+                     :partial => "confirm_position_overlay",
+                     :locals => {:pipeline_position => @pipeline_position}
+  end
+    
+    
+  page.replace "confirmed_pipeline_positions", 
+                :partial => "confirmed_positions", 
+                :locals => {:pipeline_placements => @student.pipeline_placements.for(@quarter)}
+  
+  page.if("$$('#sidebar #pipeline_confirm_button_#{@pipeline_position.id}').size() > 0") do
+    page.replace "pipeline_confirm_button_#{@pipeline_position.id}", 
+                  :partial => "confirm_position_sidebar", 
+                  :locals => {:pipeline_position => @pipeline_position}
+  end
+
+  page.insert_html :after, "content", 
+                   :partial => "confirm_position_overlay",
+                   :locals => {:pipeline_position => @pipeline_position}
+  page <<  "$('confirmed_position_overlay_#{@pipeline_position.id}').setStyle({top:(document.viewport.getScrollOffsets()[1]+20)+'px'});" 
+  page.call "toggle_menu", "confirmed_position_overlay_#{@pipeline_position.id}", "true", 0.5
+end

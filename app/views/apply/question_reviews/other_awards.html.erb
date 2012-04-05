@@ -1,0 +1,9 @@
+<% @user_application.other_awards.each do |other_award| %>
+	<ul>
+		<li><%= other_award.title %>
+			<%= "(#{other_award.award_quarter.title})" if other_award.award_quarter %>
+		</li>
+	</ul>
+<% end -%>
+
+<%= "None" if @user_application.other_awards.empty? %>

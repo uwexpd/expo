@@ -1,0 +1,22 @@
+<h1>Listing People
+	<span class="light right"><%= link_to "add new", new_admin_person_path() %></span></h1>
+
+<% paginated_section @people do %>
+
+<table>
+  <tr>
+    <th>Name</th>
+	<th>Email</th>
+  </tr>
+
+<% for person in @people %>
+  <tr>
+	<td><%= link_to person.fullname, admin_person_path(person) %></td>
+	<td><%=h person.email %></td>
+  </tr>
+<% end %>
+</table>
+
+<% end -%>
+
+<% sidebar :navigate %>

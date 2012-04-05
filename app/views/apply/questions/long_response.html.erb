@@ -1,0 +1,22 @@
+<li>
+	<%= qf.label(question.attribute_to_update, "#{question.question} #{(content_tag('em', '*', :class => 'required') if question.required?)}") %>
+	<% id = "#{question.id}_editor" %>
+	
+	<div class="question_block">
+		<%= qf.text_area question.attribute_to_update, :cols => question.width, :rows => question.height, :id => id %>
+	</div>
+	
+	<% if question.use_mce_editor? %>
+		<script type="text/javascript">
+		//<![CDATA[
+		var oFCKeditor = new FCKeditor('<%= id %>', '<%= question.width %>', '<%= question.height %>', 'ExpoLimited');
+		oFCKeditor.BasePath = "/javascripts/fckeditor/"
+		oFCKeditor.Config['CustomConfigurationsPath'] = '<%= javascript_path("fckcustom.js") %>';
+		oFCKeditor.ReplaceTextarea();
+		//]]>
+		</script>
+	<% end -%>
+	
+	<%= content_tag('p', "#{question.word_limit} word limit", :class => 'question_caption') if question.word_limit? %>
+	<%= content_tag('p', "#{question.caption}", :class => 'question_caption') unless question.caption.blank? %>
+</li>

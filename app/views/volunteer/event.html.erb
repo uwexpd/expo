@@ -1,0 +1,52 @@
+<% return_to = params[:return_to] ? { :return_to => params[:return_to] } : {} %>
+
+<%= title(@event.title) %>
+
+<h1>Volunteer Staff: <%= @event.title %></h1>
+<p><%= simple_format @event.description %></p>
+
+<% @staff.to_a.each do |staff_error_obj| %>
+	<%= error_messages_for :staff, :object => staff_error_obj,
+							:header_message => "You cannot volunteer for that position.", 
+							:message => "We found the following conflicts:" %>
+<% end -%>
+
+<%= render :partial => "my_positions" unless @current_user.person.event_staff_positions(@event).empty? %>
+
+<p>To signup for a specific position, check the box next to the position and click the Submit button.
+	<% if @event.allow_multiple_positions_per_staff %>
+		You can sign up for as many positions as you'd like, as long as the times do not conflict.
+	<% else %>
+		You can only sign up for one position for this event.
+	<% end -%>
+	</p>
+
+<table style="width: 90%; margin: 0 auto" class="highlightless">
+	
+	<tr>
+		<th>Position</th>
+		<th colspan=2>Date</th>
+		<th>Time</th>
+	</tr>
+
+	<% for position in @event.staff_positions.sort %>
+	<tr>
+		<td rowspan=<%= position.shifts.size %> width="30%">
+			<big><%=h position.title %></big>
+			<%= "<br><small>#{textilize_without_paragraph(position.description)}</small>" unless position.description.blank? %>
+			</td>
+			
+		<%= render :partial => "shift", 
+					:collection => position.shifts.sort, 
+					:locals => { :position => position, :return_to => return_to, :blur_if_signed_up => true } %>
+		
+	</tr>
+	<% end -%>
+
+	<%- if @event.staff_positions.empty? -%>
+	<tr class="empty">
+		<td colspan=5>There are no positions to volunteer for.</td>
+	</tr>
+	<% end -%>
+
+</table>

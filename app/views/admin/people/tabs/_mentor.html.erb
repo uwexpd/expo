@@ -1,0 +1,13 @@
+<h2>Mentored Projects</h2>
+<table class="highlightless">
+<% for application_mentor in @person.application_mentors %>
+  <tr>
+    <td>
+    <%= application_mentor.application_for_offering.offering.title %><br/>
+    <%= link_to application_mentor.application_for_offering.person.fullname+' - '+(application_mentor.application_for_offering.project_title|| "(no title)"),
+                   admin_app_path(application_mentor.application_for_offering.offering, 
+                                  application_mentor.application_for_offering,
+                                  :anchor => "mentor_letter") %></td>
+  </tr>
+<% end %>
+</table>

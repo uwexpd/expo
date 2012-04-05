@@ -1,0 +1,20 @@
+<%= make_main_content_full_width %>
+<%= javascript_include_tag "tablesort" %>
+
+<h1><%= @population.title %>
+	<span class="right">
+		<%= link_to "Back", population_path(@population), :class => "button icon-left go-previous" %>
+		<%= link_to "Output Fields", output_population_path(@population), :class => "button icon-left list" %>
+		<%= link_to "Excel Download", population_path(@population, :format => :xls), :class => "button icon-left xls" %>
+	</span>
+	</h1>
+
+<div id="data_table" style="overflow:auto" class="edge-to-edge">
+	<div class="loading">Loading results...</div>
+</div>
+
+<%= javascript_tag(remote_function(
+					:url => objects_population_path(@population),
+					:update => 'data_table',
+					:method => :get,
+					:complete => "SortableTable.init($('sortable-table-0'))")) %>

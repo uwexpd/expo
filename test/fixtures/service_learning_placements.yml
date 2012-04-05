@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  service_learning_course_enrollee_id: 1
+  service_learning_position_id: 1
+  waiver_date: 2008-05-28 09:47:05
+  waiver_signature: MyString
+
+two:
+  service_learning_course_enrollee_id: 1
+  service_learning_position_id: 1
+  waiver_date: 2008-05-28 09:47:05
+  waiver_signature: MyString

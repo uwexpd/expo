@@ -1,0 +1,17 @@
+<% unless @in_sidebar %>
+<%= link_to_remote "Remove from favorites", 
+        {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
+         :action => "remove_favorite", :id => @pipeline_position_id, :favorite_page => @favorite_page},
+         :indicator => 'global',
+         :before => "this.disabled=true;this.onclick=function(){return false;};
+                     $('pipeline_favorite_image_#{@pipeline_position_id}').disabled=true;
+                     $('pipeline_favorite_image_#{@pipeline_position_id}').onclick=function(){return false;};"},
+         :class => "icon-left favorite-remove", :id => "favorite_button_#{@pipeline_position_id}" %>
+<% else %>
+<%= link_to_remote "Remove from favorites", 
+      {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
+       :action => "remove_favorite", :id => @pipeline_position_id, :in_sidebar => @in_sidebar},
+       :indicator => 'global',
+       :before => "this.disabled=true;this.onclick=function(){return false;};"},
+       :class => "icon-left favorite-remove", :id => "favorite_button_#{@pipeline_position_id}" %>
+<% end %>

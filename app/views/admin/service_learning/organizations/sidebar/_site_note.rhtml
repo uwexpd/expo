@@ -1,0 +1,19 @@
+<h3><strong class="icon-left note">Add Site Note</strong></h3>
+
+<div id="site_note_flash_sidebar" class="autosave"></div>
+
+<% remote_form_for :note, 
+	:url => add_note_service_learning_organization_path(@unit, @quarter, @organization, :source => 'sidebar', :return_to => request.request_uri), 
+	:indicator => true,
+	:html => { :id => "add_note_form_sidebar" } do |f| -%>
+
+	<%= f.text_area :note, :rows => 5 %>
+	<br />
+
+	Type: <%= f.collection_select :contact_type_id, ContactType.find(:all), :id, :title, {:include_blank => true} %>
+	
+	<%= f.submit "Add Note" %>
+
+	<%= render :partial => "admin/shared/note_privacy_settings", :locals => { :f => f } %>
+
+<% end -%>

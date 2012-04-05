@@ -1,0 +1,28 @@
+<h2>Response Options</h2>
+<p>Specify the options that the applicant can choose from.</p>
+
+<table>
+	<thead>
+		<tr class="small left">
+			<th>Title</th>
+			<th>Value</th>
+			<th style="width: 70px">Functions</th>
+		</tr>
+	</thead>
+
+	<tbody id="options">
+	<%= render :partial => 'admin/offerings/pages/questions/options/option', :collection => @question.options %>
+
+	<% if @question.options.empty? %>
+		<tr class="empty">
+			<td colspan=5>
+				No options have been specified. 
+				<%= link_to 'Click here to create one.', new_offering_page_question_option_path(@offering, @page, @question) %>
+			</td>
+		</tr>
+	<% end -%>
+	</tbody>
+
+</table>
+
+<%= link_to "Add new option", new_offering_page_question_option_path(@offering, @page, @question), :class => "icon-left add button" %>

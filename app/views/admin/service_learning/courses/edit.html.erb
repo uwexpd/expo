@@ -1,0 +1,15 @@
+<h1>Editing Course</h1>
+
+<%= error_messages_for :service_learning_course %>
+
+<% form_for(@service_learning_course, :url => service_learning_course_path(@unit, @quarter, @service_learning_course), :html => {:multipart => true }) do |f| %>
+	<%= render :partial => "fields", :locals => { :f => f } %>
+
+	<%= hidden_field_tag :remove_courses_if_needed %>
+	
+ 	<%= f.submit "Update" %>
+	<%= separator %>
+	<%= link_to 'Cancel', service_learning_course_path(@unit, @quarter, @service_learning_course), :class => "cancel button" %>	
+	
+<% end %>
+

@@ -1,0 +1,20 @@
+<h3>Equipment Reservations</h3>
+
+<ul class="link-list">
+	<li><%= link_to "Today's Checkouts <span>(#{EquipmentReservation.todays_checkouts.count})</span>",
+	 				todays_checkouts_equipment_reservations_path %></li>
+	<li><%= link_to "Today's Check-ins <span>(#{EquipmentReservation.todays_checkins.count})</span>",
+					todays_checkins_equipment_reservations_path %></li>
+
+	<li><%= link_to "Tomorrow's Checkouts <span>(#{EquipmentReservation.tomorrows_checkouts.count})</span>",
+	 				tomorrows_checkouts_equipment_reservations_path %></li>
+	<li><%= link_to "Tomorrow's Check-ins <span>(#{EquipmentReservation.tomorrows_checkins.count})</span>",
+					tomorrows_checkins_equipment_reservations_path %></li>
+
+	
+	<% unless EquipmentReservation.late_returns.empty? %>
+		<li><%= link_to "Late Returns <span>(#{EquipmentReservation.late_returns.count})</span>",
+						late_returns_equipment_reservations_path %></li>
+	<% end -%>
+</ul>
+	

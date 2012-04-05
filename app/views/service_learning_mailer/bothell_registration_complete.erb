@@ -1,0 +1,75 @@
+Office of Community-Based Learning and Research,
+University of Washington Bothell
+UW2-134 
+425.352.3365 :: cblr@uwb.edu 
+http://www.uwb.edu/cblr 
+
+Dear <%= @placement.person.firstname %>,
+Thank you for registering for community-based learning (also known as service-learning) for <%= @placement.course.quarter.title %>. The Office of Community-Based Learning and Research staff works with students, faculty and community-based organizations to facilitate community-based learning opportunities. Completing the steps listed below will enable you to have the best experience possible. 
+
+As a community-based learning student, you play an important role with significant responsibilities. The organization you will be working with is depending on your participation, so please remember to be professional and responsible. Your participation will be evaluated by the site at the end of the quarter and may influence your grade. If you have questions or issues arise, we urge you to contact the Office of Community-Based Learning (425.352.3365 : cblr@uwb.edu)--that's what we are here for!
+
+Your Position 
+------------- 
+Your selected position is <%= @placement.position.title %> at <%= @placement.position.organization.name %>. You can find all the details about this position at any time by returning to the service-learning registration online: 
+	http://depts.washington.edu/leader/servicelearning/register
+	
+Next Steps 
+---------- 
+Please carefully read through the following information about your community-based learning position. 
+
+1. Introduce yourself. 
+Remember that your organization may work with many different volunteers, so make sure to introduce yourself as a new community-based learning student from the University of Washington Bothell.
+
+Your community-based learning contact at <%= @placement.position.organization.name %> is: 
+	<%= @placement.position.supervisor.person.fullname rescue nil %>
+	<%= @placement.position.supervisor.person.email rescue nil %>
+	<%= phone_number(@placement.position.supervisor.person.phone.to_i) rescue nil %>
+	
+2. Attend orientation and get started early! 
+At the orientation, you will have an opportunity to talk with your supervisor at the organization you have chosen about your individual goals for community-based learning. Bring a copy of the syllabus from your community-based learning course to the orientation. Community partners are excited to learn about how service fits into your course work. Be prepared to listen carefully and ask questions! Your commitment to the organization begins at the orientation and you should leave there knowing your schedule for the quarter. 
+
+Please note the following information about your orientation: 
+	Date:      <%= @placement.position.orientation.start_time.to_date.to_s(:long) rescue "No date specified" %>
+	Time:      <%= @placement.position.orientation.start_time.to_time.to_s(:time12) rescue "No time specified" %>
+<%- if @placement.position.orientation && @placement.position.orientation.flexible? -%>
+	TBA:       Please contact your organization to arrange an orientation time
+<%- end -%>
+	Notes:     <%= strip_tags(@placement.position.orientation.notes || "None") rescue "None" %>
+	Location:  <%= @placement.position.orientation.location.title rescue "No location specified" %>
+	           <%= address_block @placement.position.orientation.location rescue nil %>
+	           <%= "Notes: " + strip_tags(@placement.position.orientation.location.notes) if @placement.position.orientation.location.notes rescue nil %>
+<%- if @placement.position.orientation.different_orientation_contact? -%>
+
+	Your contact for orientation at the organization is:
+		<%= @placement.position.orientation.contact.person.fullname rescue nil %>
+		<%= @placement.position.orientation.contact.person.email rescue nil %>
+		<%= phone_number(@placement.position.orientation.contact.person.phone) rescue nil %>
+	Note that the orientation contact is different from the position contact above!
+<% end -%>
+
+More information about your organization and position, including times, location, and transportation options, can be found at http://depts.washington.edu/leader/servicelearning/my_position. Please note that some organizations have more than one location. Pay special attention to the location of your orientation and your position since they may be different.
+
+New to riding the Seattle Metro Bus System? Check out the Carlson Center's quick video to taking the bus to your community-based learning site. 
+http://depts.washington.edu/leader/bus/index.html
+
+3. Stay committed throughout the quarter. 
+As a UWB community-based learning student, you are a representative of the University of Washington Bothell, and the Office of Community-Based Learning and Research. Please take this role seriously and be professional and respectful in your work. The organization is counting on you to fulfill your community-based learning obligations. This means committing to a regular schedule and following all expectations. 
+
+If you need more support, direction, or context for your work, please approach your community-based learning contact at your organization or the Office of Community-Based Learning. The organization and contact have specifically requested to work with UW Bothell students, so please be sure to communicate your needs. 
+
+If you are struggling with anything throughout your community-based learning experience, please take time to reflect and consider why the experience is challenging for you. There is a lot that can be learned about yourself, the community, and the organization through reflection. The Community-Based Learning staff is here to support you if needed. 
+
+4. Complete your evaluation. 
+You will be emailed a link to an online evaluation near the end of the quarter. You must complete the evaluation to indicate that you have fulfilled your commitment to your organization. Please take time to offer thoughtful and detailed feedback to help us improve students' experiences with community-based learning. 
+
+We will also contact your site supervisor for an evaluation of your service.
+
+
+Questions? Need help? Need more information? 
+-------------------------------------------- 
+If you have questions or concerns about the community-based learning registration process or would like to end your community-based learning commitment for the quarter, please come in and speak to us in UW2-134. We are open from 9am-5pm, Monday through Friday.
+
+You can also view our web site for more information about community-based learning!  Please visit: http://www.uwb.edu/cblr 
+
+Do you have great stories to share about your community-based learning experience? We would love to hear them! Contact us at cblr@uwb.edu or 425-352-3365 to tell us about the great work you are doing in the community! 

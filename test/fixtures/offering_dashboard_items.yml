@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  dashboard_item_id: 1
+  criteria: MyText
+
+two:
+  offering_id: 1
+  dashboard_item_id: 1
+  criteria: MyText

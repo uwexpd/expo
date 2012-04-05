@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_admin_phase_id: 1
+  application_status_type_id: 1
+
+two:
+  offering_admin_phase_id: 1
+  application_status_type_id: 1

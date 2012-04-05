@@ -1,0 +1,14 @@
+<h3><strong class="icon-left add">2. Add Additional Courses if Needed</strong></h3>
+
+Enter a list of courses to add, one per line.
+<br><small class="light">Examples: BIOL 499 A, GEN ST 350</small>
+
+<% form_for :activity, :url => mass_add_accountability_reporting_courses_path(@year) do |course_form| %>
+
+	<span id="course_form_error" class="error-message"></span>
+
+	<%= text_area_tag :course_abbrevs, nil, :rows => 5, :style => "width:95%" %>
+	
+	<%= course_form.submit "Add Courses" %>
+
+<% end -%>

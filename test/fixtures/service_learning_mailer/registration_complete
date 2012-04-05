@@ -1,0 +1,3 @@
+ServiceLearningMailer#registration_complete
+
+Find me in app/views/service_learning_mailer/registration_complete.erb

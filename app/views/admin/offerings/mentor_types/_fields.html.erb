@@ -1,0 +1,9 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :application_mentor_type_id, "Mentor Type" %></dt>
+	<dd><%= f.collection_select :application_mentor_type_id, ApplicationMentorType.all, :id, :title, :prompt => "Choose a mentor type" %></dd>
+	
+	<dt><%= f.label :meets_minimum_qualification %></dt>
+	<dd><%= f.check_box :meets_minimum_qualification %></dd>
+
+</dl>

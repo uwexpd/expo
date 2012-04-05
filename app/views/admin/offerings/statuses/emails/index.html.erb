@@ -1,0 +1,21 @@
+<h1 class="big-icon emails">E-mails
+	<span class="light">&raquo; <%=h @status.private_title %></span>
+	<span class="light right"><%= link_to "add new", new_offering_status_email_path(@offering, @status) %></span></h1>
+
+<table>
+	<tr>
+		<th>To</th>
+		<th>Template</th>
+		<th>Auto-send?</th>
+		<th style="width:100px">Functions</th>
+	</tr>
+
+	<%= render :partial => 'email', :collection => @emails %>
+
+	<% if @emails.empty? %>
+	<tr class="empty">
+		<td colspan=4>No e-mails defined. <%= link_to "Add a new one.", new_offering_status_email_path(@offering, @status) %></td>
+	</tr>
+	<% end -%>
+
+</table>

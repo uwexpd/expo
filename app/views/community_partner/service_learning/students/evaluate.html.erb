@@ -1,0 +1,4 @@
+<h1>Submit Evaluation</h1>
+<p>Please answer the following questions pertaining to <%= @placement.person.firstname %>'s service-learning work with your organization this quarter. Questions marked with a red asterisk ( <%= content_tag('em', '*', :class => 'required') %> ) are required.</p>
+
+<%= render :partial => "evaluation_form" %>

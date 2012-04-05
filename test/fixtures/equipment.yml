@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  tag: MyString
+  title: MyString
+  equipment_category_id: 1
+  service_date: 2009-08-06 16:32:10
+  ready_for_checkout: false
+  picture: MyString
+  description: MyText
+  staff_only: false
+  special_instructions: MyText
+
+two:
+  tag: MyString
+  title: MyString
+  equipment_category_id: 1
+  service_date: 2009-08-06 16:32:10
+  ready_for_checkout: false
+  picture: MyString
+  description: MyText
+  staff_only: false
+  special_instructions: MyText

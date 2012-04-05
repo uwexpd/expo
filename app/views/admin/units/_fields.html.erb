@@ -1,0 +1,30 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :name %></dt>
+	<dd><%= f.text_field :name %></dd>
+	
+	<dt><%= f.label :abbreviation %></dt>
+	<dd><%= f.text_field :abbreviation %></dd>
+	
+	<dt><%= f.label :logo_uri %></dt>
+	<dd><%= f.text_field :logo_uri %></dd>
+	
+	<dt><%= f.label :logo %></dt>
+	<dd><%= upload_column_field 'unit', 'logo' %></dd>
+	
+	<dt><%= f.label :description %></dt>
+	<dd><%= f.text_area :description %></dd>
+	
+	<dt><%= f.label :home_url %></dt>
+	<dd><%= f.text_field :home_url %></dd>
+	
+	<dt><%= f.label :engage_url %></dt>
+	<dd><%= f.text_field :engage_url %></dd>
+	
+	<dt><%= f.label :show_on_expo_welcome %></dt>
+	<dd><%= f.check_box :show_on_expo_welcome %></dd>
+
+	<dt><%= f.label :show_on_equipment_reservation %></dt>
+	<dd><%= f.check_box :show_on_equipment_reservation %></dd>
+
+</dl>

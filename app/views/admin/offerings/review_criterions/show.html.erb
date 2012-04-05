@@ -1,0 +1,24 @@
+<h1><%=h @review_criterion.title %>
+	<span class="light right"><%= link_to "Edit", edit_offering_review_criterion_path(@offering, @review_criterion), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@review_criterion) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>offering</dt>
+	<dd><%=h @review_criterion.offering_id %></dd>
+
+	<dt>title</dt>
+	<dd><%=h @review_criterion.title %></dd>
+
+	<dt>max score</dt>
+	<dd><%=h @review_criterion.max_score %></dd>
+
+	<dt>description</dt>
+	<dd><%=h @review_criterion.description %></dd>
+
+	<dt>sequence</dt>
+	<dd><%=h @review_criterion.sequence %></dd>
+
+
+</dl>

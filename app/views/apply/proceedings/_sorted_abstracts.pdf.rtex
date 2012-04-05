@@ -1,0 +1,20 @@
+\begin{multicols*}{2}
+\raggedcolumns
+<% 
+@current_session_group = nil; @current_session_type = nil; @current_session_identifier = nil; @current_abstract = nil
+
+for result in sorted_abstracts
+	if result.offering_session
+	 	if @current_session_group != result.offering_session.try(:session_group) || @current_session_type != result.application_type || 
+	 	   @current_session_identifier != result.offering_session.try(:identifier) || @current_abstract != result.id -%>
+			<%= render :partial => 'apply/proceedings/session_heading_result', :object => result, :locals => {:inline => true} %>
+			
+			<% @current_session_group = result.offering_session.try(:session_group); @current_session_type = result.application_type; 
+			@current_session_identifier = result.offering_session.identifier; @current_abstract = result.id -%>
+		<% end -%>
+	<% end -%>
+	\normalsize
+	\vspace{12pt}
+	<%= render :partial => 'apply/proceedings/abstract', :object => result %>
+<% end -%>
+\end{multicols*}

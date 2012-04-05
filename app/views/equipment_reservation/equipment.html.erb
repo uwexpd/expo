@@ -1,0 +1,28 @@
+<%= title link_to("EXPD Equipment Loan Program", :action => 'index') %>
+
+<h2>Step 3: Choose your equipment</h2>
+
+<% form_for @reservation, 
+			:url => { :action => 'finalize', :id => @reservation }, 
+			:html => { :class => 'help_text', :id => 'reservation_form' } do |f| %>
+	
+	<%= f.error_messages %>
+	
+	<div>	
+		<%= render :partial => "date_range_select", :locals => { :f => f } %>	
+	</div>
+	
+	<br class="clear">
+
+	<%= render :partial => "equipment_select", :locals => { :f => f } %>
+
+	<br class="clear">
+	
+	<%= render :partial => "summary" %>
+	
+	<div id="submit_equipment" <%= "style='display:none'" if @reservation.start_date.blank? %>>
+		<%= f.submit "Submit My Reservation", :name => "finalize", 
+					:confirm => "Are you sure you want to submit your reservation?" %>
+	</div>	
+
+<% end -%>

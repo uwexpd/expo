@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  committee_member_type_id: 1
+  min_per_applicant: 1
+  max_applicants_per: 1
+
+two:
+  offering_id: 1
+  committee_member_type_id: 1
+  min_per_applicant: 1
+  max_applicants_per: 1

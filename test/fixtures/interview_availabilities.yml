@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_interview_timeblock_id: 1
+  application_for_offering_id: 1
+  offering_interviewer_id: 1
+  time: 2008-04-28 13:49:17
+
+two:
+  offering_interview_timeblock_id: 1
+  application_for_offering_id: 1
+  offering_interviewer_id: 1
+  time: 2008-04-28 13:49:17

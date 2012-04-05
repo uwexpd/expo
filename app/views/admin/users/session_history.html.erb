@@ -1,0 +1,35 @@
+<h1>Session ID <%= params[:id] %></h1>
+
+<h3>Session History
+	<span class="light">&raquo; Started at <%= @start_time.to_s(:long) %> (<%= time_ago_in_words(@start_time) %> ago)</span></h3>
+
+<table>
+
+	<tr class="small left">
+		<th>Method</th>
+		<th>URL</th>
+		<th>Requested at</th>
+		<th>Length</th>
+
+	<% previous_time = nil %>
+	<% for r in @requests %>
+		<% if previous_time %>
+			<td class="small"><%= distance_of_time_in_words(previous_time, r.created_at, true) %></td>
+			</tr>
+		<% end -%>
+
+	<tr>
+		<td><strong><%= r.request_method.upcase rescue nil %></strong></td>
+		<td><%= link_to truncate(r.request_uri, 80), r.request_uri %></td>
+		<td class="small"><%= r.created_at.to_s(:time_with_seconds) %></td>
+	<% previous_time = r.created_at %>
+	<% end -%>
+	
+		<td></td>
+	</tr>
+	
+</table>
+
+<br />
+
+<%= link_to 'Back', users_path %>

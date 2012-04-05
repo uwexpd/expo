@@ -1,0 +1,60 @@
+<% make_main_content_blocked %>
+
+<%= render :partial => 'position_details_show' %>
+
+<div class="content-block">
+	<h3>Contact Details</h3>
+	<dl class="inline-definitions">
+		<dt>Contact Info</dt>
+		<% if @pipeline_position.organization %>
+		<dd>
+			<% unless @pipeline_position.location.nil? %>
+				<%= @pipeline_position.organization.name %><br />
+				<%= @pipeline_position.location.address_line_1 %><br />
+				<% unless @pipeline_position.location.address_line_2.nil? %>
+					<%= @pipeline_position.location.address_line_2 %><br />
+				<% end%>
+				<%= @pipeline_position.location.address_city %>, 
+				<%= @pipeline_position.location.address_state %> 
+				<% @pipeline_position.location.address_zip %><br />
+			<% end %>
+		</dd>
+
+		<dt>Contacts</dt>
+		<dd>
+			<% if @student.show_pipeline_position_contact? %>
+				<% unless @pipeline_position.supervisor.nil? %>
+					<%= @pipeline_position.supervisor.person.fullname %><br />
+					<% unless @pipeline_position.supervisor.person.title.nil? || @pipeline_position.supervisor.person.title.empty? %>
+						<%= @pipeline_position.supervisor.person.title %><br />
+					<% end %>
+					<%= @pipeline_position.supervisor.person.email %><br />
+					<%= @pipeline_position.supervisor.person.phone %><br />
+				<% else %>
+					<% for contact in @pipeline_position.organization.contacts %>
+						<%= contact.person.fullname %><br />
+						<% unless contact.person.title.nil? || contact.person.title.empty? %>
+							<%= contact.person.title %><br />
+						<% end %>
+						<%= contact.person.email %><br />
+						<%= contact.person.phone %><br />
+					<% end %>
+				<% end %>
+			<% else %>
+				<small>You cannot view the rest of the contact information until you 
+				attend an orientation and your background check clears.</small><br />
+			<% end %>
+		</dd>
+		<% end %>
+	</dl>
+</div>
+
+<div class="content-block">
+	<h3>Available Tutoring Times</h3>
+	<%= render :partial => "admin/service_learning/organizations/positions/scheduling_details"	,
+	:locals => { :admin => false, :student_view => true, :service_learning_position => @pipeline_position } %>
+</div>
+
+<div id="details_temp"></div>
+
+<% sidebar :navigation, :control_buttons, :bus_route_finder, :confirmed_positions %>

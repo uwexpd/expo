@@ -1,0 +1,19 @@
+<small>
+	<strong>Student:</strong> <%=h @app.fullname %>
+	<br>
+	<strong>Project Title:</strong> <%= sanitize @app.project_title, :tags => %w(sub sup em i) %>
+	<br>
+	<strong>Current Status:</strong> <%= print_status @app %>
+	
+	<%- if params[:show] && params[:show].include?("sessions") && @app.offering_session -%>
+	<br>
+	<strong class="error-message">Assigned to: <%= @app.offering_session.title %></strong>
+	<% end -%>
+
+	<%- if params[:show] && params[:show].include?("review_decision") && @app.application_review_decision_type -%>
+	<br>
+	<strong class="error-message">Review Decision: <%= @app.application_review_decision_type.title %></strong>
+	<% end -%>
+	
+	
+</small>

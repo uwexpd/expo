@@ -1,0 +1,50 @@
+= RDoc::Rails
+This package adds Rails-specific information to RDoc generated docs on Rails
+projects. It could be particularly useful for people wanting to document Rails
+applications for internal use within a team of developers. It includes
+<tt>RDoc::Parser::Rails</tt> based on <tt>RDoc::Parser::Ruby</tt> as well as
+<tt>RDoc::Generator::Railsfish</tt> based on <tt>RDoc::Generator::Darkfish</tt>
+
+== Installation
+Currently, this is written as a Rails plugin, although I will look into
+packaging it as a gem as well. It works with RDoc version 2.4.3, the most
+current version as of August, 2009. I have tested it only with Rails 2.0, but I
+would expect it to work for projects written in earlier and later versions of
+Rails as well.
+
+To install as a Rails plugin, try some variation on one of the following:
+  ruby script/plugin install git://github.com/chinasaur/rdoc_rails.git
+  ruby script/plugin install http://github.com/chinasaur/rdoc_rails.git
+  ruby script/plugin install http://github.com/chinasaur/rdoc_rails.git/
+
+You may then need/want to rename the directory
+<tt>vendor/plugins/rdoc_rails.git/</tt> to just +rdoc_rails+
+
+After that, you should be good to go.  The standard
+ > rake doc:app
+or
+ > rake doc:reapp
+should now run the Rails customized version of RDoc.
+
+== Features
+Right now there are just two basic features above and beyond the standard Ruby
+RDoc:
+
+1. Documentation for ActiveRecord associations on Models
+2. Documentation for methods delegated to other models through the +delegate+ method.
+
+But the infrastructure is all there to make it straightforward to parse
+additional features in Rails code and generate documentation based on those
+parsings.
+
+== Contributing
+I will try to document things better to make it easy for others to contribute
+additional documentation features. For now, get in touch if you have any
+questions and fork away.
+
+== License http://i.creativecommons.org/l/by/3.0/us/80x15.png
+Rdoc::Rails is released under a {Creative Commons Attribution 3.0 United States
+License}[http://creativecommons.org/licenses/by/3.0/us/]. Please credit me
+somewhere in your project's documentation if you are using this.
+
+

@@ -1,0 +1,26 @@
+<% @confirmed_positions ||= [] %>
+<% unless @confirmed_positions.empty? %>
+
+	<ul class="link-list" id="confirmed_pipeline_positions">
+	<% for pipeline_placement in @confirmed_positions %>
+		<li>
+		<%= link_to_remote "<span>Remove Confirmation</span>", 
+							{:url=> {:controller => "pipeline", :action => "remove_position_confirmation", :id => pipeline_placement.id},
+							:html => {:class => "icon-left trash no-text inline right"},
+							:indicator => "global",
+							:before => "this.disabled=true;this.onclick=function(){return false;};"} %>
+
+		<% link_to({:controller => "pipeline", :action => "show", :id => pipeline_placement.position.id}, :class => 'inline') do %>
+			<%= pipeline_placement.organization.name %>
+			<span><%= pipeline_placement.title(false,false,false) %> 
+					(<%= pipeline_placement.course.nil? ? 'Volunteer' : pipeline_placement.course.title %>)
+			</span>
+		<% end %>
+
+		</li>
+	<% end %>
+	</ul>
+
+<% else %>
+	<table id="confirmed_pipeline_positions"><tr class="empty"><td>You have not confirmed any positions.</td></tr></table>
+<% end %>

@@ -1,0 +1,41 @@
+<h1>Invitation Codes
+	<span class="light right"><%= link_to "Add new invitation code", new_offering_invitation_code_path(@offering), :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'invitation_codes_form' %>
+
+<table>
+	<tr>
+		<th>Code</th>
+		<th>Student Application</th>
+		<th>Note</th>
+		<th>Institution</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for invitation_code in @invitation_codes %>
+	<tr id="invitation_code_<%= invitation_code.id %>">
+		<td><%=h invitation_code.code %></td>
+		<td><%=link_to invitation_code.application_for_offering.person.fullname, 
+						admin_app_path(@offering, invitation_code.application_for_offering) if invitation_code.application_for_offering %></td>
+		<td><%=h invitation_code.note %></td>
+		<td><%=h invitation_code.institution.institution_name if invitation_code.institution %></td>
+		<td><%= link_to "Show", offering_invitation_code_path(@offering, invitation_code) %></td>
+		<td><%= link_to "Edit", edit_offering_invitation_code_path(@offering, invitation_code) %></td>
+		<td><%= link_to_remote "Destroy", 
+						:url => offering_invitation_code_path(@offering, invitation_code), 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @invitation_codes.empty? %>
+	<tr class="empty">
+		<td colspan=10>No invitation codes exist. <%= link_to "Create one.", new_offering_invitation_code_path(@offering) %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>
+
+<% sidebar "/admin/offerings/sidebar/settings" %>
+<% sidebar :generate_codes %>
+

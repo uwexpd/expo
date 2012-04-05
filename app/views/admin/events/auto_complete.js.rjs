@@ -1,0 +1,14 @@
+page.hide :all_events
+page.show :search_results
+
+if @events.empty?
+  page.show :search_results_empty
+  page.hide :search_results_tbody
+else
+  page.hide :search_results_empty
+  page.show :search_results_tbody
+  page.replace_html :search_results_tbody, :partial => 'event', :collection => @events
+end
+
+page.replace_html :filter_count, :text => "&raquo; Showing #{@events.size} out of #{pluralize(params[:total_count], "event")}.
+                                          #{link_to_function "Show all", "clear_filter()"}."

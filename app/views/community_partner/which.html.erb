@@ -1,0 +1,18 @@
+<% title("Select Organization") %>
+
+<h1>Select Organization</h1>
+
+<p>You are listed as an organization contact for the following organizations. To proceed to the next screen, you need to select which organization you would like to represent for the current session.</p>
+
+<% form_for :organization, :url => { :action => 'which'} do |f| %>
+
+	<% for organization in @organizations %>
+		<p class="left-indent">
+		<%= f.radio_button :id, organization.id %>
+		<%= f.label "id_#{organization.id}", organization.name %>
+		</p>
+	<% end -%>
+
+	<%= f.submit "Select", :disable_with => 'Selecting your organization...' %>
+
+<% end -%>

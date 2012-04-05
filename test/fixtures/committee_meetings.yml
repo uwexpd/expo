@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  committee_id: 1
+  start_date: 2008-10-10 12:29:02
+  end_date: 2008-10-10 12:29:02
+  title: MyString
+  description: MyText
+
+two:
+  committee_id: 1
+  start_date: 2008-10-10 12:29:02
+  end_date: 2008-10-10 12:29:02
+  title: MyString
+  description: MyText

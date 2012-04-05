@@ -1,0 +1,37 @@
+<% make_main_content_full_width %>
+
+<h1>Current Reservations
+	<%= content_tag :span, "&raquo; #{@unit.title}", :class => "light" if @unit %>
+	<%= content_tag(:span, link_to("(See all)", all_equipment_reservations_path), :class => 'light') %>
+	<span class="light right"><%= link_to "Create new reservation", new_equipment_reservation_path, :class => 'add button' %></span></h1>
+
+<div class="edge-to-edge">
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Person</th>
+			<th>Dates/Length</th>
+			<th>Unit</th>
+			<th>Status</th>
+			<th>Equipment</th>
+			<th>Functions</th>
+		</tr>
+	
+		<% for status, equipment_reservations in @equipment_reservations %>
+			<tr class="rowset-header">
+				<td colspan=10><%= status.to_s.titleize %></td>
+			</tr>
+			<%= render equipment_reservations %>
+		<% end -%>
+	
+		<% if @equipment_reservations.values.flatten.compact.empty? %>
+		<tr class="empty">
+			<td colspan=10>No current reservations. <%= link_to "Create one.", new_equipment_reservation_path %></td>
+		</tr>
+		<% end %>
+	
+	</table>
+</div>
+
+<br>
+<%= render :partial => 'approvers_list' %>

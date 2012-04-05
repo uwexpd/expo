@@ -1,0 +1,17 @@
+<%= title h(@email_address.to_header) %>
+
+<% form_for :email_address, @email_address, :url => users_email_address_path(@email_address), :html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<div class="email_preview">
+		<div class="headers">
+			<%= render :partial => "fields", :locals => { :f => f } %>
+		</div>
+	</div>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', users_email_addresses_path, :class => "cancel button" %>
+
+<% end %>

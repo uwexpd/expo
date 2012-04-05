@@ -1,0 +1,13 @@
+<h1>New Status</h1>
+
+<% form_for :status, @status, :url => offering_statuses_path(@offering) do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', offering_statuses_path(@offering) %>
+
+<% end %>

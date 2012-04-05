@@ -1,0 +1,15 @@
+<h1>Editing Event</h1>
+
+<% form_for :event, @event, :url => event_path(@event), :html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', event_path(@event), :class => "cancel button" %>
+
+<% end %>
+
+<% sidebar :times %>

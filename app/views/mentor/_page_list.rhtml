@@ -1,0 +1,10 @@
+<% content_for(:left_sidebar) do -%>
+	<div class="page_list on_page">
+	<ol>
+		<li><%= link_to "Your Letter of Support" %>
+		<li><%= link_to "View Student's Application", { :view => :project_details } %></li>
+		<li><%= link_to "View Student's Essay", { :file => @mentee_application.files.first.id } %></li>
+		<!-- <li><%= link_to "Transcript", { :view => :transcript } %></li> -->
+	</ol>
+	</div>
+<% end -%>

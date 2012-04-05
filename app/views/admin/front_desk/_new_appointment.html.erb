@@ -1,0 +1,80 @@
+
+<div id="new_appointment">
+<% if @student %>
+	
+	<%= link_to_function "Add a new appointment", 
+						"Effect.BlindDown('new_appointment_form');
+						 $('new_appointment_button').hide();
+						 disableCardReader();", 
+						:class => "icon-left add button",
+						:id => "new_appointment_button",
+						:style => ("display:none" if @student.appointments.today.empty? || (@appointment && !@appointment.valid?)) %>
+
+	<div id="new_appointment_form" class="big-border box" <%= "style=\"display:none\"" unless @student.appointments.today.empty? || (@appointment && !@appointment.valid?) %>>
+		
+		<% if @student.appointments.today.empty? %>
+			<%- javascript_tag do -%>
+				disableCardReader();
+			<% end -%>
+		<% end -%>
+
+		<h4 class="icon-left add">Add a new appointment</h4>
+
+		<% remote_form_for (@appointment || Appointment.new(:drop_in => true)), 
+							:method => :post, 
+							:indicator => 'find_student_indicator',
+							:html => { :id => 'new_appointment_form_form' } do |f| %>
+
+		<%= f.error_messages %>
+
+		<dl class="inline-definitions">
+
+			<dt>Type</dt>
+			<dd><%= f.radio_button :drop_in, true %> <%= f.label :drop_in_true, "Drop-in" %>
+				<%= f.radio_button :drop_in, false %> <%= f.label :drop_in_false, "Scheduled Appointment" %>
+				</dd>
+
+			<dt>Meeting with</dt>
+			<dd><%= f.collection_select(:staff_person_id, 
+										User.admin.reject{|u| u.firstname_first.blank? }.sort_by{|u| u.firstname_first}, 
+										:person_id, :firstname_first, 
+										{:prompt => "-- Select Staff Person --"},								
+										{:onChange => "updateUnitSelect(this.value)"}
+										) %>
+								
+				<br>
+				<div class="left-indent">
+				<%= separator %>
+				</div>
+		
+				<%= f.collection_select :unit_id, Unit.all.sort, 
+											:id, :name, 
+											{:prompt => "-- Select Program --"} %></dd>
+
+			<dt>Front Desk Notes/
+				<br>Purpose</dt>
+			<dd><%= f.text_area :front_desk_notes, :rows => 5 %></dd>
+
+			<dt></dt>
+			<dd><small><%= check_box_tag :check_in_now, true, true %> 
+						<%= label_tag :check_in_now, "Mark this student as checked in" %></small>
+			
+				<br><br><%= f.submit "Create" %>
+				<%= link_to_function "Cancel", "Effect.BlindUp('new_appointment_form');
+												$('new_appointment_button').show();
+												$('new_appointment_form_form').reset();
+												enableCardReader();",
+												:class => 'cancel button' %></dd>
+
+		</dl>
+
+		<%= f.hidden_field :student_id, :value => @student.id %>
+		<%= f.hidden_field :source, :value => "front_desk" %>
+		<%= f.hidden_field :contact_type_id, :value => ContactType.find_or_create_by_title("In-person").id %>
+
+		<% end -%>
+
+	</div>
+
+<% end -%>
+</div>

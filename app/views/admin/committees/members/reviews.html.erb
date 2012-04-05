@@ -1,0 +1,54 @@
+<h1>Committee Member Reviews
+	<span class="light">&raquo; <%= @member.fullname %></span></h1>
+
+<table>
+
+	<% for @offering in @offerings %>
+		
+		<tr class="rowset-header">
+			<td colspan=100>
+				<%= @offering.title %>
+				<span class="light right">
+					<%= @member.application_reviewers.for(@offering).size %> reviews
+				</span>
+			</td>
+		</tr>
+	
+		<tr class="small left">
+			<th>Applicant</th>
+			<% if @offering.uses_scored_review? %>
+				<% for review_criterion in @offering.review_criterions.sort %>
+					<th width=60 class="center" align=center><%= review_criterion.title %></th>
+				<% end -%>
+				<th width=60 class="center">Total</th>
+				<th>Finalized?</th>
+			<% end -%>
+		</tr>
+
+		<%= render :partial => "admin/apply/applicant_reviewer", 
+					:collection => @member.application_reviewers.for(@offering), 
+					:locals => { :perspective => 'reviewer' } %>
+	
+		<% if @offering.uses_scored_review? %>
+		<tr class="total">
+			<td>Average Scores:</td>
+			<% for review_criterion in @offering.review_criterions.sort %>
+				<td><%= '%.2f' % @member.average_score(@offering, review_criterion) %></td>
+			<% end -%>
+			<td colspan=2><%= '%.2f' % @member.average_score(@offering) %></td>
+		</tr>
+		<% end -%>
+	
+	<% end -%>
+
+	<% if @member.application_reviewers.empty? %>
+	<tr class="empty">
+		<td colspan=100>
+			<%= @member.fullname %> has not been assigned as a reviewer for any applications.
+		</td>
+	</tr>
+	<% end -%>
+
+</table>
+
+<% sidebar :offerings, :multi_composite_report %>

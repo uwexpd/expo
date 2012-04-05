@@ -1,0 +1,26 @@
+<tr>
+	<td class="icon-left <%= @appointment.previous_appointment == other_appointment ? "favorite" : "calendar" %> other_appointment"
+		id="other_appointment_<%= other_appointment.id %>">
+	
+	<ul class="bulletless marginless">
+
+		<li><%= link_to other_appointment.start_time.to_s(:date_with_day_of_week), other_appointment, :popup => true %></li>
+		<li><%= other_appointment.staff_person == @current_user.person ? "<strong>You</strong>" : other_appointment.staff_person.fullname %></li>
+	
+		<%= "<li class='light'>#{truncate(other_appointment.front_desk_notes)}</li>" unless other_appointment.front_desk_notes.blank? %>
+
+		<li><small>
+			<% if @appointment.previous_appointment == other_appointment %>
+				You are following up on this appointment.
+			<%- else -%>
+				<%= link_to_remote "I am following up on this appointment", 
+									:url => followup_to_appointment_path(@appointment, :previous_appointment_id => other_appointment),
+									:indicator => 'global' %>
+			<% end -%>
+			</small>
+			</li>
+
+		</ul>
+						
+	</td>
+</tr>

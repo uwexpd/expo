@@ -1,0 +1,21 @@
+<h1><%=h @exemption.id %>
+	<span class="light right"><%= link_to "Edit", edit_offering_restriction_exemption_path(@offering, @restriction, @exemption), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@exemption) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>offering restriction</dt>
+	<dd><%=h @exemption.offering_restriction_id %></dd>
+
+	<dt>person</dt>
+	<dd><%=h @exemption.person_id %></dd>
+
+	<dt>note</dt>
+	<dd><%=h @exemption.note %></dd>
+
+	<dt>valid until</dt>
+	<dd><%=h @exemption.valid_until %></dd>
+
+
+</dl>

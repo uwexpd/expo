@@ -1,0 +1,26 @@
+<div style="margin-left: 17em">
+<% form_for :nomination, @confirmer, :url => { :action => 'nominate' } do |f| %>
+	
+	<%= f.error_messages %>
+	
+	<p><strong>Which mentor would you like to nominate?</strong></p>
+	
+	<p class="left_indent">
+	<% for mentor in @user_application.mentors %>
+		<%= f.radio_button :nominated_mentor_id, mentor.id %>
+		<%= f.label "nominated_mentor_id_#{mentor.id}", mentor.fullname %>
+		<br>
+	<% end -%>
+	</p>
+
+	<p><strong>Why do you think your mentor should receive this award?</strong></p>
+	
+	<%= f.text_area :nominated_mentor_explanation, :rows => 8, :style => "width: 55%" %>
+	<br><small class="light">Maximum 200 words</small>
+
+	<p>
+		<%= f.submit "Nominate My Mentor", :disable_with => "Saving your nomination..." %>
+	</p>
+	
+<% end -%>
+</div>

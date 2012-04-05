@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  tokenable_id: 1
+  tokenable_type: MyString
+  token: MyString
+
+two:
+  tokenable_id: 1
+  tokenable_type: MyString
+  token: MyString

@@ -1,0 +1,60 @@
+<% @did_staff_only_header = false %>
+<h1>Equipment
+	<span class="light right"><%= link_to "Add new equipment", new_equipment_path, :class => "add button" %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'equipment_form' %>
+
+<div class="edge-to-edge">
+	<table>
+		<tr class="small left">
+			<th>Item</th>
+			<th><%= link_to_sort :title %></th>
+			<th><%= link_to_sort :category %></th>
+			<th><%= link_to_sort "ready_for_checkout", "Ready for Checkout?" %></th>
+			<th>Functions</th>
+		</tr>
+	
+		<tr class="rowset-header"><td colspan=10>Staff-only Equipment</td></tr>
+	
+		<% for equipment in @equipments %>
+		<% if !equipment.staff_only? && !@did_staff_only_header %>
+			<tr class="rowset-header"><td colspan=10>Student Equipment</td></tr>
+			<% @did_staff_only_header = true %>
+		<% end -%>
+	
+		<tr id="equipment_<%= equipment.id %>">
+			<td width=55><%= link_to image_tag(equipment.picture.thumb.url), equipment_path(equipment) %></td>
+			<td><%=h equipment.title %>
+				<br><small class="light"><%=h equipment.tag %></small>
+				<%= "<br>" + content_tag(:span, "staff only", :class => 'orange tag') if equipment.staff_only? %>
+				</td>
+			<td><%=h equipment.category.title if equipment.category %></td>
+			<td><% if equipment.checked_out? -%>
+					<span class="light">Checked Out</span>
+				<% elsif equipment.ready_for_checkout? %>
+					<span class="green">Yes</span>
+				<%- else -%>
+					<span class="red"><strong>NO</strong></span>
+				<% end -%></td>
+			<td><%= link_to "<span>Show</span>", equipment_path(equipment), :class => 'icon-left show no-text' %>
+				<%= link_to "<span>Edit</span>", edit_equipment_path(equipment), :class => 'icon-left edit no-text' %>
+				<%= link_to_remote "<span>Destroy</span>", 
+							{:url => equipment_path(equipment), 
+							:confirm => 'Are you sure?', 
+							:method => :delete},
+							:class => 'icon-left trash no-text' %></td>
+		</tr>
+		<% end %>
+
+		<% if @equipments.empty? %>
+		<tr class="empty">
+			<td colspan=10>No equipment exists. <%= link_to "Create one.", new_equipment_path %></td>
+		</tr>
+		<% end %>
+
+	</table>
+</div>
+
+</form>
+
+<% sidebar :functions, "admin/front_desk/sidebar/equipment_checkouts" %>

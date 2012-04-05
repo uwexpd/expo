@@ -1,0 +1,10 @@
+page.replace_html "flashes", @message
+page.replace "reviewer_#{@reviewer.id}", :partial => 'reviewer', :object => @reviewer
+page.replace "applicant_#{@applicant.id}", :partial => "applicant", :object => @applicant
+page["reviewer_#{@reviewer.id}"].visual_effect :highlight
+page["applicant_#{@applicant.id}"].visual_effect :highlight
+
+unless @old_reviewer.nil?
+  page.replace "reviewer_#{@old_reviewer.id}", :partial => 'reviewer', :object => @old_reviewer
+end
+  

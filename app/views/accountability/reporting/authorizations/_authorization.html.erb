@@ -1,0 +1,10 @@
+	<tr id="authorization_<%= authorization.id %>">
+		<td><%=h authorization.login %></td>
+		<td><%=h authorization.fullname %></td>
+		<td><%= link_to_remote "<span>Delete</span>", 
+								{:url => accountability_reporting_authorization_path(@year, authorization),
+								:method => :delete,
+								:confirm => "Are you sure?",
+								:indicator => 'global'},
+								:class => "icon-left trash no-text" unless current_user == authorization.user %></td>
+	</tr>

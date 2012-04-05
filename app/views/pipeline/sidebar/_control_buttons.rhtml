@@ -1,0 +1,39 @@
+<h3>Controls</h3>
+
+<ul class="link-list">
+
+	<li>
+	<% unless @pipeline_favorites.include?(@pipeline_position.id) %>
+		  <%= link_to_remote "Add to favorites", 
+		       {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
+		        :action => "add_favorite", :id => @pipeline_position_id, :in_sidebar => @in_sidebar}, 
+		        :indicator => 'global',
+		        :before => "this.disabled=true;this.onclick=function(){return false;};"}, 
+		        :class => "icon-left favorite-add", :id => "favorite_button_#{@pipeline_position_id}" %>
+	<% else %>
+		<%= link_to_remote "Remove from favorites", 
+		      {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
+		       :action => "remove_favorite", :id => @pipeline_position_id, :in_sidebar => @in_sidebar},
+		       :indicator => 'global',
+		       :before => "this.disabled=true;this.onclick=function(){return false;};"},
+		       :class => "icon-left favorite-remove", :id => "favorite_button_#{@pipeline_position_id}" %>
+	<% end %>
+	<%= indicator("favorite_indicator_#{@pipeline_position.id}") %>
+	</li>
+
+	<li>
+		<% if (@available_slots.nil? || @available_slots > 0) && 
+              ((@quarter == @current_quarter) && 
+              @student.show_pipeline_position_contact? && 
+              (@service_learning_course.nil? || !@service_learning_course.registration_open_time.nil?)) %>
+              
+          <%= render :partial => "confirm_position_sidebar", :locals => {:pipeline_position => @pipeline_position} %>
+            
+        <% else %>
+          <%= tooltip "Confirm Position with Pipeline", 
+  					"You can not confirm this position right now. The opening for this position is full",
+ 					:class => 'icon-left ok light' %>
+        <% end %>
+        
+
+</ul>

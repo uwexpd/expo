@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  application_status_id: 1
+  message: MyText
+  public_title: MyString
+
+two:
+  offering_id: 1
+  application_status_id: 1
+  message: MyText
+  public_title: MyString

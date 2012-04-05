@@ -1,0 +1,6 @@
+<% title(@offering.name, (@offering.quarter_offered.title rescue nil)) %>
+<div class="restriction failed">
+	<h1><%= @restriction.title %></h1>
+	<p><%= @restriction.detail %></p>
+	<p><%= auto_link(@restriction.extra_detail) %></p>
+</div>

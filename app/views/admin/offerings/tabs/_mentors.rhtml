@@ -1,0 +1,117 @@
+<%= javascript_include_tag 'chosen.proto' %>
+<%= javascript_include_tag 'prototype.1.7' %>
+<%= stylesheet_link_tag 'chosen' %>
+
+<h2>Mentor</h2>
+<p>Control the parameters for mentors involved in this offering.</p>
+
+<dl class="inline-definitions">
+
+	<dt>Maximum</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('offering_max_number_of_mentors', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :max_number_of_mentors, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('offering_max_number_of_mentors', 50)", :class => 'add-button' %>
+		<p class="caption">Students cannot have more mentors than this.</p>
+		</dd>
+
+	<dt>Minimum</dt>
+	<dd><%= link_to_function "&nbsp;", "subtract_from('offering_min_number_of_mentors', 0);", :class => 'subtract-button' %>
+		<%= f.text_field :min_number_of_mentors, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= link_to_function "&nbsp;", "add_to('offering_min_number_of_mentors', 50)", :class => 'add-button' %>
+		<p class="caption">Students cannot have less mentors than this. If students can only have a specific number of
+			mentors (e.g., one mentor), set both the minimum and maximum to the same value.</p>
+		</dd>
+
+	<dt>Deadline</dt>
+	<dd><%= f.datetime_select :mentor_deadline, :twelve_hour => true, :include_blank => true %>
+		<p class="caption">Specify a time by which mentors should complete their task (as defined by the Mentor Mode, below).
+			This is blank by default and has no binding effect unless the "Deny mentor access after mentor deadline" checkbox is
+			marked below. Otherwise, this is just used to provide an informational deadline for mentors when they log in.</p>
+			
+		<br>
+
+		<%= checkbox_with_label f, :deny_mentor_access_after_mentor_deadline %>
+		<p class="caption">If this box is checked, mentors cannot get in to the mentor interface after the deadline defined
+			above. If you leave this box unchecked, mentors can still get in after the deadline.</p>	
+		</dd>
+
+	<dt>Options</dt>
+	<dd>
+		<%= checkbox_with_label f, :allow_hard_copy_letters_from_mentors %>
+		<p class="caption">By default, we expect mentors to upload their letters using our online form. If your application
+			process demands that mentors be allowed to submit letters in a different form, check this box. Applicants will be
+			presented with a check box that says: "If your mentor <b>cannot</b> access the Internet and will need to submit a
+			hard copy letter, please check here."</p>
+		<br>
+		
+		<%= checkbox_with_label f, :allow_early_mentor_submissions %>
+		<p class="caption">If this box is checked, applicants can choose to request a letter from their mentor before they have
+			submitted their application. By default, mentors are not notified to submit a letter until after the application is
+			submitted. If an applicant chooses to invite a mentor to submit early (even if the mentor does not submit until later),
+			the applicant is not allowed to remove that mentor from his or her application.</p>
+		<br>	
+		
+		<%= checkbox_with_label f, :require_all_mentor_letters_before_complete, 
+			"Require a letter or approval from <strong>all</strong> mentors before considering an application complete" %>
+		<p class="caption">If this box is unchecked, the system will consider an application complete as soon as just one
+			mentor submits a letter or approves the application.</p>
+	</dd>
+
+	<dt>Mentor Mode</dt>
+	<dd><%= f.select :mentor_mode, ["abstract_approve", "no_interaction"], :include_blank => "default" %>
+		<p class="caption">
+			<strong>default:</strong> Mentors are asked to submit a letter of support through the online system.
+			<strong>abstract_approve:</strong> Mentors approve the student's abstract instead of submitting a letter.
+			<strong>no_interaction:</strong> Mentors do not interact with the online system (i.e., mentors are involved
+			in a separate process, or only included on the application for informational purposes).
+		</p></dd>
+
+	<dt>Alt. Title</dt>
+	<dd><%= f.text_field :alternate_mentor_title %>
+		<p class="caption">If you call your mentors something else (e.g., "Letter Writers") enter the singular form of the
+			alternate title here (e.g., "Letter Writer").</p></dd>
+	
+
+</dl>
+
+<h2>E-mail Templates</h2>
+<dl class="inline-definitions">
+
+	<dt>Early Invite</dt>
+	<dd><%= f.collection_select(:early_mentor_invite_email_template_id, 
+								EmailTemplate.all.sort, :id, :name, 
+								{:include_blank => "None"},
+  							    {:class => "chzn-select", :style => "width:450px"}) %>
+		<br><small>or <%= link_to "Create a new e-mail template", 
+						new_admin_communicate_template_path(
+							:type => "EmailTemplate", 
+							:popup_layout => true, 
+							:dom_id_to_update => 'offering_early_mentor_invite_email_template_id'
+						), 
+						:popup => ['new_email_template_window', 'scrollbars=yes,height=900,width=800'] %></small>
+		
+		<p class="caption">Sent to a mentor before an applicant has submitted his or her application.</p></dd>
+
+	<dt>Thank You</dt>
+	<dd><%= f.collection_select(:mentor_thank_you_email_template_id, 
+								EmailTemplate.all.sort, :id, :name, 
+								{:include_blank => "None"},
+								{:class => "chzn-select", :style => "width:450px"}) %>
+		<br><small>or <%= link_to "Create a new e-mail template", 
+						new_admin_communicate_template_path(
+							:type => "EmailTemplate", 
+							:popup_layout => true, 
+							:dom_id_to_update => 'offering_mentor_thank_you_email_template_id'
+						), 
+						:popup => ['new_email_template_window', 'scrollbars=yes,height=900,width=800'] %></small>
+
+		<p class="caption">Sent to every mentor after he or she submits his or her letter.</p></dd>
+	
+</dl>
+
+<h2>Mentor Instructions</h2>
+<p>This text is displayed to a mentor when he or she is looking at an applicant's information.</p>
+<%= f.text_area :mentor_instructions, :style => "width: 99%" %>
+<p class="caption">Valid placeholder codes:
+	<% codes = %w(waived_right_note released_access_note firstname lastname his_her he_she) %>
+	<%= codes.collect{|c| "<a class=\"placeholder_text_link\">#{c}</a>"} %></p>

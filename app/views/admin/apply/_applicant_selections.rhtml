@@ -1,0 +1,25 @@
+<tr class="small left">
+	<th>&nbsp;</th>
+	<th>Student Name</th>
+	<% if @committee_mode %>
+		<th>Combined Score
+			<br>
+			<%= link_to "(#{@offering.final_decision_weight_ratio_pretty})", 
+						edit_offering_path(@offering, :anchor => 'awards'),
+						:popup => true %></th>
+						
+		<th>Review Score</th>
+		<th>Review Decision</th>
+		<th>Interview Score</th>
+		<th>Interview Decision</th>
+	<% else -%>
+		<th>Avg. Score</th>
+		<th>Spread (Std. Dev)</th>
+		<th colspan=<%= @max_number_of_scores %>>Scores</th>
+	<% end -%>
+	<th>Award</th>
+	<th>Decision</th>
+	<th>Notes</th>
+</tr>
+
+<%= render :partial => "applicant_selection#{"_committee" if @committee_mode}", :collection => @apps %>

@@ -1,0 +1,5 @@
+unless @routes.nil?
+  page.replace 'pipeline_bus_directions', :partial => 'bus_routes'
+else
+  page.replace_html 'route_error', "<div class='small warning'>Sorry something didn't work. Try using the King County Metro trip finder.<div>"
+end

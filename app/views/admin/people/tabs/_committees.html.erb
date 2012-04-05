@@ -1,0 +1,11 @@
+<h2>Committees</h2>
+
+<table class="highlightless">
+<% for commitee_member in @person.committee_members %>
+  <tr>
+    <td>
+    <%= link_to commitee_member.committee.try(:name),
+                   admin_committee_member_path(commitee_member.committee_id, commitee_member.id) %></td>
+  </tr>
+<% end %>
+</table>

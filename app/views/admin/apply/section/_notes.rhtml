@@ -1,0 +1,43 @@
+<h2>Special Notes</h2>
+<small>Use this space to track special information about this application. <strong>This note is shared with reviewers and interviewers</strong>.</small>
+
+<% form_for :app, @app, :url => { :action => 'update', :id => @app } do |f| %>
+	<%= f.text_area :special_notes, :rows => 4, :style => 'width:98%' %>
+	<%= f.submit "Save Note" %>
+<% end %>
+<br>
+
+<h2>Staff-Only Notes</h2>
+<%= render :partial => "admin/shared/notes", :object => @app %>
+
+<br>
+<h2>Feedback Appointment</h2>
+<div id="no_feedback_meeting_note">
+	<% if !@app.feedback_meeting_date %>
+		No feedback appointment.
+		<%= link_to_function "Conduct a feedback appointment", 
+				"Effect.toggle('feedback_meeting_form', 'slide', {duration: 0.9});
+				 Effect.toggle('no_feedback_meeting_note', 'slide', {duration: 0.9})" %>
+	<% end -%>
+</div>
+
+	<div id="feedback_meeting_form" <%= "style='display:none'" if !@app.feedback_meeting_date %>>
+	<% form_for :app, @app, :url => { :action => 'update', :id => @app } do |f| %>
+		Date: <%= f.date_select :feedback_meeting_date %>
+		<br>
+		Person: <%= @app.feedback_meeting_person.fullname rescue @current_user.fullname %>
+				<%= hidden_field_tag "app[feedback_meeting_person_id]", @current_user.person.id %>
+		<br>
+		Notes:
+		<br>
+		<%= f.text_area :feedback_meeting_comments, :rows => 4, :style => 'width:98%' %>
+		<br>
+		<%= f.submit "Save" %>
+		<%= separator if !@app.feedback_meeting_date %>
+		<%= link_to_function "Cancel", 
+				"Effect.toggle('feedback_meeting_form', 'slide', {duration: 0.9});
+				 Effect.toggle('no_feedback_meeting_note', 'slide', {duration: 0.9})",
+				:class => "cancel button" if !@app.feedback_meeting_date %>
+	
+	<% end %>
+	</div>

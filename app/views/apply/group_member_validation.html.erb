@@ -1,0 +1,63 @@
+<% title "Verify Group Membership" %>
+
+<h1>Welcome, <%= @group_member.firstname %>.</h1>
+
+<p><%= @user_application.person.firstname %> <%= @user_application.person.lastname %> has identified you as a group member for <%= @user_application.person.his_her %> symposium application. Can you confirm that you are indeed a member of this group and that you will be presenting along with <%= @user_application.person.firstname %> on Symposium Day?</p>
+
+<blockquote>
+
+<% form_for :group_member, @group_member, 
+			:url => apply_group_member_validation_url(:offering => @offering, 
+													  :group_member_id => @group_member, 
+													  :token => params[:token] || @group_member.token.token) do |f| %>
+													
+	<%= f.error_messages %>
+
+	<p><%= radio_button_tag 'verified', 'yes', @group_member.verified?, 
+			:onClick => "Element.show('contact_info')" %>
+	<label for="verified_yes"><big>Yes</big>, I am a member of this group.</label></p>
+	
+	<div id="contact_info" <%= "style='display:none'" unless @group_member.verified? %> class="yellow box">
+		
+		<% fields_for :person, @person do |person_fields| %>
+			<%= person_fields.error_messages %>
+			<dl class="inline-definitions">
+				<%= render :partial => "shared/person_fields", :object => person_fields, 
+							:locals => { :show_student_fields => true, 
+										:show_address_fields => :false,
+										:show_salutation_field => true,
+										:show_title_field => :false
+										 } %>
+			
+				<dt>scholarships earned</dt>
+				<dd>
+					<table class="highlightless borderless">
+						<% for other_award in @offering.other_award_types.sort %>
+						<tr>
+							<td>
+								<%= check_box_tag "person[award_ids][#{other_award.award_type_id}]", true,
+													@person.earned_award?(other_award.award_type) %>
+								<%= other_award.title %>
+							</td>
+						</tr>
+						<% end -%>
+					</table>
+				</dd>
+
+			</dl>
+
+			
+			
+		<% end -%>
+		
+	</div>
+	
+	<p><%= radio_button_tag 'verified', 'no', !@group_member.verified.nil? && !@group_member.verified?, 
+			:onClick => "Element.hide('contact_info')" %> 
+	<label for="verified_no"><big>No</big>, I am not a member of this group.</label></p>
+
+	<p><%= f.submit "Confirm Group Membership", :disable_with => "Confirming Group Membership..." %></p>
+
+<% end -%>
+
+</blockquote>

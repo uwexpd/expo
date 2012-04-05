@@ -1,0 +1,19 @@
+<% content_for(:left_sidebar) do -%>
+	<div class="page_list on_page">
+	<ol>
+		<li><%= link_to "Student Summary", {:action => 'show', :id => @offering_interview_interviewer } unless !params[:view] %></li>
+		<li><%= link_to "Application Details", { :action => 'show', :id => @offering_interview_interviewer, :view => :project_details } %></li>
+		<li><%= link_to "Mentor's Letter of Support", { :action => 'view', :id => @offering_interview_interviewer, :mentor => @app.mentors.first.id } %>
+		<li><%= link_to "Student's Essay", { :action => 'view', :id => @offering_interview_interviewer, :file => @app.files.first.id } %></li>
+		<li><%= link_to "Student's Transcript", { :action => 'transcript', :id => @offering_interview_interviewer } %></li>
+		
+		<% for previous_app in @app.past_applications %>
+			<li><%= link_to "Past Application: <br>
+							<small>#{previous_app.offering.name} - #{previous_app.offering.quarter_offered.title}</small>",
+			 				{:action => 'show', :id => previous_app },
+							:popup => true %></li>
+		<% end -%>
+		
+	</ol>
+	</div>
+<% end -%>

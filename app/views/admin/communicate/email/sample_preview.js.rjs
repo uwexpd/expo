@@ -1,0 +1,8 @@
+page.replace_html :sample_preview, :partial => "admin/communicate/email/sample_preview"
+
+page.show :sample_preview
+page.hide :message_contents
+
+page << "if ($('placeholder_prev_button')) { $('placeholder_prev_button').show() }"
+page << "if ($('placeholder_next_button')) { $('placeholder_next_button').show() }"
+page << "$$('.sample_text').invoke('show')"

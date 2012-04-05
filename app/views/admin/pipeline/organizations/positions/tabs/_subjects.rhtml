@@ -1,0 +1,28 @@
+<h2>Subjects</h2>
+<p class="intro"><%= HelpText.caption(:subjects_page_intro, ServiceLearningPosition) %></p>
+
+<div>
+  <label for="pipeline_positions_subject_ids">Subjects</label>
+  <ul id="pipeline_position_subject_list">
+  <% PipelinePositionsSubject.find(:all, :order => "name").each do |subject| %>
+    <li>
+      <%= check_box_tag("service_learning_position[pipeline_positions_subject_ids][]", subject.id, 
+                        pipeline_position.pipeline_positions_subject_ids.include?(subject.id), {:default => true}) %>
+      <%= subject.name %> 
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="pipeline_position_add_subject_container">
+<%= text_field_tag 'new_subject', '', {:id => "pipeline_position_add_subject"} %>
+<%= link_to_remote "Add Subject", {:with => "'subject[name]=' + $('pipeline_position_add_subject').value",
+                                  :url => remote_add_subject_admin_pipeline_organization_positions_path(@quarter,@organization), 
+                                  :loading  => "$('subject_add_indicator').show()",
+                                  :complete => "$('subject_add_indicator').hide()"}, {:class => "button"} %>
+<%= indicator("subject_add_indicator") %>
+</div>
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Location", :location, :link_only => true, :link_class => "button" %>
+	<%= link_to_tab_pane "Next: Grade Levels &#x2192;", :grade_levels, :link_only => true, :link_class => "strong button" %>
+</div>

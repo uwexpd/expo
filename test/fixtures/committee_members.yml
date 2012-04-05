@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  committee_id: 1
+  person_id: 1
+  committee_member_type_id: 1
+  expertise: MyString
+  website_url: MyString
+  recommender_id: 1
+  creator_id: 1
+  updater_id: 1
+
+two:
+  committee_id: 1
+  person_id: 1
+  committee_member_type_id: 1
+  expertise: MyString
+  website_url: MyString
+  recommender_id: 1
+  creator_id: 1
+  updater_id: 1

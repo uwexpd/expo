@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  description: MyText
+  max_checkout_days: 1
+  staff_instructions: MyText
+
+two:
+  title: MyString
+  description: MyText
+  max_checkout_days: 1
+  staff_instructions: MyText

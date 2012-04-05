@@ -1,0 +1,9 @@
+<%
+# replace %link% with a link to the Apply controller
+@text.gsub!("%link%", @link)
+@text.gsub!("%invite_link%", @invite_link)
+
+# replace %attribute% with @application_for_offering.attribute
+@text.gsub!(/\%([a-z0-9_.]+)\%/) { |a| @offering_interviewer.reload; eval("@offering_interviewer.#{a.gsub!(/\%/,'')}") rescue nil }
+
+%><%= @text %>

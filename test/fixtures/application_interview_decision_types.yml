@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  application_status_type_id: 1
+  yes_option: false
+  contingency_option: false
+
+two:
+  title: MyString
+  application_status_type_id: 1
+  yes_option: false
+  contingency_option: false

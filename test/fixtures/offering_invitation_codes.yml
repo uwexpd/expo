@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  code: MyString
+  application_for_offering_id: 1
+  note: MyString
+
+two:
+  offering_id: 1
+  code: MyString
+  application_for_offering_id: 1
+  note: MyString

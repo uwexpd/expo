@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  application_reviewer_id: 1
+  offering_review_criterion_id: 1
+  score: 1
+  comments: MyText
+
+two:
+  application_reviewer_id: 1
+  offering_review_criterion_id: 1
+  score: 1
+  comments: MyText

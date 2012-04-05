@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  date: 2008-04-28
+  start_time: 2008-04-28 13:43:31
+  end_time: 2008-04-28 13:43:31
+
+two:
+  offering_id: 1
+  date: 2008-04-28
+  start_time: 2008-04-28 13:43:31
+  end_time: 2008-04-28 13:43:31

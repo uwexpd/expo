@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organization_quarter_id: 1
+  organization_quarter_status_type_id: 1
+
+two:
+  organization_quarter_id: 1
+  organization_quarter_status_type_id: 1

@@ -1,0 +1,55 @@
+<%= javascript_include_tag 'tablesort' %>
+
+<h1>Sessions
+	<span class="light">&raquo; <%=h @offering.title %></span>
+	<span class="light right"><%= link_to "Add new session", new_offering_session_path(@offering), :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'sessions_form' %>
+	<input type=hidden name="recipient_variant" id="recipient_variant" value="">
+
+<table class="sortable" id="sortable-table-0">
+	<tr>
+		<th><%= select_all_check_box %></th>
+		<th><div class="sort-icon">ID</div></th>
+		<th><div class="sort-icon">Title</div></th>
+		<th><div class="sort-icon">Moderator</div></th>
+		<th><div class="sort-icon">Location</div></th>
+		<th><div class="sort-icon">Students</div></th>
+		<th><div class="sort-icon">Finalized?</th>
+		<th>Functions</th>
+	</tr>
+	
+	<% for session in @sessions %>
+	<tr>
+		<td><%= select_check_box session %></td>
+		<td><%= content_tag :span, session.identifier, :class => 'session_identifier tag' %></td>
+		<td><%=h session.title %></td>
+		<td><%= session.moderator.nil? ? "<font class='light'>None assigned</font>" : h(session.moderator.fullname) %></td>
+		<td><%=h session.location %></td>
+		<td><%=h session.presenters.size %></td>
+		<td><% if session.finalized? %>
+				<font color="green">Yes</font>
+			<%- else -%>
+				<font color="red">No</font>
+			<% end -%>
+		<td><%= link_to '<span>Show</span>', offering_session_path(@offering, session), :class => 'icon-left no-text show' %>
+			<%= link_to '<span>Edit</span>', edit_offering_session_path(@offering, session), :class => 'icon-left no-text edit' %>
+			<%= link_to '<span>Delete</span>', offering_session_path(@offering, session), 
+												:confirm => 'Are you sure?', :method => :delete,
+												:class => 'icon-left no-text trash' %>
+			</td>
+	</tr>
+	<% end -%>
+
+	<% if @sessions.empty? %>
+	<tr class="empty">
+		<td colspan=10>No sessions exist. <%= link_to "Create one.", new_offering_session_path(@offering) %></td>
+	</tr>
+	<% end %>
+	
+</table>
+
+</form>
+
+<% sidebar "/admin/offerings/sidebar/settings" %>
+<% sidebar :with_selected, :alternate_views %>

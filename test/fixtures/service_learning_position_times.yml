@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  service_learning_position_id: 1
+  start_time: 2008-05-28 10:29:02
+  end_time: 2008-05-28 10:29:02
+  day_of_week: MyString
+  flexible: false
+
+two:
+  service_learning_position_id: 1
+  start_time: 2008-05-28 10:29:02
+  end_time: 2008-05-28 10:29:02
+  day_of_week: MyString
+  flexible: false

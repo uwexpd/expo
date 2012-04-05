@@ -1,0 +1,3 @@
+page.replace_html 'tabview_content', :partial => 'admin/students/tabs/notes'
+page.visual_effect :highlight, "note_#{@note.id}"
+page.replace 'notes_count', @student.notes.size

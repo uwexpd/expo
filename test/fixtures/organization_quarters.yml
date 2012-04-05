@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  organization_id: 1
+  quarter_id: 1
+  active: false
+  staff_contact_person_id: 1
+
+two:
+  organization_id: 1
+  quarter_id: 1
+  active: false
+  staff_contact_person_id: 1

@@ -1,0 +1,30 @@
+<% position = placements_overlay %>
+
+<%  courses = {}
+    position.placements.each do |p|
+      courses.include?(p.course) ? courses[p.course] = courses[p.course]+1 : courses[p.course] = 1
+    end
+#    courses.collect{|c,count| "#{c.title rescue "unallocated"} (#{count})"}.join(delimiter)
+%>
+
+<table>
+
+	<tr class="small left">
+		<th>Course</th>
+		<th class="center">Slots</th>
+	</tr>
+	
+	<% for course, count in courses %>
+	<tr>
+		<td>
+			<%= link_to(course.title, service_learning_course_path(@unit, @quarter, course)) rescue "<font class='grey'>unallocated</font>" %></td>
+		<td class="center"><%= count %></td>
+	</tr>
+	<% end -%>
+
+	<tr style="border-top: 1px solid #999;" class="grey">
+		<td><b>Total Slots:</b></td>
+		<td class="center"><b><%= position.placements.size %></b></td>
+	</tr>
+
+</table>

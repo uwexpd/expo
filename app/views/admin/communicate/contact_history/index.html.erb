@@ -1,0 +1,19 @@
+<h1><%= @title || "Contact History" %></h1>
+
+<% paginated_section @contacts do %>
+
+<table>
+	<tr>
+		<th>Date</th>
+		<th>To</th>
+		<th>Subject</th>
+		<th>View</th>
+	</tr>
+
+	<%= render :partial => "contact", :collection => @contacts unless @contacts.nil? %>
+	
+</table>
+
+<% end -%>
+
+<% sidebar :navigate, :find_messages, :sent_messages %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  evaluation_questionable_id: 1
+  evaluation_questionable_type: MyString
+  creator_id: 1
+  updater_id: 1
+
+two:
+  evaluation_questionable_id: 1
+  evaluation_questionable_type: MyString
+  creator_id: 1
+  updater_id: 1

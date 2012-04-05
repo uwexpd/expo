@@ -1,0 +1,10 @@
+<h3>Navigation</h3>
+
+<ul class="link-list">
+	
+	<% unless current_page?(accountability_url) %>
+		<li><%= link_to "Accountability Home", admin_accountability_url, :class => "icon-left home" %></li>
+	<% end -%>
+	
+	<li><%= link_to "Authorized Users", admin_accountability_authorizations_url, :class => "icon-left cog-edit" %></li>
+</ul>

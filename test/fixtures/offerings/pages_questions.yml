@@ -1,0 +1,43 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_page_id: 1
+  question: MyText
+  ordering: 1
+  required: false
+  validation_criteria: MyString
+  type: MyString
+  required_now: false
+  help_text: MyText
+  character_limit: 1
+  word_limit: 1
+  display_as: MyString
+  attribute_to_update: MyString
+  model_to_update: MyString
+  parameter1: MyString
+  width: 1
+  height: 1
+  caption: MyText
+  error_text: MyText
+  short_title: MyString
+
+two:
+  offering_page_id: 1
+  question: MyText
+  ordering: 1
+  required: false
+  validation_criteria: MyString
+  type: MyString
+  required_now: false
+  help_text: MyText
+  character_limit: 1
+  word_limit: 1
+  display_as: MyString
+  attribute_to_update: MyString
+  model_to_update: MyString
+  parameter1: MyString
+  width: 1
+  height: 1
+  caption: MyText
+  error_text: MyText
+  short_title: MyString

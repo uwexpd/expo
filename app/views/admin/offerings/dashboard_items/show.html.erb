@@ -1,0 +1,46 @@
+<h1><%=h @dashboard_item.title %>
+	<span class="light right"><%= link_to "Edit", edit_offering_dashboard_item_path(@offering, @dashboard_item), :class => 'edit button' %></span></h1>
+
+
+<h3>Item Display:<%= "<span class='error-message right'>DISABLED</span>" if @dashboard_item.disabled? %></h3>
+<div class="box">
+	<ul class="welcome-links">
+		<li class="<%= render :inline => @dashboard_item.css_class %>">
+			<b><%= textilize_without_paragraph render(:inline => @dashboard_item.title) %></b>
+			<br />
+			<%= textilize_without_paragraph render(:inline => @dashboard_item.content) rescue "#error" %>
+		</li>
+	</ul>
+</div>
+
+<h3>Details</h3>
+
+<dl class="inline-definitions">
+
+	<dt>criteria</dt>
+	<dd><ul class="bulletless">
+			<% if @dashboard_item.offering_status %>
+			<li>Application must be <%= @dashboard_item.status_lookup_method %> 
+				<%= @dashboard_item.offering_status.private_title %></li>
+			<% end -%>
+			
+			<% if @dashboard_item.offering_application_type %>
+			<li>Application must be of type
+				<%= @dashboard_item.offering_application_type.title %></li>
+			<% end -%>
+			
+			<% if @dashboard_item.criteria %>
+			<li><%= @dashboard_item.criteria %></li>
+			<% end -%>
+		</ul>
+	</dd>
+
+	<dt>sequence</dt>
+	<dd><%= @dashboard_item.sequence %></dd>
+
+	<dt>show group members</dt>
+	<dd><%= @dashboard_item.show_group_members %></dd>
+
+</dl>
+
+	<% sidebar "/admin/offerings/sidebar/settings" %>

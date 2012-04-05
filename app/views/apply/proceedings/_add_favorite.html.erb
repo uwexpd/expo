@@ -1,0 +1,23 @@
+<% if @favorite_abstract_ids.include?(add_favorite.id) %>
+
+	<%= link_to_remote "Remove from my favorites", 
+						:url => apply_proceedings_favorites_path(@offering, 'destroy', add_favorite.id),
+						:method => :delete,
+						:indicator => 'global',
+						:html => {
+							:class => 'remove_favorite',
+							:id => "add_favorite_link_#{add_favorite.id.to_s}"
+						} %>
+	
+<%- else -%>
+
+	<%= link_to_remote "Add to my favorites", 
+						:url => apply_proceedings_favorites_path(@offering, 'create', add_favorite.id),
+						:method => :post,
+						:indicator => 'global',
+						:html => {
+							:class => 'add_favorite',
+							:id => "add_favorite_link_#{add_favorite.id.to_s}"
+						} %>
+
+<% end -%>

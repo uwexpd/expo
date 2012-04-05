@@ -1,0 +1,32 @@
+development:
+    host: eds.u.washington.edu
+    port: 389
+    base: dc=personregistry,dc=washington,dc=edu
+    bind_dn: cn=isidore.ued.washington.edu
+    allow_anonymous: false
+    try_sasl: true
+    #sasl_quiet: true
+    method: :tls
+    sasl_mechanisms: ["EXTERNAL"]
+
+# development:
+#   host: directory.washington.edu
+#   port: 389
+#   base: o=University of Washington, c=US
+#   bind_dn: cn=directory,dc=washington,dc=edu
+#   password: 
+
+production:
+  host: directory.washington.edu
+  port: 389
+  base: o=University of Washington, c=US
+  bind_dn: cn=directory,dc=washington,dc=edu
+  password: 
+
+  
+test:
+  host: directory.washington.edu
+  port: 389
+  base: o=University of Washington, c=US
+  bind_dn: cn=directory,dc=washington,dc=edu
+  password: 

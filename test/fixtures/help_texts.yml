@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: MyString
+  key: MyString
+  object_type: MyString
+  attribute_name: MyString
+  caption: MyText
+  example: MyText
+
+two:
+  type: MyString
+  key: MyString
+  object_type: MyString
+  attribute_name: MyString
+  caption: MyText
+  example: MyText

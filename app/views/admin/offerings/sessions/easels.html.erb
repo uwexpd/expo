@@ -1,0 +1,33 @@
+<h1>Easel Arrangement
+	<span class="light">&raquo; <%= @application_type.title %></span></h1>
+	
+<table>
+
+	<% for location_section in @location_sections %>
+	
+		<tr>
+			<th>Easel</th>
+		<% for sess in @sessions %>
+			<th><%= sess.title %></th>
+		<% end -%>
+		</tr>
+	
+		<tr class="rowset-header">
+			<td colspan=3><%= location_section.title %></td>
+		</tr>
+	
+		<% for easel in (location_section.starting_easel_number)..(location_section.ending_easel_number) %>
+		<tr>
+			<td><%=h easel %></td>			
+			<% for sess in @sessions %>
+				<% presenters = location_section.presenters.find_all_by_easel_number_and_offering_session_id(easel, sess.id) %>
+				<td><%= presenters.collect(&:firstname_first).join("<br>") %></td>
+			<% end -%>
+		</tr>
+		<% end -%>
+
+		<tr class="page-break"></tr>
+
+	<% end -%>
+	
+</table>

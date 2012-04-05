@@ -1,0 +1,13 @@
+<% form_for :option, @option, :url => offering_page_question_options_path(@offering, @page, @question) do |f| %>
+
+	<h1>New Option</h1>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', edit_offering_page_question_path(@offering, @page, @question, :anchor => 'option'), :class => 'cancel button' %>
+
+<% end %>

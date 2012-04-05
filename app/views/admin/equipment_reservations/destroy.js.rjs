@@ -1,0 +1,4 @@
+dom_id = "equipment_reservation_#{@equipment_reservation.id}"
+page.if "$('#{dom_id}')" do
+  page.visual_effect :fade, dom_id
+end

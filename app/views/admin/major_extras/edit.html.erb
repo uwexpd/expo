@@ -1,0 +1,21 @@
+<h1>Edit Major Extra</h1>
+
+<% upload_form_for :major_extra, @major_extra, 
+			:url => @major_extra, 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+	
+	<dl class="inline-definitions">
+	
+	<dt>major title in SDB</dt>
+	<dd><%= @major_extra.major ? @major_extra.major.major_full_nm : "could not find major" %></dd>
+	</dl>
+	
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', @major_extra, :class => 'cancel button' %>
+
+<% end %>

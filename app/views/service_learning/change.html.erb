@@ -1,0 +1,44 @@
+<% title("Service-Learning Registration", @quarter.title) %>
+
+<h2>Change Your Position</h2>
+<p>Are you sure you want to change your position? Once you change your position, you may not be able to switch back to the position you have now.</p>
+
+<% if @placements.size > 1 %>
+	<div class="small warning">Note: Even though you are registered for multiple positions, you can <strong>only</strong> switch your first position online. If you need to switch a position not shown here, please contact our staff.</div>
+<% end -%>
+
+<table id="service_learning_positions" class="highlightless">
+	<%= render :partial => "position", 
+				:object => @old_position, 
+				:locals => { :service_learning_course => @service_learning_course,
+					 		 :show_links => :false,
+					 		 :do_not_identify_as_filled => :true,
+					 		 :show_change_link => :false,
+							 :show_my_details_link => false } %>
+</table>
+
+<center>&darr;<br>will change to<br>&darr;</center>
+
+<table id="service_learning_positions" class="highlightless">
+	<%= render :partial => "position", 
+				:object => @new_position, 
+				:locals => { :service_learning_course => @service_learning_course,
+					 		 :show_links => :false,
+					 		 :do_not_identify_as_filled => :true,
+					 		 :show_change_link => :false,
+							 :show_my_details_link => false } %>
+</table>
+
+<br>
+
+<center>
+<% form_for @student, :url => { :action => 'change' } do |f| -%>
+	
+	<%= hidden_field_tag :id, @new_position.id %>
+	
+	<%= f.submit "Yes, change my position", :disable_with => 'Switching positions...' %>
+	
+<% end -%>
+or
+<%= button_to "No, keep my current position", :action => 'complete' %>
+</center>

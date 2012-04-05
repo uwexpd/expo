@@ -1,0 +1,13 @@
+<li id="role_<%= role_mini.id %>" style="padding-bottom: 5px" class="<%= "light global_role" if role_mini.unit_id.nil? %>">
+	<%= role_mini.description.blank? ? role_mini.name : tooltip(role_mini.name, role_mini.description) %>
+	
+	<%= link_to_remote "<span>Remove</span>",
+							{:url => user_role_path(role_mini.user, role_mini), 
+							:method => :delete,
+							:confirm => "Are you sure?",
+							:indicator => 'global'},
+							:class => "icon-left no-text mini-trash" %>
+	
+	<%= content_tag(:span, "G", :class => 'outline tag') if role_mini.unit_id.nil? %>
+	
+</li>

@@ -1,0 +1,49 @@
+<% attribute = attribute.first if attribute.is_a?(Array) %>
+<% ht = ModelHelpText.for(@model.constantize, attribute) %>
+
+<tr onClick="$$('.details').invoke('hide'); Element.show('details_<%= attribute %>')" id="row_<%= attribute %>">
+	<td><strong><%=h attribute %></strong></td>
+	<td><%=h truncate(ht.title,   :length => 40) if ht %></td>
+	<td><%=h truncate(ht.caption, :length => 40) if ht %></td>
+	<td><%=h truncate(ht.example, :length => 40) if ht %></td>
+</tr>
+
+<tr class="details" style="display:none" id="details_<%= attribute %>">
+	<td colspan=4>
+		
+		<% form_remote_tag :url => { :action => 'update_model', :model => @model }, 
+							:html => { :id => "form_#{attribute}"},
+							:indicator => true do %>
+
+		<dl class="inline-definitions">
+
+			<dt>title</dt>
+			<dd><%= text_field_tag "help_text[#{attribute}][title]", 
+									(ht.title rescue nil),
+									:style => "width: 50%" %></dd>			
+
+			<dt>caption text</dt>
+			<dd><%= text_area_tag "help_text[#{attribute}][caption]", 
+									(ht.caption rescue nil),
+									:rows => 10,
+									:style => "width: 95%",
+									:class => "mceEditor" %></dd>
+
+			<dt>example text</dt>
+			<dd><%= text_area_tag "help_text[#{attribute}][example]", 
+									(ht.example rescue nil),
+									:rows => 10,
+									:style => "width: 95%",
+									:class => "mceEditor" %></dd>
+
+		</dl>
+		
+		<center>
+		<%= submit_tag "Save" %>
+		<%= separator %>
+		<%= link_to_function "Cancel", "$('form_#{attribute}').reset(); Element.hide('details_#{attribute}')", :class => "cancel button" %>
+		
+		<% end -%>
+		
+	</td>
+</tr>

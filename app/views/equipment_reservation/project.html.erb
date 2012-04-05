@@ -1,0 +1,27 @@
+<%= title link_to("EXPD Equipment Loan Program", :action => 'index') %>
+
+<h2>Step 2: Project Information</h2>
+
+<% form_for @reservation, 
+			:url => { :action => 'project', :id => @reservation }, 
+			:builder => HelpTextFormBuilder, 
+			:html => { :class => 'help_text', :id => 'reservation_form' } do |f| %>
+	
+	<%= f.error_messages %>
+	
+	<%= f.label_with_caption :unit_id %>
+	<blockquote>
+		<% for unit in Unit.for_equipment_reservation.find(:all, :order => "abbreviation = 'EXP' DESC, name ASC") %>
+			<%= f.radio_button :unit_id, unit.id %> <%= unit.name %>
+			<br>
+		<% end -%>
+	</blockquote>
+	
+	<%= f.text_area :project_description, :rows => 8, :style => "width: 60%" %>
+	
+	<br class="clear">
+	<center>
+		<%= f.submit "Continue →" %>
+	</center>
+	
+<% end -%>

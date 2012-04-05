@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  major_branch: 
+  major_pathway: 
+  major_last_yr: 
+  major_last_qtr: 
+  major_abbr: 
+  fixed_name: MyString
+
+two:
+  major_branch: 
+  major_pathway: 
+  major_last_yr: 
+  major_last_qtr: 
+  major_abbr: 
+  fixed_name: MyString

@@ -1,0 +1,44 @@
+<tr onClick="$$('.details').invoke('hide'); Element.toggle('details_<%= help_text.id %>')" id="row_<%= help_text.id %>">
+	<td><strong><%=h help_text.key %></strong></td>
+	<td><%=h truncate(help_text.caption, :length => 200) %></td>
+</tr>
+
+<tr class="details" style="display:none" id="details_<%= help_text.id %>">
+	<td colspan=2>
+		
+		<% form_remote_for :help_text, help_text, :url => admin_help_text_path(help_text), 
+							:html => { :id => "form_#{help_text.id}", :method => :put },
+							:indicator => true do |f| %>
+
+			<div id="error_<%= help_text.id %>"></div>
+
+			<dl class="inline-definitions">
+
+				<dt>key</dt>
+				<dd><%= f.text_field :key, :style => "width: 50%" %></dd>			
+
+				<dt>text</dt>
+				<dd><%= f.text_area :caption, :rows => 10, 
+									:style => "width: 95%", 
+									:class => ("mceEditor" unless help_text.plain_text?),
+									:id => "help_text_caption_#{help_text.id}" %></dd>
+
+				<dt>plain text</dt>
+				<dd><%= f.check_box :plain_text, :id => "help_text_plain_text_#{help_text.id}",
+				 					:onClick => "toggleEditor('help_text_caption_#{help_text.id}')" %>
+					<%= label_tag "help_text_plain_text_#{help_text.id}", "Use plain text editor" %></dd>
+
+
+			</dl>
+		
+			<center>
+			<%= submit_tag "Save" %>
+			<%= separator %>
+			<%= link_to_function "Cancel", "$('form_#{help_text.id}').reset(); 
+											Element.hide('details_#{help_text.id}')", 
+											:class => "cancel button" %>
+		
+		<% end -%>
+		
+	</td>
+</tr>

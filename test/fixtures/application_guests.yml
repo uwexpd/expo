@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  application_for_offering_id: 1
+  group_member_id: 1
+  application_mentor_id: 1
+  firstname: MyString
+  lastname: MyString
+  address_block: MyText
+  uw_campus: false
+  invitation_mailed_at: 2009-03-30 11:08:52
+
+two:
+  application_for_offering_id: 1
+  group_member_id: 1
+  application_mentor_id: 1
+  firstname: MyString
+  lastname: MyString
+  address_block: MyText
+  uw_campus: false
+  invitation_mailed_at: 2009-03-30 11:08:52

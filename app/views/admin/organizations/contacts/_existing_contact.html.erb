@@ -1,0 +1,44 @@
+<table class="borderless highlightless">
+  <tr><td>
+	  Select an organization then a contact from that organization to copy it. 
+	  If "Move the contact" is selected the contact will be deleted from the organization you copy it from.
+	</td></tr>
+	<tr><td>
+	<% form_for(:organization_contact, :url => { :action => "move_organization_contact" }) do |f| %>
+	  <%= 
+      select_tag "organization_contact[organization_id]", 
+        options_for_select([["Select an Organization",nil]]+(Organization.find(:all,:order=>"name")).sort.collect{|o| [o.name,o.id]}),
+        {:onchange => "
+            try { Element.show('global') } catch(e) { alert('could not find the indicator') };
+            new Ajax.Request('#{get_organization_contacts_admin_organizations_path}', 
+                              {asynchronous:true, 
+                               evalScripts:true, 
+                               onComplete:function(request){Element.hide('global')},
+                               parameters:'organization_id=' + $('organization_select').value});
+            $('organization_contact_select').disabled = true;
+            $('add_contact_button').disabled = true;
+            return false;", 
+        :id => "organization_select"}
+    %>
+	  <br /><br />
+	  <%= 
+      select_tag "organization_contact[organization_contact_id]", 
+        options_for_select([["Select an Organization Contact",nil]]), 
+        {:onchange => "$('add_contact_button').disabled = false; return false;",
+         :id => "organization_contact_select",
+         :disabled => true}
+    %>
+	  <br /><br />
+	  <%= radio_button_tag "organization_contact[move]", false, true %>
+	  <%= label_tag "organization_contact_move_false", "Keep as contact for both" %>
+	  <br />
+	  <%= radio_button_tag "organization_contact[move]", true %>
+	  <%= label_tag "organization_contact_move_true", "Move the contact" %>
+	  <br /><br />
+	  <%= submit_tag "Add Contact", :id => "add_contact_button", :disabled => true %>
+	  <%= separator %>
+    <%= link_to 'Cancel', (params[:return_to] || organization_contacts_path), {:class => "cancel button"} %>
+    
+	<% end %>
+	</td></tr>
+</table>

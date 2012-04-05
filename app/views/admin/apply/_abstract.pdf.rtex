@@ -1,0 +1,34 @@
+<%
+reference_quarter ||= @reference_quarter || Quarter.find_by_date(abstract.offering.deadline)
+
+@content = ""
+
+@content << "\n\n" + '\begin{minipage}{\columnwidth}' + "\n" + '\begin{flushleft}\textbf{' + latex_clean(abstract.project_title) + '}' + "\n\n"
+
+presenter = "#{abstract.person.firstname_first rescue "(Name Error)"}, "
+presenter << "#{abstract.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}, "
+presenter << "#{abstract.person.majors_list(true, ", ", reference_quarter) rescue nil}"
+presenter << ", #{abstract.person.institution_name rescue nil}" unless abstract.person.is_a?(Student)
+@content << '\textit{' + latex_clean(presenter) + '}' + "\n\n"
+
+unless abstract.other_awards.empty?
+  @content << '\hspace{15pt} \textit{'
+  @content << latex_clean(abstract.other_awards.sort.collect(&:scholar_title).join(", "))
+  @content << '}' + "\n\n"
+end
+    
+for group_member in abstract.group_members
+  @content << '\textit{' + group_member.info_detail_line + '}' + "\n\n"
+end
+
+for mentor in abstract.mentors
+  @content << '\textit{' + "Mentor: #{mentor.info_detail_line}" + '}' + "\n\n"
+end
+@content << '\end{flushleft}' + "\n" + '\end{minipage} \\' + "\n\n" + '\vspace{0.5em}'
+
+unless @skip_abstracts
+  @content << latex_clean(abstract.text("Abstract").body) + "\n"
+end
+
+%>
+<%= @content %>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_id: 1
+  start: 2009-03-23 15:18:12
+  end: 2009-03-23 15:18:12
+  location_id: 1
+  capacity: 1
+  notes: MyText
+
+two:
+  event_id: 1
+  start: 2009-03-23 15:18:12
+  end: 2009-03-23 15:18:12
+  location_id: 1
+  capacity: 1
+  notes: MyText

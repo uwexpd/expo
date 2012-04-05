@@ -1,0 +1,31 @@
+<% fields_for 'application_reviewer[score][]', score do |score_form| %>
+
+	<tr>
+		<td><%= score_form.label :score, content_tag(:a, score.offering_review_criterion.title) %>
+			<%= tooltip "<span>help</span>", 
+						textilize_without_paragraph(score.offering_review_criterion.description),
+						:class => 'help static' unless score.offering_review_criterion.description.blank? %>
+		</td>
+		<td width=50>
+			<% if @application_reviewer.finalized? %>
+				<%= score.score || 0 %> / <%= score.max_score %>
+			<% else %>
+				<%= score_form.text_field :score, :size => 1, :style => 'width: 1em', :class => 'score' %> / <%= score.max_score %>
+				<%= observe_field "application_reviewer_score_#{score.id}_score", 
+					:function => "if (value > #{score.max_score}) { 
+									alert('You cannot give a score higher than #{score.max_score}. Your score has been changed to this maximum.'); 
+									element.value = #{score.max_score};
+								  }" %>
+				
+			<% end -%>
+			</td>
+										
+	</tr>
+	
+	<tr>
+		<td colspan=2><%= score_form.text_area :comments, 
+												:rows => 4, 
+												:disabled => @application_reviewer.finalized? unless @offering.review_criterions.size == 1 %></td>
+	</tr>
+
+<% end -%>

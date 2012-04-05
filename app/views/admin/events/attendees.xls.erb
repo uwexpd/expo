@@ -1,0 +1,37 @@
+<thead>
+	<tr>
+		<th>ID</th>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Expected?</th>
+		<th>Attended?</th>
+		<th>Time</th>
+		<% for title in @event.extra_fields.keys %>
+			<th><%= h(title) %></th>
+		<% end -%>
+		<th>Sub-time</th>
+		<th>Sub-time Title</th>
+		<th>Sub-time Location</th>
+		<th>Sub-time Facilitator</th>
+	</tr>
+</thead>
+
+<tbody>
+	<% for invitee in @invitees %>
+	<tr>
+		<td><%= invitee.id %></td>
+		<td><%=h invitee.person.firstname rescue "#error" %></td>
+		<td><%=h invitee.person.lastname rescue "#error" %></td>
+		<td><%= invitee.attending? %></td>
+		<td><%= invitee.checked_in? %></td>
+		<td><%= invitee.event_time.time_detail %></td>
+		<% for val in @event.extra_fields.values %>
+			<td><%= auto_link h(eval(sanitize(val))) rescue "#error" %></td>
+		<% end -%>
+		<td><%= invitee.sub_time.time_detail(:time_only => true) if invitee.sub_time %></td>
+		<td><%= invitee.sub_time.title if invitee.sub_time %></td>
+		<td><%= invitee.sub_time.location_text if invitee.sub_time %></td>
+		<td><%= invitee.sub_time.facilitator if invitee.sub_time %></td>
+	</tr>
+	<% end -%>
+</tbody>

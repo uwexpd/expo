@@ -1,0 +1,35 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  person_id: 1
+  policy_agreement_date: 2009-08-06 16:37:52
+  project_description: MyText
+  start_date: 2009-08-06 16:37:52
+  end_date: 2009-08-06 16:37:52
+  unit_id: 1
+  approver_id: 1
+  approved_at: 2009-08-06 16:37:52
+  checked_out_at: 2009-08-06 16:37:52
+  checkout_id_verify: MyString
+  checkout_user_id: 1
+  checked_in_at: 2009-08-06 16:37:52
+  checkin_user_id: 1
+  checkin_ok: false
+  checkin_notes: MyText
+
+two:
+  person_id: 1
+  policy_agreement_date: 2009-08-06 16:37:52
+  project_description: MyText
+  start_date: 2009-08-06 16:37:52
+  end_date: 2009-08-06 16:37:52
+  unit_id: 1
+  approver_id: 1
+  approved_at: 2009-08-06 16:37:52
+  checked_out_at: 2009-08-06 16:37:52
+  checkout_id_verify: MyString
+  checkout_user_id: 1
+  checked_in_at: 2009-08-06 16:37:52
+  checkin_user_id: 1
+  checkin_ok: false
+  checkin_notes: MyText

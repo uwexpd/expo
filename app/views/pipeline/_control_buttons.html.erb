@@ -1,0 +1,19 @@
+<div id="control_buttons" class="pipeline_sidebar">
+  <h4>Controls</h4>
+  
+  <div><%= link_to "Back to Search", pipeline_path, {:class => "button"} %></div>
+  
+  <%= render :partial => "favorites", :locals => {:div_class => "no_float"} %>
+  
+  <div>
+    <% unless @pipeline_favorites.include?(@pipeline_position.id) %>
+      <%= render :partial => "add_favorite_button" %>
+    <% else %>
+      <%= render :partial => "remove_favorite_button" %>
+    <% end %>
+    <%= indicator("favorite_indicator_#{@pipeline_position.id}") %>
+  </div>
+  
+  <%= render :partial => "orientation_links", :locals => {:div_id => "orientation_sidebar_link"} %>
+  
+</div>

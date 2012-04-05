@@ -1,0 +1,43 @@
+<% result_type ||= :in_progress %>
+
+<table class="tasks_table">
+	
+	<tr class="small">
+		<th style="min-width: 15em">Student</th>
+		<th style="min-width: 12em">Status</th>
+		<% for task in @phase.instance_eval("tasks.show_for_#{result_type.to_s}") %>
+			<th><%= render :partial => 'task_heading', :locals => { :task => task, :result_type => result_type } %></th>
+		<% end -%>
+	</tr>
+
+	<% for app in @phase.applications_for(result_type) %>
+	<tr>
+		<td><%= link_to app.person.lastname_first, admin_student_path(app.person) %>
+			<br><small><%= link_to (app.stripped_project_title.blank? ? "View Application" : truncate(
+										strip_tags(app.stripped_project_title), :length => 25)), 
+						admin_app_path(@offering, app),
+						:title => app.stripped_project_title %>
+			</small>
+			</td>
+		<td><small><%= print_status(app) %></small></td>
+		
+		<%= render :partial => "task_completion", 
+					:collection => @phase.instance_eval("tasks.show_for_#{result_type.to_s}"),
+					:locals => { :app => app } %>
+
+	</tr>
+	<% end -%>
+
+
+
+
+	<% unless @phase.applications_for?(result_type) %>
+	<tr class="empty">
+		<td colspan=50>No applicants are currently in progress in this phase.</td>
+	</tr>
+	<% end -%>
+
+
+</table>
+	
+	

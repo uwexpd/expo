@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  award_type_id: 1
+  ask_for_award_quarter: false
+
+two:
+  offering_id: 1
+  award_type_id: 1
+  ask_for_award_quarter: false

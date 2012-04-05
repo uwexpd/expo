@@ -1,0 +1,23 @@
+<h1><%=h @major_extra.major ? @major_extra.major.title : @major_extra.fixed_name ? @major_extra.fixed_name : @major_extra[:id] %>
+	<span class="light right"><%= link_to "Edit", edit_major_extra_path(@major_extra), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@major_extra) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>name</dt>
+	<dd><%=h @major_extra.major ? @major_extra.major.title : @major_extra.fixed_name ? @major_extra.fixed_name : @major_extra[:id] %></dd>
+	
+	 <dt>fixed name</dt> 
+	 <dd><%=h @major_extra.fixed_name.nil? ? "No" : "Yes" %></dd>
+	 
+	<dt>chair name</dt>
+	<dd><%=h @major_extra.chair_name unless @major_extra.chair_name.nil? %></dd>
+	
+	<dt>chair email</dt>
+	<dd><%=h @major_extra.chair_email unless @major_extra.chair_email.nil? %></dd>
+	
+	<dt>discipline category</dt>
+	<td><%=h @major_extra.discipline_category.nil? ? "None" : @major_extra.discipline_category.name %></td>
+	
+</dl>

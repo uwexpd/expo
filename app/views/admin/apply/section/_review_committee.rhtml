@@ -1,0 +1,59 @@
+<% show_final_decision ||= true %>
+
+<h2>Review</h2>
+
+<% if !@offering.uses_non_committee_review %>
+
+	<small class="light"><strong>Note:</strong> Average scores shown are based on the current offering only.</small>
+
+	<div id="applicant_reviewers_table_<%= @app.id %>">
+		<%= render :partial => "applicant_reviewers_table" %>
+	</div>
+
+	<%- if @app.reviewed? && show_final_decision == true -%>
+		<h3>Review Committee Decision</h3>
+			<ul>
+			<li><strong>Review Committee Decision:</strong> <%= @app.review_committee_decision %></li>
+			<li><strong>Feedback Person:</strong> <%= @app.feedback_person.fullname rescue "not yet assigned" %></li>
+			<li><strong>Comments:</strong> <%= @app.review_committee_notes %></li>
+			</ul>
+	<%- end -%>
+
+<%- else -%>
+
+	<p><strong>Review Decision:</strong>
+			<% if @app.application_review_decision_type_id %>
+				<span class="highlight"><%= @app.review_committee_decision %></span>
+			<%- else -%>
+				<span class="light">Not yet reviewed.</font>
+			<% end -%>
+		</span>
+		(<%= link_to_function "change", "Effect.toggle('change_review_decision', 'blind', {duration: 0.25})" %>)
+		</p>
+	
+	<div id="change_review_decision" style="display:none">
+		<% remote_form_for 	:app, @app, 
+							:url => { :action => "update", :id => @app, :tab => "review_committee" }, 
+							:indicator => true do |f| %>
+			Set to: <%= f.collection_select :application_review_decision_type_id,
+			 								@offering.application_review_decision_types, 
+											:id, :title, :include_blank => "Not yet reviewed" %>
+			<br>
+			Comments: <br><%= f.text_area :review_committee_notes, :rows => 5, :style => "width:99%" %>
+			
+			<br>
+			<%= check_box_tag "app[new_status]", "reviewed", @app.current_status_name != "reviewed" %>
+			Set application status to Reviewed
+			
+			<br>
+			
+			<%= f.submit "Assign" %>
+		<% end -%>
+	</div>
+
+	<% if @app.review_committee_notes %>
+		<p><strong>Comments:</strong>
+			<%= @app.review_committee_notes %></p>
+	<% end -%>
+
+<% end -%>

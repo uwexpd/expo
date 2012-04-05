@@ -1,0 +1,18 @@
+<h1>Mass Check-in</h1>
+
+<p>Enter student numbers (e.g., 0330123) or UW NetIDs (e.g., mharris2), one per line.</p>
+
+<%= form_tag mass_checkin_event_checkin_url(@event), :method => :post %>
+
+	<small style="<%= "display:none" if @event.times.size <= 1 %>">
+	<%= label :event_time_id, "Check-in for:" %>
+	<%= select_tag :event_time_id, options_from_collection_for_select(@event.times, :id, :time_detail, params[:event_time_id].to_i) %>
+	<br>
+	</small>
+	
+	<%= text_area_tag :students, (@students.join("\n") rescue nil), :rows => 20 %>
+
+	<br>
+	<%= submit_tag "Check-in", :disable_with => "Checking in..." %>
+
+</end>

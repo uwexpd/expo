@@ -1,0 +1,26 @@
+<dl class="inline-definitions">
+	
+	<dt><%= f.label :key %></dt>
+	<dd><%= f.text_field :key %></dd>
+	
+	<dt><%= f.label :quotable_type %></dt>
+	<dd><%= f.text_field :quotable_type %></dd>
+	
+	<dt><%= f.label :quotable_id %></dt>
+	<dd><%= f.text_field :quotable_id %></dd>
+	
+	<dt><%= f.label :quote %></dt>
+	<dd><%= f.text_area :quote, :rows => 8, :style => "width:99%" %></dd>
+	
+	<dt><%= f.label :author %></dt>
+	<dd><%= f.text_field :author %></dd>
+	
+	<dt><%= f.label :author_title %></dt>
+	<dd><%= f.text_field :author_title %></dd>
+	
+	<dt><%= f.label :picture, "picture" %></dt>
+	<dd><%#= image_tag f.object.picture.thumb.url if f.object.picture rescue nil %>
+		<%= upload_column_field 'quote', 'picture' %>
+		</dd>
+
+</dl>

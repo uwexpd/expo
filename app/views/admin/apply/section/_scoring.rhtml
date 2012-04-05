@@ -1,0 +1,86 @@
+<font face="sans-serif">
+
+<h1>Scoring Sheet</h1>
+
+<% 
+app ||= @app
+offering_interview_interviewer ||= @offering_interview_interviewer
+application_reviewer = offering_interview_interviewer || application_reviewer || @application_reviewer
+review_committee_reviewer = @app.reviewers.find(:first, :conditions => { :committee_score => true })
+%>
+
+<table border=1 width=100% cellpadding=10 cellspacing=0>
+	
+	<thead>
+		<tr>
+			<th width=60% align=left>Criterion</th>
+			<th width=100>My Score</th>
+			<th width=100>Review Committee</th>
+			<th width=100>Maximum</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		
+		<% for criterion in app.offering.review_criterions %>
+		<tr>
+			<td><%= criterion.title %>
+				<!-- <br><small><%= textilize_without_paragraph(criterion.description) %></small> -->
+			</td>
+			<td align=center>
+				<%= application_reviewer.get_score(criterion) unless application_reviewer.nil? %>
+			</td>
+			<td align=center>
+				<%= review_committee_reviewer.get_score(criterion) unless review_committee_reviewer.nil? %>
+			</td>
+			<td align=center>
+				<%= criterion.max_score %>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan=4>
+				<small>
+				My comments: <%= application_reviewer.get_comment(criterion) if application_reviewer %>
+				<br>
+				<br>
+				Review Committee Comments: <%= review_committee_reviewer.get_comment(criterion) if review_committee_reviewer %>
+				<br>
+				<br>
+				</small>
+			</td>
+		</tr>
+		<% end -%>
+
+		<tr>
+			<td>TOTAL
+			</td>
+			<td align=center>
+				<%= application_reviewer.total_score unless application_reviewer.nil? %>
+			</td>
+			<td align=center>
+				<%= review_committee_reviewer.total_score unless review_committee_reviewer.nil? %>
+			</td>
+			<td align=center>
+				<%= app.offering.max_total_score %>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan=4>
+				<small>
+				My comments: <%= application_reviewer.comments if application_reviewer %>
+				<br>
+				<br>
+				Review Committee Comments: <%= review_committee_reviewer.comments if review_committee_reviewer %>
+				<br>
+				<br>
+				</small>
+			</td>
+		</tr>
+
+		
+		
+	</tbody>
+	
+</table>

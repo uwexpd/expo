@@ -1,0 +1,28 @@
+<h1><span class="big number tag">#<%= @ticket.number %></span>
+	<%= @ticket.title %>
+	<span class="light right outline tag"><%= @ticket.state %></span></h1>
+
+
+<%= @ticket.versions.first.body_html %>
+
+<%= link_to_function "Show full details", "Effect.toggle('details', 'blind', {duration: 0.25})", :class => "smaller" %>
+<table id="details" style="display:none">
+	<% for method, value in @ticket.attributes.sort %>
+	<tr>
+		<td><%= method %></td>
+		<td><%= auto_link value.to_s %></td>
+	</tr>
+	<% end -%>
+</table>
+
+<%= render :partial => "version", :collection => @ticket.versions[1..@ticket.versions.size] %>
+
+<h3>Update this ticket</h3>
+<% form_for :ticket, @ticket, admin_ticket_path(@ticket), :html => { :method => :put } do |f| %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Update ticket", :disable_with => 'Updating ticket...' %>
+<% end -%>
+
+<% sidebar :details %>

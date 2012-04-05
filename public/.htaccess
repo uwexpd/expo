@@ -1,0 +1,4 @@
+AuthType UWNetID
+require valid-user
+PubcookieAppID "EXPo"
+PubcookieNoPrompt on

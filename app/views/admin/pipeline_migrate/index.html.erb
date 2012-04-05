@@ -1,0 +1,18 @@
+<h1>Pipeline Migrate</h1>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>School Checked and Saved?</th>
+		<th>Go To</th>
+	</tr>
+	<% @count = 0 %>
+	<% @schools.each do |school| %>
+	<tr id="school_<%= @count %>">
+		<td><%=h school[:name] %></td>
+		<td><%=h File.exist?( "files/pipeline_files/"+@count.to_s+".yaml" ).to_s %></td>
+		<td><%= link_to "Show", admin_pipeline_migrate_path(:id => (@count)) %></td>
+	</tr>
+	<% @count += 1 %>
+	<% end %>
+
+</table>

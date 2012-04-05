@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  committee_member_id: 1
+  committee_meeting_id: 1
+  attending: false
+  comment: MyText
+
+two:
+  committee_member_id: 1
+  committee_meeting_id: 1
+  attending: false
+  comment: MyText

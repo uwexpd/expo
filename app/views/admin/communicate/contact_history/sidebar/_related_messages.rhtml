@@ -1,0 +1,27 @@
+<h3>Related Messages</h3>
+
+
+
+	<% if @contact.original %>
+	<strong>Based on</strong>
+	<ul class="icons">
+		<li class="email original">
+			<%= link_to "Contact History ##{@contact.original.id}", contact_history_path(@contact.original) %>
+			<br><small class="light">To: <%= @contact.original.email.to %></small>
+		</li>
+	</ul>
+	<% end -%>
+
+	<% unless @contact.related_messages.empty? %>
+	<strong>Resent as</strong>
+	<ul class="icons">
+		<% for related_message in @contact.related_messages %>
+			<li class="email forward">
+				<%= link_to "Contact History ##{related_message.id}", contact_history_path(related_message) %>
+				<br><small class="light">To: <%= related_message.email.to %></small>
+			</li>
+		<% end -%>
+	</ul>
+	<% end -%>
+
+</ul>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  start_time: 2008-05-28 10:34:11
+  location_id: 1
+  flexible: false
+
+two:
+  start_time: 2008-05-28 10:34:11
+  location_id: 1
+  flexible: false

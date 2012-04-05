@@ -1,0 +1,40 @@
+pdf.margins_in 0.75,1,1,1
+pdf.select_font "Helvetica-Bold"
+
+for course in @service_learning_course
+  pdf.start_new_page if @not_first
+  
+  pdf.text course.title, :font_size => 18
+  pdf.select_font "Helvetica"
+  pdf.text "#{course.quarter.title} \225 University of Washington", :font_size => 12
+
+  pdf.move_pointer 10
+
+  instructor_title = "<strong>Instructor#{"s" if course.instructors.size > 1}</strong>"
+  pdf.text "#{instructor_title}: #{course.instructor_list}", :font_size => 10
+
+  pdf.move_pointer 10
+
+  pdf.line(pdf.left_margin, pdf.y, pdf.absolute_right_margin, pdf.y).stroke
+
+  pdf.move_pointer 20
+
+  pdf.text "<strong>Overview</strong>"
+  pdf.text course.overview.to_pdf_octals
+  pdf.move_pointer 10
+
+  pdf.text "<strong>Role of Service-Learning in the Course</strong>"
+  pdf.text course.role_of_service_learning.to_pdf_octals
+  pdf.move_pointer 10
+
+  pdf.text "<strong>Assignments Related to Service-Learning</strong>"
+  pdf.text course.assignments.to_pdf_octals
+  pdf.move_pointer 10
+
+  # Footer
+  pdf.add_text pdf.absolute_left_margin, 74, "<strong>Carlson Leadership & Public Service Center</strong>", 9
+  pdf.add_text pdf.absolute_left_margin, 63, "Center for Experiential Learning & Diversity \225 University of Washington", 9
+  pdf.add_text pdf.absolute_left_margin, 52, "171 Mary Gates Hall \225 (206) 616-2885 \225 http://exp.washington.edu/carlson", 9
+
+  @not_first = true
+end

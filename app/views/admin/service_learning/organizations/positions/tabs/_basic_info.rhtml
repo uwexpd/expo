@@ -1,0 +1,41 @@
+<% skip_nav ||= false %>
+<% skip_title ||= false %>
+<% admin ||= false %>
+
+<% unless skip_title %>
+<h2>Basic Position Information</h2>
+<% end -%>
+<p class="intro"><%= HelpText.caption(:basic_info_page_intro, ServiceLearningPosition) %></p>
+
+<%= f.collection_select :organization_quarter_id,
+ 						@organization_quarters.select{|oq| admin || oq.allow_position_edits? || oq == f.object.organization_quarter },
+						:id, :unit_name,
+						:prompt => "-- Please select --",
+						:class => "big" if @organization_quarters && @organization_quarters.size > 1 %>
+
+<%= f.text_field :title, :class => 'big' %>
+
+<label for="organization_name_placeholder">Organization</label>
+<p class="caption">Your organization name cannot be changed from this page.</p>
+<%= text_field_tag :organization_name_placeholder, @organization.name, :disabled => true, :class => "big" %>
+
+<%= f.check_box :self_placement, :label => "self-placement?" if admin %>
+
+<% if @use_pipeline_links %>
+<%= f.check_box :use_slots, :label => "use slots?" if admin %>
+<% end %>
+
+<%= f.collection_select :supervisor_person_id, 
+						@organization.contacts,
+						:id, :fullname,
+						:include_blank => "(none)",
+						:class => "big" %>
+
+<%= f.text_field :ideal_number_of_slots, :size => 3 %>
+
+
+<% unless skip_nav %>
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "Next: Description &#x2192;", :description, :link_only => true, :link_class => "strong button" %>
+</div>
+<% end -%>

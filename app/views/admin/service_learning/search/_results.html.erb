@@ -1,0 +1,27 @@
+<hr>
+
+<table>
+	<% for result in results %>
+	<tr>
+		<td class="icon-left <%= result.class.to_s.underscore %>">
+			<%= link_to result.identifier_string, :result => "#{result.class.to_s.underscore}_#{result.id}" %>
+
+			<% if result.is_a?(Organization) && !result.active_for_quarter?(@quarter) %>
+				<%= content_tag(:small, "(Last active #{result.last_organization_quarter.title rescue "never"})", :class => 'light') %>
+			<% end -%>
+
+		</td>
+		<td>
+			<%= result.class.to_s.titleize %>
+		</td>
+		
+	</tr>
+	<% end -%>
+
+	<% if results.empty? %>
+	<tr class="empty">
+		<td colspan=10>No results.</td>
+	</tr>
+	<% end -%>
+
+</table>

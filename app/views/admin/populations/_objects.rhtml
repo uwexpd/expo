@@ -1,0 +1,19 @@
+<table>
+	
+	<tr class="small left">
+		<th class="light">ID</th>
+		<th>Object</th>
+		<th>Title</th>
+	</tr>
+
+	<%- for object in @population.objects -%>
+	<tr>
+		<td><small class="light"><%= object.id %></small></td>
+		<td><%= object.class.to_s %></td>
+		<td><%= object.identifier_string rescue object.title rescue object.project_title rescue nil %>
+			<%= "(#{object.subidentifier_string})" if object.respond_to?(:subidentifier_string) %>
+			</td>
+	</tr>
+	<% end -%>	
+
+</table>

@@ -1,0 +1,67 @@
+<% make_main_content_full_width %>
+
+<%= javascript_include_tag "card_reader" %>
+
+<%- javascript_tag do -%>
+	function submitFindStudentForm() {
+		<%= remote_function :url => { :action => 'find_student', :event_id => @event}, :submit => 'find_student_form', :indicator => 'find_student_indicator' %>
+	}
+<% end -%>
+
+<div class="card reader status">
+	Card Reader:
+	<%= link_to_function content_tag(:span, "ON"), "toggleCardReader()", :id => "cardStatus", :class => "switch on" %>
+	<span id="keyQueue"></span>
+</div>
+
+<h1>Event Check-in
+	<span class="light right">
+		<%= link_to "Check-in Status", status_event_checkin_path(@event), :class => 'list button' %>
+		<%= link_to "Mass Check-in", mass_event_checkin_path(@event, :event_time_id => params[:event_time_id]), :class => 'mass button' %>
+		<%= link_to "PDF Sign-in Form", manual_event_checkin_path(@event, :event_time_id => params[:event_time_id], :extra_pages => 2, :format => :pdf), :class => 'pdf button' %>
+	</span></h1>
+
+<% form_tag({:action => 'checkin' }, :id => 'search-form', :class => 'panel', :style => "display: inline", :title => "Check-in", :selected => true) do -%>
+
+	<label for="invitee_fullname"><strong>Student Name:</strong></label>
+	<%= text_field_tag 'invitee[fullname]', nil, :class => 'search', :autocomplete => "off" %>
+	
+	<input type="reset" value="Clear">
+	
+	<%= observe_field 'invitee_fullname', 
+					:frequency => 0.75, 
+					:update => 'results',
+					:url => { :action => 'auto_complete', :id => @event },
+					:indicator => 'find_student_indicator',
+					:with => 'invitee[fullname]'
+					%>
+
+<% end -%>
+
+&nbsp;&nbsp;&nbsp;
+
+<% form_remote_tag :url => find_student_event_checkin_url(@event), :indicator => 'find_student_indicator', :html => {:id => 'find_student_form', :style => "display:inline"} do %>
+
+	<label for="student_no"><strong>Student Number:</strong></label>
+	<%= text_field_tag :student_no, nil, 
+						:size => 7, 
+						:maxlength => 7, 
+						:accesskey => 's', 
+						:onKeyPress => "return onlyAllowNumbers(event)",
+						:onFocus => "this.select()",
+						:autocomplete => "off" %>
+
+	<small style="<%= "display:none" if @event.times.size <= 1 %>">
+	<%= label :event_time_id, "Check-in for:" %>
+	<%= select_tag :event_time_id, options_from_collection_for_select(@event.times, :id, :time_detail, params[:event_time_id].to_i) %>
+	</small>
+
+	<%= submit_tag 'Check-in', :onClick => "$('find_student_error').innerHTML=''" %>
+	<%= indicator 'find_student_indicator' %>
+	<%= content_tag(:span, nil, :class => 'error-message', :id => 'find_student_error') %>
+
+<% end -%>
+
+<div id="results" class="auto_complete" style="width: 100%;">
+	<%= render :partial => 'empty_result' %>
+</div>

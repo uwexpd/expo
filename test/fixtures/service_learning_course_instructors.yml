@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  service_learning_course_id: 1
+  person_id: 1
+  ta: false
+
+two:
+  service_learning_course_id: 1
+  person_id: 1
+  ta: false

@@ -1,0 +1,18 @@
+<% score_attribute = @committee_mode ? "weighted_combined_score" : "average_score" %>
+
+<% if app.instance_eval(score_attribute) < @cutoff.to_f && !@cutoff_inserted %>
+	<tr class="cutoff" id="cutoff">
+		<td colspan=<%= @max_number_of_scores + 7 %>>
+			<span>CUT OFF</span>
+			<div id="handle">&nbsp;</div>
+		</td>
+	</tr>
+	<% @cutoff_inserted = true %>
+	
+	<script type="text/javascript">
+	//<![CDATA[
+	new Draggable("cutoff", {constraint:'vertical', revert:false})
+	//]]>
+	</script>
+	
+<% end -%>

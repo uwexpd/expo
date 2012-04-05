@@ -1,0 +1,26 @@
+<div class="admin_phase">
+	
+	<div class="title">
+	<h3><%= phase.name %>
+		<span>
+		
+		<%= if phase.complete
+				link_to_remote "Expand", 
+								:url => { :action => 'mark_incomplete', :phase_id => phase.id },
+								:update => "admin_phase_#{phase.id}"
+			else
+				link_to_remote "Collapse", 
+								:url => { :action => 'mark_complete', :phase_id => phase.id },
+								:update => "admin_phase_#{phase.id}"
+			end %>
+		</span>
+		</h3>
+	</div>
+	
+	<% unless phase.complete %>
+		<div class="content">
+			<%= render :partial => "admin/apply/phase/#{phase.display_as}" %>
+		</div>
+	<% end %>
+	
+</div>

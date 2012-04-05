@@ -1,0 +1,42 @@
+<h2>Online Application History</h2>
+
+<table>
+
+	<% if @student.application_for_offerings.empty? %>
+		<tr class="empty">
+			<td colspan=4>No online applications.</td>
+		</tr>
+	<% else %>
+		<% for app in @student.application_for_offerings %>
+		<tr>
+			<td class="light"><%= relative_timestamp(app.created_at, "<br>") %></td>
+			<td><%= link_to app.offering.title, admin_apply_url(app.offering) %></td>
+			<td><%= link_to (strip_tags(app.project_title) || "(no title)"), 
+					:controller => 'apply', :offering => app.offering.id, :action => 'show', :id => app.id %></td>
+			<td><%= app.current_status_name.titleize rescue "unknown" %></td>
+		</tr>
+		<% end -%>
+	<% end -%>
+
+</table>
+
+<%= link_to_function "Add new application", 
+					"Effect.toggle('new_application', 'blind', {duration: 0.25}); this.hide()",
+					:class => "new button",
+					:id => "new_application_button" %>
+
+<div class="big-border box" style="display:none" id="new_application">
+	<h4 class="icon-left add">Add new application</h4>
+	<p class="caption">Choose the offering for which you would like to create a new application for <%= @student.firstname %>.
+		If <%= @student.he_she %> already has an application for the selected offering, this will create another
+		application, and <%= @student.firstname %> will be able to choose which application to work on when 
+		<%= @student.he_she %> first logs in.</p>
+	
+	<% form_tag admin_apply_create_url, :method => :put do %>
+		<%= select_tag :offering_id, ("<option>-- Please select offering --</option>" + 		
+									options_from_collection_for_select(Offering.all.reverse, :id, :title)), :prompt => true %>
+		<%= submit_tag "Create" %>
+		
+		<%= hidden_field_tag :person_id, @student.id %>
+	<% end -%>
+</div>

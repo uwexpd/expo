@@ -1,0 +1,4 @@
+@student_ids.each do |id|
+  page.call("if($('student_background_check_#{id}')) Element.update", "student_background_check_#{id}", @date_string )
+  page.call("if($('student_background_check_#{id}')) Element.removeClassName", "student_background_check_#{id}", 'red' )
+end

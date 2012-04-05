@@ -1,0 +1,21 @@
+StylesheetInclude
+=================
+
+This is based upon a helper by Luke Redpath at
+http://www.lukeredpath.co.uk/2006/8/21/soundbytes-geddit, but has been
+modified to pick up on plugin stylesheet files -- for plugins such as the
+pretty_accessible_form plugin which requires its own stylesheet.
+
+For plugin stylesheets, it assumes the stylesheet is named the same as
+the plugin.  So, for pretty_accessible_form, the stylesheet would be
+named pretty_accessible_form.css.
+
+For more information, please contact matt@aetherical.com
+
+== Installation
+
+script/plugin http://machinesmonstersandmadness.com/svn/plugins/trunk/stylesheet_include
+
+
+== License
+This is covered under a MIT License.

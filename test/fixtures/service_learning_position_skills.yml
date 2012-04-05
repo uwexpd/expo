@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  service_learning_position_id: 1
+  skill_type_id: 1
+
+two:
+  service_learning_position_id: 1
+  skill_type_id: 1

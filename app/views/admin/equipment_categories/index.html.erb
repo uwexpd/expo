@@ -1,0 +1,48 @@
+<% make_main_content_full_width %>
+
+<h1>Equipment Categories
+	<span class="light right"><%= link_to "Add new category", new_equipment_category_path, :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'equipment_categories_form' %>
+
+<div class="edge-to-edge">
+	<table>
+		<tr class="small left">
+			<th colspan=2>Category</th>
+			<th>Max Days</th>
+			<th>Max Items</th>
+			<th>Buffer Days</th>
+			<th>Special Instructions</th>
+			<th>Staff Intervention?</th>
+			<th>Re-image Needed?</th>
+			<th>Functions</th>
+		</tr>
+		<% for equipment_category in @equipment_categories %>
+		<tr id="equipment_category_<%= equipment_category.id %>">
+			<td width=55><%= image_tag equipment_category.picture.thumb.url if equipment_category.picture %></td>
+			<td><%=h equipment_category.title %></td>
+			<td><%=h equipment_category.max_checkout_days %></td>
+			<td><%=h equipment_category.max_items_per_checkout %></td>
+			<td><%=h equipment_category.buffer_days_between_checkouts %></td>
+			<td><%= tooltip("Checkout", h(equipment_category.checkout_instructions)) unless equipment_category.checkout_instructions.blank? %>
+				<%= tooltip("Check-in", h(equipment_category.checkin_instructions)) unless equipment_category.checkin_instructions.blank? %>
+				</td>
+			<td><%= equipment_category.requires_staff_intervention_before_next_checkout ? "<span class=green>Yes</span>" : "<span class=grey>No</span>" %></td>
+			<td><%= equipment_category.requires_reimage_before_next_checkout ? "<span class=green>Yes</span>" : "<span class=grey>No</span>" %></td>
+			<td><%= link_to "<span>Show</span>", equipment_category, :class => 'icon-left show no-text' %>
+				<%= link_to "<span>Edit</span>", edit_equipment_category_path(equipment_category), :class => 'icon-left edit no-text' %>
+				<%= link_to "<span>Destroy</span>", equipment_category, 
+							:confirm => 'Are you sure?', :method => :delete, :class => 'icon-left trash no-text' %></td>
+		</tr>
+		<% end %>
+
+		<% if @equipment_categories.empty? %>
+		<tr class="empty">
+			<td colspan=10>No equipment_categories exist. <%= link_to "Create one.", new_equipment_category_path %></td>
+		</tr>
+		<% end %>
+
+	</table>
+</div>
+
+</form>

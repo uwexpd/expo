@@ -1,0 +1,18 @@
+<% 
+
+$severity = case @offering.deadline - Time.now
+	when 0 .. 5*60 				then "five minutes"
+	when 5*60 .. 10*60			then "ten minutes"
+	when 10*60 .. 30*60			then "thirty minutes"
+	when 30*60 .. 90*60			then "ninety minutes"
+	when 90*60 .. 6*60*60		then "six hours"
+	when 6*60*60 .. 24*60*60	then "one day"
+	when 24*60*60 .. 3*24*60*60	then "three days"
+end
+
+ %>
+
+<div id="time_left" class="<%= $severity %>">
+	You have <strong><%= distance_of_time_in_words_to_now(@offering.deadline, true) %> left</strong> before the deadline:
+	<%= @offering.deadline.to_s(:date_time12) %>
+</div>

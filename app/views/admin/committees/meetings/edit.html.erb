@@ -1,0 +1,14 @@
+<h1>Edit Committee Meeting
+	<span class="light">&raquo; <%= @meeting.title %></span></h1>
+	
+<% form_for [:admin, @meeting], :url => admin_committee_meeting_url(@committee, @meeting) do |f| %>
+	<%= f.error_messages %>
+	
+	<dl class="inline-definitions">
+		<%= render :partial => "fields", :locals => { :f => f } %>
+	</dl>
+		
+	<%= f.submit "Save", :disable_with => "Saving..." %>
+	
+<% end -%>
+

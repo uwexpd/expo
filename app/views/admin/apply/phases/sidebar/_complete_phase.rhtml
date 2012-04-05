@@ -1,0 +1,7 @@
+<h3>Complete this Phase</h3>
+
+<center>
+	<%= button_to "Mark Phase Complete", complete_admin_apply_phase_path(@offering, @phase) %>
+
+	<small class="grey"><b>Next Phase:</b> <%= @phase.next.name rescue "None" %></small>
+</center>

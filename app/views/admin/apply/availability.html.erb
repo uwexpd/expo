@@ -1,0 +1,24 @@
+<% @app = app rescue @app %>
+
+<h3>Student Availability for <%= @app.person.fullname %></h3>
+
+<table class="availability">
+
+	<tr>
+		<th></th>
+		<% @offering.interview_timeblocks.each do |b| %>
+			<th><%= b.date.strftime("%A, %B %d") %></th>
+		<% end %>
+		<th></th>
+	</tr>
+	
+<%- (@offering.earliest_interview_timeblock_start .. @offering.latest_interview_timeblock_end).each do |t| -%>
+	<%- if t.sec == 0 && t.min%15==0  -%>
+	 	<%= render :partial => "apply/timeslot_row", 
+						:object => t, 
+						:locals => { :person_record => @app, :view_only => !params[:edit] } %>
+	<%- end -%>
+<%- end -%>		
+
+
+</table>

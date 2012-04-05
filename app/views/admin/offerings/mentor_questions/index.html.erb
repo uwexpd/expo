@@ -1,0 +1,40 @@
+<h1>Mentor Questions
+	<span class="light right"><%= link_to "Add new mentor questions", new_offering_mentor_question_path(@offering), :class => 'add button' %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'mentor_questions_form' %>
+
+<table>
+	<tr>
+		<th>Question</th>
+		<th>Required</th>
+		<th>Must Be Number</th>
+		<th>Display As</th>
+		<th>Size</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for mentor_questions in @mentor_questions %>
+	<tr id="mentor_questions_<%= mentor_questions.id %>">
+		<td><%=h mentor_questions.question %></td>
+		<td><%=h mentor_questions.required %></td>
+		<td><%=h mentor_questions.must_be_number %></td>
+		<td><%=h mentor_questions.display_as %></td>
+		<td><%=h mentor_questions.size %></td>
+		<td><%= link_to "Show", offering_mentor_question_path(@offering, mentor_questions) %></td>
+		<td><%= link_to "Edit", edit_offering_mentor_question_path(@offering, mentor_questions) %></td>
+		<td><%= link_to_remote "Destroy", 
+						:url => offering_mentor_question_path(@offering, mentor_questions), 
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @mentor_questions.empty? %>
+	<tr class="empty">
+		<td colspan=10>No mentor questions exist. <%= link_to "Create one.", new_offering_mentor_question_path(@offering) %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>
+
+<% sidebar "/admin/offerings/sidebar/settings" %>

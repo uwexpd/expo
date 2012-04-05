@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_staff_position_id: 1
+  person_id: 1
+  comments: MyText
+
+two:
+  event_staff_position_id: 1
+  person_id: 1
+  comments: MyText

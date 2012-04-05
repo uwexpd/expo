@@ -1,0 +1,18 @@
+<h2>Description</h2>
+<p class="intro"><%= HelpText.caption(:description_page_intro, ServiceLearningPosition) %></p>
+
+
+<%= f.text_area :context_description, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<%= f.text_area :description, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<%= f.text_area :impact_description, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Basic Info", :basic_info, :link_only => true, :link_class => "button" %>
+	<% unless @use_pipeline_links %>
+	<%= link_to_tab_pane "Next: Requirements &#x2192;", :requirements, :link_only => true, :link_class => "strong button" %>
+	<% else %>
+	<%= link_to_tab_pane "Next: Scheduling &#x2192;", :scheduling, :link_only => true, :link_class => "strong button" %>
+	<% end %>
+</div>

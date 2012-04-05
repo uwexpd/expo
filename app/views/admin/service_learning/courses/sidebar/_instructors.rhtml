@@ -1,0 +1,17 @@
+<h3><strong>Instructors
+	<span>
+		<%= link_to_expo_email(@service_learning_course.instructors, "email all", :class => "icon-left email") %> | 
+		<%= link_to "edit", service_learning_course_instructors_path(@unit, @quarter, @service_learning_course) %>
+	</span></strong>
+	</h3>
+
+<ul class="link-list">
+	
+	<% for instructor in @service_learning_course.instructors %>
+	<li>
+		<%= link_to "#{instructor.fullname}#{"<span>TA</span>" if instructor.ta?}", 
+					service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, instructor) %>
+	</li>
+	<% end -%>
+
+</ul>

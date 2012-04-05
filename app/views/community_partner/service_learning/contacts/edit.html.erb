@@ -1,0 +1,16 @@
+<h1>Edit contact</h1>
+
+<% @person = @organization_contact.person %>
+<%= error_messages_for :organization_contact, :person %>
+
+<% form_for @organization_contact, :url => community_partner_service_learning_organization_contact_path(@quarter, @organization_contact) do |f| %>
+
+	<%= render 	:partial => "admin/organizations/contacts/fields",
+	 			:locals => { :admin => false, :f => f, :organization_contact => @organization_contact } %>
+		
+    <%= f.submit "Update" %>
+
+<% end %>
+
+<%= link_to 'Show', community_partner_service_learning_organization_contact_path(@quarter, @organization_contact) %> |
+<%= link_to 'Back to Organization Contacts', community_partner_service_learning_organization_contacts_path(@quarter) %>

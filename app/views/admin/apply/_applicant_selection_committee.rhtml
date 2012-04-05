@@ -1,0 +1,115 @@
+<% @app = applicant_selection_committee %>
+<% tr_id = "applicant_#{@app.id}" %>
+<% @total_awards_to_here ||= 0.00 %>
+<% without_details ||= false %>
+
+<%= render :partial => "cutoff_line", :locals => { :app => @app } %>
+
+<% tdonClick = "" %>
+
+<tr <%= "class='awarded'" if @app.application_final_decision_type.yes_option? rescue nil %> <%= "class='not_awarded'" if !@app.application_final_decision_type.yes_option? rescue nil %> id="<%= tr_id %>">
+	
+	<!-- Application note -->
+	<td class="special_note">
+		<%= tooltip "<span>Note</span>", @app.special_notes unless @app.special_notes.blank? %>
+	</td>
+	
+	<!-- Student name and project title tooltip -->
+	<td onClick="<%= tdonClick %>" class="name"><%= tooltip @app.fullname, @app.project_title %>
+		<%= link_to_remote "details", 
+							:url => {:action => 'scored_selection', :details => 'only', :id => @app},
+							:indicator => "applicant_selection_details_indicator_#{@app.id}",
+							:before => "if(applicant_selection_details_#{@app.id}_loaded && !applicant_selection_details_#{@app.id}.visible()){
+											Effect.toggle('applicant_selection_details_#{@app.id}', 'Blind'); 
+											Element.hide('applicant_selection_details_indicator_#{@app.id}');
+											return false;
+										}" %>
+							
+		<%= indicator "applicant_selection_details_indicator_#{@app.id}" %>
+		</td>
+
+	<!-- Average score -->
+	<td onClick="<%= tdonClick %>" class="average_score"><%= '%.2f' % @app.weighted_combined_score %></td>
+
+	<!-- Scores -->
+	<td onClick="<%= tdonClick %>" class="spread">
+		<%= tooltip @app.review_committee_score, @app.review_committee_score_object.try(:comments) %></td>
+
+	<td onClick="<%= tdonClick %>" class="score" align="left"><small class="light"><%= @app.review_committee_decision %></small></td>
+	
+	<td onClick="<%= tdonClick %>" class="spread">
+		<%= tooltip @app.interview_committee_score, @app.interview_committee_score_object.try(:comments) %></td>
+	
+	<td onClick="<%= tdonClick %>" class="score" align="left"><small class="light"><%= @app.interview_committee_decision %></small></td>
+	
+	<!-- Award List -->
+	<td class="awards">
+		<% @total_awards_to_here += @app.total_requested_award_amount %>
+		<%= tooltip number_to_currency(@app.total_requested_award_amount, :precision => 0),
+	 				@app.award_list("<br>") + "<br><br>Running Total: #{number_to_currency @total_awards_to_here}
+												<br><small>(Click to set cut-off above this score)</small>",
+												:url => url_for(:action => :scored_selection, :cutoff => @app.weighted_combined_score + 0.001),
+												:confirm => "Are you sure you want to set the cut-off? This will override any other changes that you've made." %></td>
+	
+	<!-- Decision Radio Buttons -->
+	<td class="decision"><% for decision_type in @offering.application_final_decision_types %>
+			<%= radio_button_tag "application_final_decision_type_id[#{@app.id}]", 
+								 decision_type.id,
+								 @app.application_final_decision_type == decision_type %>
+			<%= decision_type.title[0,1] %>
+			
+			<%= observe_field "application_final_decision_type_id_#{@app.id}_#{decision_type.id}",
+			 					:url => { :action => :scored_selection, :id => @app },
+								:with => 'decision_type_id',
+								:indicator => true %>
+			
+		<% end -%>
+		
+		<%= radio_button_tag "application_final_decision_type_id[#{@app.id}]", 
+							 "nil",
+							 @app.application_final_decision_type.nil? %> U
+		
+		<%= observe_field "application_final_decision_type_id_#{@app.id}_nil",
+		 					:url => { :action => :scored_selection, :id => @app },
+							:with => 'decision_type_id',
+							:indicator => true %>
+		
+		
+		</td>
+		
+	<!-- Notes -->
+	<td class="notes">
+		<%= text_field_tag "final_committee_notes[#{@app.id}]",
+		 					@app.final_committee_notes,
+							:size => 15,
+							:id => "final_committee_notes_#{@app.id}",
+							:onKeyPress => "$('notes_autosave_#{@app.id}').hide()" %>
+		
+		<div class="autosave mini">
+			<%= indicator "notes_autosave_indicator_#{@app.id}" %>
+			<span id="notes_autosave_<%= @app.id %>" style="display:none">Saved.</span>
+		</div>
+		
+		<%= observe_field "final_committee_notes_#{@app.id}",
+		 					:url => { :action => :scored_selection, :id => @app },
+							:with => "final_committee_notes",
+							:indicator => "notes_autosave_indicator_#{@app.id}" %>
+				
+		<%= drop_receiving_element tr_id, 
+									:url => { :action => 'scored_selection', :id => @app.id, :cutoff => @app.average_score + 0.0001 },
+									:hoverclass => 'droppable',
+									:indicator => true %>
+		
+	</td>
+	
+</tr>
+
+<% unless without_details %>
+	<!-- Toggled "details" pane -->
+	<tr class="details" style="display:none" id="applicant_selection_details_<%= @app.id %>">
+		<td colspan=<%= @max_number_of_scores + 7 %>>
+			<%= javascript_tag("applicant_selection_details_#{@app.id}_loaded = false") %>
+			Loading...
+		</td>
+	</tr>
+<% end -%>

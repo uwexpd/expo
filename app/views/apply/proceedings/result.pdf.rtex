@@ -1,0 +1,4 @@
+\
+\vspace{1in}
+\
+<%= render :partial => 'apply/proceedings/sorted_abstracts', :object => @result -%>

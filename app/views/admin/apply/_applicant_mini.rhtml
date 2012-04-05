@@ -1,0 +1,14 @@
+<% div_id = "applicant_mini_#{reviewer.id}_#{applicant_mini.id}" %>
+<% assigned_to_str = applicant_mini.reviewers.collect{|r| "assigned_to_#{r.committee_member_id}"}.compact.join(" ") %>
+<% not_assigned_to_str = applicant_mini.unassigned_review_committee_members.collect{|r| "applicant_mini_not_assigned_to_#{r.id}"}.compact.join(" ") %>
+
+<div id="<%= div_id %>" class="applicant_mini draggable <%= assigned_to_str %> <%= not_assigned_to_str %>">
+	<%= applicant_mini.fullname %>
+	- <%= link_to "details", { :action => 'show', :id => applicant_mini }, 
+			:popup => true,
+			:class => 'tooltip',
+			:title => "Project Title: #{applicant_mini.project_title}&#013;&#013;Project Description:&#013;#{applicant_mini.project_description}&#013;&#013;Mentors:&#013;#{applicant_mini.mentors_list}" %>
+			
+</div>
+
+<%= draggable_element div_id, :revert => true %>

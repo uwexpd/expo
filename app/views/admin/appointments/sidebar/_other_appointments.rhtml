@@ -1,0 +1,13 @@
+<h3><strong class="icon-left calendar"><%= @appointment.student.firstname.strip %>'s Other Appointments</strong></h3>
+
+<table id="other_appointments_sidebar">
+
+	<%= render :partial => "other_appointment", :collection => @student.appointments.reject{|a| a == @appointment}.sort.reverse %>
+	
+	<% if @student.appointments.size <= 1 %>
+	<tr class="empty">
+		<td>No other appointments</td>
+	</tr>
+	<% end -%>
+	
+</table>

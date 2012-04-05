@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  award_type_id: 1
+
+two:
+  offering_id: 1
+  award_type_id: 1

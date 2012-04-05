@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  application_for_offering_id: 1
+  application_status_type_id: 1
+
+two:
+  application_for_offering_id: 1
+  application_status_type_id: 1

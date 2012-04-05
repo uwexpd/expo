@@ -1,0 +1,15 @@
+<div class="progress_nav_buttons">
+
+	<%= submit_tag( "← Back: " + @page.prev.title, :name => "prev_button", :id => "prev_button", :disable_with => "Saving...") if @page.prev %>
+	<%= submit_tag( "← Back: Welcome", :name => "welcome_button", :id => "welcome_button", :disable_with => "Saving...") unless @page.prev %>
+
+	<%= submit_tag( "Next: " + @page.next.title + " →", :name => "next_button", :id => "next_button", :disable_with => "Saving...") if @page.next %>
+	<%= submit_tag( "Next: Review & Submit →", :name => "review_button", :id => "review_button", :disable_with => "Saving...") if !@page.next %>
+
+	<%= submit_tag( "Save", :name => "save_button", :id => "save_button", :disable_with => "Saving...") unless @user_application.submitted? %>
+
+</div>
+
+<% if @page.next %>
+	<div class="smaller right light" style="float:right"><i>Clicking Next will also save your application.</i></div>
+<% end -%>

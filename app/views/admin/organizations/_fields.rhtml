@@ -1,0 +1,84 @@
+<% admin ||= false %>
+
+<% if !admin %>
+<div class="yellow box">
+	<small><b>Note:</b> You cannot change your organization's name or your parent organization (if applicable) using this interface. If you need to change your organization's name, please email <%= auto_link CONSTANTS[:service_learning_staff_email] %>.</small>
+</div>
+<% end -%>
+
+<dl class="inline-definitions">
+
+	<dt>name</dt>
+	<dd>
+	<% if admin %>
+		<%= f.text_field :name %>
+	<% else %>
+		<%= @organization.name %>
+	<% end -%>
+	</dd>
+
+	<dt>parent organization</dt>
+	<dd>
+	<% if admin %>
+		<%= f.collection_select :parent_organization_id, Organization.find(:all).reject{|o| o.id==@organization.id}.sort, 
+								:id, :name, :include_blank => "(None)" %>
+	<% else %>
+		<%= @organization.parent_organization.nil? ? "(None)" : @organization.parent_organization.name %>
+	<% end -%>
+	</dd>
+
+	<dt>mailing address</dt>
+	<dd><%= f.text_field :mailing_line_1 %>
+		<br><%= f.text_field :mailing_line_2 %>
+		<br><%= f.text_field :mailing_city, :size => 15 %>, 
+			<%= f.state_select :mailing_state, 'US', :selected => 'Washington' %>
+			<%= f.text_field :mailing_zip, :size => 10 %></dd>
+
+	<dt>website</dt>
+	<dd><%= f.text_field :website_url %></dd>
+
+	<dt>main phone</dt>
+	<dd><%= f.text_field :main_phone %></dd>
+
+
+
+	<dt>mission statement</dt>
+	<dd><%= f.text_area :mission_statement, :style => "width:99%", :rows => 6 %></dd>
+
+	<% if admin %>
+		<dt>approved</dt>
+		<dd><%= f.check_box :approved %> Yes</dd>
+	
+		<dt>inactive</dt>
+		<dd><%= f.check_box :inactive %> Inactive
+			<span id="active_until" <%= "style=\"display:none\"" unless @organization.inactive? %>>
+				until
+				<%= f.collection_select :next_active_quarter_id, Quarter.future_quarters(10), :id, :title %>
+				
+				<%= observe_field :organization_inactive, :function => "Element.toggle('active_until')" %>
+			</span></dd>
+		
+		<dt>archived</dt>
+		<dd><%= f.check_box :archive %> Archived
+			<p class="caption">Archived organizations do not show up in organization lists. Check this box
+				for organizations that no longer exist.</p></dd>
+				
+		<dt>service-learning?</dt>
+		<dd><%= f.check_box :does_service_learning %>Service-learning organization</dd>
+		
+		<dt>pipeline?</dt>
+		<dd><%= f.check_box :does_pipeline %>Pipeline organization</dd>
+		
+		<dt>organization type</dt>
+		  <dd><%= select_tag "organization_type", "<option>Organization</option><option #{(@organization.class == School) ? 'selected=true' : ''}>School</option>" %>
+		  <dd>
+		    
+	    <dt>target school?</dt>
+		<dd><%= f.check_box :target_school %>Target School</dd>
+		
+		<dt>school type</dt>
+		<dd><%= f.collection_select :school_type_id, SchoolType.all, :id, :name, :include_blank => true %></dd>
+
+	<% end -%>
+	
+</dl>

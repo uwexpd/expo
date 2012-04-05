@@ -1,0 +1,30 @@
+<% form_tag url_for(:action => 'result'), :class => "dialog", :id => "lookup_form" do %>
+	
+	<fieldset>
+		<h1>Search</h1>
+
+        <a class="button leftButton" type="cancel">Cancel</a>
+        <a class="button blueButton" type="submit">Search</a>
+
+		<span class="error-message" id="student_lookup_error"></span>
+		<span class="error-message" id="mentor_lookup_error"></span>
+
+		<%= label_tag :student_name, "Student Name:" %>
+		<%= text_field_tag :student_name, params[:student_name], :autocomplete => false, :autocorrect => "off", :autocapitalize => "off" %>
+
+		<%= label_tag :mentor_name, "Mentor Name:" %>
+		<%= text_field_tag :mentor_name, params[:mentor_name], :autocomplete => false, :autocorrect => "off", :autocapitalize => "off" %>
+
+		<%= select_tag :student_major, 
+						options_for_select([["Student Majors (#{@majors.size})", nil]] + 
+											@majors.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
+											params[:student_major]) %>
+
+		<%= select_tag :mentor_department,
+						options_for_select([["Mentor Departments (#{@departments.size})", nil]] + 
+											@departments.map{|k,v| ["#{k} (#{v.size})", k]}.sort,
+						 					params[:mentor_department]) %>
+
+	</fieldset>
+
+<% end -%>

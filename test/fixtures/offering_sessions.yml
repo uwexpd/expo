@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  title: MyString
+  moderator_id: 1
+  moderator_comments: MyText
+  location: MyString
+  start_time: 2009-03-17 16:21:06
+  end_time: 2009-03-17 16:21:06
+
+two:
+  offering_id: 1
+  title: MyString
+  moderator_id: 1
+  moderator_comments: MyText
+  location: MyString
+  start_time: 2009-03-17 16:21:06
+  end_time: 2009-03-17 16:21:06

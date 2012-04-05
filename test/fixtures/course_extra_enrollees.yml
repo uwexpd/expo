@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ts_year: 1
+  ts_quarter: 1
+  course_branch: 1
+  course_no: 1
+  dept_abbrev: MyString
+  section_id: MyString
+  person_id: 1
+
+two:
+  ts_year: 1
+  ts_quarter: 1
+  course_branch: 1
+  course_no: 1
+  dept_abbrev: MyString
+  section_id: MyString
+  person_id: 1

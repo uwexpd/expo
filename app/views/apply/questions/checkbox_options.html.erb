@@ -1,0 +1,26 @@
+<% display_column = question.option_column.nil? ? 1 : question.option_column %>
+<li>	
+	<fieldset>
+		<legend><%= question.question %>
+			<%= content_tag('em', '*', :class => 'required') if question.required? %>
+		</legend>
+	
+		<div <%= "class='question_block'" if display_column < 3 %>>
+			<table class="highlightless borderless">
+			<% question.options.in_groups_of(display_column).each do |group| %>				
+			    <tr class="highlightless">
+					<% group.compact.each do |checkbox| %>				
+						  <td>
+						    <%= hidden_field_tag "user_application[#{question.attribute_to_update}_#{checkbox.id}]", false %>				
+							<%= check_box_tag "user_application[#{question.attribute_to_update}_#{checkbox.id}]", "#{checkbox.value}", 
+													  @user_application.get_answer(checkbox.offering_question_id ,checkbox.id) %>
+							<%= checkbox.title %>
+						  </td>
+					<% end -%>
+				</tr>
+			<% end -%>
+			</table>
+		</div>
+		<%= display_computed_caption(question.caption) if question.caption? %>
+	</fieldset>
+</li>

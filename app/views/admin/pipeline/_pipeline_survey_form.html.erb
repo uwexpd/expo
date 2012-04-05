@@ -1,0 +1,44 @@
+<% remote_form_for(:pipeline_student_info, :url => { :controller => "pipeline", :action => "update_pipeline_survey"}) do |f| -%>
+
+<div>
+  How did you hear about Pipeline?<br />
+  <%= f.text_area(:how_did_you_hear, :size => "50x4") %>
+</div>
+
+<div>
+  <strong>If you are a freshman or sophomore, are you thinking of pursuing the ELS minor?</strong><br />
+  <%= f.radio_button :pursue_els, 'yes' %><label for="pipeline_student_info_pursue_els_yes"> Yes </label><br />
+  <%= f.radio_button :pursue_els, 'no' %><label for="pipeline_student_info_pursue_els_no"> No </label><br />
+  <%= f.radio_button :pursue_els, 'maybe' %><label for="pipeline_student_info_pursue_els_maybe"> Maybe </label>
+</div>
+
+<div>
+  <strong>Are you currently in the Education, Learning and Societies Minor?</strong><br />
+   <%= f.radio_button :current_els_minor, 'yes' %><label for="pipeline_student_info_current_els_minor_yes"> Yes </label><br />
+   <%= f.radio_button :current_els_minor, 'no' %><label for="pipeline_student_info_current_els_minor_no"> No </label>
+</div>
+
+<div>
+  <strong>Do you intend on pursuing a teaching career?</strong><br />
+  <%= f.radio_button :teaching_career, 'yes' %><label for="pipeline_student_info_teaching_career_yes"> Yes </label><br />
+  <%= f.radio_button :teaching_career, 'no' %><label for="pipeline_student_info_teaching_career_no"> No </label><br />
+  <%= f.radio_button :teaching_career, 'maybe' %><label for="pipeline_student_info_teaching_career_maybe"> Maybe </label>
+</div>
+
+<div>
+  <strong>Do you intend to apply to the UW’s Masters in Teaching program?</strong><br />
+  <%= f.radio_button :apply_masters, 'true' %><label for="pipeline_student_info_apply_masters_true"> Yes </label><br />
+  <%= f.radio_button :apply_masters, 'false' %><label for="pipeline_student_info_apply_masters_false"> No </label>
+</div>
+
+<div>
+  <strong>Are you participating in Pipeline to fulfill your 60 hours of classroom observation for an MIT program?</strong><br />
+  <%= f.radio_button :fulfill_mit, 'true' %><label for="pipeline_student_info_fulfill_mit_true"> Yes </label><br />
+  <%= f.radio_button :fulfill_mit, 'false' %><label for="pipeline_student_info_fulfill_mit_false"> No </label>
+</div>
+
+<%= hidden_field_tag("person_id", @student.id) %>
+
+<%= submit_tag "Update", :disable_with => "Please wait..." %>
+
+<% end %>

@@ -1,0 +1,55 @@
+<h1>Position Matches
+	<small class="light">&raquo; <%= @quarter.title %></small></h1>
+
+	<table>
+		
+		<tr>
+			<th>Organization</th>
+			<th>Position</th>
+			<th class="center">Number of slots available</th>
+		</tr>
+
+		<% for @service_learning_course in @courses_for_quarter %>
+			<tr class="rowset-header">
+				<td colspan=4><%= @service_learning_course.title %>
+					<font class="lighter grey">&raquo; <%= pluralize @service_learning_course.enrollees.size, "student" %></font></td>
+			</tr>
+			<% total_slots_for_class = 0 %>
+
+			<% for organization in @service_learning_course.organizations.sort %>
+			<% positions = @service_learning_course.positions.offered_by(organization).uniq %>
+
+			<tr>
+				<td rowspan=<%= positions.size + 1 %>>
+					<%= link_to organization.name, 
+						faculty_service_learning_path(:action => 'organization', :quarter_abbrev => @quarter, :id => organization) %>
+				</td>
+
+			</tr>
+
+			<% for position in positions %>
+				<% slots_for_class = position.placements.for(@service_learning_course).size %>
+				<% total_slots_for_class += slots_for_class %>
+
+					<tr>
+						<td><%= link_to position.title, 
+								faculty_service_learning_path(:action => 'position', :quarter_abbrev => @quarter, :id => position) %></td>
+
+						<td class="center"><%= slots_for_class %></td>
+
+					</tr>
+			<% end -%>
+
+		<% end -%>
+
+		<tr class="grey">
+			<td>&nbsp;</td>
+			<td><b align=right>Total Slots:</b></td>
+			<td class="center"><b><%= total_slots_for_class %></b></td>
+		</tr>
+
+	<% end -%>
+	
+	</table>
+	
+<% sidebar :positions_instructions, :class => 'help' %>

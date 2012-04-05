@@ -1,0 +1,116 @@
+<script type="text/javascript">
+	swfobject.embedSWF("/expo/open-flash-chart.swf", "ethnicities_chart", "100%", "100%", "9.0.0", "expressInstall.swf", {"get-data":"ethnicities_chart_data"});
+	swfobject.embedSWF("/expo/open-flash-chart.swf", "majors_chart", "100%", "100%", "9.0.0", "expressInstall.swf", {"get-data":"majors_chart_data"});
+	swfobject.embedSWF("/expo/open-flash-chart.swf", "genders_chart", "100%", "100%", "9.0.0", "expressInstall.swf", {"get-data":"genders_chart_data"});
+	
+	function ethnicities_chart_data() { return '<%= @ethnicities_graph %>'; }
+	
+	function genders_chart_data() { return '<%= @genders_graph %>'; }
+	
+	function majors_chart_data() { return '<%= @majors_graph %>'; }
+	
+	function toggle_blinds(sect) {
+		var major_elements = $$(sect);
+		for (var i = 0; i < major_elements.length; i++) {
+			major_table = major_elements[i];
+			if (major_table.style.display == 'none') { 
+				Effect.BlindDown(major_table, {duration:0.5}); 
+			} else { 
+				Effect.BlindUp(major_table, {duration:0.5}); 
+			}
+		}
+	}
+
+	// var base_url = '<%#= offering_charts_url %>?t='
+	var root_url = 'https://<%= CONSTANTS[:base_system_url] %>'
+	
+</script>
+
+<h1>Stat Report
+	<% if @title %><span class="light"> &raquo; <%= @title %></span><% end -%>
+	<span class="light right">
+		<%= link_to "Edit", 
+					{:action => "query", :params => params.reject{|k,v| k == "action"}}, 
+					:method => :post,
+					:class => "edit button" if params[:action] != 'population' %>
+		<%= link_to "Edit", 
+					edit_population_path(@population),
+					:class => "edit button" if params[:action] == 'population' %>
+	</span></h1>
+
+<table>
+	<tr class="rowset-header"><td colspan=3>Overview</td></tr>
+
+	<tr>
+		<td>Number of students submitted (with <%= pluralize @duplicate_count, "duplicate" %> removed):</td>
+		<td colspan=2><%= @students.size %></td>
+	</tr>
+		
+	<tr>
+		<td>Number of errors (no student record found)
+			<%= link_to_function "(details)", "Effect.toggle('errors_list', 'blind', {duration: 0.25})" unless @errors.empty? %>
+			<div id="errors_list" style="display:none"><%= @errors.collect{|e| e.identifier_string rescue e.id.to_s }.join(", ") %></div>
+			</td>
+		<td colspan=2><%= @errors.size %></td>
+	</tr>
+			
+	<tr>
+		<td>Number of <%= tooltip("under-represented", "Click here to see a detailed list", 
+								:url => 'http://depts.washington.edu/reptreq/RptST21-EthnicTable.htm',
+								:popup => true) %> students:</td>
+		<td><%= @under_rep_students.size %></td>
+		<td><%= percent_of_total @under_rep_students.size %></td>
+	</tr>
+		
+	<tr>
+		<td>Number of <%= tooltip("EOP1", "Regularly admissible students who choose to participate in EOP programs.
+											Typically minority, low-income, or first-generation students") %> students:</td>
+		<td><%= @eop_students.size %></td>
+		<td><%= percent_of_total @eop_students.size %></td>
+	</tr>
+		
+	<tr class="rowset-header"><td>Number of ethnicities represented:</td><td colspan=2><%= @ethnicities.size %></td></tr>
+	<% @ethnicities.sort.each do |desc,count| %>
+		<tr><td><%= desc %></td>						
+			<td><%= count %></td>
+			<td><%= percent_of_total count %></td>
+		</tr>
+	<% end %>
+	<tr><td colspan="3"><div class="chart-class"><div id="ethnicities_chart"></div></div></td></tr>
+
+	<tr onclick="toggle_blinds('.major_table', true);" class="rowset-header"><td>Number of majors represented (grouped by discipline category):</td><td colspan=2><%= @discipline_categories.size %></td></tr>
+	<% @discipline_categories.each do |discipline_category,majors| %>
+		<tr onclick="toggle_blinds('#majors_<%= discipline_category.id %>', false);"><td><%= discipline_category.name %> (click to expand)</td>						
+			<td><%= majors[0] %></td>
+			<td><%= percent_of_total majors[0] %></td>
+		</tr>
+		<tr class="details">
+			<td class="diff_pad" colspan="3">
+				<div class="major_table" style="display: none;" id="majors_<%= discipline_category.id %>">
+					<table>
+						<% majors[1].sort.each do |major, count|%>
+							<tr>
+								<td class="major_title"><%= major.title %></td>
+								<td class="major_total"><%= count %></td>
+								<td class="major_percent"><%= percent_of_total count %></td>
+							</tr>
+						<% end %>
+					</table>
+				</div>
+			</td>
+		</tr>
+	<% end %>
+	<tr><td colspan="3"><div class="chart-class"><div id="majors_chart"></div></div></td></tr>
+
+	<tr class="rowset-header"><td colspan=3>Count by Gender</td></tr>
+	<% @genders.each do |desc,count| %>
+		<tr><td><%= desc %></td>						
+			<td><%= count %></td>
+			<td><%= percent_of_total count %></td>
+		</tr>
+	<% end %>
+	<tr><td colspan="3"><div class="chart-class"><div id="genders_chart"></div></div></td></tr>
+
+</table>
+
+<% sidebar :full_results, :class => 'excel' %>

@@ -1,0 +1,14 @@
+page.unless "$('results_table_header')" do
+  page.insert_html :top, 'results_table', :partial => 'results_table_header'
+end
+
+page.if "$('empty_result')" do
+  page.hide :empty_result
+end
+
+page.if "$('attendee_#{@invitee.id}')" do
+  page.visual_effect :highlight, "attendee_#{@invitee.id}"
+end
+page.unless "$('attendee_#{@invitee.id}')" do
+  page.insert_html :after, 'results_table_header', :partial => 'attendee', :locals => { :attendee => @invitee }
+end

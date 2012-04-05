@@ -1,0 +1,37 @@
+<h1>Welcome, <%= @my.firstname %>.
+	<span class="light">&raquo; <%= @department.name %>
+		<small>(<%= link_to "change", :action => 'choose_department' %>)</small>
+		</span>
+	</h1>
+<%= HelpText.caption :reporting_interface_welcome, AccountabilityReport %>
+
+<ul class="welcome-links">
+	
+	<li class="presentation">
+		<%= link_to "Report courses", accountability_reporting_courses_url(@year) %>
+		<br>
+		<%= @activity_types.collect{ |activity_type| @service_learning_courses_total = 0 unless activity_type.id == 1 
+			"<strong class=\"green\">#{@course_activity_type_ids.count(activity_type.id) + @service_learning_courses_total }</strong> #{activity_type.title} courses"
+		}.join(", ") %>
+		
+	<li class="people">
+		<%= link_to "Report individual involvement", accountability_reporting_individuals_url(@year) %>
+		<br>
+		<%= @activity_types.collect{ |activity_type|
+			"<strong class=\"green\">#{@individual_activity_type_ids.count(activity_type.id)}</strong> #{activity_type.title} students"
+		}.join(", ") %>
+
+	<!-- <li class="pages">
+		<%= link_to "View summary report", :action => 'summary' %>
+		<br>View a summary of your department's reported involvement.</li> -->
+		
+	<li class="authorize">
+		<%= link_to "Authorize or delegate reporting privileges", accountability_reporting_authorizations_url(@year) %>
+		<br>Current <%= @department.name %> users: 
+			<code><strong><%= @department.accountability_coordinator_authorizations.collect(&:login).uniq.join(", ") %></strong></code></li>
+
+</ul>
+
+<% sidebar :choose_department if @department_authorizations.size > 1 %>
+<% sidebar :choose_year %>
+<% sidebar :faq %>

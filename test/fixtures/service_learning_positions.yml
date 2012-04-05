@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  organization_quarter_id: 1
+  location_id: 1
+  description: MyText
+  age_requirement: MyString
+  duration_requirement: MyString
+  alternate_transportation: MyText
+  previous_service_learning_position_id: 1
+  supervisor_person_id: 1
+  time_notes: MyText
+  service_learning_orientation_id: 1
+
+two:
+  title: MyString
+  organization_quarter_id: 1
+  location_id: 1
+  description: MyText
+  age_requirement: MyString
+  duration_requirement: MyString
+  alternate_transportation: MyText
+  previous_service_learning_position_id: 1
+  supervisor_person_id: 1
+  time_notes: MyText
+  service_learning_orientation_id: 1

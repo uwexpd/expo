@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  application_for_offering_id: 1
+  person_id: 1
+  verified: false
+  email: MyString
+
+two:
+  application_for_offering_id: 1
+  person_id: 1
+  verified: false
+  email: MyString

@@ -1,0 +1,55 @@
+<% courses = work_in_progress.sdb.registrations.for(Quarter.current_quarter).courses.select{|r| r.enrolled?} rescue [] %>
+
+<tr class="rowset-header">
+
+	<td colspan=5>
+		<h4>Work in Progress</h4>
+		<table class="highlightless borderless paddingless">
+			<tr>
+				<td><%= Quarter.current_quarter.title %></td>
+
+				<td align=right>
+					<%= work_in_progress.sdb.majors_list %>
+					<%= work_in_progress.sdb.class_standing %>
+					</td>
+			</tr>
+		</table>
+	</td>
+
+	<td class="default summary" rowspan=<%= courses.size + 1 %>>
+
+		<dl class="inline-definitions">
+			
+			<dt>Qtr. Registered:</dt>
+			<dd><%= work_in_progress.sdb.registrations.for(Quarter.current_quarter).current_credits rescue 0 %> credits</dd>
+				
+		</dl>
+
+		<h3 class="left-indent">Cumulative Credit Summary</h3>
+				
+		<dl class="inline-definitions">
+			
+			<dt>Cum. Attempted:</dt>
+			<dd><%= @cum_attempted %> credits (<%= @cum_attempted_graded %> graded)</dd>
+			
+			<dt>Cum. Earned:</dt>
+			<dd><%= @cum_earned %> credits</dd>
+			
+			<dt>Cum. GPA</dt>
+			<dd><%= '%.2f' % (@cum_grade_points/@cum_attempted_graded) rescue "#error" %></dd>
+			
+		</dl>
+		
+	</td>
+
+</tr>
+
+<% for course in courses %>
+<tr>
+	<td><%= course.crs_curric_abbr %></td>
+	<td><%= course.crs_number %></td>
+	<td><%= course.course.course_title %></td>
+	<td><%= course.credits %></td>
+	<td></td>
+</tr>
+<% end -%>

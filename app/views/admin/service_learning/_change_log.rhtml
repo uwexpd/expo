@@ -1,0 +1,39 @@
+<% changes_since = session[:show_change_log_after] || @current_user.last_login_date %>
+<% change_logs = Change.for([ServiceLearningPosition, Organization, OrganizationContact]).last50.since(changes_since) %>
+
+<% unless change_logs.empty? %>
+<div class="yellow box" id="change_log">
+	<h3>Changes
+		<span class="light">since <%= time_ago_in_words(changes_since) %> ago</span>
+		<span class="right"><%= link_to_remote "Hide",
+		 										{:url => admin_service_learning_hide_change_log_url,
+												:complete => "Effect.toggle('change_log', 'blind')"},
+												:class => "hide button" %></span></h3>
+
+	<div id="change_log_table">
+	<table>
+	<% for c in change_logs %>
+		<% next if c.change_loggable.respond_to?(:unit_id) && c.change_loggable.unit_id != @unit.id %>
+		<tr class="<%= c.action_type %> <%= c.change_loggable_type %>">
+			<td class="light"><%= c.id %></td>
+			<td>
+				<%= c.creator.fullname rescue "EXPO" %> <%= c.action_type %>d the 
+				<%= link_to c.identifier_string, service_learning_search_path(@unit, @quarter, :result => "#{c.change_loggable_type.underscore}_#{c.change_loggable_id}") %>
+				<%= c.change_loggable_type.underscore.humanize %>.				
+				<% unless c.read_attribute(:changes).blank? %>
+				<br>
+				<small>
+					<b class="light">Changed fields:</b> <%= c.read_attribute(:changes).keys.join(", ") %>
+				</small>
+				<% end %>
+			</td>
+			<td>
+				<small class="timestamp"><%= time_ago_in_words(c.created_at) %> ago</small>
+			</td>
+		</tr>
+	<% end -%>
+	</table>
+	</div>
+	
+</div>
+<% end -%>

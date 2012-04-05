@@ -1,0 +1,21 @@
+if @student.nil? && !params[:clear]
+  page.replace_html :find_student_error, :text => "Could not find a student with that ID number."
+  page << "$('student_no').focus()"
+else
+  page.hide :student_details
+  page.replace :student_details, :partial => 'student_details'
+  page.visual_effect :SlideDown, :student_details unless params[:clear]
+  page.if "$('new_appointment')" do
+    page.replace :new_appointment, :partial => 'new_appointment'
+  end
+  page.replace_html :find_student_error, nil
+  page.show :find_student_clear_button
+  page.hide :appointment_chart_container
+  page << "$('student_no').value='#{@student.student_no}'" if @source == :system_key
+  page << "$('model_auto_completer_tf').value=''"
+end
+if params[:clear]
+  page << "enableCardReader()"
+  page.visual_effect :SlideDown, :appointment_chart_container
+  page.hide :find_student_clear_button
+end

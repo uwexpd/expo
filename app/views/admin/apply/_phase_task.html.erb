@@ -1,0 +1,77 @@
+<% @task = phase_task %>	
+
+<li id="phase_task_<%= @task.id %>" <%= "class='complete'" if phase_task.complete? %>>
+
+	<span class="sort-handle" style="display: none"><span>[drag]</span></span>
+
+	<strong>
+		<% if @task.display_as == 'link' %>
+			<%= eval "link_to(\"#{@task.title}\", #{@task.url})" %>
+		<% else %>
+			<%= link_to @task.title, :action => 'phase_task', :id => @task %>
+		<% end -%>
+	</strong>
+
+	<% unless @task.application_status_types.empty? %>
+		<small class="grey">
+			<% counts = [] %>
+			<% for status_type in @task.application_status_types %>
+				<% counts << "#{@offering.application_for_offerings.with_status(status_type.name).size} #{status_type.name_pretty}" %>
+			<% end -%>
+			(<%= counts.join(", ") %>)
+		</small>
+	<% end -%>
+		
+		<%#= link_to_remote phase_task.title, 
+							:url => { :action => 'phase_task', :id => @task }, 
+							:indicator => "phase_task_indicator_#{@task.id}" %>
+	<%= link_to_function "(hide)", 
+						"Element.hide('phase_task_contents_#{@task.id}');
+						 Element.hide('phase_task_hide_menu_item_#{@task.id}');
+						 Element.hide('phase_task_hide_link_#{@task.id}')", 
+						:id => "phase_task_hide_link_#{@task.id}",
+						:style => "display:none",
+						:class => "smaller light" %>
+							
+	<%= indicator "phase_task_indicator_#{@task.id}" %>
+
+	<span class="smaller light right menu">
+		<%= link_to_function "options", "Effect.toggle('options_panel_#{@task.id}', 'slide')", :class => 'handle' %>
+		<div id="options_panel_<%= @task.id %>" class="panel" style="display:none">
+			<div>
+			<%= link_to_remote "Mark as complete", 
+								:url => { :action => "complete_phase_task", :id => @task }, 
+								:indicator => "phase_task_indicator_#{@task.id}",
+								:html => { :class => "icon-left complete" } if !@task.complete? %>
+			<%= link_to_remote "Mark as incomplete", 
+								:url => { :action => "uncomplete_phase_task", :id => @task }, 
+								:indicator => "phase_task_indicator_#{@task.id}",
+								:html => {:class => "icon-left incomplete"} if @task.complete? %>
+			<%= link_to "Open in new window", 
+						{:action => 'phase_task', :id => @task}, 
+						:popup => true, 
+						:class => "icon-left new-window" %>
+			<%= link_to "Edit this task", 
+						edit_offering_phase_task_path(@offering, @phase, @task, :return_to => request.url), 
+						:class => "icon-left edit" %>
+			<%= link_to "Delete this task", 
+						offering_phase_task_path(@offering, @phase, @task, :return_to => request.url), 
+						:method => :delete, :confirm => "Are you sure?",
+						:class => "icon-left delete" %>
+			<%= link_to_function "Hide task contents", 
+						"Effect.SlideUp('options_panel_#{@task.id}', {duration:0.25});
+						 Element.hide('phase_task_contents_#{@task.id}');
+						 Element.hide('phase_task_hide_link_#{@task.id}');
+						 Element.hide('phase_task_hide_menu_item_#{@task.id}')", 
+						:id => "phase_task_hide_menu_item_#{@task.id}",
+						:style => "display:none",
+						:class => "icon-left hide" %>			
+			</div>
+		</div>
+	</span>
+
+	<div id="phase_task_contents_<%= @task.id %>"></div>
+	
+</li>
+
+<% rescue => e: concat "<span class='phase error'>#{e.message}</span></div></li>" %>

@@ -1,0 +1,16 @@
+<% if @user_applications.empty? && @group_applications.size == 1 %>
+	<div id="switch_applications" class="new">
+		<%= link_to "Start a new application", { :controller => '/apply', :action => 'which' }, :application_for_offering_id => 'new' %>
+	</div>
+
+<% elsif @user_applications.empty? %>
+	<div id="switch_applications" class="new">
+		<%= link_to "Start a new application or switch to another application", { :controller => '/apply', :action => 'which' } %>
+	</div>
+
+<% else %>
+	<div id="switch_applications">
+		<%= link_to "Switch to another application", { :controller => '/apply', :action => 'which' } %>
+	</div>
+	
+<% end -%>

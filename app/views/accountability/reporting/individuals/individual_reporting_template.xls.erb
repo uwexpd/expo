@@ -1,0 +1,34 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel">
+<head>
+	<style type="text/css">
+	<!--
+	table {
+		border: 1px solid #999;
+	}
+	table td, th { 
+		font: 11pt "Arial", "Helvetica";
+		border: thin solid #dddddd;
+		height: 20pt;
+		vertical-align: middle;
+	}
+	thead th {
+		background: #ccc;
+	}
+	-->
+	</style>
+</head>
+
+<body>
+	<table>
+		<thead>
+			<th>Student Number</th>
+			<th>Project Title</th>
+			<th>Activity Type</th>
+			<th>Faculty UW NetID</th>
+			<th>Faculty Name</th>
+			<% for quarter in @quarters %>
+				<th>Hours Per Week <%= quarter.abbrev %></th>
+			<% end -%>
+		</thead>
+	</table>
+</body>

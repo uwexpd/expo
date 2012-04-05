@@ -1,0 +1,59 @@
+<% @apps.each do |app| %>
+<% puts "Rendering application #{app.id.to_s}" %>
+	\Large
+	\textsf{<%= @offering.title %> Abstract Review}
+	\normalsize
+	\vspace{25pt}
+
+	\textbf{ID:} <%= app.id %>
+	\\
+	\textbf{Type:} <%= app.application_type.title if app.application_type %>
+	\\
+	\textbf{Category:} <%= app.application_category_title %>
+
+	\vspace{25pt}
+
+	<%= render :partial => 'abstract', :object => app %>
+
+	<% if params[:show_review_panel] %>
+	\vspace{35pt}
+	\large
+	\textsf{Review Decision}
+	\normalsize
+	\\
+	
+	\vspace{15pt}
+	Reviewer Name: \rule{300pt}{0.5pt}
+	\\
+	\\
+	
+	[ ]  Accept \hspace{20pt}
+	[ ]  Minor Revision (Edited) \hspace{20pt}
+	[ ]  Minor Revision (Commented) \hspace{20pt}
+	[ ]  Revise \hspace{20pt}
+	[ ]  Reject
+
+	\vspace{15pt}
+	Comments:
+	<%= "\\\n\r#{latex_clean(app.review_comments)}" unless app.review_comments.blank? %>
+	<% end -%>
+
+
+	<% if params[:show_moderator_comments] && app.offering_session %>
+	\vspace{35pt}
+	\textbf{Moderator:} <%= app.offering_session.moderator.fullname rescue nil %>
+	
+	\textbf{Moderator Response:}
+				<% if app.application_moderator_decision_type.nil? %>
+					No response
+				<%- else -%>
+					<%= app.application_moderator_decision_type.title %>
+				<% end -%>
+				
+	\textbf{Moderator Comments:}
+		<%= "\\\n\r#{latex_clean(app.moderator_comments)}" unless app.moderator_comments.blank? %>
+	<% end -%>
+
+
+	\pagebreak
+<% end -%>

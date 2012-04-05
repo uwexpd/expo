@@ -1,0 +1,1 @@
+page.visual_effect :fade, "staff_#{@staff.id}"

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_admin_phase_task_id: 1
+  title: MyString
+  display_method: MyString
+
+two:
+  offering_admin_phase_task_id: 1
+  title: MyString
+  display_method: MyString

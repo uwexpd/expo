@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  person_id: 1
+  organization_id: 1
+  americorps: false
+  americorps_term_end_date: 2008-05-28
+  service_learning_contact: false
+
+two:
+  person_id: 1
+  organization_id: 1
+  americorps: false
+  americorps_term_end_date: 2008-05-28
+  service_learning_contact: false

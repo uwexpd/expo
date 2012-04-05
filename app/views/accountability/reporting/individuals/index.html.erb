@@ -1,0 +1,39 @@
+<%= javascript_include_tag "tablesort" %>
+<%= make_main_content_blocked %>
+
+<div class="content-block">
+	<h1 class="big-icon people" style="margin-bottom: 0"><%= @year %> Individual Involvement
+		<span class="light">&raquo; <%= @department.name %></span>
+		</h1>
+		
+	<%= HelpText.caption :reporting_interface_report_individual, AccountabilityReport %>
+</div>	
+
+<% for activity_type in @activity_types %>
+<div class="content-block">
+	<h3><%= activity_type.title %> Individuals</h3>
+	<%= render :partial => "accountability/reporting/finalized_note" if @accountability_reports[activity_type.id].finalized? %>
+
+	<table class="sortable" id="sortable-table-<%= activity_type.id %>">
+		<tr class="small left">
+			<th class="sortfirstasc"><div class="sort-icon">Student</div></th>
+			<th><div class="sort-icon">Project Title</div></th>
+			<th><div class="sort-icon">Faculty</div></th>
+			<%= @quarters.collect{|q| "<th class=\"center number\"><div class=\"sort-icon\">#{q.quarter_code.name}<br>#{q.year}</div></th>"}.join %>
+			<th colspan=2>Functions</th>
+		</tr>
+		
+		<%= render :partial => 'individual', :collection => @activities[activity_type.id] %>
+
+		<% if @activities[activity_type.id].empty? %>
+		<tr class="empty" id="empty_<%= activity_type.id %>">
+			<td colspan=<%= @quarters.size + 4 %>>No individuals reported</td>
+		</tr>
+		<% end -%>
+	
+	</table>
+</div>
+<% end -%>
+
+<% sidebar "accountability/reporting/sidebar/navigation" %>
+<% sidebar :add_individual, :faq %>

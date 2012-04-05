@@ -1,0 +1,56 @@
+<div id="equipment_select" <%= "style='display:none'" if @reservation.start_date.blank? || @reservation.end_date.blank? %>>
+
+	<label>Choose your equipment.</label>
+	<p>To add equipment to your reservation, click on the items below. When you're done, click "Submit My Reservation" in the bottom of this page.</p>
+	<p>If you can't find the equipment you want, that means the equipment has been reserved by another student(s). <span class="highlight">Please try another pick-up/return date.</span></p>
+	
+	<div class="equipment_select">
+
+		<% for category in EquipmentCategory.all %>
+		
+			<% available_equipment = category.equipments.select{|e| e.available_for?(@reservation)} %>
+			<% unless available_equipment.empty? %>
+		
+				<div class="category" id="equipment_category_<%= category.id %>">
+					<h4><%= category.title %>
+						<span class="right light">
+							<% limits = []
+							limits << "Limit: #{category.max_items_per_checkout}" if category.max_items_per_checkout
+							#limits << "#{pluralize category.max_checkout_days, "day"} max" %>
+							<%= limits.join(", ") %></span></h4>
+		
+					<ul>
+						<% for equipment in available_equipment %>
+							<li id="equipment_<%= equipment.id %>">
+					
+								<% content = "" %>
+								<% content << "<span class=\"add\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" %>
+								<% content << image_tag(equipment.picture.thumb.url) %>
+								<% content << "<br>" %>
+								<% content << "<span class=\"title\">#{equipment.title}</span>" %>
+								<% content << "<small class=\"tag\">#{equipment.tag}</small>" %>
+								<% klass = "" %>
+								<% klass = "disabled" unless @reservation.allows?(equipment) %>
+								<% klass = "selected" if @reservation.equipments.include?(equipment) %>
+								<%= link_to_remote content,
+								 					{:url => { :action => 'update', :id => @reservation },
+								 					:indicator => 'global',
+								 					:with => "'equipment_id=' + #{equipment.id}"},
+								 					:class => klass %>
+
+								<%= link_to "More info", 
+											{:action => 'about', :id => equipment}, 
+											:class => "more_info",
+											:popup => ['height=600,width=700'] %>
+
+							</li>
+						<% end -%>
+					</ul>
+
+				</div>
+			<% end -%>
+		<% end -%>
+	
+	</div>
+		
+</div>

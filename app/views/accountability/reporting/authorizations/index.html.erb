@@ -1,0 +1,21 @@
+<h1 class="big-icons authorize">Authorized Users</h1>
+
+<p>Below is a list of the users who have access to submit and edit reporting information for <%= @department.name %>. You can add or remove users as needed.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>Full Name</th>
+			<th>Functions</th>
+		</tr>
+	</thead>
+
+ 	<tbody id="authorizations_table">
+		<%= render :partial => 'authorization', :collection => @authorizations %>
+	</tbody>
+	
+</table>
+		
+<% sidebar "accountability/reporting/sidebar/navigation" %>
+<% sidebar :add_new %>

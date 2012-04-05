@@ -1,0 +1,3 @@
+page.replace_html "attribute_name_#{@attribute.id}", @attribute.name
+page << "$$('#attribute_#{@attribute.id} .current_name').invoke('show');"
+page << "$$('#attribute_#{@attribute.id} .edit_form').invoke('hide');" 

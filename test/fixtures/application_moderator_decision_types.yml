@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  yes_option: false
+  offering_id: 1
+
+two:
+  title: MyString
+  yes_option: false
+  offering_id: 1

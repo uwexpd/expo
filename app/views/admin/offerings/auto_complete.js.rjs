@@ -1,0 +1,14 @@
+page.hide :all_offerings
+page.show :search_results
+
+if @offerings.empty?
+  page.show :search_results_empty
+  page.hide :search_results_tbody
+else
+  page.hide :search_results_empty
+  page.show :search_results_tbody
+  page.replace_html :search_results_tbody, :partial => 'offerings', :object => @offerings
+end
+
+page.replace_html :filter_count, :text => "&raquo; Showing #{@offerings.size} out of #{pluralize(params[:total_count], "offering")}.
+                                          #{link_to_function "Show all", "clear_filter()"}."

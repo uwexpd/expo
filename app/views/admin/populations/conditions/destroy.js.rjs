@@ -1,0 +1,2 @@
+page.visual_effect :fade, "condition_#{@condition.id}"
+page.remove "condition_#{@condition.id}"

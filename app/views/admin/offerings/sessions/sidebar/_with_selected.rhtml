@@ -1,0 +1,7 @@
+<h3>With Selected</h3>
+
+<ul class="link-list">
+	<li><%= link_to_submit "Moderators", 'sessions_form', :recipient_variant => "moderator", :link_options => {:class => 'icon-left email'} %></li>
+	<li><%= link_to_submit "Primary Presenters", 'sessions_form', :recipient_variant => "presenters", :link_options => {:class => 'icon-left email'} %></li>
+	<li><%= link_to_submit "Group members", 'sessions_form', :recipient_variant => "group_members", :link_options => {:class => 'icon-left email'} %></li>
+</ul>

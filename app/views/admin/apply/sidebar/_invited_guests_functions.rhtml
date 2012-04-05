@@ -1,0 +1,25 @@
+<h3>Functions</h3>
+
+<% new_url = url_for(:controller => 'apply') %>
+
+<ul class="link-list">
+	
+	<li><%= link_to "Edit postcard layout", 
+					edit_offering_url(@offering, :anchor => 'confirmation'), 
+					:popup => true, 
+					:class => 'icon-left edit' %></li>
+					
+	<li><a href="#" onClick="window.open('<%= new_url %>/postcard/?format=pdf&'+$('invited_guests_form').serialize())">
+		View Postcards for Selected</a></li>
+	
+	<li><a href="#" onClick="window.location='<%= new_url %>/postcard/?mark_as_mailed=true&'+$('invited_guests_form').serialize()">
+		Mark Selected as Mailed</a></li>
+		
+	<li><%= link_to "View Postcards &amp; Mark Selected as Mailed", "#",
+					:onClick => "window.location='#{new_url}/postcard/?mark_as_mailed=true&'+$('invited_guests_form').serialize();
+					 			 window.open('#{new_url}/postcard/?format=pdf&'+$('invited_guests_form').serialize())" 
+					%></li>
+					
+	<li><%= link_to "Print Mentor Postcards", :action => 'mentor_postcard' %></li>
+		
+</ul>

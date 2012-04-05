@@ -1,0 +1,34 @@
+<h3>Quick Checkout</h3>
+<% @reservation ||= EquipmentReservation.new %>
+
+<% if @equipment.checked_out? %>
+
+	<div class="empty">
+		Not available for checkout today.
+	</div>
+
+<%- else -%>
+
+	<% form_for :reservation, @reservation, :url => { :action => 'quick_checkout', :id => @equipment } do |f| %>
+
+		<%= f.error_messages %>
+
+		<p>
+		<%= f.label :start_date, "Check-out today at:" %>
+		<br>
+		<%= f.time_select :start_date, :twelve_hour => true, :minute_step => 15 %>
+		</p>
+	
+		<p>
+		<%= f.label :end_date, "Return at:" %>
+		<br>
+		<%= f.time_select :end_date, :default => 2.hours.from_now, :twelve_hour => true, :minute_step => 15 %>
+		</p>
+	
+		<p>
+		<%= f.submit "Submit" %>
+		</p>
+
+	<% end -%>
+	
+<% end -%>

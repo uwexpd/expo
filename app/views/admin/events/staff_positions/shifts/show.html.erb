@@ -1,0 +1,59 @@
+<h1>Shift Details
+	<span class="light">&raquo; <%= @staff_position.title %></span>
+	<span class="light right"><%= link_to "Edit", edit_event_staff_position_shift_path(@event, @staff_position, @shift), :class => 'edit button' %></span></h1>
+	
+<h4><%= @shift.time_detail %></h4>
+
+<dl class="inline-definitions">
+
+	<% unless @shift.details.blank? %>
+	<dt>details</dt>
+	<dd><%= textilize_without_paragraph(@shift.details) %></dd>
+	<% end -%>
+
+</dl>
+
+<h3>Volunteers</h3>
+
+<div class="edge-to-edge">
+
+	<%= form_tag admin_communicate_write_email_url, :id => 'staffs_form' %>
+	<table>
+		<tr>
+			<th><%= select_all_check_box %></th>
+			<th>Name</th>
+			<th>E-mail</th>
+			<th>Delete</th>
+		</tr>
+
+		<% for staff in @shift.staffs %>
+		<tr id="staff_<%= staff.id %>">
+			<td><%= select_check_box staff %></td>
+			<td><%=h staff.person.fullname %></td>
+			<td><%= auto_link h staff.person.email %></td>
+			<td><% all_shifts_note = "\n\nThis will remove #{staff.person.firstname} from all shifts for this position." if @staff_position.require_all_shifts? %>
+				
+				<%= link_to_remote "<span>Delete</span>", 
+							{
+							:url => event_staff_position_shift_staff_path(@event, @staff_position, @shift, staff),
+							:method => :delete,
+							:confirm => "Are you sure you want to remove #{staff.person.firstname} as a volunteer? #{all_shifts_note}",
+							:indicator => 'global'
+							},
+							:class => 'icon-left trash no-text' %></td>
+		</tr>
+		<% end %>
+
+		<% if @shift.staffs.empty? %>
+		<tr class="empty">
+			<td colspan=10>No one has signed up to staff this position.</td>
+		</tr>
+		<% end %>
+
+	</table>
+
+</form>
+
+</div>
+
+<% sidebar :shifts, :with_selected %>

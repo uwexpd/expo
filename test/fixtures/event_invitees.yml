@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_time_id: 1
+  invitable_type: MyString
+  invitable_id: 1
+  attending: false
+  rsvp_comments: MyText
+
+two:
+  event_time_id: 1
+  invitable_type: MyString
+  invitable_id: 1
+  attending: false
+  rsvp_comments: MyText

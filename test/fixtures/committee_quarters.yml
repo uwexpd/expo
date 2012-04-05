@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  committee_id: 1
+  quarter_id: 1
+  creator_id: 1
+  updater_id: 1
+
+two:
+  committee_id: 1
+  quarter_id: 1
+  creator_id: 1
+  updater_id: 1

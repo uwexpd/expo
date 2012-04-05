@@ -1,0 +1,3 @@
+page.if "$('#{params[:which]}')" do
+  page.replace params[:which], :partial => params[:which]
+end

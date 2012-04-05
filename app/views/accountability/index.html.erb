@@ -1,0 +1,142 @@
+<h1>Public Service and Undergraduate Research Accountability</h1>
+<%= HelpText.caption :public_welcome, AccountabilityReport %>
+
+<p>A summary of the most recent data appears below. To see a detailed report for a specific year, click the year's title below.</p>
+
+<h3>Data Summary</h3>
+<table>
+	<tr>
+		<th rowspan=2 colspan=2 class="light-right-border" width="25%">Year</th>
+		<% for activity_type in @activity_types %>
+			<th colspan=3 class="small center light-right-border">
+				<%= activity_type.title %>
+				<%#= "<br><span class=\"error-message\">DRAFT DRAFT DRAFT</span>" unless report.finalized? %>
+			</th>
+		<% end -%>
+	</tr>
+	<tr class="small center">
+		<% for activity_type in @activity_types %>
+		<th>Number of students</th>
+		<th>Number of student-quarters</th>
+		<th class="light-right-border">Number of hours</th>
+		<% end -%>
+	</tr>
+	
+	<% @years.reverse.each_with_index do |year, y| %>
+	<tr>
+		<td colspan=2 class="light-right-border" onClick="window.location='<%= accountability_year_path(year) %>'" style="cursor:hand">
+			<strong>
+				<%= link_to year.to_s, accountability_year_path(year) %>
+				<%= content_tag(:strong, "DRAFT", :class => 'red tag') if @draft_years.include?(year) %>
+			</strong>
+			<small class="light">(Click for detail)</small>
+		</td>
+
+		<% @activity_types.each_with_index do |activity_type, i| %>
+			<td align=center><%= number_with_delimiter(@students_data[i][:data][(@years.size-y-1)]) %></td>
+			<td align=center><%= number_with_delimiter(@student_quarters_data[i][:data][(@years.size-y-1)]) %></td>
+			<td align=center class="light-right-border"><%= number_with_delimiter(@hours_data[i][:data][(@years.size-y-1)]) %></td>
+		<% end -%>
+		
+	</tr>
+	<% end -%>
+	
+</table>
+
+<br class="clear">
+
+<div class="two_column">
+	<div id="students_chart_container" class="chart-container half"></div>
+	<div id="hours_chart_container" class="chart-container half"></div>
+</div>
+<br class="clear">
+
+
+<% content_for :javascript do %>
+
+	<% accountability_label_formatter = "function() { return '<strong>' + this.x + ' ' + this.series.name + '</strong><br />' + addCommas(this.y); }" %>
+
+	function studentsChart() {
+		<%= 
+		Highchart.line({
+			:chart => {
+				:renderTo => "students_chart_container",
+				:margin => [50,0,50,60]
+			},
+			:title => {
+				:text => "Unique Students"
+			},
+			:legend => {
+				:layout => 'horizontal',
+				:style => {
+					:bottom =>  '5px',
+					:top => '',
+					:right => '20px'
+				}
+			},
+			:series => @students_data,
+			:x_axis => {
+				:categories => @years
+			},
+			:y_axis => {
+				:title => {
+					:text => "Number of Unique Students"
+				}
+			},
+			:tooltip => {
+				:formatter => accountability_label_formatter
+			},
+			:plot_options => {
+				:line => {
+					:dataLabels => {
+						:enabled => true
+					}
+				}
+			}
+		}) 
+		%>
+	}
+
+	function hoursChart() {
+		<%= 
+		Highchart.line({
+			:chart => {
+				:renderTo => "hours_chart_container",
+				:margin => [50,0,50,100]
+			},
+			:title => {
+				:text => "Number of Hours"
+			},
+			:legend => {
+				:layout => 'horizontal',
+				:style => {
+					:bottom =>  '5px',
+					:top => '',
+					:right => '20px'
+				}
+			},
+			:series => @hours_data,
+			:x_axis => {
+				:categories => @years
+			},
+			:y_axis => {
+				:title => {
+					:text => "Total number of hours"
+				},
+				:labels => {
+					:formatter => "function() { n = this.value; return n >= 1000000 ? n/1000000 + 'M' : n/1000 + 'K' }"
+				}
+			},
+			:tooltip => {
+				:formatter => accountability_label_formatter
+			}
+		}) 
+		%>
+	}
+
+	studentsChart();
+	hoursChart();
+	
+<% end -%>
+
+<% sidebar :select_year %>

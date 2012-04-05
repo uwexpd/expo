@@ -1,0 +1,8 @@
+unless @subject.nil?
+  page.insert_html( :bottom, 'pipeline_position_subject_list', 
+                  "<li>
+                    <input id='pipeline_position_pipeline_positions_subject_ids_' type='checkbox' value='#{@subject.id}' 
+                           name='pipeline_position[pipeline_positions_subject_ids][]' default='true' checked='checked'/>
+                        #{@subject.name}
+                  </li>" )
+end

@@ -1,0 +1,12 @@
+<h1><%=h @extra_field.title %>
+	<span class="light right"><%= link_to "Edit", edit_offering_phase_task_extra_field_path(@offering, @phase, @task, @extra_field), :class => 'edit button' %></span></h1>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%= @extra_field.title %></dd>
+
+	<dt>display method</dt>
+	<dd><code><%= @extra_field.display_method %></code></dd>
+
+</dl>

@@ -1,0 +1,12 @@
+<h2>Notes</h2>
+	
+<% remote_form_for @student.notes.new, :url => note_admin_student_path(@student) do |f| -%>
+	<h4 style="margin-bottom: 2px">Add New Note</h4>
+	<%= f.text_area :note, :style => "width:99%", :rows => 4 %>
+	<br>Type: <%= f.collection_select :contact_type_id, ContactType.find(:all), :id, :title, {:include_blank => true} %>
+	<%= f.submit "Add Note", :disable_with => 'Adding note...' %>
+<% end -%>
+
+<div style="font-size: 105%">
+	<%= render :partial => "admin/shared/notes", :object => @student, :locals => { :full => true } %>
+</div>

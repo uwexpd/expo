@@ -1,0 +1,74 @@
+<% make_main_content_blocked %>
+
+<div class="content-block student_header">
+	<%= image_tag admin_student_photo_path(@student.reg_id, :default), :class => 'student_photo', :size => "77x100", :alt => "" %>
+
+	<dl class="id_numbers">
+
+		<dt>RegID:</dt>
+		<dd><%= @student.reg_id %></dd>
+		
+		<dt>Student #:</dt>
+		<dd><%= @student.student_no %></dd>
+
+		<dt>EXPO Person ID:</dt>
+		<dd><%= @student.id %></dd>
+
+		<dt>System Key:</dt>
+		<dd><%= @student.system_key %></dd>
+
+	</dl>
+
+	<h3><%= @student.fullname %></h3>
+	
+	<p><%= @student.sdb.class_standing_description(:show_upcoming_graduation => true) %>,
+		<%= @student.sdb.majors_list(true, ", ") %></p>
+
+	<p><%= link_to_expo_email @student, @student.email.to_s %></p>
+	
+</div>
+
+
+<div class="tabview">
+
+	<div id="tabs">
+		<ul>
+		<%= link_to_tab("Student Info", "student_info", { :id => @student, :tab => "student_info" }, "tabview_content") %>
+		<%= link_to_tab("Applications (#{@student.application_for_offerings.size})", 
+						"online_applications", { :id => @student, :tab => "online_applications" }, "tabview_content") %>
+		<%= link_to_tab("Service Learning", 
+						"service_learning", { :id => @student, :tab => "service_learning" }, "tabview_content") 
+						# {@student.enrolled_service_learning_courses(Quarter.all).size} 
+						%>
+    <%= link_to_tab("Pipeline", 
+						"pipeline", { :id => @student, :tab => "pipeline" }, "tabview_content") %>
+		<%= link_to_tab("Equipment (#{@student.equipment_reservations.size})", 
+						"equipment_reservations", { :id => @student, :tab => "equipment_reservations" }, "tabview_content") %>
+		<%= link_to_tab("Notes (<span id='notes_count'>#{@student.notes.size}</span>)", 
+						"notes", { :id => @student, :tab => "notes" }, "tabview_content") %>
+		<%= link_to_tab("Contact History (<span id='contact_history_count'>#{@student.contact_histories.size}</span>)", 
+						"contact_history", { :id => @student, :tab => "contact_history" }, "tabview_content") %>
+		<%= link_to_tab("Appointments (<span id='appointments_count'>#{@student.appointments.size}</span>)", 
+						"appointments", { :id => @student, :tab => "appointments" }, "tabview_content") %>				
+		<%= link_to_tab("Transcript", 
+						"transcript", { :id => @student, :tab => "transcript" }, "tabview_content") %>
+		</ul>
+	</div>
+
+
+	<div id="frame">
+		<%= content_tag 'div', indicator_image + 'Loading...', indicator_options %>
+
+		<div class="content" id="tabview_content">
+			<noscript>
+				<%= render :partial => "admin/students/tabs/student_info" %>
+			</noscript>
+			<div class="loading">Loading...</div>
+		</div>
+	</div>
+
+</div>
+
+<%= autoload_tab("tabview_content", url_for(:id => @student, :tab => ""), "student_info") %>
+
+<% sidebar :search %>

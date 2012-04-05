@@ -1,0 +1,28 @@
+<% make_main_content_full_width %>
+
+<input name="last_updated_at" id="last_updated_at" value="<%= Time.now.to_s(:db) %>" style="display:none">
+
+<span class="right" style="float:right"><small class="icon-left mobile light">= Mobile check-in</small></span>
+
+<h1>Check-in Status
+	<span class="light">&raquo; <%= content_tag(:strong, @event.attended.count, :id => 'checked_in_count') %> checked in</span>
+	<span class="right"><%= indicator :id => 'status_indicator' %></span>
+	</h1>
+
+
+<% paginated_section(@invitees) do %>
+<table>
+	<thead>
+		<%= render :partial => "results_table_header", :locals => { :hide_group_members => true } %>
+	</thead>
+	<tbody id="status_table">
+		<%= render :partial => "attendee", :collection => @invitees, :locals => { :relative_time => :false, :hide_group_members => true } %>
+	</tbody>
+</table>
+<% end -%>
+
+<%= periodically_call_remote :url => { :action => 'status' }, 
+							:with => "'last_updated_at=' + $F('last_updated_at') + '&before=' + new Date()", 
+							:method => :get, 
+							:indicator => 'status_indicator',
+							:frequency => 5 %>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  display_as: MyString
+  offering_id: 1
+  sequence: 1
+  complete: false
+
+two:
+  name: MyString
+  display_as: MyString
+  offering_id: 1
+  sequence: 1
+  complete: false

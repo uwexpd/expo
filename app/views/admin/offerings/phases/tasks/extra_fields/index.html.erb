@@ -1,0 +1,28 @@
+<h1>Extra Fields
+	<span class="light">&raquo; <%=h @task.title %></span>
+	<span class="light right"><%= link_to "Add new field", new_offering_phase_task_extra_field_path(@offering, @phase, @task), :class => 'add button' %></span></h1>
+
+<table>
+	<tr>
+		<th>Title</th>
+		<th>Functions</th>
+	</tr>
+
+	<% for extra_field in @extra_fields %>
+	<tr>
+		<td><%=h extra_field.title %></td>
+		<td><%= link_to 'Show', offering_phase_task_extra_field_path(@offering, @phase, @task, extra_field) %>
+			| <%= link_to 'Edit', edit_offering_phase_task_extra_field_path(@offering, @phase, @task, extra_field) %>
+			| <%= link_to 'Delete', offering_phase_task_extra_field_path(@offering, @phase, @task, extra_field), :confirm => 'Are you sure?', :method => :delete %>
+		</td>
+	</tr>
+	<% end %>
+	
+	<% if @extra_fields.empty? %>
+	<tr class="empty">
+		<td colspan=2>No extra fields exist. <%= link_to "Create one.", new_offering_phase_task_extra_field_path(@offering, @phase, @task) %>
+		</td>
+	</tr>
+	<% end -%>
+	
+</table>

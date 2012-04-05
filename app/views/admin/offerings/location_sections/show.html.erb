@@ -1,0 +1,23 @@
+<h1><%=h @location_section.title %>
+	<span class="light right"><%= link_to "Edit", edit_offering_location_section_path(@offering, @location_section), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@location_section) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>offering</dt>
+	<dd><%=h @location_section.offering_id %></dd>
+
+	<dt>title</dt>
+	<dd><%=h @location_section.title %></dd>
+
+	<dt>easel range</dt>
+	<dd><%=h @location_section.starting_easel_number %> - <%=h @location_section.ending_easel_number %></dd>
+
+	<dt>color</dt>
+	<dd><span style="background:#<%=h @location_section.color %>;"><%=h @location_section.color %> </span></dd>
+
+
+</dl>
+
+	<% sidebar "/admin/offerings/sidebar/settings" %>

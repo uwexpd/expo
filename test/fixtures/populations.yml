@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type: MyString
+  title: MyString
+  description: MyText
+  creator_id: 1
+  updater_id: 1
+  access_level: MyString
+  offering_status_type_id: 1
+  status_eval_type: MyString
+  custom_criteria: MyText
+  offering_id: 1
+  object_type: MyString
+  quarter_id: 1
+  service_learning_course_id: 1
+
+two:
+  type: MyString
+  title: MyString
+  description: MyText
+  creator_id: 1
+  updater_id: 1
+  access_level: MyString
+  offering_status_type_id: 1
+  status_eval_type: MyString
+  custom_criteria: MyText
+  offering_id: 1
+  object_type: MyString
+  quarter_id: 1
+  service_learning_course_id: 1

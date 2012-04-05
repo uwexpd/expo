@@ -1,0 +1,33 @@
+<% form_for :send_reviewer_invite_emails, :url => admin_apply_action_url(:offering => @offering, :action => "send_reviewer_invite_emails"), :html => { :id => "send_reviewer_invite_emails_#{@task.id}" } do |f| %>
+
+	<table>
+		<tr class="small left">
+			<th><%= select_all_check_box :send_reviewer_invite_emails %></th>
+			<th>Reviewer Name</th>			
+			<th>Applications to Review</th>
+			<th>Reviews Finalized?</th>
+			<% @task.extra_fields.each do |t| %>
+				<th><%= t.title %></th>
+			<% end -%>
+		</tr>
+		
+		<% for reviewer in @offering.reviewers.select{|object| eval(@task.reviewer_list_criteria) rescue true}.sort_by(&:fullname) %>
+		<tr>
+			<td><%= select_check_box(reviewer, :send_reviewer_invite_emails) %></td>
+			<td><%= link_to reviewer.fullname, admin_committee_member_path(reviewer.try(:committee), reviewer), :popup => true %></td>
+			<td><%= reviewer.applications_for_review.for(@offering).size %></td>
+			<td><%= reviewer.application_reviewers.select{|r| r.application_for_offering.offering_id == @offering.id && r.finalized?}.empty? ? "<span class='red'>Not finalized</span>" : "<span class='green'>Finalized</span>" %></td>
+			<% @task.extra_fields.each do |t| %>
+				<td><%= t.display(reviewer) %></td>
+			<% end -%>
+			
+		</tr>
+		<% end -%>
+
+	</table>
+
+	<%= hidden_field_tag :email_template_id, @task.email_templates.first.id %>
+	<%= f.submit "Queue emails to reviewers", :name => "send_reviewer_invite_emails" %>
+
+
+<% end %>

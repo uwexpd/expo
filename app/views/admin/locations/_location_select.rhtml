@@ -1,0 +1,67 @@
+<% uniqid = rand(100000).to_s %>
+<% prefix ||= "#{f.object.class.to_s.underscore}[#{attribute.to_s[/(.+)_id/][$1]}]" %>
+<% dom_id ||= "#{f.object.class.to_s.underscore}_#{attribute.to_s.underscore}" %>
+<% select_name ||= "#{f.object.class.to_s.underscore}[#{attribute.to_s.underscore}]" %>
+<% organization_id ||= nil %>
+
+<% choices ||= Location.all.sort.map{|l| [l.title, l.id]} %>
+<% choices << ["Add a new location", "new"] %>
+
+<%= select_tag "#{select_name}", 
+			options_for_select(([["-- Select a location --", (location_select.nil? ? nil : location_select.id rescue nil)]] + choices).compact, location_select),
+			:style => ("display:none" if location_select)
+			 %>
+
+<%= observe_field "#{dom_id}",
+ 		:function => "if(value == 'new') {
+						#{remote_function(
+							:url => location_fields_path('new', :prefix => prefix),
+		 					:update => "new_location_fields_#{uniqid}",
+							:success => "$('add_new_location_#{uniqid}').show()",
+							:indicator => "location_indicator_#{uniqid}")}
+					} else {
+						$('add_new_location_#{uniqid}').hide()
+						$('location_summary_#{uniqid}').show()
+						$('location_summary_#{uniqid}').innerHTML = 'Loading...'
+						$('#{dom_id}').hide()
+						#{remote_function(:url => location_summary_path(nil), 
+							:update => "location_summary_#{uniqid}", 
+							:with => "'id=' + $F('#{dom_id}')")}
+						$('location_change_button_#{uniqid}').show()
+					} " %>
+						
+	<div id="location_summary_<%= uniqid %>">
+		<%= render :partial => "admin/locations/summary", 
+					:object => location_select if location_select %>
+	</div>
+	<span id="location_change_button_<%= uniqid %>" <%= "style=\"display:none\"" unless location_select %>>
+		<%= link_to_function "Change", "$('location_summary_#{uniqid}').hide()
+										$('location_change_button_#{uniqid}').hide()
+										$('#{dom_id}').show()
+										$('add_new_location_#{uniqid}').hide()", 
+										:class => "button"
+										 %>
+		<%= link_to_remote "Edit location details",
+		 					{:url => location_fields_path(nil, :prefix => prefix),
+		 					:update => "new_location_fields_#{uniqid}",
+							:with => "'id=' + $('#{dom_id}').value",
+							:success => "$('add_new_location_#{uniqid}').show();$('location_summary_#{uniqid}').hide()",
+							:indicator => "location_indicator_#{uniqid}"},
+							:class => "edit button" %>
+	</span>
+
+	<%= indicator "location_indicator_#{uniqid}" %>
+
+	<div id="add_new_location_<%= uniqid %>" class="add_new" style="display:none">
+
+		<%# fields_for "#{prefix}", location_select do |add_new_location_form| %>
+
+			<div id="new_location_fields_<%= uniqid %>">
+				<%#= render :partial => "admin/locations/fields", :locals => {:f => add_new_location_form} %>
+			</div>
+
+			<%#= hidden_field_tag "#{prefix}[organization_id]", organization_id %>
+
+		<%# end -%>
+
+	</div>

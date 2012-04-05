@@ -1,0 +1,45 @@
+<% filters = params[:f] ? {:f => params[:f]} : {} %>
+
+<h1>Pipeline Students</h1>
+
+<div class="pagination alpha-filter">
+  <% if params[:i].nil? || params[:i].empty? %>
+    <span class='disabled prev_page'>All</span>
+  <% else %>
+    <%= link_to "All", { :action => "students" }.merge(filters), :class => "prev_page" -%>
+  <% end %>
+  <% ("A".."Z").each do |letter| -%>
+    <% if letter == params[:i] -%>
+      <span class='current'><%= letter %></span>
+    <% else -%>
+      <%= link_to letter, { :action => "students", :i => letter }.merge(filters) -%>
+    <% end -%>
+  <% end -%>
+</div>
+
+<% form_tag admin_communicate_write_email_url, :id => 'students_form' do %>
+  <% paginated_section @students, {:inner_window => 10, :params => filters} do %>
+  <table>
+  	<tr>
+  	  <th>
+  		  <%= select_all_check_box %>
+  		</th>
+  		<th>Name</th>
+  		<th>Background Check</th>
+  		<th>Positions</th>
+  	</tr>
+  	<% for student in @students %>
+  		<%= render :partial => "background_check_row", :locals => {:student => student} %>
+  	<% end %>
+  </table>
+
+  <% end %>
+<% end %>
+
+<% sidebar :pipeline_links %>
+
+<% sidebar "admin/service_learning/positions/sidebar/search" %>
+
+<% sidebar :with_selected %>
+
+<% sidebar :filter_list %>

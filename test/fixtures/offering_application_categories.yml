@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  application_category_id: 1
+  offering_id: 1
+  app_types_allowed: MyText
+
+two:
+  application_category_id: 1
+  offering_id: 1
+  app_types_allowed: MyText

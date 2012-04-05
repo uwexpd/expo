@@ -1,0 +1,61 @@
+<% current_date = nil %>
+<% show_attendees ||= true %>
+<% times ||= orientation.times.sort %>
+<% upcoming ||= false %>
+
+<% unless upcoming %>
+<h1>Times
+	<span class="light">&raquo; <%=h orientation.title unless orientation.nil? %></span>
+	<span class="light right"><%= link_to "Add new time", new_event_time_path(orientation), :class => 'new button' %></span></h1>
+<% end %>
+
+<table>
+	<tr>
+	  <% unless upcoming %>
+	  <th><%= select_all_check_box(orientation.id) %></th>
+		<% end %>
+		<th>Times</th>
+		<th>Location</th>
+		<th>Capacity</th>
+		<th>Attending</th>
+		<th>Attended</th>
+		<th>Functions</th>
+	</tr>
+
+<% for time in times %>
+
+	<% if time.start_time.to_date != current_date %>
+	<tr class="rowset-header">
+		<td colspan=7><%= time.time_detail(:date_only => true) %></td>
+	</tr>
+	<% current_date = time.start_time.to_date %>
+	<% end -%>
+
+
+	<tr>
+	  <% unless upcoming %>
+	  <td><%= select_check_box(time, orientation.id) %></td>
+	  <% end %>
+		<td><%= link_to time.time_detail(:time_only => true), event_time_path(time.event, time) %></td>
+		<td><%= time.location_text.blank? ? "<span class=light>TBD</span>" : h(time.location_text) %></td>
+		<td class="center">
+			<%=h time.capacity %>
+			</td>
+		<td class="center">
+			<%= tooltip(time.attendees.size.to_s, "<strong>Attending</strong>: " + time.attendee_list) %>
+			</td>
+		<td class="center">
+			<%= time.attended.size.to_s %>
+			<% percentage = (time.attended.size.to_f / time.attendees.size.to_f) * 100 %>
+			<small class="light">(<%= number_to_percentage(percentage, :precision => 1) %>)</small>
+			</td>
+		<td>  <%= link_to 'Participants', participants_admin_pipeline_path(:event_time_id => time) %>
+			| <%= link_to 'Edit', edit_event_time_path(time.event, time) %>
+			| <%= link_to 'Delete', event_time_path(time.event, time), :confirm => 'Are you sure?', :method => :delete %>
+			| <%= link_to 'Check-in', event_checkin_index_path(time.event, :event_time_id => time) %>
+  			| <%= link_to "Student Info", student_questions_admin_pipeline_path(:event_time_id => time) %>
+		</td>
+	</tr>
+
+<% end %>
+</table>

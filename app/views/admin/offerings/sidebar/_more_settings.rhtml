@@ -1,0 +1,22 @@
+<h3>More Settings</h3>
+
+<ul class="link-list">
+
+	<li><%= link_to "Application Categories (#{@offering.application_categories.size})", 
+					offering_application_categories_path(@offering) %></li>
+	<li><%= link_to "Application Types (#{@offering.application_types.size})", 
+					offering_application_types_path(@offering) %></li>
+	<li><%= link_to "Event Sessions (#{@offering.sessions.size})", offering_sessions_path(@offering) %></li>
+	<li><%= link_to "Location Sections (#{@offering.location_sections.size})", 
+					offering_location_sections_path(@offering) %></li>
+	<li><%= link_to "Invitation Codes (#{@offering.invitation_codes.find(:all,:conditions=>{:application_for_offering_id=>nil}).size} 
+							of #{@offering.invitation_codes.size} left)", offering_invitation_codes_path(@offering) %></li>
+	<li class="for_uses_mentors"><%= link_to "Mentor Types (#{@offering.mentor_types.size})", 
+					offering_mentor_types_path(@offering) %></li>	
+	<li class="for_uses_mentors"><%= link_to "Mentor Questions (#{@offering.mentor_questions.size})", 
+					offering_mentor_questions_path(@offering) %></li>
+	<li><%= link_to "Other Award Types (#{@offering.other_award_types.size})", 
+					offering_other_award_types_path(@offering) %></li>
+	<li><%= link_to "Review Criteria (#{@offering.review_criterions.size})", 
+					offering_review_criterions_path(@offering) %></li>
+</ul>

@@ -1,0 +1,15 @@
+<h1><%=h @event_type.title %>
+	<span class="light right"><%= link_to "Edit", edit_event_type_path(@event_type), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@event_type) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%=h @event_type.title %></dd>
+
+	<dt>description</dt>
+	<dd><%=h @event_type.description %></dd>
+
+
+</dl>

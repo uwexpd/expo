@@ -1,0 +1,31 @@
+<h1>Full Login History</h1>
+
+<% paginated_section @logins do %>
+
+<table>
+	<tr>
+		<th>Username</th>
+		<th>Person</th>
+		<th>Time</th>
+		<th>Source</th>
+		<th>Session History</th>
+	</tr>
+
+	<% for login in @logins %>
+		<% unless login.user.nil? %>
+			<tr>
+				<td><%= link_to login.user.login, login.user %>
+					<%= content_tag('span', "@u", :class => 'light') if login.user.is_a? PubcookieUser %></td>
+				<td><%= login.user.person.fullname rescue nil %></td>
+				<td><%= "#{time_ago_in_words login.created_at} ago" %></td>
+				<td><%= login.ip %>
+					<%= content_tag('span', "on campus", :class => 'outline tag') if login.on_campus? %></td>
+				<td><%= link_to "Session History", session_history_path(login.session_id) unless login.session_histories.empty? %></td>
+			</tr>
+		<% end -%>
+	<% end %>
+</table>
+
+<% end -%>
+
+<% sidebar :quick_links, :search %>

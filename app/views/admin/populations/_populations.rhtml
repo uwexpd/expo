@@ -1,0 +1,7 @@
+<%= render :partial => "population", :collection => populations %>
+
+<% if populations.empty? %>
+<tr class="empty">
+	<td colspan=10>No queries exist. <%= link_to "Create one.", new_population_path %></td>
+</tr>
+<% end %>

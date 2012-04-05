@@ -1,0 +1,39 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  quarter_id: 1
+  ts_year: 1
+  ts_quarter: 1
+  course_branch: 1
+  course_no: 1
+  dept_abbrev: MyString
+  section_id: MyString
+  syllabus: MyString
+  syllabus_url: MyString
+  overview: MyText
+  role_of_service_learning: MyText
+  assignments: MyText
+  presentation_time: 2008-05-28 09:44:41
+  presentation_length: 1
+  finalized: false
+  registration_open_time: 2008-05-28 09:44:41
+
+two:
+  title: MyString
+  quarter_id: 1
+  ts_year: 1
+  ts_quarter: 1
+  course_branch: 1
+  course_no: 1
+  dept_abbrev: MyString
+  section_id: MyString
+  syllabus: MyString
+  syllabus_url: MyString
+  overview: MyText
+  role_of_service_learning: MyText
+  assignments: MyText
+  presentation_time: 2008-05-28 09:44:41
+  presentation_length: 1
+  finalized: false
+  registration_open_time: 2008-05-28 09:44:41

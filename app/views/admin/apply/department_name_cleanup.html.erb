@@ -1,0 +1,55 @@
+<% javascript_tag do %>
+function toggle_blinds(sect) {
+	var major_elements = $$(sect);
+	for (var i = 0; i < major_elements.length; i++) {
+		major_table = major_elements[i];
+		if (major_table.style.display == 'none') { 
+			Effect.BlindDown(major_table, {duration:0.5}); 
+		} else { 
+			Effect.BlindUp(major_table, {duration:0.5}); 
+		}
+	}
+}
+<% end -%>
+
+<h1>Department Name Cleanup</h1>
+
+<table>
+	<tr>
+		<th>Department Name</th>
+		<th>Number of Mentors</th>
+		<th>New Name</th>
+		<th>Update</th>
+		<th>Status</th>
+	</tr>
+	
+	<% for department, mentors in @depts %>
+	<tr id="department_row_<%= department.hash.to_s %>">
+		<td><%= link_to_function (department.blank? ? "(blank)" : department), "toggle_blinds('#apps_#{department.hash.to_s}', false);" %></td>
+		<td><%=h mentors.size %></td>
+		<td><%= text_field_tag :new_department_name, "", :id => "new_department_name_#{department.hash}" %></td>
+		<td><%= link_to_remote "Update",
+								{:url => { :action => 'update_mentor_departments', 
+										 :mentor_ids => mentors.collect(&:id).join(","),
+										 :old_department_id => department.hash },
+							 	:indicator => 'global',
+								:submit => "department_row_#{department.hash}"
+								},
+								:class => "button" %>
+								</td>
+		<td><span id="status_<%= department.hash.to_s %>"></span></td>
+	</tr>
+	
+	<tr class="details">
+		<td class="diff_pad" colspan="5">
+			<div style="display: none;" id="apps_<%= department.hash.to_s %>">
+				<%= render :partial => 'mentors_for_cleanup', :locals => { :mentors => @depts_apps[department] } %>
+			</div>
+		</td>
+	</tr>
+	
+	<% end -%>
+	
+</table>
+
+<% sidebar :quick_access %>

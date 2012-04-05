@@ -1,0 +1,12 @@
+<%= title @offering.title, "Signup for Workshops" %>
+
+<%= render :partial => "apply/switch" if @application_count > 1 %>
+
+<%= render :file => "rsvp/event.html.erb" %>
+
+<div class="progress_nav_buttons">
+	<%= button_to "Next: Invite Guests →", { :action => "guests" }, :method => :get %>
+</div>
+
+
+<%= render :partial => "sidebar", :locals => { :page => 'workshops' } %>

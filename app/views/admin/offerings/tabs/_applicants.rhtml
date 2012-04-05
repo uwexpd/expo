@@ -1,0 +1,63 @@
+<h2>Applicant Settings</h2>
+
+<dl class="inline-definitions">
+
+	<dt>Options</dt>
+	<dd>
+		<%= checkbox_with_label f, :allow_students_only, "Only allow Students to apply" %>
+		<p class="caption">Uncheck this box to allow non-students to create applications for this offering. This allows
+			anyone in the world to create an account in EXPO and start an application.</p>
+		<br>
+		
+		<%= checkbox_with_label f, :require_invitation_codes_from_non_students %>
+		<p class="caption">If you allow non-students to apply (above), mark this box to require that they use a special
+			Invitation Code in order to create an application. This allows you to hand out invitation codes to individuals
+			at other institutions, or elsewhere, just like class add codes.</p>
+		<br>
+	
+		<div class="for_uses_mentors">
+		<%= checkbox_with_label f, :ask_applicant_to_waive_mentor_access_right %>
+		<p class="caption">With this box checked, students are asked to waive their right to view
+			their mentor's letter of support &mdash; a right which is guaranteed under FERPA. They will see:
+			"The Family Education Rights and Privacy Act of 1974 and its amendments guarantee you
+			access to educational records concerning yourself. However, those writing recommendations 
+			and those assessing them may attach more significance to them if it is known that they will 
+			retain confidentiality. You are permitted by those laws to voluntarily waive that right of access."</p>
+			
+		<%= checkbox_with_label f, :ask_for_mentor_relationship %>
+		<p class="caption">If this box is checked, students are asked "How do you know this person?" when submitting
+			their mentors' contact information.</p>
+		
+		<%= checkbox_with_label f, :ask_for_mentor_title %>
+		<p class="caption">If this box is checked, students are asked for their mentors' titles. Usually students are only
+			asked for the mentor's name and email address.</p>
+		
+		</div>
+	</dd>
+
+	<div class="for_uses_group_members">
+		<dt>Group Member Validation E-mail Template</dt>
+		<dd><br><%= f.collection_select :group_member_validation_email_template_id, 
+									EmailTemplate.all.sort, 
+									:id, :name, 
+									{:include_blank => "None"},
+									:style => "width: 99%" %>
+			<p class="caption">Choose the email template that should be sent to group members to validate their
+				participation in a group.</p></dd>
+	</div>
+
+	<dt><%= f.label :final_text %></dt>
+	<dd><%= f.text_area :final_text, :rows => 5, :style => "width: 99%" %>
+		<p class="caption">This text is displayed to the applicant on the "Review and Submit" page, directly above
+			the student's digital signature. Example: "I understand that if awarded this scholarship..."</p></dd>
+
+	<dt><%= f.label :revise_abstract_instructions %></dt>
+	<dd><%= f.text_area :revise_abstract_instructions, :rows => 10, :style => "width: 99%" %>
+		<p class="caption">These instructions are shown to applicants on the "Revise Abstract" page.</p></dd>
+
+	<dt>Dashboard Title</dt>
+	<dd><%= f.text_field :alternate_welcome_page_title %>
+		<p class="caption">By default, the applicant welcome page (or "dashboard") is labeled simply as "Welcome." To
+			override this, specify a new dashboard title here.</p></dd>
+
+</dl>

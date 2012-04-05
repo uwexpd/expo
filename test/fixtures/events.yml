@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  description: MyText
+  allow_multiple_times_per_attendee: false
+  capacity: 1
+  restrictions: MyText
+  offering_id: 1
+  confirmation_email_template_id: 1
+
+two:
+  title: MyString
+  description: MyText
+  allow_multiple_times_per_attendee: false
+  capacity: 1
+  restrictions: MyText
+  offering_id: 1
+  confirmation_email_template_id: 1

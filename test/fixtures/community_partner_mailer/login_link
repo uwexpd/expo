@@ -1,0 +1,3 @@
+CommunityPartnerMailer#login_link
+
+Find me in app/views/community_partner_mailer/login_link.erb

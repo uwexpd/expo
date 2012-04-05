@@ -1,0 +1,27 @@
+<% if !@evaluation.submitted? %>
+
+	<small><%= check_box_tag :non_supervisor_completer, true, @evaluation.completed_by_non_supervisor?, :disabled => @evaluation.submitted? %>
+	<label for='non_supervisor_completer'>
+		Check here if someone other than <%= @placement.position.supervisor.person.firstname rescue "the supervisor" %> 
+		provided the responses for this evaluation.
+	</label>
+	<div id="completer_person_details" class="yellow box" <%= "style='display:none'" unless @evaluation.completed_by_non_supervisor? %>>
+		<%= observe_field :non_supervisor_completer, 
+							:function => "Effect.toggle('completer_person_details', 'blind', {duration: 0.25})" %>
+		<p>Who provided the responses for this evaluation?
+			<br><%= f.text_field :completer_name, :disabled => @evaluation.submitted? %></p>
+		<p>Why?
+			<br><%= f.text_field :completer_reason, :disabled => @evaluation.submitted? %></p>
+	</div>
+	
+	</small>
+	
+<% elsif @evaluation.completed_by_non_supervisor? %>
+
+	</dd>
+	
+	<dt>Responses By:</dt>
+	<dd><%= @evaluation.completer_name %> <em>(not the position supervisor)</em>
+		<br><small>Reason that supervisor did not provide responses: <%= @evaluation.completer_reason %></small>
+		
+<% end -%>

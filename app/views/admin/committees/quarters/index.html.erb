@@ -1,0 +1,25 @@
+<h1>Quarters
+	<span class="light">&raquo; <%= @committee.name %></span></h1>
+
+<table>
+	<tr>
+		<th>Quarter</th>
+		<th>Active Members</th>
+		<th>Functions</th>
+	</tr>
+	
+	<% for quarter in @committee.committee_quarters.sort %>
+	
+		<tr>
+			<td><%= link_to quarter.title, admin_committee_quarter_path(@committee, quarter) %></td>
+			<td><%= quarter.committee_member_quarters.active.size %>
+			<td><%= link_to "Edit", edit_admin_committee_quarter_path(@committee, quarter) %> |
+				<%= link_to 'Delete', admin_committee_quarter_path(@committee, quarter), 
+					:confirm => 'Are you sure?', :method => :delete %></td>
+		</tr>
+		
+	<% end -%>
+	
+</table>
+
+<% sidebar :add_new %>

@@ -1,0 +1,9 @@
+<tr id="option_<%= option.id %>">
+	<td><%= option.title %></td>
+	<td><%= content_tag(:span, option.value, :class => ('light' if option.read_attribute(:value).blank?)) %></td>
+	<td><%= link_to '<span>Edit</span>', edit_offering_page_question_option_path(@offering, @page, @question, option), :class => "icon-left no-text edit" %>
+		<%= link_to_remote '<span>Destroy</span>', 
+					{:url => offering_page_question_option_path(@offering, @page, @question, option), 
+					:confirm => 'Are you sure?', :method => :delete, :indicator => 'global'},
+					:class => "icon-left no-text trash" %></td>
+</tr>

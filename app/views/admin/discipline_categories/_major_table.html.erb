@@ -1,0 +1,23 @@
+<table id="majors_table">
+	<tr id="majors_table_head">
+		<th>Title</th>
+		<th>Has fixed name?</th>
+		<th>Edit</th>
+		<th>Remove from category</th>
+	</tr>
+	<% for major_extra in @discipline_category.majors.sort %>
+	<tr id="major_extra_<%= major_extra.id  %>">
+		<td><%=h major_extra.major ? major_extra.major.title : major_extra.fixed_name ? major_extra.fixed_name : major_extra.id %></td>
+		<td><%=h major_extra.fixed_name.nil? ? "No" : "Yes" %></td>
+		<td><%= link_to "Edit", edit_major_extra_path(major_extra) %></td>
+		<td><%= link_to_remote "Remove", :url=> {:action => 'remove_major', :major_extra_id => major_extra.id },
+						:confirm => 'Are you sure you want to remove this major from this discipline category?' , :indicator => 'global', :method => :delete %></td>
+	</tr>
+	<% end %>
+	<% if @discipline_category.majors.empty? %>
+	<tr class="empty">
+		<td colspan=5>No majors are associated with this category. </td>
+	</tr>
+	<% end %>
+	
+</table>

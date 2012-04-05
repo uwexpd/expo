@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  default_location_id: 1
+  parent_organization_id: 1
+  mailing_line_1: MyString
+  mailing_line_2: MyString
+  mailing_city: MyString
+  mailing_state: MyString
+  mailing_zip: MyString
+  website_url: MyString
+  main_phone: MyString
+  mission_statement: MyText
+  approved: false
+
+two:
+  name: MyString
+  default_location_id: 1
+  parent_organization_id: 1
+  mailing_line_1: MyString
+  mailing_line_2: MyString
+  mailing_city: MyString
+  mailing_state: MyString
+  mailing_zip: MyString
+  website_url: MyString
+  main_phone: MyString
+  mission_statement: MyText
+  approved: false

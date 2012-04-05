@@ -1,0 +1,17 @@
+<h1>Nametags
+	<span class="light">&raquo; <%= @event.title %></span></h1>
+	
+<ul class="link-list">
+	
+	<li><%= link_to "Attendees (#{@event.attendees.size})", :action => 'attendees', :format => :pdf %></li>
+	<li><%= link_to "Others/Custom Nametags", :action => 'other' %></li>
+	<li>Staff Positions:
+		<ul>
+		<% for staff_position in @event.staff_positions %>
+			<li><%= link_to staff_position.title, staff_position_event_nametags_path(@event, :id => staff_position) %></li>
+		<% end -%>
+		<%= "<span class='light'>No staff positions defined.</span>" if @event.staff_positions.empty? %>
+		</ul>
+		</li>
+	
+</ul>

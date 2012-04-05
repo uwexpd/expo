@@ -1,0 +1,30 @@
+<h1>Interviewers
+	<span class="light">&raquo; <%= @offering.title %></span></h1>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'interviewers_form' %>
+
+<table>
+	
+	<tr>
+		<th><%= select_all_check_box %>
+		<th>Interviewer Name</th>
+		<th>E-mail Address</th>
+		<th>Functions</th>
+	</tr>
+	
+	<% @interviewers.each do |i| %>
+		
+		<tr>
+			<td><%= select_check_box i %></td>
+			<td><%= i.person.fullname %></td>
+			<td><%= auto_link i.person.email %></td>
+			<td><%= link_to "View availability", :action => "availability", :id => i.id if i.responded_with_availability? %></td>
+		</tr>
+		
+	<% end %>
+	
+</table>
+
+</form>
+
+<% sidebar :with_selected %>

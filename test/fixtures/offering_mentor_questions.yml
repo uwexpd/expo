@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_id: 1
+  question: MyText
+  required: false
+  must_be_number: false
+  display_as: MyString
+  size: 1
+
+two:
+  offering_id: 1
+  question: MyText
+  required: false
+  must_be_number: false
+  display_as: MyString
+  size: 1

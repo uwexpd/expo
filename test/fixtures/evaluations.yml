@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  creator_id: 1
+  updater_id: 1
+  evaluatable_id: 1
+  evaluatable_type: MyString
+
+two:
+  creator_id: 1
+  updater_id: 1
+  evaluatable_id: 1
+  evaluatable_type: MyString

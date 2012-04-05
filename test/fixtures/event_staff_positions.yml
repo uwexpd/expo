@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_id: 1
+  title: MyString
+  capacity: 1
+  description: MyText
+  instructions: MyText
+  training_session_event_id: 1
+  restrictions: MyText
+
+two:
+  event_id: 1
+  title: MyString
+  capacity: 1
+  description: MyText
+  instructions: MyText
+  training_session_event_id: 1
+  restrictions: MyText

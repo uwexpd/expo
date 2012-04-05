@@ -1,0 +1,66 @@
+<h2>Confirmation Process</h2>
+
+<p>
+	<%= f.check_box :disable_confirmation %>
+	Disable the confirmation process
+	<p class="caption">This prevents applicants from accessing the confirmation process.</p>
+</p>
+
+<p>
+	<%= f.label :confirmation_instructions %><br>
+	<%= f.text_area :confirmation_instructions, :style => "width: 99%" %>
+</p>
+
+<p>
+	<%= f.label :confirmation_yes_text %><br>
+	<%= f.text_area :confirmation_yes_text, :style => "width: 99%", :rows => 4 %>
+</p>
+
+<p>
+	<%= f.label :guest_invitation_instructions %><br>
+	<%= f.text_area :guest_invitation_instructions, :style => "width: 99%", :rows => 4 %>
+</p>
+
+<p>
+	<%= f.label :guest_postcard_layout %><br>
+	<%= f.text_area :guest_postcard_layout, :style => "width: 99%" %>
+</p>
+
+<p>
+	<%= f.label :nomination_instructions %><br>
+	<%= f.text_area :nomination_instructions, :style => "width: 99%" %>
+</p>
+
+<p>Theme Response Page Title:
+	<%= f.text_field :theme_response_title %>
+</p>
+
+<p>
+	<%= f.label :theme_response_instructions, "Theme Response 1 Instructions" %><br>
+	<%= f.text_area :theme_response_instructions, :rows => 4, :style => "width: 99%" %>
+</p>
+
+<p>
+	Theme Response 1 Type:
+	<%= f.select :theme_response_type, ["textfield", "textarea"] %>
+
+	Word Limit:
+	<%= f.text_field :theme_response_word_limit, :size => 3 %>
+</p>
+
+<p>
+	<%= f.label :theme_response2_instructions, "Theme Response 2 Instructions" %> (leave blank if you only require one response)<br>
+	<%= f.text_area :theme_response2_instructions, :rows => 4, :style => "width: 99%" %>
+</p>
+<p>
+	Theme Response 2 Type:
+	<%= f.select :theme_response2_type, ["textfield", "textarea"] %>
+	
+	Word Limit:
+	<%= f.text_field :theme_response2_word_limit, :size => 3 %>
+</p>
+
+<p>
+	<%= f.label :special_requests_text %><br>
+	<%= f.text_area :special_requests_text, :style => "width: 99%", :rows => 4 %>
+</p>

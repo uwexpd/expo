@@ -1,0 +1,79 @@
+<h2>Service Learning History</h2>
+
+<table>
+
+	<% if @student.enrolled_service_learning_courses(Quarter.all).empty? %>
+		<tr class="empty">
+			<td colspan=4>This student has not enrolled in any service learning courses.</td>
+		</tr>
+	<% else %>
+		<% for service_learning_course in @student.enrolled_service_learning_courses(Quarter.all) %>
+		<tr>
+			<td><%= link_to service_learning_course.quarter.title, 
+							service_learning_home_url(service_learning_course.unit.abbreviation, service_learning_course.quarter) %></td>
+			<td><%= link_to service_learning_course.title,
+							service_learning_course_url(service_learning_course.unit.abbreviation, service_learning_course.quarter, service_learning_course) %></td>
+			<td><% if @student.placed_for? service_learning_course %>
+					<% for placement in @student.service_learning_placements.for(service_learning_course) %>
+						<%= link_to placement.position.title, 
+									service_learning_organization_position_path(service_learning_course.unit.abbreviation, 
+										service_learning_course.quarter, 
+										placement.position.organization, 
+										placement.position) rescue "error" %>
+						<span class="light"> at </span>
+						<%= link_to placement.position.organization.name,
+						 			service_learning_organization_path(service_learning_course.unit.abbreviation, 
+										service_learning_course.quarter, 
+										placement.position.organization) rescue "error" %>
+					<% end -%>
+				<% else %>
+					<span class="light">No placements</span>
+				<% end -%>
+				</td>
+			<td><% if @student.placed_for? service_learning_course %>
+					<% for placement in @student.service_learning_placements.for(service_learning_course) %>
+						<% if placement.evaluation_submitted? %>
+							<%= link_to "Evaluation", 
+										service_learning_student_evaluation_path(service_learning_course.unit.abbreviation, 
+																				 service_learning_course.quarter, service_learning_course, placement.id) %>
+						<% else %>							
+							<%= link_to "Submit Evaluation", 
+										service_learning_submit_student_evaluation_path(service_learning_course.unit.abbreviation, 
+																					    service_learning_course.quarter, service_learning_course, placement.id) %>								
+						<% end -%>
+					<% end -%>
+				<% end -%>
+			</td>
+		</tr>
+		<% end -%>
+	<% end -%>
+
+</table>
+
+<br>
+<h3>Acknowledgement of Risk</h3>
+<ul>
+	<li><strong>Date of Birth:</strong> 
+		<%= @student.sdb.birth_date.to_s(:long) %>
+		<%= "<span class='minor warning'>&nbsp;</span>" if @student.sdb.age < 18 %></li>
+
+	<li><strong>Electronic AOR:</strong>
+		<%= @student.service_learning_risk_date.to_date.to_s(:long) rescue "<span class=light>None on file</span>" %> 
+		(<%=h @student.service_learning_risk_signature %>)</li>
+
+	<li><strong>Paper AOR on file:</strong>
+		<%= @student.service_learning_risk_paper_date.to_date.to_s(:long) rescue "<span class=light>None on file</span>" %></li>
+		
+	<!-- <li><strong>AOR Position:</strong>
+		<%#= link_to @student.service_learning_risk_placement.position.title, 
+					service_learning_organization_position_path(@unit, 
+						@student.service_learning_risk_placement.service_learning_course.quarter, 
+						@student.service_learning_risk_placement.position.organization, 
+						@student.service_learning_risk_placement.position) rescue "error" %>
+		<span class="smaller lighter"> at </span>
+		<%#= link_to @student.service_learning_risk_placement.position.organization.name,
+		 			service_learning_organization_path(@unit, 
+						@student.service_learning_risk_placement.service_learning_course.quarter, 
+						@student.service_learning_risk_placement.position.organization) rescue "error" %></li> -->
+
+</ul>

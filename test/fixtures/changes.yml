@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  change_loggable_id: 1
+  change_loggable_type: MyString
+  changes: MyText
+  creator_id: 1
+  updater_id: 1
+  deleter_id: 1
+  action_type: MyString
+
+two:
+  change_loggable_id: 1
+  change_loggable_type: MyString
+  changes: MyText
+  creator_id: 1
+  updater_id: 1
+  deleter_id: 1
+  action_type: MyString

@@ -1,0 +1,7 @@
+<h2>Project Details</h2>
+
+<table class="application_review not_centered">
+	<%= render 	:partial => "/apply/page_review", 
+				:collection => @mentee_application.pages, 
+				:locals => { :links => :false } %>
+</table>

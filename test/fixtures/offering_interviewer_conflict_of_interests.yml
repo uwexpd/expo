@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  offering_interviewer_id: 1
+  application_for_offering_id: 1
+
+two:
+  offering_interviewer_id: 1
+  application_for_offering_id: 1
