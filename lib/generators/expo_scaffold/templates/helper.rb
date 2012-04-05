@@ -1,0 +1,2 @@
+module <%= name %>sHelper
+end
