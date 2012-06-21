@@ -1,0 +1,143 @@
+/* @override 
+	http://localhost:3000/stylesheets/student_tech_fee.css?1268354369
+	http://localhost:3000/stylesheets/student_tech_fee.css?1269470195
+	http://localhost:3000/stylesheets/student_tech_fee.css?1269470811
+	http://localhost:3000/stylesheets/student_tech_fee.css?1269471613
+	http://localhost:3000/stylesheets/student_tech_fee.css?1269887068
+	http://localhost:3000/stylesheets/student_tech_fee.css?1271459167
+*/
+
+html {
+	margin: 0;
+}
+
+body {
+	background: #7e7e7e;
+}
+
+#wrap {
+	border: none;
+	padding: 0;
+	margin: 0;
+	margin-bottom: -25px;
+	background: none;
+}
+
+
+h1.page_title {
+	position: absolute;
+	top: 0px;
+	left: 20px;
+	padding-top: 90px;
+	background: url(../images/app/uw_patch_and_wordmark.png) no-repeat;
+	text-shadow: none !important;
+	font-size: 250%;
+	font-weight: bold;
+}
+
+.page_title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.page_title a:hover {
+	text-decoration: underline;
+}
+
+h2, h3, h4, h5 {
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+#header {
+	height: 150px;
+	border-bottom: 1px solid #b2b2b2;
+	background: #E3BF42 url(../images/app/attachedShadow.png) repeat-x 0 top;
+}
+
+#account-nav-wrap {
+	position: absolute;
+	top: 30px;
+	right: 50px;
+	color: #4c4c4c;
+	z-index: 100;
+}
+
+#account-nav {
+	float: none;
+	margin: 0;
+}
+
+#account-nav a {
+	color: #4c4c4c;
+}
+
+#content {
+	padding: 0 20px;
+	background: #fff;
+	overflow: auto;
+}
+
+#main-content {
+	padding: 2em 0;
+}
+
+#footer {
+	border: none;
+	border-top: 1px solid #b2b2b2;
+	margin: 0;
+	padding: 20px 150px 20px 20px;
+	font: 100% "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	background: url(../images/app/stf-logo.gif) no-repeat 97%;
+}
+
+#footer-wrap {
+	clear: both;
+	background: #fff;
+	border-bottom: 1px solid #727272;
+}
+
+#footer p {
+	border-left: none;
+	padding: 0;
+	line-height: 1.5;
+}
+
+/*#footer .dso_statement {
+	color: #323232;
+	background: #006e6e;
+	margin: 30px -20px 0 -50px;
+	padding: 30px 50px;
+	padding-right: 200px;
+	background: #006e6e;
+	background: #c66322;
+ 	border-bottom: 1px solid #606060;
+}*/
+
+#footer .dso_statement a {
+	color: #323232;
+}
+
+.abstract {
+	height: 300px;
+	overflow: auto;
+}
+
+.caption {
+	font-size: 95%;
+}
+
+a.example {
+	font-size: 85%;
+}
+
+#flashes #notice, #flashes #error, #errorExplanation, .delete-dialog {
+	background: #bec;
+	color: #031;
+	padding: 10px;
+	border: 1px solid #031;
+	border-width: 1px 0;
+	margin-bottom: 0;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+	border-radius:0;
+}

@@ -1,0 +1,19 @@
+
+
+/*.small.warning {
+behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
+this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
+this.src = "clear.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
+this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
+this.runtimeStyle.backgroundImage = "none")),this.pngSet=true));
+}*/
+
+/* fix the pipeline student side random wrapping */
+#pipeline_links, #div_fourths .info_fourth {
+  margin-right:-1px;
+}
+#div_fourths .info_fourth div.inner_fourth {
+  margin-right:1px;
+}
+
+/* fix the big border box header */

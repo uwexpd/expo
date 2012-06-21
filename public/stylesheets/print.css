@@ -1,0 +1,164 @@
+/* @override 
+	https://expo.uw.edu/expo/stylesheets/print.css?1273690236
+	https://expo.uw.edu/expo/stylesheets/public.css?1273690236
+	https://expo.uw.edu/expo/stylesheets/shared.css?1273690236
+*/
+
+body {
+	background-color: #fff !important;
+}
+
+.confidentiality_note {
+	display: block;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	color: maroon;
+	font-weight: bold;
+	margin: .5em 0 0 0;
+}
+
+.reviewer_comment_box {
+	padding-bottom: 16em;
+}
+
+#print_button {
+	display: none;
+}
+
+.reviewer.show .scoring {
+	display: none;
+}
+
+.reviewer.show #main {
+	width: auto;
+	margin-right: 20px;
+}
+
+.apply.print_availabilities #main {
+	width: auto;
+	margin-right: 20px;
+}
+
+.apply.print_availabilities .not.available {
+	display: none;
+}
+
+table.availability .not.available {
+	display: none;
+}
+
+.rails_env {
+	position: relative;
+}
+
+#header {
+	background: none;
+}
+
+#header h1 {
+	padding-left: 10px;
+}
+
+#header h1 a {
+	color: #000;
+	text-decoration: none;
+	text-indent: 0;
+	background: none;
+}
+
+#main {
+	margin: 0;
+	width: 100%;
+}
+
+#main-content {
+	border: none;
+}
+
+#sidebar {
+	display: none;
+}
+
+#breadcrumbs {
+	overflow: visible;
+	background: none;
+	padding-left: 0;
+	border-width: 0;
+	border-bottom-width: 1px;
+	margin-top: 0;
+	margin-bottom: 2em;
+}
+
+#breadcrumbs a {
+	float: left;
+	position: relative;
+	margin-left: 0;
+	position: relative;
+}
+
+#breadcrumbs a.home {
+	margin-left: 0;
+	width: auto;
+	overflow: visible;
+	background: none;
+}
+
+#breadcrumbs a.home span {
+	visibility: visible;
+}
+
+#breadcrumbs span.divider {
+	/*float: left;*/
+	width: auto;
+	/*margin: 0 10px 0 0;*/
+	/*position: relative;*/
+	height: auto;
+	padding-top: 0;
+	overflow: visible;
+	background: none;
+	margin-right: 0;
+}
+
+#breadcrumbs span.divider#last {
+	background: none;
+	margin-right: 10px;
+}
+
+/* @group Proceedings */
+
+.proceedings #left_sidebar, .proceedings #right_sidebar, .proceedings a.add_favorite, .proceedings a.remove_favorite {
+	display: none;
+}
+
+.proceedings #header {
+	background: none !important;
+}
+
+.proceedings #main-content {
+	padding-left: 0;
+}
+
+.proceedings.favorites.index #main-content {
+	padding-left: 0;
+}
+
+.proceedings.index #main-content {
+	padding-right: 0;
+	padding-left: inherit;
+}
+
+.proceedings div.abstract {
+	background-image: none;
+	background-color: none !important;
+}
+
+/*#session_list_70313919 {
+	display: block !important;
+}*/
+
+#content {
+	overflow: visible;
+}
+
+
+/* @end */

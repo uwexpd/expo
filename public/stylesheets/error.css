@@ -1,0 +1,86 @@
+body {
+	margin: 0;
+	padding: 0;
+	font: normal 11px/1.5em "Lucida Grande", Lucida, Verdana, sans-serif;
+	color: #333;
+	background: #d3d3d3 url("https://expo.uw.edu/expo/images/app/admin-body-tile.png") repeat-x fixed;
+	
+}
+
+#header {
+	background: #252c76 url("https://expo.uw.edu/expo/images/app/header-tile.gif") repeat-x;
+	height: 50px;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	padding-top: 1px;
+	position: relative;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 10;
+	opacity: 0.95;
+}
+
+#header h1 a {
+	color: #fff;
+	text-decoration: none;
+	text-indent: -9999px;
+	background: url("https://expo.uw.edu/expo/images/app/expo-logo.gif") no-repeat;
+	width: 157px;
+	height: 50px;
+	display: block;
+	border: none;
+}
+
+#header h1 {
+	line-height: normal;
+	padding: 0 0 0 20px;
+	margin: 0;
+}
+
+div.error {
+	margin: 200px auto;
+	width: 40%;
+	background: #fff url("https://expo.uw.edu/expo/images/tango/32x32/actions/document-save.png") no-repeat 30px 20px;
+	padding: 30px;
+	padding-left: 80px;
+
+	border: 1px solid #ddd;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	
+}
+
+.error h1 {
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	font-size: 2.25em;
+	margin:0;
+}
+
+div.loading {
+	margin-top: 30px;
+	margin-left: -30px;
+	background: url("https://expo.uw.edu/expo/images/bar-loader.gif") no-repeat center bottom;
+}
+
+#footer {
+	color: #9d9d9d;
+	font-size: 92%;
+	padding: 5px;
+}
+
+#footer p {
+	padding: 0;
+	text-align: center;	
+}
+
+#footer a {
+	color: inherit;
+	text-decoration: none;
+}
+
+#footer a:hover {
+	text-decoration: underline;
+}
