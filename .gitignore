@@ -6,6 +6,10 @@ config/database.yml
 config/uwca.crt
 
 public/expo/
+files/
+images/
+javascripts/
+stylesheets/
 
 log/
 
