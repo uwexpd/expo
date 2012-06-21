@@ -21,10 +21,10 @@ task :student_courses => :environment do
   puts "Quarter: #{quarter.title}"
   
   # Fetch courses 
-  math_courses = [98,120,124,125,126,300,307,308,309,324,327,328] 
+  math_courses = [111,120,124,125,126,300,307,308,309,324,327,328] 
   biol_courses = [118,180,200,220]
-  qsci_courses = [292]
-  engl_courses = [110,111,121,131,198,200,281]
+  qsci_courses = [291,292]
+  # engl_courses = [110,111,121,131,198,200,281]
   courses = []  
   dept_courses = []  
   
@@ -36,7 +36,7 @@ task :student_courses => :environment do
   when 206 then math_courses
   when 112 then biol_courses
   when 750 then qsci_courses
-  when 136 then engl_courses
+  # when 136 then engl_courses
   else
       puts "Can't find the department code."
   end    
@@ -48,7 +48,7 @@ task :student_courses => :environment do
   
   print "Parsing CSV file...."
   #print "Input file path of CSV file: "
-  file_path = "tmp/SSS_ID_Spring_2012.csv" #$stdin.gets.strip
+  file_path = "tmp/SSS_Summer_2012.csv" #$stdin.gets.strip
   print "(file path: #{file_path})\n"
     
   # turn csv into array of hashes
@@ -87,6 +87,38 @@ task :pipeline_volunteers => :environment do
     unless placement_students.include?(student)
         print "#{student.student_no.to_s.ljust(7)}   #{student.fullname.ljust(40)}   #{student.pipeline_orientation}\n"
     end        
-  end            
-  
+  end              
 end
+
+desc "Import a csv file that includes McNair scholars adn check if they are MGE scholars"
+task :check_if_MGE_scholar=> :environment do
+    puts "Loaded #{RAILS_ENV} environment."
+    
+    print "Parsing CSV file...."
+    #print "Input file path of CSV file: "
+    file_path = "tmp/McNair_Scholar.csv" #$stdin.gets.strip
+    print "(file path: #{file_path})\n"
+
+    # turn csv into array of hashes
+    student_file = CSV.open(file_path, 'r', ?,, ?\r)  
+    student_data = student_file.map{|row| row.map {|cell| cell.to_s } }
+    puts "Total students number: #{student_data.size}"  
+    puts "====================================================================================================================="
+    
+    mge_awardees = Population.find(257).object_ids[:Student].uniq.sort
+    puts "Loaded All MGE uniqe awardees: #{mge_awardees.size}"
+    
+    for s in student_data
+      student = Student.find_by_student_no(s)      
+      if mge_awardees.include?(student.id)
+        print "#{student.student_no.to_s.ljust(7)}    #{student.fullname.ljust(35)}       #{student.email.ljust(25)}  \n"
+      end
+            
+    end    
+    
+end
+
+
+
+
+

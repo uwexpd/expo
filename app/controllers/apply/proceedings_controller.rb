@@ -169,7 +169,7 @@ class Apply::ProceedingsController < ApplyController
   end
 
   def fetch_departments
-    @departments = @offering.departments_mapping(:confirmed)      
+    @departments = @offering.departments_mapping(:confirmed, true).empty? ? @offering.departments_mapping(:confirmed) : @offering.departments_mapping(:confirmed, true)
   end
   
   def fetch_awards

@@ -1,22 +1,52 @@
 <h1>Templates</h1>
 
-<table>
-	<tr>
-		<th>Name</th>
-		<th>Subject</th>
-		<th width=80></th>
-	</tr>
-	
-	<tr class="rowset-header">
-		<td colspan=3>E-mail Templates</td>
-	</tr>
-	<%= render :partial => "text_template", :collection => @email_templates %>
+<div class="light right" style="margin-top: -40px">
+	Filter: <%= text_field_tag :q, nil, :autocomplete => "off", :type => "search", :placeholder => "Filter" %>
+	<%= observe_field 'q', 
+					:frequency => 0.7, 
+					:url => { :action => 'auto_complete' },
+					:indicator => 'global',
+					:with => "'q=' + $F('q')",
+					:before => "if($F('q') == '') { clear_filter(); return false; }"
+					%>
+</div>					
 
-	<tr class="rowset-header">
-		<td colspan=3>Plain Text Templates</td>
-	</tr>
-	<%= render :partial => "text_template", :collection => @non_email_templates %>
-	
-</table>
+<div id="all_templates">
+	<div class="edge-to-edge">
+		<table>			
+			<%= render :partial => "table_header" %>
+			<tr class="rowset-header">
+				<td colspan=3>E-mail Templates</td>
+			</tr>
+			<%= render :partial => "text_template", :collection => @email_templates %>
+			<tr class="rowset-header">
+				<td colspan=3>Plain Text Templates</td>
+			</tr>
+			<%= render :partial => "text_template", :collection => @non_email_templates %>
+		</table>
+	</div>
+</div>
+
+<div id="search_results" style="display:none" class="edge-to-edge">
+	<table>
+		<%= render :partial => 'table_header' %>
+
+		<tbody id="search_results_tbody">
+		</tbody>
+
+		<tr class="empty" id="search_results_empty" style="display:none">
+			<td colspan=10>No results found.</td>
+		</tr>
+	</table>
+</div>
 
 <% sidebar :add_new %>
+
+<% javascript_tag do %>
+	function clear_filter() {
+		$('all_templates').show();
+		$('search_results').hide();
+		$('global').hide(); 
+		$('q').value = ''
+	}
+<% end -%>	

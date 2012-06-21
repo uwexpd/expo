@@ -23,7 +23,7 @@
 	<tr>
 		<td><%= select_check_box session %></td>
 		<td><%= content_tag :span, session.identifier, :class => 'session_identifier tag' %></td>
-		<td><%=h session.title %></td>
+		<td><%= link_to "#{session.title}", offering_session_path(@offering, session)  %></td>
 		<td><%= session.moderator.nil? ? "<font class='light'>None assigned</font>" : h(session.moderator.fullname) %></td>
 		<td><%=h session.location %></td>
 		<td><%=h session.presenters.size %></td>

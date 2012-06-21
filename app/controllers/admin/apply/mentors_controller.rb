@@ -61,8 +61,8 @@ class Admin::Apply::MentorsController < Admin::ApplyController
   end
 
   def update
-    @mentor = @app.mentors.find(params[:id])
-
+    @mentor = @app.mentors.find(params[:id])    
+    
     respond_to do |format|
       if @mentor.update_attributes(params[:mentor])
         flash[:notice] = "@app.mentors was successfully updated."

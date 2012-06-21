@@ -31,6 +31,7 @@ class ApplicationMentor < ActiveRecord::Base
   after_save :send_invite_email_if_needed
 
   serialize :task_completion_status_cache
+  serialize :academic_department
   has_many :task_completion_statuses, :as => :taskable, :class_name => "OfferingAdminPhaseTaskCompletionStatus"
   before_save :update_task_completion_status_cache!
   
@@ -132,7 +133,7 @@ class ApplicationMentor < ActiveRecord::Base
   end
 
   # Returns a string of text summarizing this mentor. Includes name, department, and organization if not UW
-  def info_detail_line(include_html = false)
+  def info_detail_line(include_html = false, academic_department = false, delimiter = ", ")
     if person.nil?
       line = ""
       fp = "<span class=\"mentor_name\">" if include_html
@@ -143,7 +144,9 @@ class ApplicationMentor < ActiveRecord::Base
       fp = "<span class=\"mentor_name\">" if include_html
       fs = "</span>" if include_html
       dp = "<span class=\"mentor_department\">" if include_html
-      line = ["#{fp}#{fullname}#{fs}", "#{dp}#{person.department_name}#{fs}"]
+      academic_dpet = self.academic_department.join(delimiter) rescue self.academic_department
+      department_name = academic_department==true ? academic_dpet : person.department_name 
+      line = ["#{fp}#{fullname}#{fs}", "#{dp}#{department_name}#{fs}"]
       line << person.organization unless (person.organization.to_s == CONSTANTS[:university_name] or person.organization.to_s == "UW")
       line = line.compact.delete_if{|x| x.blank?}.join(', ')
     end
@@ -192,7 +195,7 @@ class ApplicationMentor < ActiveRecord::Base
   
   def department
     person.department_name unless person.nil?
-  end
+  end  
   
   def new_person_attributes=(new_person_attributes)
     if new_person_attributes[:id] == "-1"

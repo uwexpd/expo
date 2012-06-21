@@ -16,7 +16,7 @@
 <% end -%>
 
 <% unless @mentee_application_record.academic_department.nil? %>
-	<h3>Your Academic Department(s):  <span class="plain"><%= @mentee_application_record.academic_department %></span></h3>
+	<h3>Your Academic Department(s):  <span class="plain"><%= @mentee_application_record.academic_department.join(", ") %></span></h3>
 <% end -%>
 
 <div class="abstract">
@@ -33,7 +33,7 @@
 	<p class="<%= 'big-border box red' if @error_message %>"><label for="academic_department" style="vertical-align: 0.6em;">
 		<big>Your academic department(s): </big></label>
 		<span>
-			<%= select_tag :academic_department, options_for_select(AcademicDepartment.all.collect(&:name).sort, @mentee_application_record.academic_department.to_s.split(',').to_a),
+			<%= select_tag :academic_department, options_for_select(AcademicDepartment.all.collect(&:name).sort, @mentee_application_record.academic_department),
 			 			   :multiple => true, :class => "chzn-select", :style => "width:400px;", :data_placeholder => "Select Department(s) or Type Keyword for Search"  %>
 			<em class="required" style="vertical-align: 0.6em;"> * required <%= "<br><span class='icon-left error'></span><span class='error-message'>#{@error_message}</span>" if @error_message %></em>			
 			<p class="caption" style="padding-left: 24em;">This will be printed in our symposium event. If you cannot find your academic department, please contact urp@uw.edu.</p>

@@ -21,17 +21,20 @@ while !@attendees.empty?
     pdf.move_pointer 20
 
     pdf.select_font "Times-Roman"
-
+    
+    if_long_time = attendee.invitable.firstname_first.size > 20 ? true : false rescue false
+    
     # Event title
     pdf.text @event.title, :justification => :center, :font_size => 12
-    pdf.move_pointer 20
+    pdf.move_pointer (if_long_time==true ? 15 : 20)
     
     # Name and title
-    pdf.text "<b>#{attendee.invitable.firstname_first}</b>", :justification => :center, :font_size => 24 rescue "First Name Error"
+    
+    pdf.text "<b>#{attendee.invitable.firstname_first.strip}</b>", :justification => :center, :font_size => 24 rescue "First Name Error"
     pdf.text "<i>#{attendee.person.majors_list(true)}</i>", :justification => :center, :font_size => 13 if attendee.person
     
     # "Presenter"
-    pdf.move_pointer 20
+    pdf.move_pointer (if_long_time==true ? 10 : 20)
     pdf.text "PRESENTER", :justification => :center, :font_size => 18
     
     # Unit logo

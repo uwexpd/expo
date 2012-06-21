@@ -2,7 +2,7 @@
 
 <tr id="course_<%= course.id %>">
 	<td width="20%"><%= course.course.short_title %></td>
-	<td width="20%"><%= course.course.credit_maximum %> credits</td>
+	<td width="20%"><%= course.course.credit_maximum.to_i==0 ? course.course.credit_minimum : course.course.credit_maximum rescue "error" %> credits</td>
 	<td width="20%"><%= pluralize course.course.registrants_count, "student" %></td>
 	<td width="20%"><small class="light">Submitted by <strong><%= course.preparer_uw_netid %></strong></small></td>
 	<td width="20%">

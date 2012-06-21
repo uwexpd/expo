@@ -6,7 +6,7 @@
 			<th><div class="sort-icon">Student</div></th>
 			<th><div class="sort-icon">Presentation Title</div></th>
 			<% if @session.moderator %>
-				<th><div class="sort-icon">Moderator Decision</div></th>
+				<th><div class="sort-icon">Moderator/Review Decision</div></th>
 			<% end -%>
 			<th><div class="sort-icon">Mentor Department</div></th>
 			<% if @session.uses_location_sections? %>
@@ -27,7 +27,7 @@
 			<% if @session.uses_location_sections && current_location_section != app.location_section && !params[:sort_by] %>
 				<% current_location_section = app.location_section %>
 				<tr class="rowset-header">
-					<td colspan=4><%= app.location_section.title rescue "(No location section)" %></td>
+					<td colspan=5><%= app.location_section.title rescue "(No location section)" %></td>
 					<td><a id="<%= app.location_section.title rescue "unassigned" %>" class="augmented anchor"></a></td>
 				</tr>
 			<% end -%>
@@ -35,9 +35,9 @@
 			<td><%= link_to h(app.fullname), admin_student_url(app.person) %></td>
 			<td width=50%><%= link_to sanitize(app.project_title, :tags => %w(em i font sub sup)), admin_app_url(@offering, app) %></td>
 			<% if @session.moderator %>
-				<td><%=h app.application_moderator_decision_type.title rescue "<span class=light>No decision yet.</span>" %></td>
+				<td><%= app.application_moderator_decision_type.try(:title)||app.application_review_decision_type.title rescue "<span class=light>No decision yet.</span>" %></td>
 			<% end -%>
-			<td><%=h app.mentor_department %></td>
+			<td><%=h app.academic_department || app.mentor_department %></td>
 			<% if params[:sort_by] %>
 				<td><%=h app.location_section.title if app.location_section %></td>
 			<% end -%>

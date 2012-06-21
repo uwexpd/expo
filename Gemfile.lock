@@ -35,16 +35,19 @@ GEM
     diff-lcs (1.1.3)
     exceptional (2.0.32)
       rack
+    factory_girl (1.2.4)
     fastthread (1.0.7)
     gem_plugin (0.2.3)
     highline (1.6.11)
-    hoe (2.13.0)
-      rake (~> 0.8)
+    hoe (2.3.3)
+      rake (>= 0.8.7)
+      rubyforge (>= 1.0.4)
     hoptoad_notifier (2.4.11)
       activesupport
       builder
     htmldoc (0.2.3)
     json (1.6.5)
+    json_pure (1.7.3)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -90,11 +93,12 @@ GEM
       rspec (>= 1.2.7)
     rtex (2.1.1)
     ruby-ole (1.2.11.2)
+    rubyforge (2.0.4)
+      json_pure (>= 1.1.7)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
     spreadsheet (0.6.8)
       ruby-ole (>= 1.0)
-    thoughtbot-factory_girl (1.2.2)
     transaction-simple (1.4.0)
       hoe (>= 1.1.7)
     will_paginate (2.3.16)
@@ -113,6 +117,8 @@ DEPENDENCIES
   dbd-odbc
   dbi
   exceptional
+  factory_girl (~> 1.2.2)
+  hoe (~> 2.3.3)
   hoptoad_notifier
   htmldoc
   json
@@ -124,11 +130,10 @@ DEPENDENCIES
   rails (= 2.3.5)
   rcov
   rdoc (~> 2.4.3)
-  rmagick (~> 2.5.2)
+  rmagick
   rspec
   rspec-rails (~> 1.2.0)
   rtex
   sanitize
   spreadsheet
-  thoughtbot-factory_girl (~> 1.2.2)
   will_paginate (~> 2.3.11)

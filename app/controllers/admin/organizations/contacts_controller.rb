@@ -43,11 +43,12 @@ class Admin::Organizations::ContactsController < Admin::OrganizationsController
 
   # POST /admin/organizations_contacts
   # POST /admin/organizations_contacts.xml
+  # Update primary contact for organization_contact_units as well
   def create
     @organization_contact = @organization.contacts.build(params[:organization_contact])
-
-    respond_to do |format|
-      if @organization.save
+    
+    respond_to do |format|    
+      if @organization.save && @organization_contact.update_attributes(params[:organization_contact])
         flash[:notice] = 'OrganizationContact was successfully created.'
         format.html { redirect_to(redirect_to_path || organization_contact_url(@organization, @organization_contact)) }
       else

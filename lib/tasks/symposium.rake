@@ -20,6 +20,10 @@ namespace :symposium do
     poster2 = offering.sessions.find $stdin.gets.strip
     puts poster2.title
     
+    print "\nWhat is the OfferingSession id for poster session 3? "
+    poster3 = offering.sessions.find $stdin.gets.strip
+    puts poster3.title
+    
     # Get all mentor department names
     puts "\nLoading applications..."    
     apps = offering.applications_with_status("submitted")    
@@ -32,7 +36,7 @@ namespace :symposium do
     
     depts = {}
     for app in apps
-      dept = app.mentor_department
+      dept = app.primary_mentor.academic_department
       depts[dept] = depts[dept].nil? ? [app] : depts[dept] << app
     end
     depts = depts.sort_by{|k,v| k.to_s}
@@ -42,7 +46,12 @@ namespace :symposium do
     # For each department, ask how to split up the apps
     for dept, apps in depts
       puts "\n#{dept} (#{apps.size} apps): "
-      print "    Assign to Poster Session 1: [skip] "
+      if dept.blank?
+        app_no_dept ||= []
+        apps.each{|app| app_no_dept << app.id }
+        puts "\n No academic department apps: [#{app_no_dept.join(', ')}]"
+      end
+      print "    Assign to Poster Session 1: [enter => skip] [0 => countinue assigning] "
       poster1_count = $stdin.gets.strip
       if poster1_count.blank?
         puts "     (skipping)"
@@ -57,17 +66,33 @@ namespace :symposium do
             print "      #{app.id.to_s.ljust(6)} #{app.fullname.ljust(40)}"
             print " #{app.offering_session.title.ljust(20)} #{app.location_section.title}\n"
           end
-        end        
-        poster2_count = apps.size - poster1_count
-        print "    Assign to Poster Session 2: #{poster2_count}\n"
-        print "    Location (#{offering.location_sections.collect{|l| l.id.to_s+'='+l.title}.join(', ')}) [#{location_section_id}]: "
-        input = $stdin.gets.strip
-        location_section_id = input.blank? ? location_section_id : input.to_i
-        apps[poster1_count..(apps.size)].each do |app|
-          app.update_attribute(:offering_session_id, poster2.id)
-          app.update_attribute(:location_section_id, location_section_id)
-          print "      #{app.id.to_s.ljust(6)} #{app.fullname.ljust(40)}"
-          print " #{app.offering_session.title.ljust(20)} #{app.location_section.title}\n"
+        end
+        
+        print "    Assign to Poster Session 2: "
+        poster2_count = $stdin.gets.strip.to_i
+        if poster2_count > 0
+          print "    Location (#{offering.location_sections.collect{|l| l.id.to_s+'='+l.title}.join(', ')}) [#{location_section_id}]: "
+          location_section_id_poster2 = $stdin.gets.strip.to_i
+          apps[poster1_count..(poster2_count)].each do |app|
+            app.update_attribute(:offering_session_id, poster2.id)
+            app.update_attribute(:location_section_id, location_section_id_poster2)
+            print "      #{app.id.to_s.ljust(6)} #{app.fullname.ljust(40)}"
+            print " #{app.offering_session.title.ljust(20)} #{app.location_section.title}\n"
+          end          
+        end
+                        
+        poster3_count = apps.size - poster1_count - poster2_count
+        if poster3_count > 0
+          print "    Assign to Poster Session 3: #{poster3_count}\n"
+          print "    Location (#{offering.location_sections.collect{|l| l.id.to_s+'='+l.title}.join(', ')}) [#{location_section_id}][#{location_section_id_poster2}]: "
+          location_section_id_poster3 = $stdin.gets.strip.to_i
+          #location_section_id_poster3 = input.blank? ? location_section_id : input.to_i
+          apps[poster2_count..(apps.size)].each do |app|
+            app.update_attribute(:offering_session_id, poster3.id)
+            app.update_attribute(:location_section_id, location_section_id_poster3)
+            print "      #{app.id.to_s.ljust(6)} #{app.fullname.ljust(40)}"
+            print " #{app.offering_session.title.ljust(20)} #{app.location_section.title}\n"
+          end
         end
       end
     end
@@ -177,5 +202,23 @@ namespace :symposium do
 
     puts "\nDone."
   end
+
+  # task :add_scholarships_to_mgh_awardees => :environment do
+  #     puts "Loaded #{RAILS_ENV} environment."
+  # 
+  #     # Fetch offering
+  #     print "What is the Offering ID? "
+  #     offering = Offering.find $stdin.gets.strip
+  #     puts "#{offering.title}"    
+  #     puts "Awardees number: #{offering.awardees.size}"
+  #       
+  #     for awardee in offering.awardees
+  #       
+  #       
+  #       
+  #       
+  #     end    
+  #     
+  #   end  
 
 end

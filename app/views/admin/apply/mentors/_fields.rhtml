@@ -12,6 +12,7 @@
 								:regexp_for_id => '(-?\d+)$' },
 							{ :autocomplete => false, :style => ('display:none' if @mentor.person) },
 							{ :skip_style => true, :indicator => 'person-indicator' } %>
+	<span id="name_search" class="small" style="display:none">Type name for search</span>
 
 	<%= indicator 'person-indicator' %>
 
@@ -23,6 +24,7 @@
 				Element.show('person_fields')
 				Element.hide('person_title_dt')
 				Element.hide(text_field)
+				Element.hide('name_search')
 				$('mentor_new_person_attributes_id').value = -1
 			} 
 			else 
@@ -30,6 +32,7 @@
 				Element.update('person_details_content', selection.innerHTML)
 				Element.show('person_details')
 				Element.hide(text_field)
+				Element.hide('name_search')
 			}
 		}
 	<% end -%>
@@ -46,6 +49,7 @@
 		<small><%= link_to_function "Change to a different person", 
 								"Effect.toggle('person_details', 'blind', {duration: 0.5});
 								 Effect.toggle('model_auto_completer_tf', 'blind', {duration: 0.5});
+								 Effect.toggle('name_search', 'blind', {duration: 0.5});
 								 $('model_auto_completer_tf').focus()" %>
 
 		<% if @mentor.person %>
@@ -95,6 +99,16 @@
 
 	<dt>upload new letter</dt>
 	<dd><%= f.file_field :letter %></dd>
+	
+	<%= javascript_include_tag 'chosen.proto' %>
+	<%= javascript_include_tag 'prototype.1.7' %>
+	<%= stylesheet_link_tag 'chosen' %>
+	
+	<dt>academic <br>department</dt>
+	<dd><%= select_tag 'mentor[academic_department][]', options_for_select(AcademicDepartment.all.collect(&:name).sort, @mentor.academic_department),
+	 			   :multiple => true, :class => "chzn-select", :style => "width:400px;", :data_placeholder => "Select Department(s) or Type Keyword for Search"  %>
+	
+	<span class="small light" style="vertical-align: 1em;"> Used for symposium print</span></dd>
 
 	<dt>approval response</dt>
 	<dd><%= f.select :approval_response, %w(revise approved), :include_blank => true %></dd>

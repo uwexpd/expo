@@ -75,7 +75,7 @@ class MentorController < ApplicationController
     check_if_past_deadline unless @mentee_application_record.responded?
     if params["mentor"]
       if params["academic_department"]
-         @mentee_application_record.update_attribute(:academic_department, params["academic_department"].join(","))
+         @mentee_application_record.update_attribute(:academic_department, params["academic_department"])
       else         
          @error = "Please at least select one for your academic department(s)."
          redirect_to :action => 'mentee_abstract_approve', :id => params[:id], :error_message => @error and return true

@@ -1,36 +1,40 @@
 require 'mongrel_cluster/recipes'
+
 set :application, "expo"
-set :repository,  "svn+ssh://isidore/usr/local/svn/exporepo/trunk"
-set :deploy_to, "/usr/local/apps/#{application}"
+set :repository,  "git@github.com:uwexpd/expo.git"
+
+set :scm, :git
+# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+
 set :user, "joshlin"
-#set :deploy_via, :export  # export from svn instead of checkout
-set :deploy_via, :remote_cache
-set :copy_exclude, [".svn", ".DS_Store"]
-
 set :runner, "root"
-default_run_options[:pty] = true
-role :app, "isidore"
-role :web, "isidore"
-role :db,  "isidore", :primary => true
+set :use_sudo, true
+set :deploy_to, "/usr/local/apps/#{application}"
 
+role :web, "expo.uaa.washington.edu"                          # Your HTTP server, Apache/etc
+role :app, "expo.uaa.washington.edu"                          # This may be the same as your `Web` server
+role :db,  "expo.uaa.washington.edu", :primary => true # This is where Rails migrations will run
+
+# if you're still using the script/reaper helper you will need
+# these http://github.com/rails/irs_process_scripts
+
+# If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
   task :start, :roles => :app do
-    run "touch #{current_release}/tmp/restart.txt"
-  end
+      run "touch #{current_release}/tmp/restart.txt"
+    end
 
-  task :stop, :roles => :app do
-    # Do nothing.
-  end
+    task :stop, :roles => :app do
+      # Do nothing.
+    end
 
-  desc "Restart Application"
-  task :restart, :roles => :app do
-    run "touch #{current_release}/tmp/restart.txt"
+    desc "Restart Application"
+    task :restart, :roles => :app do
+      run "touch #{current_release}/tmp/restart.txt"
   end
+  #   task :start do ; end
+  #   task :stop do ; end
+  #   task :restart, :roles => :app, :except => { :no_release => true } do
+  #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  #   end
 end
-
-
-Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
-  $: << File.join(vendored_notifier, 'lib')
-end
-
-require 'hoptoad_notifier/capistrano'

@@ -45,5 +45,9 @@ class UserUnitRole < ActiveRecord::Base
   def <=>(o)
     unit <=> o.unit rescue -1 
   end
+  
+  def accountability_departments(delimiter = ", ")
+     authorizations.collect{|a| a.authorizable.name}.join(delimiter) rescue nil
+  end
 
 end

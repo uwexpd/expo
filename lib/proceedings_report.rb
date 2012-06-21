@@ -102,7 +102,7 @@ class ProceedingsReport
     options = { :include_heading => true }.merge(options)
     puts "\n\nAdding session #{session.id}"
     session_heading(session) if options[:include_heading] == true
-    apps = session.presenters.sort{|x,y| x.offering_session_order.nil? ? x.fullname <=> y.fullname : x.offering_session_order.to_i <=> y.offering_session_order.to_i }
+    apps = session.presenters.sort{|x,y| x.offering_session_order.nil? ? x.lastname_first.strip <=> y.lastname_first.strip : x.offering_session_order.to_i <=> y.offering_session_order.to_i }
     add_abstracts(apps)
   end
 
@@ -142,7 +142,7 @@ class ProceedingsReport
     move_to_newline
     
     print "P" ## "primary presenter name, "
-    add_to_index(:people, app.person.lastname_first)
+    add_to_index(:people, app.person.lastname_first.strip)
     presenter = "<i>#{app.person.firstname_first rescue "(Name Error)"}, "
     reference_quarter ||= @reference_quarter || Quarter.find_by_date(@offering.deadline)
     presenter << "#{app.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}, "
@@ -167,7 +167,7 @@ class ProceedingsReport
       #   print "[skip]"
       #   return
       # end
-      add_to_index(:people, group_member.lastname_first)
+      add_to_index(:people, group_member.lastname_first.strip)
       # @pdf.text group_member.info_detail_line
       parse_and_add_text group_member.info_detail_line
       move_to_newline
@@ -182,9 +182,9 @@ class ProceedingsReport
     # print "mentors, "
     for mentor in app.mentors
       print "M"
-      add_to_index(:people, mentor.lastname_first)
+      add_to_index(:people, mentor.lastname_first.strip)
       # @pdf.text "Mentor: #{mentor.info_detail_line}"
-      parse_and_add_text "Mentor: #{mentor.info_detail_line}"
+      parse_and_add_text "Mentor: #{mentor.info_detail_line(false,true)}"
       move_to_newline
     end
     # @pdf.text "</em>"
@@ -263,18 +263,13 @@ class ProceedingsReport
 
   # Creates a session heading for an oral presentation session.
   def session_heading(session)
-    puts "\nAdding session heading for session #{session.id}..."
-    if session.location == "Mary Gates Hall 420"
-      keep_together(session.title, 14, 32, 124)
-    else
-      keep_together(session.title, 14, 32, 84)
-    end
-    if session.location == "Johnson Hall 022" || session.location == "Johnson Hall 026" || session.location == "Johnson Hall 111" || session.location == "Johnson Hall 175"
+    puts "\nAdding session heading for session #{session.id}..."    
+    if session.location.include?("Johnson Hall")
       keep_together(session.title, 14, 32, 100)
     else
       keep_together(session.title, 14, 32, 84)
     end
-    add_to_index(:people, session.moderator.person.lastname_first) if session.moderator
+    add_to_index(:people, session.moderator.person.lastname_first.strip) if session.moderator
     in_column_line
     @size = 14
     move_to_newline(18)
@@ -296,17 +291,12 @@ class ProceedingsReport
     @size = 9
     move_to_newline
        
-    if session.location == "Johnson Hall 022" || session.location == "Johnson Hall 111" || session.location == "Johnson Hall 175" || session.identifier == "2Q"
-            parse_and_add_text "<i>Johnson Hall is just west of Mary Gates Hall; please see map and further details on page 38.</i>"
+    if session.location.include?("Johnson Hall")
+            parse_and_add_text "<i>Johnson Hall is just west of Mary Gates Hall; please see map and further details on page 98.</i>"
             move_to_newline
             move_to_newline
     end    
-    if session.location == "Mary Gates Hall 420"
-      parse_and_add_text "<i>Room 420 is accessible by elevator and stairs at the north end of the building, near the main entrance. The south elevator does not reach the fourth floor. Once you enter the fourth floor, follow the signs to room 420 in the Information School suite.</i>"
-      move_to_newline
-      move_to_newline
-    end
-
+    
     parse_and_add_text "* Note: Titles in order of presentation."
     @size = DEFAULT_SIZE
     move_to_newline

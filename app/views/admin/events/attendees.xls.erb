@@ -3,6 +3,7 @@
 		<th>ID</th>
 		<th>First Name</th>
 		<th>Last Name</th>
+		<th>Student No</th>
 		<th>Expected?</th>
 		<th>Attended?</th>
 		<th>Time</th>
@@ -22,6 +23,7 @@
 		<td><%= invitee.id %></td>
 		<td><%=h invitee.person.firstname rescue "#error" %></td>
 		<td><%=h invitee.person.lastname rescue "#error" %></td>
+		<td><%= invitee.person.student_no rescue "#error" %></td>
 		<td><%= invitee.attending? %></td>
 		<td><%= invitee.checked_in? %></td>
 		<td><%= invitee.event_time.time_detail %></td>

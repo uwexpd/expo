@@ -6,7 +6,7 @@
 	
 	<tr>
 		<th width="25%">Nominee</th>
-		<th>MG Research Mentor?</th>
+		<th>MG Research Awarded Mentee</th>
 		<th>No. of mentees (this offering) / Total no. of mentees (all symposia)</th>
 	</tr>
 	
@@ -29,7 +29,7 @@
 				</td>
 			<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering.award_types.collect(&:scholar_title).include?("Mary Gates Research Scholar") }.size if nominee.is_a?(Person) %></td>
 			<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering == @offering }.size if nominee.is_a?(Person) %> / 
-				<%= nominee.application_mentors.select{|a| !a.application_for_offering.offering.sessions.empty? }.size if nominee.is_a?(Person) %>
+				<%= nominee.application_mentors.reject{|a| a.application_for_offering.offering.sessions.empty? }.size if nominee.is_a?(Person) %>
 			</td>
 		<tr>
 

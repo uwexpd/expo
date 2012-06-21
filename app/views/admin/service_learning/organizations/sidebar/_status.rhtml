@@ -12,7 +12,7 @@
 	<div id="staff_contact_user" style="display:none">
 		Assign to:
 		<%= f.collection_select :staff_contact_user_id,
-		 						@unit.users.uniq,
+		 						@unit.users.uniq.sort_by(&:fullname),
 								:id, :fullname %>
 
 		<%= f.submit "Change" %>

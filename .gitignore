@@ -1,16 +1,15 @@
 
 .DS_Store
-files
-images
-javascripts
-stylesheets
 
 config/certs
 config/database.yml
 config/uwca.crt
+
+public/expo/
 
 log/
 
 tmp/
 
 .svn/
+

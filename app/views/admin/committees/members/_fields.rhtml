@@ -10,7 +10,7 @@
 								:regexp_for_id => '(-?\d+)$' },
 							{ :autocomplete => false, :style => ('display:none' if @member.person) },
 							{ :skip_style => true, :indicator => 'person-indicator' } %>
-	<span class="small">Type name for search</span>
+	<span id="name_search" class="small" style="display:none">Type name for search</span>
 	
 	<%= indicator 'person-indicator' %>	
 
@@ -21,6 +21,7 @@
 				Element.show('person_fields')
 				Element.hide('person_title_dt')
 				Element.hide(text_field)
+				Element.hide('name_search')
 				$('committee_member_new_person_attributes_id').value = -1
 			} 
 			else 
@@ -28,6 +29,7 @@
 				Element.update('person_details_content', selection.innerHTML)
 				Element.show('person_details')
 				Element.hide(text_field)
+				Element.hide('name_search')
 			}
 		}
 	<% end -%>
@@ -44,6 +46,7 @@
 		<small><%= link_to_function "Change to a different person", 
 								"Effect.toggle('person_details', 'blind', {duration: 0.5});
 								 Effect.toggle('model_auto_completer_tf', 'blind', {duration: 0.5});
+								 Effect.toggle('name_search', 'blind', {duration: 0.5});
 								 $('model_auto_completer_tf').focus()" %>
 								
 		<% if @member.person %>
@@ -57,7 +60,7 @@
 		</small>
 								
 	</div>
-	<p class="caption">Some committees might already exist. Please avoid to create duplicate record.</p>
+	<!-- </p> -->
 	</dd>
 	
 	<div id="person_fields" <%= "style='display:none'" if (@member.person && @member.person.valid?) || @member.person.nil? %>>

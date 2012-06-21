@@ -584,13 +584,13 @@ class Offering < ActiveRecord::Base
   
   # Creates (or restores from cache) a hash with keys of department names and values of arrays of application ID numbers.
   # Default cache is 24 hours.
-  def departments_mapping(status = :confirmed)
+  def departments_mapping(status = :confirmed, academic_department = false)
     OFFERINGS_CACHE.fetch("departments_mapping_#{id}_#{status.to_s.underscore}", :expires_in => 24.hours) do
       @apps = application_for_offerings.with_status(status)
       departments = {}
       for iapp in @apps
-        dept = iapp.mentor_department
-        departments[dept] = (departments[dept].nil? ? [iapp.id] : departments[dept] << iapp.id) unless dept.blank?
+        dept = academic_department==true ? iapp.primary_mentor.academic_department : iapp.mentor_department        
+        dept.each{|d| departments[d] = (departments[d].nil? ? [iapp.id] : departments[d] << iapp.id) } unless dept.blank?        
       end
       departments
     end

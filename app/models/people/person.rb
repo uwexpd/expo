@@ -308,18 +308,20 @@ class Person < ActiveRecord::Base
   # at the end; pass +false+ as the fourth paramater to reverse this behavior.
   def place_into(position, service_learning_course, unit = nil, update_service_learning_risk_paper_date = false, send_confirmation_email = "1")
     ServiceLearningPlacement.transaction do
-      # add pessimistic locking to prevent two students get same placement
+      # add pessimistic locking to prevent two students get same placement      
       @placement = position.placements.open_for(service_learning_course).first.lock! rescue nil
-      @placement.update_attribute :person_id, self.id
-      @placement.update_attribute :unit_id, unit.nil? ? position.unit_id : unit.id
-      update_attribute :service_learning_risk_placement_id, @placement.id
-      update_attribute :service_learning_risk_paper_date, Time.now if update_service_learning_risk_paper_date == "1"
-      if send_confirmation_email == "1" && position.try(:unit).try(:bothell?)
-        EmailContact.log self.id, ServiceLearningMailer.deliver_bothell_registration_complete(@placement) 
-      elsif send_confirmation_email == "1"
-        EmailContact.log self.id, ServiceLearningMailer.deliver_registration_complete(@placement) 
-      elsif send_confirmation_email == "2"
-        EmailContact.log self.id, ServiceLearningMailer.deliver_pipeline_registration_complete(@placement)
+      if @placement
+        @placement.update_attribute :person_id, self.id
+        @placement.update_attribute :unit_id, unit.nil? ? position.unit_id : unit.id
+        update_attribute :service_learning_risk_placement_id, @placement.id
+        update_attribute :service_learning_risk_paper_date, Time.now if update_service_learning_risk_paper_date == "1"
+        if send_confirmation_email == "1" && position.try(:unit).try(:bothell?)
+          EmailContact.log self.id, ServiceLearningMailer.deliver_bothell_registration_complete(@placement) 
+        elsif send_confirmation_email == "1"
+          EmailContact.log self.id, ServiceLearningMailer.deliver_registration_complete(@placement) 
+        elsif send_confirmation_email == "2"
+          EmailContact.log self.id, ServiceLearningMailer.deliver_pipeline_registration_complete(@placement)
+        end
       end
     end
     true

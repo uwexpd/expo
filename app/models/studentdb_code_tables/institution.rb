@@ -31,7 +31,20 @@ class Institution < StudentInfo
       "EVERETT COMM COLL"     => "Everett Community College",
       "BOISE ST UNIV"         => "Boise State University",
       "EDMONDS COMM COLL"     => "Edmonds Community College",
-      "UNIV OF PUGET SOUND"   => "University of Puget Sound"
+      "UNIV OF PUGET SOUND"   => "University of Puget Sound",
+      "WAYNE STATE UNIV "     => "Wayne State University",
+      "CALIFORNIA STATE UNIV:EAST BAY" => "California State University, East Bay",
+      "UNIV ST THOMAS"        => "University of St. Thomas",
+      "EASTERN WASHINGTON UNIV" => "Eastern Washington University",
+      "HERITAGE COLLEGE"      => "Heritage College",
+      "WHITMAN COLL"          => "Whitman College",
+      "MINNESOTA STATE UNIV"  => "Minnesota State University",
+      "ST MARYS UNIVERSITY"   => "St. Mary's University",
+      "CENTRAL WASHINGTON UNIV" => "Central Washington University",
+      "PACIFIC LUTHERAN U"    => "Pacific Lutheran University",
+      "UNIV NORTH TEXAS"      => "University of North Texas",
+      "CALIF ST UNIV DOM HL"  => "California State University, Dominguez Hills",
+      "UNIV WISC RIVER FLS"   => "University of Wisconsin, River Falls"
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end

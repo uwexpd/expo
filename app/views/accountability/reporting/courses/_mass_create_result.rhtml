@@ -12,4 +12,7 @@
 		<li class="icon-left delete">You had already reported these courses, so they weren't added: <%= @dupes.collect{|a| "#{a.course.short_title} (#{a.course.quarter.title})"}.join(", ") %></li>
 	<% end -%>
 
+	<br>
+	<li><%= link_to "Click here to go back to the list.", accountability_reporting_courses_url(@year) %></li>
+
 </ul>

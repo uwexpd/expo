@@ -55,7 +55,7 @@ class Admin::OrganizationsController < Admin::BaseController
     respond_to do |format|
       if @organization.save
         flash[:notice] = 'Organization was successfully created.'
-        format.html { redirect_to(admin_organization_path(@organization)) }
+        format.html { redirect_to(redirect_to_path || admin_organization_path(@organization)) }
         format.xml  { render :xml => @organization, :status => :created, :location => @organization }
       else
         format.html { render :action => "new" }
@@ -87,7 +87,7 @@ class Admin::OrganizationsController < Admin::BaseController
     respond_to do |format|
       if @organization.update_attributes(params[:organization])
         flash[:notice] = 'Organization was successfully updated.'
-        format.html { redirect_to(admin_organization_path(@organization)) }
+        format.html { redirect_to(redirect_to_path || admin_organization_path(@organization)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

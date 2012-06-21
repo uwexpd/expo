@@ -710,13 +710,17 @@ class AccountabilityReport < ActiveRecord::Base
           if a.is_a?(Activity) && !a.department_id.blank?
             department_identifier = "#{a.department_id.to_s}_#{a.department.try(:name)}"
             # print "."
-          elsif a.is_a?(ServiceLearningPlacement)          
-              for c in a.course.courses
-                 if c.course.enrolls?(Person.find(a.person_id))
-                    department_identifier = "#{c.course.department.dept_code.to_s}_#{c.course.department.try(:name)}"
-                    course_identifier = "#{c.course.short_title}"                           
-                 end
-              end                      
+          elsif a.is_a?(ServiceLearningPlacement)
+              if a.course
+                for c in a.course.courses
+                   if c.course.enrolls?(Person.find(a.person_id))
+                      department_identifier = "#{c.course.department.dept_code.to_s}_#{c.course.department.try(:name)}"
+                      course_identifier = "#{c.course.short_title}"                           
+                   end
+                end
+              else
+                department_identifier = "No registered course, Volunteer"
+              end
               
               if a.unit_id == 4
                 service_learning_department_identifier = "0_Pipeline Project"  

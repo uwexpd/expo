@@ -80,6 +80,14 @@ class Admin::Communicate::TemplatesController < Admin::BaseController
       format.xml  { head :ok }
     end
   end
+  
+  def auto_complete    
+    @email_templates = EmailTemplate.find(:all,  :conditions => "name LIKE '%#{params[:q]}%'")
+    
+    respond_to do |format|
+      format.js
+    end
+  end  
 
   protected
   

@@ -1049,6 +1049,10 @@ class ApplicationForOffering < ActiveRecord::Base
     return read_attribute(:mentor_department) unless read_attribute(:mentor_department).blank?
     primary_mentor.department if primary_mentor
   end
+  
+  def academic_department(delimiter = ", ")
+    primary_mentor.academic_department.join(delimiter) if primary_mentor rescue primary_mentor.academic_department
+  end
 
   # Assigns a new easel_number to this application. If the easel_number is different than what is currently stored in the DB,
   # then we take action to move other applications as needed or to fill in the gap we create by moving this application.
