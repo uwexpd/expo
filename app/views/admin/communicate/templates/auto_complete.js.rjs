@@ -1,0 +1,11 @@
+page.hide :all_templates
+page.show :search_results
+
+if @email_templates.empty?
+  page.show :search_results_empty
+  page.hide :search_results_tbody
+else
+  page.hide :search_results_empty
+  page.show :search_results_tbody
+  page.replace_html :search_results_tbody, :partial => 'text_template', :collection => @email_templates
+end
