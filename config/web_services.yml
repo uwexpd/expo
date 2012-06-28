@@ -1,11 +1,11 @@
-development:
-    host: ucswseval1.cac.washington.edu
-    cert: mharris2.ued.washington.edu.pem
-    key: mharris2.ued.washington.edu.pem
+development:  
+    host: ws.admin.washington.edu
+    cert: expo.uaa.washington.edu.uwca.crt
+    key: expo.uaa.washington.edu.key
     ca_file: uwca.pem
-    
+
 production:
     host: ws.admin.washington.edu
-    cert: isidore.crt
-    key: isidore.key
+    cert: expo.uaa.washington.edu.uwca.crt
+    key: expo.uaa.washington.edu.key
     ca_file: uwca.pem
