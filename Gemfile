@@ -1,7 +1,5 @@
 source :rubygems
 gem "rails", "2.3.5"
-#gem "i18n", '0.4.2'
-#gem 'formtastic', '~> 1.1.0'
 gem "mongrel"
 gem "mongrel_cluster"
 gem "will_paginate", '~> 2.3.11'
@@ -28,6 +26,7 @@ gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
+#gem "rvm"
 
 # gem "geokit"
 

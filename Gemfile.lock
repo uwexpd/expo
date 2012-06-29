@@ -95,6 +95,7 @@ GEM
     ruby-ole (1.2.11.2)
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
+    rvm (1.11.3.4)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
     spreadsheet (0.6.8)
@@ -134,6 +135,7 @@ DEPENDENCIES
   rspec
   rspec-rails (~> 1.2.0)
   rtex
+  rvm
   sanitize
   spreadsheet
   will_paginate (~> 2.3.11)

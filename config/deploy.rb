@@ -1,5 +1,5 @@
 require 'mongrel_cluster/recipes'
-#require 'bundler/capistrano'
+# require 'bundler/capistrano'
 
 # $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 # set :rvm_type, :user
@@ -48,8 +48,14 @@ namespace :deploy do
   task :config_symlink, :except => { :no_release => true } do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/certs #{release_path}/config/certs" 
-  end
-  
+  end  
 end
 
 after "deploy:finalize_update", "deploy:config_symlink"
+
+# Using hoptoad_notifier
+Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
+  $: << File.join(vendored_notifier, 'lib')
+end
+
+require 'hoptoad_notifier/capistrano'
