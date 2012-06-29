@@ -1,5 +1,5 @@
 require 'mongrel_cluster/recipes'
-require 'bundler/capistrano'
+#require 'bundler/capistrano'
 
 # $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 # set :rvm_type, :user
@@ -12,12 +12,11 @@ set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 default_run_options[:pty] = true
-set :branch, "master"
 set :deploy_via, :remote_cache
 
 set :user, "joshlin"
-#set :runner, "root"
-set :use_sudo, false
+set :runner, "root"
+set :use_sudo, true
 set :deploy_to, "/usr/local/apps/#{application}"
 
 server "expo.uaa.washington.edu", :app, :web, :db, :primary => true
@@ -30,7 +29,7 @@ server "expo.uaa.washington.edu", :app, :web, :db, :primary => true
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
-  task :start, :roles => :app do
+    task :start, :roles => :app do
       run "touch #{current_release}/tmp/restart.txt"
     end
 
@@ -41,10 +40,16 @@ namespace :deploy do
     desc "Restart Application"
     task :restart, :roles => :app do
       run "touch #{current_release}/tmp/restart.txt"
-  end
-  #   task :start do ; end
-  #   task :stop do ; end
-  #   task :restart, :roles => :app, :except => { :no_release => true } do
-  #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-  #   end
+    end
 end
+
+namespace :deploy do     
+  desc "[internal] Link database.yml and certs file to deployed release."
+  task :config_symlink, :except => { :no_release => true } do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/certs #{release_path}/config/certs" 
+  end
+  
+end
+
+after "deploy:finalize_update", "deploy:config_symlink"
