@@ -9,6 +9,8 @@ GEM
       rack (~> 1.0.0)
     activerecord (2.3.5)
       activesupport (= 2.3.5)
+    activerecord-odbc-adapter (2.0)
+      activerecord (>= 2.0.2)
     activeresource (2.3.5)
       activesupport (= 2.3.5)
     activesupport (2.3.5)
@@ -95,7 +97,6 @@ GEM
     ruby-ole (1.2.11.2)
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
-    rvm (1.11.3.4)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
     spreadsheet (0.6.8)
@@ -109,6 +110,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
+  activerecord-odbc-adapter (~> 2.0)
   addressable (~> 2.1.0)
   andrew311-activerecord-odbc-adapter
   calendar_date_select
@@ -135,7 +137,6 @@ DEPENDENCIES
   rspec
   rspec-rails (~> 1.2.0)
   rtex
-  rvm
   sanitize
   spreadsheet
   will_paginate (~> 2.3.11)
