@@ -20,14 +20,12 @@ gem "htmldoc"
 gem "addressable","~> 2.1.0"
 gem "dbi"
 gem "dbd-odbc"
-gem "andrew311-activerecord-odbc-adapter"
 gem "activerecord-odbc-adapter", "~> 2.0"
 gem "pdf-writer"
 gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
-#gem "rvm"
 
 # gem "geokit"
 
@@ -38,6 +36,7 @@ end
 group :development do
   # bundler requires these gems in development
   #gem "sqlite3-ruby", :require => "sqlite3"  
+  gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
 end
 
