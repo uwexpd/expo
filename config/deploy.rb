@@ -1,5 +1,5 @@
 require 'mongrel_cluster/recipes'
-# require 'bundler/capistrano'
+require 'bundler/capistrano'
 
 # $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 # set :rvm_type, :user
