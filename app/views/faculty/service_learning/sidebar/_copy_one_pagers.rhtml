@@ -1,0 +1,10 @@
+<h3><strong class="icon-left copy">Copy Course Information</strong></h3>
+
+Copy from previous courses:
+<%= form_tag %>
+	<select name="copy_course_id" id="copy_course_id" style="width:100%;margin-bottom:5px">
+		<%= options_for_select @copy_courses_options %>
+	</select>							
+	<%= submit_tag "Copy course information" %>
+</form>
+
