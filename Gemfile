@@ -27,6 +27,7 @@ gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
+gem "hashie"
 
 gem "omniauth-shibboleth"
 
