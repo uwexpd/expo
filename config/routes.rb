@@ -262,7 +262,10 @@ ActionController::Routing::Routes.draw do |map|
                                                                                   :toggle_finalized => :post,
                                                                                   :toggle_open => :post,
                                                                                   :overview => :any,
-                                                                                  :volunteers => :get },
+                                                                                  :volunteers => :get,
+                                                                                  :clone_organization_for_multiple_quarters => :post,
+                                                                                  :clone_course => :post,
+                                                                                  :change_quarter_option => :post },
                                                                 :member => {  :students => :get,
                                                                               :add_note => :post,
                                                                               :finalize => :post,
@@ -280,7 +283,7 @@ ActionController::Routing::Routes.draw do |map|
                                                                               :place_pipeline_position => :post }
       } do |courses|
         # courses.evaluation          'evaluation/:id',           :controller => 'courses', :action => 'evaluation'
-        courses.resources           :extra_enrollees
+        courses.resources           :extra_enrollees      
         courses.resources           :instructors,               :controller => 'courses/instructors',
                                                                 :collection => { :find_by_uw_netid => :any }
       end
@@ -344,6 +347,7 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_password 'session/reset/:user_id/:token', :controller => 'session', :action => 'reset_password'
   map.open_id_complete 'session', :controller => "session", :action => "create", :requirements => { :method => :get }
   map.resource :session
+  map.omniauth_callback "/auth/:provider/callback", :controller => 'session', :action => 'create'
 
   # Faculty
   map.faculty_profile 'faculty_profile', :controller => 'faculty', :action => 'profile'
