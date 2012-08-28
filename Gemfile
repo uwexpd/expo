@@ -20,15 +20,15 @@ gem "htmldoc"
 gem "addressable","~> 2.1.0"
 gem "dbi"
 gem "dbd-odbc"
+gem "ruby-odbc"
 gem "activerecord-odbc-adapter", "~> 2.0"
 gem "pdf-writer"
 gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
-gem "ruby-odbc", "~> 0.99994"
 
-# gem "geokit"
+gem "omniauth-shibboleth"
 
 group :production do
   gem "mysql"

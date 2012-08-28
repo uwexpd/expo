@@ -3,19 +3,17 @@
 </p>
 <table class="login">
 	<tr>
-		<% form_tag session_path do -%>
+		<% form_tag '/auth/shibboleth' do -%>
 
-		<td id="uwnetid">
-			
+		<td id="uwnetid">			
 			<div>
 				<h2>UW Students, Faculty &amp; Staff</h2>			
-				<%= link_to image_tag('app/weblogin-logo.gif'), session_path(:uwnetid_button => true), :method => :put %>
+				<%= link_to image_tag('app/weblogin-logo.gif'), '/auth/shibboleth', :uwnetid_button => true %>
 				<p><%= submit_tag 'Log in with UW NetID', :name => 'uwnetid_button' %></p>
 			</div>
-
 		</td>
 		
-		<%= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
+		<%#= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
 		<% end -%>		
 		
 		<% form_tag session_path do -%>
