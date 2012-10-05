@@ -27,12 +27,12 @@ gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
-gem "hashie"
 
-gem "omniauth-shibboleth"
 
 group :production do
-  gem "mysql"
+  gem "mysql"  
+  gem "hashie"
+  gem "omniauth-shibboleth"  
 end
 
 group :development do

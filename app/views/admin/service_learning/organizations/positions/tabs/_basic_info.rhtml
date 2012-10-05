@@ -10,7 +10,7 @@
 <%= f.collection_select :organization_quarter_id,
  						@organization_quarters.select{|oq| admin || oq.allow_position_edits? || oq == f.object.organization_quarter },
 						:id, :unit_name,
-						:prompt => "-- Please select --",
+						{:prompt => "-- Please select --"},
 						:class => "big" if @organization_quarters && @organization_quarters.size > 1 %>
 
 <%= f.text_field :title, :class => 'big' %>
@@ -28,7 +28,7 @@
 <%= f.collection_select :supervisor_person_id, 
 						@organization.contacts,
 						:id, :fullname,
-						:include_blank => "(none)",
+						{:include_blank => "(none)"},
 						:class => "big" %>
 
 <%= f.text_field :ideal_number_of_slots, :size => 3 %>

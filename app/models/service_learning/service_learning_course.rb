@@ -192,6 +192,14 @@ class ServiceLearningCourse < ActiveRecord::Base
     pipeline_student_type.nil? ? "Unknown" : pipeline_student_type.name
   end
 
+  # Create a copy sesrvice learning course
+  def deep_clone!
+    opts = {}
+    opts[:except] = [        
+        :updated_at
+      ]
+    self.clone(opts)  
+  end    
 
   protected
   

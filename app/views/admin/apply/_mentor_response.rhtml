@@ -29,7 +29,7 @@
 				<br><%= link_to_function "Upload a letter", 
 										 "Effect.toggle('update_mentor_form_#{mentor.id}', 'blind', {duration: 0.5})" if admin_view %>
 			<% else %>
-				<% f = mentor.letter.pdf.exists? ? mentor.letter.pdf : mentor.letter.original %>
+				<% f = mentor.letter.pdf.exists? ? mentor.letter.pdf : mentor.letter.original rescue mentor.letter.original %>
 				<div class="file <%= f.ext %>">
 					<%= image_tag "icons/filetypes/32/#{f.ext}.png" %>
 					<div class="filename">
@@ -39,7 +39,7 @@
 									:mentor => mentor, 
 									:version => f.suffix %></div>
 					<div class="details">
-						<%= f.content_type %>, 
+						<%= f.content_type << ", " if f.content_type %>
 						<%= number_to_human_size(f.size) %>
 						| <%= link_to_function "Upload new letter", 
 												"Effect.toggle('update_mentor_form_#{mentor.id}', 'blind', {duration: 0.5})" if admin_view %>

@@ -56,6 +56,8 @@
 						{ :id => @service_learning_course, :tab => "organization_matches" }, "tabview_content") %>
 		<%= link_to_tab("Position Matches (#{@service_learning_course.positions.size})", "position_matches", 
 						{ :id => @service_learning_course, :tab => "position_matches", :filters => @use_pipeline_links }, "tabview_content") %>
+		<%= link_to_tab("Multiple Quarter Commitments", "multiple_quarter",
+						{ :id => @service_learning_course, :tab => "multiple_quarter" }, "tabview_content") %>
 		</ul>
 	</div>
 

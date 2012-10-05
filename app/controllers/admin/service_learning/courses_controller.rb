@@ -1,5 +1,6 @@
 class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningController
   before_filter :courses_breadcrumbs
+  before_filter :generate_copy_options, :only => [:index, :show, :change_quarter_option]
 
   # GET /service_learning_courses
   # GET /service_learning_courses.xml
@@ -18,8 +19,8 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
                                                       service_learning_positions.unit_id = :unit_id AND
                                                       organization_quarters.quarter_id = :quarter_id",
                                                       {:unit_id => @unit.id, :quarter_id => @quarter.id}]).count
-    end
-
+    end                       
+    
     @show_quarter_select_dropdown = true
     respond_to do |format|
       format.html # index.html.erb
@@ -482,6 +483,85 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
     end
   end
   
+  # Clone selected positions and placements(registered students who are) of the course for multiple quarters commitments
+  # Multiple quarter includes 2~3 quarter depends on courses.
+  def clone_positions_for_multiple_quarters
+    @service_learning_course = ServiceLearningCourse.find(params[:course])
+    @selected_copy_quarter = Quarter.find(params[:copy_quarter_id])
+    @selected_copy_course = ServiceLearningCourse.find(params[:copy_course_id])
+    
+    if params[:select]
+        copied_positions = []
+        copied_placements = []
+        for object_type, ids in params[:select]
+          if object_type == 'ServiceLearningPosition'
+            for id, val in ids
+              position = ServiceLearningPosition.find(id)
+              organization_quarter = position.organization_quarter
+              begin 
+                ActiveRecord::Base.transaction do                
+                  @new_oq = OrganizationQuarter.find_by_organization_id_and_quarter_id_and_unit_id(position.organization.id, @selected_copy_quarter.id, @unit)
+                    if @new_oq.nil?
+                       @new_oq = organization_quarter.deep_clone!
+                       @new_oq.update_attribute(:quarter_id, @selected_copy_quarter.id)
+                       @new_oq.save!
+                    end                                                                                           
+                                        
+                    @new_position = position.clone(['details','times','supervisor','location','approved','ideal_number_of_slots'])
+                    @new_position.update_attribute(:organization_quarter_id, @new_oq.id)
+                    @new_position.save!
+                                                                               
+                    position.placements.for(@service_learning_course).select(&:filled?).each do |placement|                        
+                       new_placement = placement.deep_clone!
+                       new_placement.update_attribute(:service_learning_position_id, @new_position.id)
+                       new_placement.update_attribute(:service_learning_course_id, @selected_copy_course.id)
+                       new_placement.save!
+                       copied_placements << new_placement                   
+                    end
+                end                
+              rescue ActiveRecord::RecordInvalid => invalid                  
+                raise ActiveRecord::Rollback
+                flash[:error] = "Sorry, but we couldn't copy #{position.name}. An error occurred."                                                 
+                redirect_to :back
+              end
+              @new_oq.update_position_counts!                                                 
+              copied_positions << @new_position
+            end
+          end
+        end
+      flash[:notice] = "Copied #{copied_positions.size} positions with #{copied_placements.size} students who enrolled #{@service_learning_course.title} to #{@selected_copy_quarter.title}."
+    else
+      flash[:error] = "Please select at least one position first."
+      redirect_to :back    
+    end
+    respond_to do |format|
+      #format.html { redirect_to(service_learning_course_path(@unit, @quarter, @service_learning_course, :anchor => "organization_matches")) }
+      format.html { redirect_to(service_learning_course_path(@unit, @selected_copy_quarter, @selected_copy_course, :anchor => "position_matches")) }
+    end  
+
+  end  
+  
+  # Copy the course to chosen quarter
+  def clone_course     
+    if params[:copy_course_id]
+      @service_learning_course ||= ServiceLearningCourse.find(params[:copy_course_id])
+    
+      if slc2 = @service_learning_course.deep_clone!
+        slc2.update_attribute(:quarter_id, @quarter.id)
+        flash[:notice] = "Successfully cloned #{@service_learning_course.title} for #{slc2.quarter.title}. You can customize the details below."        
+        redirect_to edit_service_learning_course_path(@unit, slc2.quarter, slc2)
+      else
+        flash[:error] = "Sorry, but we couldn't copy that course. An error occurred."
+        redirect_to :back
+      end
+    end    
+  end
+  
+  def change_quarter_option
+    #redirect_to :action => "index", :copy_quarter_id => params[:copy_quarter_id]
+    render :partial => "course_copy_dropdown"
+  end
+     
   private
   
   # Performs the search to find the positions for the pipeline course
@@ -499,6 +579,26 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
   
   def courses_breadcrumbs
     session[:breadcrumbs].add "Courses", service_learning_courses_path
+  end
+
+  def generate_copy_options
+      if params[:action] == "index" || params[:action] == "change_quarter_option" || (params[:action] == "show" && (params[:tab] || params[:tab] == "multipal_quarter"))
+          @copy_quarter_options = []
+          for quarter in ServiceLearningCourse.all.collect(&:quarter).uniq.sort.reverse
+            key = "#{quarter.title}"
+            value = quarter.id
+            @copy_quarter_options << [key, value]
+          end
+          
+          @copy_quarter = Quarter.find params[:copy_quarter_id] || (params[:action] == "show" ? @quarter.next : @quarter.prev)
+    
+          @copy_courses_options = []
+          for service_learning_course in @copy_quarter.service_learning_courses.for_unit(@unit).sort
+            key = "#{service_learning_course.title}"
+            value = service_learning_course.id
+            @copy_courses_options << [key, value]
+          end
+      end
   end
 
 end

@@ -1,5 +1,28 @@
 <h3><strong>Activate Course</strong></h3>
 
 <ul class="link-list">
-	<li><%= link_to "Create new course", new_service_learning_course_path(@unit, @quarter), :class => 'icon-left add_new' %></li>
+	<li><%= link_to "Create new course", new_service_learning_course_path(@unit, @quarter), :class => 'icon-left add' %></li>
+	<li class="icon-left copy">
+		<%= form_tag clone_course_service_learning_courses_path(@unit, @quarter), { :autocomplete => :off } %>
+		Copy a course from <br>
+		<select name="copy_quarter_id" id="copy_quarter_id" style="margin:5px 0">
+			<%= options_for_select @copy_quarter_options, @copy_quarter.id %>
+		</select>
+										
+		<div style="border-bottom: 1px dotted #DDDDDD;margin:10px 0"></div>				
+			<%= indicator 'copy_quarter_option_indicator' %>															
+			<select name="copy_course_id" id="copy_course_id" style="width:100%;margin-bottom:10px">
+				<%= render :partial => "course_copy_dropdown" %>
+			</select>
+			<%= observe_field 	:copy_quarter_id,
+								:url => { :action => 'change_quarter_option'},
+								:update => "copy_course_id",
+								:with => 'copy_quarter_id',
+								:indicator => 'copy_quarter_option_indicator' %>
+            
+			<%= submit_tag "Copy into a new course" %>					
+									
+		</form>
+	</li>
 </ul>
+

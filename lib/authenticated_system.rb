@@ -149,18 +149,18 @@ module AuthenticatedSystem
     end
 
     # Called from #current_user.  Now, attempt to login by basic authentication information.
-    def login_from_basic_auth
-      username, passwd = get_auth_data
-      self.current_user = User.authenticate(username, passwd) if username && passwd
-    end
+    # def login_from_basic_auth
+    #       username, passwd = get_auth_data
+    #       self.current_user = User.authenticate(username, passwd) if username && passwd
+    #     end
     
     # Called from #current_user. Now, try to get the Pubcookie login info from basic auth
     def login_from_pubcookie(require_identity = nil)
-      # logger.info { "login_from_pubcookie() -- required_identity: #{require_identity}" }
+      #logger.info { "login_from_pubcookie() -- required_identity: #{require_identity}" }
       uwnetid, passwd = get_auth_data
-      # logger.info "uwnetid #{uwnetid} detected in HTTP_AUTHORIZATION -- required identity: #{require_identity}" if uwnetid
+      logger.info "uwnetid #{uwnetid} detected in HTTP_AUTHORIZATION -- required identity: #{require_identity}" if uwnetid
       LoginHistory.login(PubcookieUser.authenticate(uwnetid, passwd, require_identity), (request.env["HTTP_X_FORWARDED_FOR"] || request.env["REMOTE_ADDR"]), session.session_id) if uwnetid
-      self.current_user = PubcookieUser.authenticate(uwnetid, passwd, require_identity) if uwnetid
+      self.current_user = PubcookieUser.authenticate(uwnetid, passwd, require_identity) if uwnetid          
     end
 
     # Called from #current_user.  Finally, attempt to login by an expiring token in the cookie.
@@ -174,14 +174,16 @@ module AuthenticatedSystem
     end
 
   private
-    @@http_auth_headers = %w(X-HTTP_AUTHORIZATION HTTP_AUTHORIZATION Authorization)
+    #@@http_auth_headers = %w(X-HTTP_AUTHORIZATION HTTP_AUTHORIZATION Authorization)
     #gets BASIC auth info
-    def get_auth_data
-          auth_key  = @@http_auth_headers.detect { |h| request.env.has_key?(h) }
-          auth_data = request.env[auth_key].to_s.split unless auth_key.blank?
-          return auth_data && auth_data[0] == 'Basic' ? Base64.decode64(auth_data[1]).split(':')[0..1] : [nil, nil] 
-    end
     # def get_auth_data
-    # [request.env["eppn"].split("@").first, nil] rescue [nil, nil]
-    # end    
+    #           auth_key  = @@http_auth_headers.detect { |h| request.env.has_key?(h) }
+    #           auth_data = request.env[auth_key].to_s.split unless auth_key.blank?
+    #           return auth_data && auth_data[0] == 'Basic' ? Base64.decode64(auth_data[1]).split(':')[0..1] : [nil, nil] 
+    #     end
+
+    # Get auth data from shiboleth
+    def get_auth_data
+          [request.env["eppn"].split("@").first, nil] rescue [nil, nil]
+    end    
 end

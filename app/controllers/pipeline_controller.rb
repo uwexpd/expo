@@ -219,6 +219,11 @@ class PipelineController < ApplicationController
     session[:breadcrumbs].add "Orientation Times"
   end
   
+  def tutoring_log     
+    @tutoring_log = PipelineTutoringLog.find_by_service_learning_course_courses_id(@service_learning_course.courses.first.id)
+    session[:breadcrumbs].add "Tutoring Log"
+  end
+  
   # Allows the student to confirm a position
   #   If the position requires slots or if the course does not use the filters there will 
   #   have to be avalible slots for the student to sign up

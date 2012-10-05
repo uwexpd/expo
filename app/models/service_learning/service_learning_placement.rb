@@ -63,6 +63,15 @@ class ServiceLearningPlacement < ActiveRecord::Base
     pipeline_update_placement_quarter_url(:host => CONSTANTS[:base_url_host], :id => id)
   end
   
+  def deep_clone!
+     opts = {}
+     opts[:except] = [            
+         :confirmation_history_id,
+         :quarter_update_history_id,
+         :updated_at]     
+     self.clone(opts)        
+  end
+  
   protected
   
   def update_service_learning_position_counts

@@ -21,10 +21,10 @@ task :student_courses => :environment do
   puts "Quarter: #{quarter.title}"
   
   # Fetch courses 
-  math_courses = [111,120,124,125,126,300,307,308,309,324,327,328] 
+  math_courses = [98,111,120,124,125,126,300,307,308,309,324,327] 
   biol_courses = [118,180,200,220]
-  qsci_courses = [291,292]
-  # engl_courses = [110,111,121,131,198,200,281]
+  qsci_courses = [291]
+  engl_courses = [109,111,121,131,197,198,199,200,281]
   courses = []  
   dept_courses = []  
   
@@ -36,7 +36,7 @@ task :student_courses => :environment do
   when 206 then math_courses
   when 112 then biol_courses
   when 750 then qsci_courses
-  # when 136 then engl_courses
+  when 136 then engl_courses
   else
       puts "Can't find the department code."
   end    
@@ -48,7 +48,7 @@ task :student_courses => :environment do
   
   print "Parsing CSV file...."
   #print "Input file path of CSV file: "
-  file_path = "tmp/SSS_Summer_2012.csv" #$stdin.gets.strip
+  file_path = "tmp/SSS_ID_Fall_2012.csv" #$stdin.gets.strip
   print "(file path: #{file_path})\n"
     
   # turn csv into array of hashes
@@ -118,7 +118,20 @@ task :check_if_MGE_scholar=> :environment do
     
 end
 
+desc "Get pipeline placements with 2 or 3 quarters in a row from Fall 2011 to Spring 2012"
+task :pipeline_placements => :environment do  
+  puts "Loaded #{RAILS_ENV} environment."
 
+  placements = Quarter.find(21,22,23).collect(&:service_learning_placements).flatten.select(&:filled?).select{|p|p.unit_id == 4}  
+  puts "placements: #{placements.size}"  
+  students={}
+  placements.each{|s| students[s.person_id] = (students[s.person_id].nil? ? [s.quarter_id] : students[s.person_id] << s.quarter_id )}
+
+  puts "#{students.select{|k,v| v.size==3}.size}"
+  puts "#{students.select{|k,v| v.size==2 && v[0]=="21" && v[1]="22"}.size}"
+  puts "#{students.select{|k,v| v.size==2 && v[0]=="22" && v[1]="23"}.size}"
+
+end
 
 
 

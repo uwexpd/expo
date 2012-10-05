@@ -4,16 +4,19 @@
 
 	<td class="person icon-left-top">
 		<%= content_tag(:div, contact.id, :class => 'id tag') %>
-		<strong><%= contact.person.fullname rescue nil %></strong>
+		<strong><%= contact.person.fullname rescue nil %></strong>		
 		<%= "<small class='tag'>PSL</small>" if contact.primary_service_learning_contact? %>
 		<%= "<small class='americorps tag'>Americorps</small>" if contact.americorps? %>
-
+				
 		<%= "<br>#{contact.person.title}" unless contact.person.title.blank? rescue nil %>
-
+		
+		<%= "<br><span class='caption'>#{contact.note}</span>" unless contact.note.blank? rescue "#error" %>
+		
 		<% unless contact.supervised_positions.empty? %>
 			<br><%= link_to_function "Supervised positions (#{contact.supervised_positions.size})", 
 									"Effect.toggle('positions_#{contact.id}', 'blind', {duration: 0.25})" %>		
 		<% end -%>
+		
 		
 		
 	</td>

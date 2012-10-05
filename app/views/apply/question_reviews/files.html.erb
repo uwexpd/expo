@@ -2,7 +2,7 @@
 
 <% unless question_file.nil? || question_file.file.nil? %>
 	
-	<% version = question_file.file.valid_versions.include?(:pdf) ? :pdf : :original %>
+	<% version = question_file.file.valid_versions.include?(:pdf) ? :pdf : :original rescue :original %>
 	<%- if @full_view == true -%>
 		<% unless @download == true %>
 			<%= link_to question_file.file.versions[version].public_filename, :action => 'view', :id => @user_application, :file => question_file, :version => 'pdf' %>
@@ -10,6 +10,6 @@
 	<%- else -%>
 		<%= question_file.file.versions[version].public_filename %>
 	<%- end -%>
-	(<%= question_file.file.versions[version].content_type %>, <%= number_to_human_size(question_file.file.versions[version].size) %>)
+	(<%= question_file.file_content_type << ", " if question_file.file.content_type %><%= number_to_human_size(question_file.file.versions[version].size) %>)
 	
 <% end %>

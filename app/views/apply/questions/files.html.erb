@@ -9,7 +9,7 @@
 			<%= upload_title(question_file) %>	<%= af.file_field :file %>												
 		<% else %>
 
-			<% version = question_file.file.valid_versions.include?(:pdf) ? :pdf : :original %>
+			<% version = question_file.file.valid_versions.include?(:pdf) ? :pdf : :original rescue :original %>
 			<div class="uploaded_file file <%= question_file.file.versions[version].ext %>">
 				<div class="small" style="float:right">
 					Replace this File:	<%= af.file_field :file %>
@@ -35,8 +35,7 @@
 					</div>
 					<div class="details">
 						<b>Original filename:</b> <%= question_file.original_filename %>
-						<br><%= question_file.file.versions[version].content_type %>, 
-							<%= number_to_human_size(question_file.file.versions[version].size) %>
+						<br><%= question_file.file.content_type << ", " if question_file.file.content_type %><%= number_to_human_size(question_file.file.versions[version].size) %>
 					</div>
 				</div>
 

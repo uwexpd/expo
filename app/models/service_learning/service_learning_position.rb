@@ -371,13 +371,13 @@ class ServiceLearningPosition < ActiveRecord::Base
       day_hash[t[2]] ?  day_hash[t[2]] << t[1] : day_hash[t[2]] = [t[1]]
     end
     # day_hash = {"tuesday"=>["12:00", "12:30", "13:00"], "monday"=>["12:00", "12:30", "13:00"]}
-    
+
     # swap the key and values to merge days that are the same
     day_time_hash = {}
     day_hash.each do |day,new_times|
       day_time_hash[new_times] ? day_time_hash[new_times] << day : day_time_hash[new_times] = [day]
     end
-    
+
     day_array = []
     day_time_hash.each do |new_times,days|
       time_hash = {}
@@ -391,7 +391,7 @@ class ServiceLearningPosition < ActiveRecord::Base
           if end_time == current_time
             end_time = current_time + 30.minutes
           else # else set the time hash and add it to the array then reset the start time, end time and time hash
-            time_hash[:end_time] = end_time - 1.second
+            time_hash[:end_time] = end_time
             day_array << time_hash
             time_hash = {}
             start_time = nil
@@ -416,7 +416,7 @@ class ServiceLearningPosition < ActiveRecord::Base
         time_hash[day] = true
       end
       time_hash[:start_time] = start_time
-      time_hash[:end_time] = end_time
+      time_hash[:end_time] = end_time.to_s(:time) == "00:00" ? end_time - 1.second : end_time #set end_time 11:59 to display correctly instead of 00:00
       
       day_array << time_hash
       

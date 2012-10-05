@@ -120,9 +120,9 @@ class Organization < ActiveRecord::Base
     contacts.select{|contact| contact.supervised_positions.count > 0 }
   end
   
-  def pipeline_contacts
+  def primary_pipeline_contacts
     u = Unit.find_by_abbreviation("pipeline")
-    c = contacts.find(:all, :conditions => {:organization_contact_units => {:unit_id => u.id}})
+    c = contacts.find(:all, :conditions => {:organization_contact_units => {:unit_id => u.id, :primary_contact => true}})
     c.empty? ? contacts : c
   end
   

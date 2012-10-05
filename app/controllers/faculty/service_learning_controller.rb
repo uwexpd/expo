@@ -36,6 +36,24 @@ class Faculty::ServiceLearningController < FacultyController
       disposition = params[:disposition] == 'inline' ? 'inline' : 'attachment'
       send_file file_path, :disposition => disposition, :type => (type || "text") and return unless file_path.nil?
     end
+    
+    @copy_courses_options = []    
+    for service_learning_course in @person.service_learning_courses.sort_by(&:quarter_id).reverse.delete_if{|s|s.id==@course.id}
+      key = "#{service_learning_course.title}" + " (#{service_learning_course.quarter.title})"
+      value = service_learning_course.id
+      @copy_courses_options << [key, value]
+    end
+      
+    if params[:copy_course_id]      
+      @copy_course ||= ServiceLearningCourse.find(params[:copy_course_id])
+            
+      @course.update_attribute(:syllabus, @copy_course.syllabus)
+      @course.update_attribute(:syllabus_url, @copy_course.syllabus_url)
+      @course.update_attribute(:overview, @copy_course.overview)
+      @course.update_attribute(:role_of_service_learning, @copy_course.role_of_service_learning)
+      @course.update_attribute(:assignments, @copy_course.assignments)      
+    end
+        
   end
 
   def update

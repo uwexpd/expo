@@ -4,7 +4,8 @@
 	<% fields_for "organization_contact[person]", organization_contact.person do |person_fields| %>
 		<%= render :partial => "shared/person_fields", :object => person_fields, :locals => { :not_self => true} %>
 	<% end -%>
-
+	
+	
 	<dt>americorps</dt>
 	<dd><%= f.check_box :americorps %>
 		<br>End Date:<%= f.date_select :americorps_term_end_date %></dd>
@@ -12,15 +13,19 @@
 </dl>
 
 <% if admin %>
-	<div class="small warning">
-		Be aware that if you set this new temporary passphrase, all previous passphrases will be erased.
-	</div>
+	
 
 	<dl class="inline-definitions">
+	
+		<dt>note</dt>
+		<dd><%= f.text_area :note, :rows => 3 %></dd>
+		
+		<div class="small warning">
+			Be aware that if you set this new temporary passphrase, all previous passphrases will be erased.
+		</div><br>			
 		<dt>new temp. passphrase</dt>
 		<dd><%= f.text_field :new_token %></dd>
-	
-	
+		
 		<dt>contact unit affiliations</dt>
 	
 		<dd>

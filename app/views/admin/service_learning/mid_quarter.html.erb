@@ -43,8 +43,9 @@
 		<td>
 			<%= link_to org.name, service_learning_organization_path(@unit, @quarter, org.organization), :popup => true %>
 				<% unless org.other_units(@unit, @quarter, org.organization).blank? %>
-				<span class="tag"><%= org.other_units(@unit, @quarter, org.organization).split(",").join("</span><span class='tag'>") %></span>
+					<span class="tag"><%= org.other_units(@unit, @quarter, org.organization).split(",").join("</span><span class='tag'>") %></span>				
 				<% end %>
+			<%= "<span class='orange tag'>multiple</span>" if org.organization.multiple_quarter==true %>
 		</td>
 		<td><%= org.placements.filled.size %></td>
 		<td><%= select_check_box(org, :with_students, :value => 'invite') %></td>
@@ -65,6 +66,7 @@
 			<% unless org.other_units(@unit, @quarter, org.organization).blank? %>
 			<span class="tag"><%= org.other_units(@unit, @quarter, org.organization).split(",").join("</span><span class='tag'>") %></span>
 			<% end %>
+			<%= "<span class='orange tag'>multiple</span>" if org.organization.multiple_quarter==true %>
 		</td>
 		<td><%= org.placements.filled.size %></td>
 		<td><%= select_check_box(org, :self_placements_only, :value => 'invite') %></td>
@@ -85,6 +87,7 @@
 			<% unless org.other_units(@unit, @quarter, org.organization).blank? %>
 			<span class="tag"><%= org.other_units(@unit, @quarter, org.organization).split(",").join("</span><span class='tag'>") %></span>
 			<% end %>
+			<%= "<span class='orange tag'>multiple</span>" if org.organization.multiple_quarter==true %>
 		</td>
 		<td>Students last placed <%= org.organization.last_active_quarter.title rescue "never" %></td>
 		<td><%= select_check_box(org, :without_students, :value => 'invite') %></td>
@@ -103,7 +106,9 @@
 	
 	<% for org in @orgs[:inactive_until_next] %>
 	<tr>
-		<td><%= link_to org.name, service_learning_organization_path(@unit, @quarter, org), :popup => true %></td>
+		<td><%= link_to org.name, service_learning_organization_path(@unit, @quarter, org), :popup => true %>
+			<%= "<span class='orange tag'>multiple</span>" if org.multiple_quarter==true %>
+		</td>
 		<td>Students last placed <%= org.last_active_quarter.title rescue "never" %></td>
 		<td><%= select_check_box(org, :inactive_until_next, :value => 'invite') %></td>
 		<td></td>

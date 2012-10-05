@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120314184534) do
+ActiveRecord::Schema.define(:version => 20120905000836) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -882,6 +882,7 @@ ActiveRecord::Schema.define(:version => 20120314184534) do
     t.boolean  "primary_service_learning_contact"
     t.boolean  "current"
     t.boolean  "pipeline_contact"
+    t.text     "note"
   end
 
   create_table "deleted_organization_quarters", :force => true do |t|
@@ -930,6 +931,7 @@ ActiveRecord::Schema.define(:version => 20120314184534) do
     t.boolean  "target_school"
     t.string   "type"
     t.boolean  "does_pipeline"
+    t.boolean  "multiple_quarter"
   end
 
   create_table "deleted_service_learning_courses", :force => true do |t|
@@ -2005,6 +2007,7 @@ ActiveRecord::Schema.define(:version => 20120314184534) do
     t.boolean  "primary_service_learning_contact"
     t.boolean  "current",                          :default => true
     t.boolean  "pipeline_contact"
+    t.text     "note"
   end
 
   create_table "organization_migrations", :id => false, :force => true do |t|
@@ -2095,6 +2098,7 @@ ActiveRecord::Schema.define(:version => 20120314184534) do
     t.integer  "school_type_id"
     t.boolean  "target_school"
     t.boolean  "does_pipeline"
+    t.boolean  "multiple_quarter"
   end
 
   create_table "people", :force => true do |t|
@@ -2378,6 +2382,7 @@ ActiveRecord::Schema.define(:version => 20120314184534) do
     t.datetime "updated_at"
     t.integer  "creator_id"
     t.integer  "updater_id"
+    t.text     "note"
   end
 
   create_table "service_learning_course_status_types", :force => true do |t|

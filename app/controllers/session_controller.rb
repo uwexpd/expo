@@ -11,23 +11,11 @@ class SessionController < ApplicationController
   end
 
   def create
-    if params[:uwnetid_button]
-      auth = request.env["omniauth.auth"]
-      # raise auth.to_yaml
-      if auth["provider"] == "shibboleth"
-        user = PubcookieUser.authenticate(auth["uid"])
-        return redirect_to login_url, :error => "Could not login. Please try again." unless user
-      # else
-      #   user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
-      #   user.update_from_provider!(auth)
-      end
-      # self.current_user = user
-      session[:user_id] = user.id
-      flash[:notice] = "Signed in!"
-      redirect_back_or_default(root_url)
+    if params[:uwnetid_button]      
       
-      # uwnetid_authentication
-      # return
+      #uwnetid_authentication
+      redirect_back_or_default(root_url)
+      return
     end
    
     password_authentication(params[:login], params[:password])
@@ -79,10 +67,10 @@ class SessionController < ApplicationController
 
   protected  
 
-  # def uwnetid_authentication
-  #     return_to = session[:return_to] || request.env['HTTP_REFERER'].to_s || ""
-  #     redirect_to ("/expologin/?return_to=" + return_to) and return false
-  #   end
+  def uwnetid_authentication
+      return_to = session[:return_to] || request.env['HTTP_REFERER'].to_s || ""
+      redirect_to ("/expologin/?return_to=" + return_to) and return false
+  end
 
   # def open_id_authentication(openid_url)
   #   authenticate_with_open_id(openid_url, :required => [:nickname, :firstname, :lastname, :email]) do |result, identity_url, registration|

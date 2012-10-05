@@ -2378,6 +2378,21 @@ input[type='submit'], input[type='button'], input[type='reset'] {
 	border-style: solid;
 }
 
+input[type='submit']:hover, input[type='button']:hover, input[type='reset']:hover {	
+	background-color: #E2E5EC;
+/*	border: 1px solid #8E98A9;*/
+	-moz-box-shadow:inset 0px 0px 1px rgba(160,170,184,1);
+	-webkit-box-shadow:inset 0px 0px 1px rgba(160,170,184,1);
+	box-shadow:inset 0px 0px 1px rgba(160,170,184,1);
+	background-image: -o-linear-gradient(90deg , rgb(214,219,223) 0%, rgb(244,244,248) 100%);
+	background-image: -moz-linear-gradient(90deg , rgb(214,219,223) 0%, rgb(244,244,248) 100%);
+	background-image: -webkit-linear-gradient(90deg , rgb(214,219,223) 0%, rgb(244,244,248) 100%);
+	background-image: -ms-linear-gradient(90deg , rgb(214,219,223) 0%, rgb(244,244,248) 100%);
+	background-image: linear-gradient(90deg , rgb(214,219,223) 0%, rgb(244,244,248) 100%);
+	color: #444D59;
+	text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
+}
+
 input[type='submit']:active, input[type='button']:active, input[type='reset']:active {
 	border-top-color: #6c6c6c;
 	border-right-color: #c0c0c0;
@@ -2697,6 +2712,11 @@ h1.big-icon {
 .welcome-links .confirmation {
 	background-image: url(../images/tango/32x32/places/start-here.png);
 }
+
+.welcome-links .tutoring {
+	background-image: url(../images/tango/32x32/apps/accessories-text-editor.png);
+}
+
 
 .sub-links {
 	font-size: 80% !important;

@@ -211,4 +211,18 @@ class OrganizationQuarter < ActiveRecord::Base
     status        
   end
 
+  def deep_clone!
+     opts = {}
+     opts[:except] = [            
+         :allow_position_edits,
+         :allow_evals,
+         :in_progress_postions_count,
+         :pending_positions_count,
+         :approved_positions_count,
+         :finished_evaluation,
+         :created_at,
+         :updated_at]   
+     self.clone(opts)        
+  end
+
 end

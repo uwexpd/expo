@@ -6,7 +6,16 @@
 		</td>
 		
 	<% for i in 1..5 %>
-		<td <%= "class='selected'" if @evaluation.submitted? && r.object.response == i.to_s %>>
+	    <%		 	   
+		   #unless @evaluation.submitted? && r.object.response == i.to_s
+		   case
+		     when i == 1; style = "style='background-color:#FDD'" 
+		     when i == 5; style = "style='background-color:#BEC'"
+			 else style = ""
+		   end
+	   	   #end
+		%>
+		<td <%= "class='selected'" if @evaluation.submitted? && r.object.response == i.to_s %><%= style %>>
 			<center><%= r.radio_button :response, i, :disabled => @evaluation.submitted? %></center>
 		</td>
 	<% end -%>

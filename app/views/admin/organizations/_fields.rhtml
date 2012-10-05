@@ -79,6 +79,11 @@
 		<dt>school type</dt>
 		<dd><%= f.collection_select :school_type_id, SchoolType.all, :id, :name, :include_blank => true %></dd>
 
+		<dt>Multiple quarter?</dt>
+		<dd><%= f.check_box :multiple_quarter %>Multiple quarter commitments
+			<p class="caption">Only check this box if this organization will only work with students in multiple quarter commitments.</p>
+		</dd>
+
 	<% end -%>
 	
 </dl>

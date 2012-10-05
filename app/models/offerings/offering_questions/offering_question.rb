@@ -269,6 +269,9 @@ class OfferingQuestion < ActiveRecord::Base
     user_application = page.application_for_offering
     file = user_application.files.find_by_offering_question_id(self)
     add_error_message(page) if file && file.file.nil?
+    unless file.nil? || file.file.nil?
+      add_error_message(page, "must be uploaded with PDF file. Your current file format is \"#{file.file.extension}\".") unless ["pdf","jpg","png","gif","xls","xlsx"].include?(file.file.extension)
+    end
   end
   
   def add_validation_errors(page)

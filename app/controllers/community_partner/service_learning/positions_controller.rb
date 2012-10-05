@@ -108,17 +108,22 @@ class CommunityPartner::ServiceLearning::PositionsController < CommunityPartner:
     end
     
     if params[:position] && params[:copy]
-      ServiceLearningPosition.transaction do
-        params[:position].each do |position_id|
-          new_position = @organization.service_learning_positions.find(position_id).clone(params[:copy])          
-          if new_position
-            new_position.update_attribute(:organization_quarter_id, params[:new_organization_quarter_id]) 
-            new_unit_id = OrganizationQuarter.find(params[:new_organization_quarter_id]).unit_id
-            new_position.update_attribute(:unit_id, new_unit_id)
-          end
+       if params[:new_organization_quarter_id].blank?
+          flash[:error] = "You must choose the UW unit that you're working with."
+          redirect_to :back
+       else
+          ServiceLearningPosition.transaction do
+            params[:position].each do |position_id|
+              new_position = @organization.service_learning_positions.find(position_id).clone(params[:copy])          
+              if new_position
+                new_position.update_attribute(:organization_quarter_id, params[:new_organization_quarter_id]) 
+                new_unit_id = OrganizationQuarter.find(params[:new_organization_quarter_id]).unit_id
+                new_position.update_attribute(:unit_id, new_unit_id)
+              end
+            end
+            flash[:notice] = "Successfully created new service learning positions."
+            redirect_to community_partner_service_learning_positions_url
         end
-        flash[:notice] = "Successfully created new service learning positions."
-        redirect_to community_partner_service_learning_positions_url
       end
     end
     

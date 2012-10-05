@@ -7,20 +7,24 @@
 
 		<% if file.nil? || !@mentee_application_record.errors.empty? %>
 			<h4>Upload Your Letter</h4>
-			<p>Please upload your letter of support for this student. We prefer PDF files, but can also accept Microsoft Word documents <span class="red">(We don't accept .docx files)</span>, 
-				OpenOffice documents, and text files. </p>
+			<p>Please upload your letter of support for this student. <span class="red">We only accept PDF files</span></p>
 			<p>Upload your letter: <%= f.file_field :letter %> 
 			<%= f.submit "Submit and Upload File", :disable_with => "Uploading your letter..." unless @mentee_application.offering.asks_mentor_questions? %></p>				
 								
 		<% else %>
+			<div class="small" style="float:right">
+				Replace this Letter: <%= f.file_field :letter %>
+			</div>
+		
 			<div class="file <%= @mentee_application_record.letter.original.extension %>">
 				<%= image_tag "icons/filetypes/32/#{@mentee_application_record.letter.original.extension}.png" %>
 		
 				<h3 class="filename">Your Letter: 
 					<%= link_to file.filename, {:view => 'letter'} %></h3>
-				<p class="description"><%= @mentee_application_record.letter.original.content_type %> 
-					| <%= number_to_human_size(@mentee_application_record.letter.original.size) %></p>
+				<p class="description"><%= @mentee_application_record.letter.original.content_type << "|" if @mentee_application_record.letter.original.content_type %>
+					 <%= number_to_human_size(@mentee_application_record.letter.original.size) %></p>
 			</div>
+			
 		<% end %>
 			
 	</div>

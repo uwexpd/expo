@@ -27,7 +27,8 @@ class ApplicationMentor < ActiveRecord::Base
                     :allow_nil => true,
                     :if => :require_validations?
   validates_presence_of :letter, :on => :update, :message => "must be submitted.", :if => :require_validations?
-  
+  validates_format_of :letter, :with => %r{\.(pdf)$}i, :message => "must be uplaoded with PDF file.", :if => :require_validations?
+      
   after_save :send_invite_email_if_needed
 
   serialize :task_completion_status_cache
@@ -69,7 +70,8 @@ class ApplicationMentor < ActiveRecord::Base
 
   upload_column :letter, 
                 :root_dir => File.join(RAILS_ROOT, 'files'), 
-                :versions => { :original => nil, :pdf => :convert_to_pdf },
+                #:versions => { :original => nil, :pdf => :convert_to_pdf },
+                :versions => { :original => nil, :pdf => :original },
                 :old_files => :keep,
                 :manipulator => UploadColumn::Manipulators::DocumentConverter,
                 :filename => proc { |record, file| record.filename(record, file) },

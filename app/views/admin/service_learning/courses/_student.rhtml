@@ -24,7 +24,7 @@
 		<td><%= select_check_box(student, course.try(:id)) %></td>
 	
 		<td>
-			<%= link_to student.fullname, [:admin, student] %>
+			<%= link_to student.fullname, [:admin, student], :target => "_blank" %>
 			<%= render :partial => "admin/service_learning/courses/minor_stamp", :locals => { :student => student } if student.sdb.age < 18 rescue "#age error" %>
 			<br><small><%= link_to_expo_email student rescue "#email error" %></small>
 		

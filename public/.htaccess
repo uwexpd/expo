@@ -1,4 +1,4 @@
-AuthType UWNetID
-require valid-user
-PubcookieAppID "EXPo"
-PubcookieNoPrompt on
+#AuthType UWNetID
+#require valid-user
+#PubcookieAppID "EXPo"
+#PubcookieNoPrompt on

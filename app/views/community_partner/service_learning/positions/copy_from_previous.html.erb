@@ -61,7 +61,8 @@
 			<dt>4</dt><% n = 5 %>
 			<dd><p>What UW department are you working with to create these positions?</p>
 				<select name="new_organization_quarter_id">
-					<%= options_from_collection_for_select @organization_quarters, :id, :unit_name, params[:new_organization_quarter_id] %>
+					<option value="">-- Please select --</option>
+					<%= options_from_collection_for_select @organization_quarters, :id, :unit_name, params[:new_organization_quarter_id]  %>
 				</select>
 			</dd>
 		<% end -%>

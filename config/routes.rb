@@ -263,7 +263,7 @@ ActionController::Routing::Routes.draw do |map|
                                                                                   :toggle_open => :post,
                                                                                   :overview => :any,
                                                                                   :volunteers => :get,
-                                                                                  :clone_organization_for_multiple_quarters => :post,
+                                                                                  :clone_positions_for_multiple_quarters => :post,
                                                                                   :clone_course => :post,
                                                                                   :change_quarter_option => :post },
                                                                 :member => {  :students => :get,
@@ -415,6 +415,8 @@ ActionController::Routing::Routes.draw do |map|
                 :controller => 'pipeline', :action => "orientation_signup"
   map.pipeline_orientation_rsvp 'pipeline/:quarter_abbrev/:course_abbrev/orientation_rsvp', 
                 :controller => 'pipeline', :action => "orientation_rsvp"
+  map.pipeline_tutoring_log 'pipeline/tutoring_log',
+                :controller => 'pipeline', :action => "tutoring_log"
   map.pipeline_student_info 'pipeline/:quarter_abbrev/:course_abbrev/student_info', 
                 :controller => 'pipeline', :action => "pipeline_student_info"
   map.pipeline_show 'pipeline/:quarter_abbrev/:course_abbrev/show/:id', 

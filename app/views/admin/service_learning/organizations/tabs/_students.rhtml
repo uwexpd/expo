@@ -31,7 +31,7 @@
 	
 	<tr>
 		<td><%= select_check_box(placement) %></td>
-		<td><%= link_to placement.person.fullname, [:admin, placement.person] %></td>
+		<td><%= link_to placement.person.fullname, [:admin, placement.person], :target => "_blank" %></td>
 		<td><%= link_to image_tag("icons/silk/note.png", :alt=> "Add note for this student" , :mouseover => "icons/silk/note_go.png"), 
 								  admin_student_path(placement.person, :anchor => "notes"), :popup => true %></td>
 		<td><%= link_to truncate(placement.position.title(true,true,false), :length => 30), 

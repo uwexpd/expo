@@ -96,6 +96,28 @@
 		</div>
 	</li>
 	
+	<% unless @confirmed_positions.empty? %>
+		<li id="tutoring_log_display" class="tutoring">
+			<span class="status_marker"></span>
+			<h4>Tutoring Log</h4>
+				Submit your tutoring log for <strong><%= @service_learning_course.title %>.</strong>
+			<div class="left-indent">
+				<ul class="link-list">
+					<% for pipeline_position in @confirmed_positions %>
+						<li><%= link_to "Fill in your log", 
+									pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, pipeline_position.id),
+									:class => 'button' %>
+							<span> with </span>
+							<%= link_to "#{pipeline_position.organization.name}
+										<span>#{pipeline_position.title(false,false,false)}</span>",
+						 			:action => 'show', :id => pipeline_position %>
+						</li>
+					<% end -%>
+				</ul>
+			</div>
+		</li>
+	<% end %>
+	
 </ul>
 
 <% sidebar :welcome %>

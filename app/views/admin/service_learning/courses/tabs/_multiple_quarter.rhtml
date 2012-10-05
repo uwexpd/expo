@@ -1,0 +1,101 @@
+
+<h2 class="icon-left positions">Multiple Quarter Commitments</h2>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'multipal_quarter_form' %>
+	<input type=hidden name="group_variant" id="group_variant" value="">
+
+<p class='icon-left info grey'>
+	This page allows you to copy over selected positions for selected quarter, as well as copy over students' placements who registered this course.
+</p>
+		
+<table>	
+	<tr class="small left">
+		<th>Organization</th>
+		<th><%= select_all_check_box %></th>
+		<th>Position</th>
+		<th class="center">Slots filled</th>
+		<th class="center">Slots for this class</th>
+		<th>Other&nbsp;Slots</th>
+	</tr>
+	
+<% total_slots_for_class = 0; total_slots_filled = 0; %>
+	
+<% for organization in @service_learning_course.organizations.sort %>
+<% positions = @service_learning_course.positions.offered_by(organization).uniq %>
+
+	<tr>
+		<td rowspan=<%= positions.size + 1 %>>
+			<%= link_to organization.name, service_learning_organization_path(@unit, @quarter, organization) %>
+		</td>
+	</tr>
+		
+	<% for position in positions %>	
+	<% slots_for_class = position.placements.for(@service_learning_course).size %>
+	<% slots_filled = slots_for_class - position.placements.open_for(@service_learning_course).size %>
+	<% total_slots_for_class += slots_for_class; total_slots_filled += slots_filled %>
+	
+		<tr>
+			<td><%= select_check_box(position) %></td>
+			<td><%= link_to position.title, service_learning_organization_position_path(@unit, @quarter, organization, position) %></td>
+			<td class="center"><%= slots_filled %></td>
+			<td class="center"><%= slots_for_class %></td>
+			<td class="smaller">
+				<% unless position.placements_breakdown("", :exclude => @service_learning_course).nil? %>
+					<small><%= link_to_function "Details", "Effect.toggle('allocations_#{position.id}', 'blind', {duration: 0.1})" %></small>
+					<div id="allocations_<%= position.id %>" class="light overlay box" style="display:none; width: 15em">
+						<%= render :partial => "placements_overlay", :object => position %>
+					</div>
+				<% end -%>
+			</td>
+		</tr>
+	<% end -%>
+		
+<% end -%>
+
+	<tr class="grey">
+		<td colspan=3><b>Total Slots:</b></td>
+		<td class="center"><b><%= total_slots_filled %></b></td>
+		<td class="center"><b><%= total_slots_for_class %></b></td>
+		<td></td>
+	</tr>
+
+</table>
+<div class="buttons">
+<dl class="big numbers">
+	<dt>1</dt>
+	<dd>
+			Copy positions to the selected course: &nbsp;
+				<select name="copy_quarter_id" id="copy_quarter_id" style="margin:5px">
+					<%= options_for_select @copy_quarter_options, @copy_quarter.id %>					
+				</select>			
+	</dd>
+	<dt>2</dt>
+	<dd>
+		<%= indicator 'copy_quarter_option_indicator' %>		
+		<select name="copy_course_id" id="copy_course_id" style="width:100%;margin-bottom:5px">
+		   <%= render :partial => "course_copy_dropdown" %>
+		</select>							
+		<%= observe_field 	:copy_quarter_id,
+							:url => { :action => 'change_quarter_option'},
+							:update => "copy_course_id",
+							:with => 'copy_quarter_id',
+							:indicator => 'copy_quarter_option_indicator' %>		
+	</dd>
+	<!-- <dt>3</dt>	
+		<dd>
+			Select a quarter to copy: &nbsp;
+				<select name="activate_org_quarter_id" id="activate_org_quarter_id" style="margin:5px">
+					<%= options_from_collection_for_select(Quarter.all.sort, :id, :title,  {:selected => @quarter.next.id})  %>
+				</select>
+		</dd> -->
+	
+	<dt>3</dt>	
+	<dd>
+	<%= link_to_submit  'Copy positions and associated students with selected', 
+						'multipal_quarter_form',
+						:url => clone_positions_for_multiple_quarters_service_learning_courses_path(:course => @service_learning_course),
+						:link_options => {:class => "icon-left copy button"} unless @use_pipeline_links %>
+	</dd>
+</dl>
+</div>
+</form>
