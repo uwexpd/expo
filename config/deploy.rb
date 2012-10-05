@@ -48,7 +48,8 @@ namespace :deploy do
   task :config_symlink, :except => { :no_release => true } do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/certs #{release_path}/config/certs"
-    run "ln -nfs #{current_release}/public #{current_release}/public/expo"
+    run "ln -nfs #{shared_path}/files #{current_release}/public/files"
+    run "ln -nfs #{current_release}/public #{current_release}/public/expo"    
   end  
 end
 
