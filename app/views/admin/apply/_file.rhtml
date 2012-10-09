@@ -2,7 +2,7 @@
 	<%= image_tag "icons/filetypes/32/#{f.ext}.png" %>
 	<div class="filename"><%= link_to f.public_filename, :action => 'view', :id => @app, :file => file, :version => v %></div>
 	<div class="details">
-		<%= f.file_content_type << ", " if f.file.content_type %>
+		<%= f.file_content_type << ", " if f.file_content_type %>
 		<%= number_to_human_size(f.size) %>,
 		uploaded <%= relative_timestamp(file.updated_at) rescue "(unknown)" %></div>
 </div>
