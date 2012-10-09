@@ -131,7 +131,7 @@ DEPENDENCIES
   hashie
   hoe (~> 2.3.3)
   hoptoad_notifier
-  htmldoc (~> 0.2.1)
+  htmldoc
   json
   mongrel
   mongrel_cluster

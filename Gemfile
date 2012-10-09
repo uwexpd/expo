@@ -11,7 +11,7 @@ gem "calendar_date_select"
 gem "factory_girl", "~> 1.2.2"
 gem "hoe", "~> 2.3.3"
 gem "RedCloth"
-gem "htmldoc", "~> 0.2.1"
+gem "htmldoc"
 gem "rcov"
 gem "hoptoad_notifier"
 gem "spreadsheet"
@@ -26,12 +26,11 @@ gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
-
+gem "hashie"
+gem "omniauth-shibboleth"
 
 group :production do
   gem "mysql"  
-  gem "hashie"
-  gem "omniauth-shibboleth"  
 end
 
 group :development do
