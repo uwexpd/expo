@@ -5,10 +5,11 @@ config/certs
 config/database.yml
 config/uwca.crt
 
-files/
-images/
-javascripts/
-stylesheets/
+files
+images
+javascripts
+stylesheets
+public/expo
 
 log/
 
