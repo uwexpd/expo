@@ -45,6 +45,7 @@
 <body class="<%= controller.controller_name %> <%= controller.action_name %> <%= RAILS_ENV %>">
 
 <%= content_tag('div', "<span>#{RAILS_ENV}</span>", :class => 'rails_env', :id => RAILS_ENV) if RAILS_ENV != 'production' %>
+<%= content_tag('div', "<span>You are in the new server</span>", :class => 'rails_env', :id => 'new server', :style=> 'width:400px') if RAILS_ENV == 'production' %>
 
 <%= render :partial => "admin/shared/update_parent_select_js" if session[:dom_id_to_update] && @new_select_value %>
 

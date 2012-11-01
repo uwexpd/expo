@@ -4,9 +4,10 @@
 config/certs
 config/database.yml
 config/uwca.crt
+config/deploy_svn.rb
 
+README
 files
-images
 javascripts
 stylesheets
 public/expo
