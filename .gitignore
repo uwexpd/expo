@@ -1,3 +1,4 @@
+app/views/pipeline/_tutoring_log.html.erb
 
 .DS_Store
 
@@ -6,10 +7,11 @@ config/database.yml
 config/uwca.crt
 config/deploy_svn.rb
 
-README
-files
-javascripts
-stylesheets
+/README
+/images
+/files
+/javascripts
+/stylesheets
 public/expo
 
 log/
