@@ -366,7 +366,7 @@ class ApplicationForOffering < ActiveRecord::Base
     elsif email.send_to == "mentors"
       self.mentors.each do |mentor|
         mentor.reload
-        unless mentor.letter_received? && status.name == "submitted" # don't send the "please submit a letter" email if submitted
+        unless (mentor.letter_received? && status.name == "submitted") || mentor.invite_email_sent? # don't send the "please submit a letter" email if submitted
           if mentor.no_email
             ApplyMailer.deliver_mentor_no_email_warning(mentor, self.offering.notify_email)
           else

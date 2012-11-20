@@ -1,7 +1,7 @@
 <h1>Templates</h1>
 
 <div class="light right" style="margin-top: -40px">
-	Filter: <%= text_field_tag :q, nil, :autocomplete => "off", :type => "search", :placeholder => "Filter" %>
+	Filter: <%= text_field_tag :q, nil, :autocomplete => "off", :type => "search", :placeholder => "Filter", :style => "width:250px" %>
 	<%= observe_field 'q', 
 					:frequency => 0.7, 
 					:url => { :action => 'auto_complete' },

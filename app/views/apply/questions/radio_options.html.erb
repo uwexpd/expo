@@ -4,12 +4,16 @@
 				<%= content_tag('em', '*', :class => 'required') if question.required? %>
 				</p>
 		
-		<% question.options.each do |radio_option| %>
-			<label><%= qf.radio_button(question.attribute_to_update, radio_option.value) %> <%= radio_option.title %></label>
-			<% if radio_option.associate_question %>
-				<%= render :partial => 'associate_response', :local =>  { :qf => qf, :radio_option => radio_option } %>			   			
-			<% end %>
+		<% question.options.each do |radio| %>
+			<label><%= qf.radio_button(question.attribute_to_update, radio.value) %> <%= radio.title %></label>
 		<% end %>
+		
+		<%# question.options.each do |radio_option| %>
+			<!-- <label><%#= qf.radio_button(question.attribute_to_update, radio_option.value) %> <%#= radio_option.title %></label> -->
+			<%# if radio_option.associate_question %>
+				<%#= render :partial => 'associate_response', :local =>  { :qf => qf, :radio_option => radio_option } %>			   			
+			<%# end %>
+		<%# end %>
 		
 		<%= display_computed_caption(question.caption) if question.caption? %>
 	</fieldset>

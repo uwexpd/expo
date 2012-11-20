@@ -12,7 +12,6 @@
 								:regexp_for_id => '(-?\d+)$' },
 							{ :autocomplete => false, :style => ('display:none' if @mentor.person) },
 							{ :skip_style => true, :indicator => 'person-indicator' } %>
-	<span id="name_search" class="small" style="display:none">Type name for search</span>
 
 	<%= indicator 'person-indicator' %>
 
@@ -63,6 +62,9 @@
 		</small>
 
 	</div>
+	<p id="name_search" class="caption" <%= "style='display:none'" if @mentor.person %>>
+		Type name for search. If results show numbers of same usernames, mostly select the one who has expo login.
+	</p>
 	</dd>
 
 	<div id="person_fields" <%= "style='display:none'" if (@mentor.person && @mentor.person.valid?) || @mentor.person.nil? %>>
@@ -108,7 +110,7 @@
 	<dd><%= select_tag 'mentor[academic_department][]', options_for_select(AcademicDepartment.all.collect(&:name).sort, @mentor.academic_department),
 	 			   :multiple => true, :class => "chzn-select", :style => "width:400px;", :data_placeholder => "Select Department(s) or Type Keyword for Search"  %>
 	
-	<span class="small light" style="vertical-align: 1em;"> Used for symposium print</span></dd>
+	<span class="small light" style="vertical-align: 1em;">For symposium print</span></dd>
 
 	<dt>approval response</dt>
 	<dd><%= f.select :approval_response, %w(revise approved), :include_blank => true %></dd>

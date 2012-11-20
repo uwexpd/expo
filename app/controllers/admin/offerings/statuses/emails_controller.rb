@@ -43,7 +43,7 @@ class Admin::Offerings::Statuses::EmailsController < Admin::Offerings::StatusesC
 
     respond_to do |format|
       if @email.save
-        flash[:notice] = '@status.emails was successfully created.'
+        flash[:notice] = "Automatic e-mail send to #{@email.send_to.titleize} was successfully created."
         format.html { redirect_to(offering_status_email_url(@offering, @status, @email)) }
         format.xml  { render :xml => @email, :status => :created, :location => @email }
       else
@@ -58,7 +58,7 @@ class Admin::Offerings::Statuses::EmailsController < Admin::Offerings::StatusesC
 
     respond_to do |format|
       if @email.update_attributes(params[:email])
-        flash[:notice] = '@status.emails was successfully updated.'
+        flash[:notice] = 'Automatic e-mail was successfully updated.'
         format.html { redirect_to offering_status_email_url(@offering, @status, @email) }
         format.xml  { head :ok }
       else

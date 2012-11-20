@@ -7,9 +7,9 @@
 	
 		<div <%= "class='question_block'" if display_column < 3 %>>
 			<table class="highlightless borderless">
-			<% question.options.in_groups_of(display_column).each do |group| %>				
+			<% question.options.sort_by{|o|o.ordering || o.id.to_s}.in_groups_of(display_column).each do |group|%>
 			    <tr class="highlightless">
-					<% group.compact.each do |checkbox| %>				
+					<% group.compact.each do |checkbox| %>		
 						  <td>
 						    <%= hidden_field_tag "user_application[#{question.attribute_to_update}_#{checkbox.id}]", false %>				
 							<%= check_box_tag "user_application[#{question.attribute_to_update}_#{checkbox.id}]", "#{checkbox.value}", 

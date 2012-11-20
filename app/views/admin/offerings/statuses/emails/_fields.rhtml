@@ -11,7 +11,7 @@
 								['Group Members', 'group_members']] %></dd>
 
 	<dt>E-mail Template</dt>
-	<dd><%= f.collection_select(:email_template_id, EmailTemplate.all, :id, :title, {:prompt => true}, {:class => "chzn-select"}) %>
+	<dd><%= f.collection_select(:email_template_id, EmailTemplate.all, :id, :title, {:prompt => true}, {:class => "chzn-select", :style => "width: 500px"}) %>
 			<br><small>or <%= link_to "Create a new e-mail template", 
 							new_admin_communicate_template_path(
 								:type => "EmailTemplate", 

@@ -9,8 +9,7 @@
 														  }",
 								:regexp_for_id => '(-?\d+)$' },
 							{ :autocomplete => false, :style => ('display:none' if @member.person) },
-							{ :skip_style => true, :indicator => 'person-indicator' } %>
-	<span id="name_search" class="small" style="display:none">Type name for search</span>
+							{ :skip_style => true, :indicator => 'person-indicator' } %>	
 	
 	<%= indicator 'person-indicator' %>	
 
@@ -60,7 +59,9 @@
 		</small>
 								
 	</div>
-	<!-- </p> -->
+	<p id="name_search" class="caption" <%= "style='display:none'" if @member.person%>>
+		Type name for search. If results show numbers of same usernames, mostly select the one who has expo login.
+	</p>
 	</dd>
 	
 	<div id="person_fields" <%= "style='display:none'" if (@member.person && @member.person.valid?) || @member.person.nil? %>>

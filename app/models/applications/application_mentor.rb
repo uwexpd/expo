@@ -257,7 +257,9 @@ class ApplicationMentor < ActiveRecord::Base
 
   # Sends the invite e-mail to this mentor using the template specified in the Offering's +early_mentor_invite_email_template_id+ attribute.
   def deliver_invite_email(template = offering.early_mentor_invite_email_template)
-    link = mentor_map_url(:host => CONSTANTS[:base_url_host], :mentor_id => id, :token => token)
+    link = mentor_offering_map_url(:host => CONSTANTS[:base_url_host], :offering_id => offering.id, :mentor_id => id, :token => token)
+    #mentor_map_url(:host => CONSTANTS[:base_url_host], :mentor_id => id, :token => token)
+    
     if EmailContact.log(person_id, ApplyMailer.deliver_mentor_status_update(self, template, email, nil, link), application_for_offering.status)
       update_attribute(:invite_email_sent_at, Time.now)
     end
