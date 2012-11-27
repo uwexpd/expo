@@ -11,13 +11,10 @@ class SessionController < ApplicationController
   end
 
   def create
-    if params[:uwnetid_button]      
-      
-      #uwnetid_authentication
-      redirect_back_or_default(root_url)
-      return
-    end
-   
+    # if params[:uwnetid_button]            
+    #       #uwnetid_authentication
+    #       redirect_back_or_default(root_url)
+    #     end   
     password_authentication(params[:login], params[:password])
    
   end

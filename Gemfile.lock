@@ -35,8 +35,6 @@ GEM
       deprecated (= 2.0.1)
     deprecated (2.0.1)
     diff-lcs (1.1.3)
-    exceptional (2.0.32)
-      rack
     factory_girl (1.2.4)
     fastthread (1.0.7)
     gem_plugin (0.2.3)
@@ -126,7 +124,6 @@ DEPENDENCIES
   daemons
   dbd-odbc
   dbi
-  exceptional
   factory_girl (~> 1.2.2)
   hashie
   hoe (~> 2.3.3)

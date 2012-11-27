@@ -4,7 +4,6 @@ gem "mongrel"
 gem "mongrel_cluster"
 gem "will_paginate", '~> 2.3.11'
 gem "json"
-gem "exceptional"
 gem "sanitize"
 gem "rtex"
 gem "calendar_date_select"
