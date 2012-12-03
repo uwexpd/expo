@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ServiceLearningPlacementId: 1
+  Hours: 9.99
+  LogDate: 2012-11-16
+
+two:
+  ServiceLearningPlacementId: 1
+  Hours: 9.99
+  LogDate: 2012-11-16

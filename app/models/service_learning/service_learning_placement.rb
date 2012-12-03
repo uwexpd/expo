@@ -9,6 +9,8 @@ class ServiceLearningPlacement < ActiveRecord::Base
   belongs_to :position, :class_name => "ServiceLearningPosition"
   belongs_to :person
   has_one :evaluation, :as => :evaluatable
+  has_many :tutoring_logs, :class_name => "PipelineTutoringLog", :dependent => :destroy
+  
   acts_as_soft_deletable
   
   validates_presence_of :service_learning_position_id
@@ -54,6 +56,10 @@ class ServiceLearningPlacement < ActiveRecord::Base
     evaluation.submitted?
   end
 
+  def tutoring_submitted?
+    !tutoring_submitted_at.nil?
+  end
+  
   # Sets +person_id+ to +nil+
   def unplace_student!
     update_attribute(:person_id, nil)

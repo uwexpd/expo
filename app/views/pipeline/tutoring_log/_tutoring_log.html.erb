@@ -1,0 +1,13 @@
+<tr id="tutoring_log_<%= tutoring_log.id %>" >
+	<td align=center><%= tutoring_log.log_date rescue "<span class='red'>Unknown</span>" %></td>
+	<td align=center><%= tutoring_log.hours rescue "<span class='red'>Unknown</span>" %></td>
+	<td align=center>
+		<%= link_to '<span>Edit</span>', edit_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement, tutoring_log), :class => "icon-left no-text edit" %>
+		<%= link_to_remote "<span>Remove</span>", 
+							{:url => pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement, tutoring_log), 
+							:method => :delete,
+							:confirm => "Are you sure you want to remove this log?",
+							:indicator => 'global'},
+							:class => 'icon-left no-text trash' %>							
+	</td>
+</tr>

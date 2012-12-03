@@ -18,7 +18,10 @@ class CommunityPartner::ServiceLearning::StudentsController < CommunityPartner::
     raise ActiveRecord::RecordNotFound if @placement.organization != @organization
 
     check_if_evaluations_are_allowed
-    @evaluation = @placement.evaluation || @placement.create_evaluation
+    @evaluation = @placement.evaluation || @placement.create_evaluation    
+    
+    @is_pipeline = Unit.find(@placement.unit_id).abbreviation == "pipeline" ? true : false
+    @tutoring_logs = @placement.tutoring_logs.sort_by(&:log_date) if @is_pipeline
     
     session[:breadcrumbs].add "Submit Evaluation"
   end

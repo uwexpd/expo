@@ -415,8 +415,6 @@ ActionController::Routing::Routes.draw do |map|
                 :controller => 'pipeline', :action => "orientation_signup"
   map.pipeline_orientation_rsvp 'pipeline/:quarter_abbrev/:course_abbrev/orientation_rsvp', 
                 :controller => 'pipeline', :action => "orientation_rsvp"
-  map.pipeline_tutoring_log 'pipeline/tutoring_log',
-                :controller => 'pipeline', :action => "tutoring_log"
   map.pipeline_student_info 'pipeline/:quarter_abbrev/:course_abbrev/student_info', 
                 :controller => 'pipeline', :action => "pipeline_student_info"
   map.pipeline_show 'pipeline/:quarter_abbrev/:course_abbrev/show/:id', 
@@ -432,8 +430,15 @@ ActionController::Routing::Routes.draw do |map|
   map.pipeline_checkin 'pipeline/:quarter_abbrev/:course_abbrev/checkin/:id/:token', 
                 :controller => 'pipeline', :action => 'checkin'
   map.pipeline_email_remove_confirmation 'pipeline/:quarter_abbrev/:course_abbrev/email_remove_confirmation/:id', 
-                :controller => 'pipeline', :action => 'email_remove_confirmation'
-  
+                :controller => 'pipeline', :action => 'email_remove_confirmation'                                
+
+  map.resources :tutoring_log,
+                :name_prefix => "pipeline_",
+                :path_prefix => 'pipeline/:quarter_abbrev/:course_abbrev/:placement',
+                :controller => 'pipeline/tutoring_log',
+                :collection => { :submit => :put }
+  map.pipeline_tutoring 'pipeline/:quarter_abbrev/:course_abbrev/:placement', :controller => 'pipeline/tutoring_log', :action => 'index'
+        
   # Online Applications
   map.apply_proceedings_favorites 'apply/:offering/proceedings/favorites/:action/:id.:format', :controller => 'apply/proceedings/favorites'
   map.apply_proceedings_favorites_home 'apply/:offering/proceedings/favorites.:format', :controller => 'apply/proceedings/favorites'

@@ -1,0 +1,14 @@
+<h1>New Tutoring Log
+	<span class="light">&raquo; <%= @placement.position.organization.name %></span></h1>
+
+<% form_for :log, @log, :url => { :action => "create" } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', pipeline_tutoring_path(@quarter.abbrev, @course_abbrev, @placement), :class => 'cancel button' %>
+
+<% end %>

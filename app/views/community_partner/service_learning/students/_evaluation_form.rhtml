@@ -6,7 +6,12 @@
 	
 		<dt>Student:</dt>
 		<dd><%= @placement.person.fullname %></dd>
-	
+		
+		<% if @is_pipeline %>
+			<dt>Organization:</dt>
+			<dd><%= @placement.position.organization.name %></dd>
+		<% end %>
+		
 		<dt>Position:</dt>
 		<dd><%= @placement.position.title %></dd>
 	
@@ -26,8 +31,7 @@
 		<% end -%>
 	
 	</dl>
-	
-	
+		
 
 	<table>
 		<tr class="small">
@@ -41,7 +45,7 @@
 			<th class="grey">No basis for judgment</th>
 		</tr>
 	
-		<% @quarter.service_learning_evaluation_questions.reject{|q| q.display_as != 'scale_rating'}.each_with_index do |question,i| %>
+		<% @quarter.service_learning_evaluation_questions.for_unit(Unit.find(@placement.unit_id)).reject{|q| q.display_as != 'scale_rating'}.each_with_index do |question,i| %>
 		<% response = @evaluation.response_for(question) %>
 		
 			<% response.valid? if @show_errors # HACK to make the errors on the associated model show up. Not sure what's happening here %>
@@ -57,17 +61,39 @@
 
 	<div class="smaller">
 
-	<% @quarter.service_learning_evaluation_questions.reject{|q| q.display_as == 'scale_rating'}.each_with_index do |question,i| %>
+	<% @quarter.service_learning_evaluation_questions.for_unit(Unit.find(@placement.unit_id)).reject{|q| q.display_as == 'scale_rating'}.each_with_index do |question,i| %>
 	<% response = @evaluation.response_for(question) %>
 		
 		<% response.valid? if @show_errors %>
 		
 		<% fields_for "evaluation[response][#{question.id}]", response do |r| %>
+		
 			<%= render 	:partial => "community_partner/service_learning/students/evaluations/#{question.display_as}", 
-						:locals => { :r => r, :i => i, :response => response, :question => question} %>
+						:locals => { :r => r, :i => i, :response => response, :question => question } %>
+						
+			<% if @is_pipeline && question.display_as == "tutoring" %>
+					<table class="left-indent" style="width:35%; margin:1em 4em">
+						<tr class="small left">
+							<th>Date</th>
+							<th>Hours</th>
+						</tr>
+						<% for tutoring_log in @tutoring_logs %>
+							<tr>
+								<td><%= tutoring_log.log_date rescue "<span class='red'>Unknown</span>" %></td>
+								<td><%= tutoring_log.hours rescue "<span class='red'>Unknown</span>" %></td>						
+							</tr>										
+						<% end -%>
+						<% if @tutoring_logs.empty? %>
+							<tr class="empty">
+								<td colspan=2>No tutoring log submitted. </td>
+							</tr>
+						<% end -%>
+					</table>							
+			<% end %>									
+						
 		<% end -%>
 				
-	<% end -%>
+	<% end -%>		
 	
 	</div>
 

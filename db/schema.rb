@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120905000836) do
+ActiveRecord::Schema.define(:version => 20121130001452) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -92,6 +92,9 @@ ActiveRecord::Schema.define(:version => 20120905000836) do
     t.integer  "deleter_id"
     t.integer  "offering_question_option_id"
   end
+
+  add_index "application_answers", ["application_for_offering_id"], :name => "index_application_answers_on_application_for_offering_id"
+  add_index "application_answers", ["offering_question_id"], :name => "index_application_answers_on_offering_question_id"
 
   create_table "application_awards", :force => true do |t|
     t.integer  "application_for_offering_id"
@@ -988,6 +991,7 @@ ActiveRecord::Schema.define(:version => 20120905000836) do
     t.datetime "confirmed_at"
     t.integer  "quarter_update_history_id"
     t.integer  "unit_id"
+    t.datetime "tutoring_submitted_at"
   end
 
   create_table "deleted_service_learning_position_times", :force => true do |t|
@@ -1174,6 +1178,7 @@ ActiveRecord::Schema.define(:version => 20120905000836) do
     t.string   "display_as"
     t.integer  "sequence"
     t.boolean  "required"
+    t.integer  "unit_id"
   end
 
   create_table "evaluation_responses", :force => true do |t|
@@ -1712,6 +1717,7 @@ ActiveRecord::Schema.define(:version => 20120905000836) do
     t.integer  "updater_id"
     t.integer  "deleter_id"
     t.integer  "associate_question_id"
+    t.string   "ordering"
   end
 
   create_table "offering_question_validations", :force => true do |t|
@@ -2214,6 +2220,14 @@ ActiveRecord::Schema.define(:version => 20120905000836) do
     t.text   "description"
   end
 
+  create_table "pipeline_tutoring_logs", :force => true do |t|
+    t.integer  "service_learning_placement_id"
+    t.decimal  "hours",                         :precision => 10, :scale => 2
+    t.date     "log_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "population_conditions", :force => true do |t|
     t.integer  "population_id"
     t.string   "attribute_name"
@@ -2453,6 +2467,7 @@ ActiveRecord::Schema.define(:version => 20120905000836) do
     t.integer  "confirmation_history_id"
     t.integer  "quarter_update_history_id"
     t.integer  "unit_id"
+    t.datetime "tutoring_submitted_at"
   end
 
   add_index "service_learning_placements", ["person_id"], :name => "index_service_learning_placements_on_person_id"

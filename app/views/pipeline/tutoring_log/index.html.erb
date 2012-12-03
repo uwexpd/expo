@@ -1,0 +1,52 @@
+<h1>Pipeline Tutoring Log</h1>
+
+	<dl class="inline-definitions">
+	
+		<dt>Student:</dt>
+		<dd><%= @placement.person.fullname %> (<%= @placement.person.class_standing_description %>)</dd>
+	
+		<dt>Quarter:</dt>
+		<dd><%= @quarter.title %></dd>
+		
+		<dt>Course:</dt>
+		<dd><%= @service_learning_course.title rescue "None" %></dd>
+		
+		<dt>Tutoring Site:</dt>
+		<dd><%= @placement.position.organization.name %></dd>
+	
+		<dt>Position:</dt>
+		<dd><%= @placement.position.title %></dd>
+	
+	</dl>
+	
+	<table>
+		<tr class="small">
+			<th>Date</th>
+			<th>Hours</th>
+			<th></th>
+		</tr>				
+		
+	<%= render :partial => 'tutoring_log', :collection => @tutoring_logs %>
+
+	<% if @tutoring_logs.empty? %>
+	<tr class="empty">
+		<td colspan=3>No tutoring log input. <%= link_to "Add a new one.", new_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement) %></td>
+	</tr>
+	<% end -%>
+
+	</table>
+	<br>
+	<%= link_to "Add new tutoring log", new_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement), :class => 'icon-left add button' %>
+	
+	<hr><br>	
+	<center>
+	<% if @placement.tutoring_submitted? %>
+		<p class="highlight">You have already submitted your tutoring logs to your supervisor.</p>
+	<% else %>
+		<% form_tag submit_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement), :method => :put do %>
+			<%= submit_tag "Submit Tutoring Logs", :disable_with => 'Submitting tutoring hours...', :disabled => @placement.tutoring_submitted? %>
+		<% end %>
+		<p class="caption">This allows your supervisor to view your logged hours for his or her evaluation. Note that you are still able to edit logs after submission</p>		
+	<% end -%>
+	</center>
+	

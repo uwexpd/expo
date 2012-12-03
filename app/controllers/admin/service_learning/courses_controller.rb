@@ -1,6 +1,7 @@
 class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningController
   before_filter :courses_breadcrumbs
   before_filter :generate_copy_options, :only => [:index, :show, :change_quarter_option]
+  before_filter :get_tutoring_logs, :only => [:evaluation, :submit_evaluation]
 
   # GET /service_learning_courses
   # GET /service_learning_courses.xml
@@ -344,18 +345,14 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
     redirect_to :action => "index"
   end
 
-  def evaluation
-    @placement = ServiceLearningPlacement.find(params[:id])
-    @service_learning_course = @placement.course
-    @evaluation = @placement.evaluation
+  def evaluation    
+    @evaluation = @placement.evaluation    
     session[:breadcrumbs].add @service_learning_course.title, service_learning_course_path(@unit, @quarter, @service_learning_course) rescue nil
     session[:breadcrumbs].add "Students", students_service_learning_course_path(@unit, @quarter, @service_learning_course)
     session[:breadcrumbs].add "Evaluation"
   end
 
   def submit_evaluation
-    @placement = ServiceLearningPlacement.find(params[:id])
-    @service_learning_course = @placement.course
     @evaluation = @placement.evaluation || @placement.create_evaluation
     @evaluation.unsubmit if @evaluation.submitted?
     session[:breadcrumbs].add @service_learning_course.title, service_learning_course_path(@unit, @quarter, @service_learning_course) rescue nil
@@ -579,6 +576,13 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
   
   def courses_breadcrumbs
     session[:breadcrumbs].add "Courses", service_learning_courses_path
+  end
+  
+  def get_tutoring_logs
+    @placement = ServiceLearningPlacement.find(params[:id])
+    @service_learning_course = @placement.course    
+    @is_pipeline = Unit.find(@placement.unit_id).abbreviation == "pipeline" ? true : false
+    @tutoring_logs = @placement.tutoring_logs.sort_by(&:log_date) if @is_pipeline    
   end
 
   def generate_copy_options

@@ -37,7 +37,12 @@ class Quarter < ActiveRecord::Base
       find(:all, :conditions => {:unit_id => (unit.nil? ? nil : unit.class == Fixnum ? unit : unit.id)})
     end
   end
-  has_many :service_learning_evaluation_questions, :class_name => "EvaluationQuestion", :as => :evaluation_questionable
+  has_many :service_learning_evaluation_questions, :class_name => "EvaluationQuestion", :as => :evaluation_questionable do
+    def for_unit(unit) 
+      find(:all, :conditions => {:unit_id => (unit.nil? ? nil : unit.class == Fixnum ? unit : unit.id)})
+    end
+  end
+  
 
   default_scope :order => "year, quarter_code_id"
 

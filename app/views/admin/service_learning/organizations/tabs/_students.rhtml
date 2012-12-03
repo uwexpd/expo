@@ -13,10 +13,8 @@
 		<th>Student</th>
 		<th>Add note</th>
 		<th>Position</th>
-		<th colspan=2>Course</th>
-		<% unless @use_pipeline_links %>		
-			<th>Evaluation</th>
-		<% end%>
+		<th colspan=2>Course</th>		
+		<th>Evaluation</th>		
 	</tr>
 
   <% for organization_quarter in @organization.organization_quarters.for_quarter(@quarter).sort_by{|x| x.unit == @unit ? -1 : 1} %>
@@ -51,7 +49,7 @@
 		<% if placement.evaluation_submitted? %>
 			<%= link_to "Evaluation", service_learning_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
 		<%- else -%>
-			<% unless @use_pipeline_links || organization_quarter.unit != @unit || placement.course.nil? %>
+			<% unless organization_quarter.unit != @unit || placement.course.nil? %>
 				<%= link_to "Submit", service_learning_submit_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
 			<% end %>
 		<% end -%>

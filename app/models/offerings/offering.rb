@@ -33,6 +33,10 @@ class Offering < ActiveRecord::Base
                         ],
             :conditions => ['name = ?', status_name.to_s]
     end
+    def valid_status
+      #find :all, :conditions => ['current_application_status_id is not null']
+      reject{|a| a.current_application_status_id.nil?}
+    end
     def awarded
       reject{|a| !a.awarded?}
     end

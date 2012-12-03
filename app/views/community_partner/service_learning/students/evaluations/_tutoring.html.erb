@@ -1,0 +1,20 @@
+<%= question.question %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %>
+<div class="left-indent">
+	
+	<table class="borderless highlightless">
+		<tr>
+		<% for i in ["Yes, the logged hours are all correct", "No, please explain below"] %>
+			<td width=10 <%= "class='selected'" if @evaluation.submitted? && r.object.response == i.to_s %>>
+				<%= r.radio_button :response, i, :disabled => @evaluation.submitted? %>
+			</td>
+			<td><%= i %></td>
+		<% end -%>
+		</tr>
+	</table>
+		
+	<%= content_tag('div', response.errors.full_messages, :class => 'error-message') %>
+	
+</div>
+
+
