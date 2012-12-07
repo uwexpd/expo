@@ -10,7 +10,7 @@ class FacultyController < ApplicationController
   layout 'admin'
 
   def index
-    redirect_to faculty_service_learning_home_path(nil)
+    redirect_to faculty_service_learning_home_path(Quarter.current_quarter)
   end
 
   def profile

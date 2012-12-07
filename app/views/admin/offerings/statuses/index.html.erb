@@ -15,7 +15,7 @@
 	<td align=center><small class="light"><%=h status.sequence %></small></td>
 	<td><%= tooltip h(status.private_title), h(status.description) %></td>
 	<td><%=h status.public_title %></td>
-	<td><%= status.emails.collect{|email| link_to(email.send_to, offering_status_email_path(@offering, status, email), :title => email.email_template.title)}.join(", ") rescue nil%></td>
+	<td><%= status.emails.collect{|email| link_to(email.send_to, offering_status_email_path(@offering, status, email), :title => email.email_template.title)}.join(", ") rescue "<span class='red'>unknown template<span>" %></td>
 	<td><%= link_to '<span>Show</span>', offering_status_path(@offering, status), :class => 'icon-left no-text show' %>
 		<%= link_to '<span>Edit</span>', edit_offering_status_path(@offering, status), :class => 'icon-left no-text edit' %>
 		<%= link_to '<span>Delete</span>', offering_status_path(@offering, status), 

@@ -30,7 +30,7 @@
 					<%= status_email_view_links(t.application_status_type, 
 												@offering, 
 												true, 
-												{:class => "light right"}) %>
+												{:class => "light right"}) rescue "<span class='red right'>#error email template<span>" %>
 				
 				</td>
 				<td>

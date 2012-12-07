@@ -31,10 +31,10 @@
   						:class => 'pending tag' unless organization_quarter.pending_positions_count.to_i.zero? %></td>
   	<td><%= content_tag :span, organization_quarter.approved_positions_count, 
   						:class => 'approved tag' unless organization_quarter.approved_positions_count.to_i.zero? %></td>
-  	<% unless @use_pipeline_links %>
-		<td><%= content_tag :span, organization_quarter.finished_evaluation? ? "F" : "IP",
-  						:class => "#{organization_quarter.finished_evaluation? ? 'green-check' : 'tag'}" unless organization_quarter.finished_evaluation.nil? %></td>
-	<% end %>
+  	
+	<td><%= content_tag :span, organization_quarter.finished_evaluation? ? "F" : "IP",
+ 						:class => "#{organization_quarter.finished_evaluation? ? 'green-check' : 'tag'}" unless organization_quarter.finished_evaluation.nil? %></td>
+
 
   	<% if partner_access -%>
   		<td align=center><%= organization_quarter_status_type.try(:title) %></td>

@@ -351,9 +351,11 @@ ActionController::Routing::Routes.draw do |map|
 
   # Faculty
   map.faculty_profile 'faculty_profile', :controller => 'faculty', :action => 'profile'
+  
   map.namespace :faculty, :controller => 'Faculty' do |faculty|
-    faculty.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
-    faculty.service_learning 'service_learning/:quarter_abbrev/:action/:id', :controller => 'ServiceLearning'
+      faculty.service_learning_home 'service_learning', :controller => 'ServiceLearning'
+      faculty.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
+      faculty.service_learning 'service_learning/:quarter_abbrev/:action/:id', :controller => 'ServiceLearning'
   end
 
   # Community Partners

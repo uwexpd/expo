@@ -232,7 +232,7 @@ class User < ActiveRecord::Base
   # Returns a user type such as Student, Standard Users(uw staff and faulty), Exteranl Users(non-uw users)
   def user_type
     if self.class.name == "PubcookieUser"
-      type = self.identity_type == "Student" ? self.identity_type : "Standard user"
+      type = self.identity_type == "Student" ? self.identity_type : "UW Standard user"
     else
       type = "External user"
     end
