@@ -27,6 +27,7 @@ gem "rmagick"
 gem "daemons"
 gem "hashie"
 gem "omniauth-shibboleth"
+gem "rb-readline"
 
 group :production do
   gem "mysql"  
