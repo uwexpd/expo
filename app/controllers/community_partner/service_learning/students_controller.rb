@@ -14,7 +14,7 @@ class CommunityPartner::ServiceLearning::StudentsController < CommunityPartner::
   end
 
   def evaluate
-    @placement = ServiceLearningPlacement.find(params[:id])
+    @placement = ServiceLearningPlacement.find(params[:id])    
     raise ActiveRecord::RecordNotFound if @placement.organization != @organization
 
     check_if_evaluations_are_allowed

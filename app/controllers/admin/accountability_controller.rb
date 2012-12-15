@@ -69,9 +69,10 @@ class Admin::AccountabilityController < Admin::BaseController
     
     logger.info { "Initiating fork for accountability:regenerate_report" }
     @pid = fork do
-      cmd = "rake accountability:regenerate_report REPORT_ID=#{@report.id} RAILS_ENV=#{RAILS_ENV}"
-      system cmd
-      exit! 127
+      call_rake("accountability:regenerate_report", nil, { :report_id => @report.id })
+      # cmd = "rake accountability:regenerate_report REPORT_ID=#{@report.id} RAILS_ENV=#{RAILS_ENV}"
+      # system cmd
+      # exit! 127
     end
     Process.detach(@pid)
     

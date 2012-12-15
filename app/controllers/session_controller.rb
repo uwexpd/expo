@@ -93,8 +93,7 @@ class SessionController < ApplicationController
     if logged_in?
       successful_login
     else
-      failed_login("Authentication failed. <small>#{@template.link_to('Forgot your password?', :action => 'forgot')} or 
-                                           #{@template.link_to('create a new account.', signup_path)}</small>")
+      failed_login("Authentication failed. <small>#{@template.link_to('Forgot your password?', :action => 'forgot')}</small>")
     end
   end
     

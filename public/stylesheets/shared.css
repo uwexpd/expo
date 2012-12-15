@@ -2366,11 +2366,11 @@ input[type='submit'], input[type='button'], input[type='reset'] {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-image: url(../images/app/breadcrumbBackground.png);
-	background-color: #f1f1f1;
-	border-width: 1px;
 	padding-left: 10px;
 	padding-right: 10px;
+	background-image: url(../images/app/breadcrumbBackground.png);
+	background-color: #f1f1f1;
+	border-width: 1px;	
 	border-top-color: #c0c0c0;
 	border-right-color: #6c6c6c;
 	border-left-color: #c0c0c0;
@@ -2398,6 +2398,9 @@ input[type='submit']:active, input[type='button']:active, input[type='reset']:ac
 	border-right-color: #c0c0c0;
 	border-left-color: #6c6c6c;
 	border-bottom-color: #c0c0c0;
+	-moz-box-shadow:inset 0px 1px 2px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow:inset 0px 1px 2px rgba(0, 0, 0, 0.5);
+	box-shadow:inset 0px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 input.wide, textarea.wide, select.wide {
@@ -2451,7 +2454,7 @@ a.important_button {
 }
 
 .disabled_button {
-  background: url(../images/app/unavailable-xtile.gif) repeat;
+    background: url(../images/app/unavailable-xtile.gif) repeat;
 	background-color: #EEE;
 	padding: 3px 10px;
 	text-decoration: none;

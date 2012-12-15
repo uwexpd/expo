@@ -1,37 +1,35 @@
 <% title("Login") %>
-<p id="login-instructions">In order to access this web site, you must first log in.  If you are a member of the University of Washington community, you should log in using your UW NetID by clicking the button on the left. If you are a non-UW student, prospective student, community partner, or other non-UW user, please log in using the fields on the right.
-</p>
-<table class="login">
-	<tr>
+<!-- <p id="login-instructions">In order to access this web site, you must first log in.  If you are a member of the University of Washington community, you should log in using your UW NetID by clicking the button on the left. If you are a non-UW student, prospective student, community partner, or other non-UW user, please log in using the fields on the right.</p> -->
+<div class="login">
+	
 		<% form_tag '/auth/shibboleth' do -%>
 
-		<td id="uwnetid">			
-			<div>
-				<h2>UW Students, Faculty &amp; Staff</h2>			
-				<%= link_to image_tag('app/weblogin-logo.gif'), '/auth/shibboleth', :uwnetid_button => true %>
-				<p><%= submit_tag 'Log in with UW NetID', :name => 'uwnetid_button' %></p>
-			</div>
-		</td>
-		
+	<div id="uwnetid">			
+		<h2>UW Students, Faculty &amp; Staff</h2>
+		<div id="login_button">
+			<p><%= link_to image_tag('app/weblogin-logo.gif', :id => "weblogin_logo"), '/auth/shibboleth', :uwnetid_button => true %></p>
+			<p><%= submit_tag 'Log in with your UW NetID', :name => 'uwnetid_button', :id => "uwnetid_button" %></p>
+		</div>
+	</div>	
 		<%#= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
-		<% end -%>		
+		<% end -%>	
 		
-		<% form_tag session_path do -%>
+	<% form_tag session_path do -%>
 
-		<td id="other">
-
-			<h2>External Users <span class="small light grey">&nbsp;<small>for non-UW users</small></span></h2>
-			
-			<p><label for="login">Username</label><br/>
+	<h2>All other non-uw users, log in using your expo account</h2>
+	
+	<div id="other">
+								
+			<p><label for="login">Expo Username</label>
 				<%= text_field_tag 'login', params[:login] %></p>
 
-			<p><label for="password">Password</label><br/>
+			<p><label for="password" id="password">Password</label>
 				<%= password_field_tag 'password', params[:password] %>								
 			</p>
 
 			<!-- <p><label for="remember_me">Remember me:</label>
 				<%= check_box_tag 'remember_me' %></p>
- -->
+ 			-->
 			<p><%= submit_tag 'Log in' %>&nbsp; <small><%= link_to "Forgot your password?", :action => 'forgot' %></small></p>
 
 			<!-- <p id="separator">&mdash; or &mdash;</p>
@@ -44,11 +42,11 @@
 
 			<p id="separator">&mdash; or &mdash;</p>
 
-			<p>Maybe you still need to <%= link_to "create a new account", signup_path %></p>
+			<p>Maybe you still need to <%= link_to "create a new expo account", signup_path %></p>
 
-		</td>
-	</tr>
-</table>
+	
+	</div>
+</div>
 
 <%= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
 

@@ -74,6 +74,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def call_rake(task, log_file, options = {})
+      options[:rails_env] ||= RAILS_ENV
+      log_file ||= "rake"
+      args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
+      system "/usr/bin/rake #{task} #{args.join(' ')} --trace 2>&1 >> #{RAILS_ROOT}/log/#{log_file}.log"
+      exit! 127
+  end
+
   private
 
   def save_user_in_current_thread
@@ -223,6 +231,6 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "You haven't updated your contact information for awhile. Please confirm your contact information below."
       return redirect_to profile_path(:return_to => request.url)
     end
-  end
+  end  
   
 end

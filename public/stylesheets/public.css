@@ -152,8 +152,8 @@ table#wrap tr {
 	text-align: left;
 	font-size: 80%;
 	line-height: 1.25em;
-	border-top: 1px solid #999;
-	color: #6a717c;
+	border-top: 1px solid #E5E5E5;
+	color: #9498A1;
 	background: url(../images/app/uw-block-logo.gif) no-repeat 0 1.1em;
 	padding-left: 43px;
 	clear: both;
@@ -161,7 +161,7 @@ table#wrap tr {
 }
 
 #footer p {
-	border-left: 2px solid #afbccd;
+	border-left: 3px solid #EEEFEF;
 	padding-left: 10px;
 }
 
@@ -832,7 +832,7 @@ p.dso_statement {
 	font-size: 80%;
 	line-height: normal;
 	margin-top: 10px;
-	color: #666;
+	color: #CECFCF;
 }
 
 .grey.shaded {
@@ -1002,49 +1002,81 @@ div.restriction.failed h1 {
 /* @group Login */
 
 .session div#main-content {
-	padding: 20px 40px;
+	padding: 0 40px;
 }
 
 .session div#main-content h1 {
-	padding: .5em 0 .3em 40px;
+	padding: .1em 0 .3em 40px;
 	background: url(../images/tango/32x32/actions/system-lock-screen.png) no-repeat left;
 }
 
-table.login {
+div.login {
 	margin-top: 40px;
 	width: 90%;
 	margin: 0 auto;
 }
 
-table.login tr td {
-	border: 2px solid white;
-	padding: 20px 0;
+div.login h2 {
+	margin-bottom: 15px;
+	background-color: #f3f8fd;
+	padding: 15px;	
+	border-bottom: 1px solid #ADC7E1;
+	color:#555;
+	-moz-border-radius-topright:5px;
+	-webkit-border-top-right-radius:5px;
+	border-top-right-radius:5px;
+	-moz-border-radius-topleft:5px;
+	-webkit-border-top-left-radius:5px;
+	border-top-left-radius:5px;
 }
 
-table.login tr:hover {
-	background: none;
+div.login #other #password {
+	margin-right: 33px;	
 }
 
-table.login td#uwnetid {
-	text-align: right;	
-	border: 2px solid white;
-	border-right: 4px solid #ddd;
-	padding-right: 30px;
+div.login #weblogin_logo {
+	vertical-align: bottom;
+	-webkit-transition: all 0.5s ease-in-out;
+/*    -moz-transition: all 1s ease-in-out;*/
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+/*    transition: all 0.5s ease-in-out;	*/
 }
 
-table.login td#uwnetid div {
-	text-align: center;
-	
+div.login #weblogin_logo:hover {
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+    transform: scale(1.1);	
+	opacity:0.9;
 }
 
-table.login td#uwnetid h2 {
-	margin-bottom: 45px;
-	
+div.login #uwnetid {
+	margin-bottom:50px;	
 }
 
-table.login td#other {
-	padding-left: 40px;
-	border-left: 4px solid #ddd;
+div.login #uwnetid #login_button, div.login #other {
+	margin: 25px 0;
+	border-left: 5px solid #EAF2FA;
+	padding-left: 15px;
+	font-size: 95%;
+}	
+
+div.login #uwnetid #login_button #uwnetid_button{
+	padding: 1em 3em 1em 1em !important;
+	color: white;
+	border: 1px solid transparent;
+/*	margin-left: 25px;*/
+	background-image: none;
+	background: url(../images/icons/simple_admin/ic_right.png) no-repeat right;
+	background-color: #D14836;
+	font-size: 1.1em;
+}
+
+div.login #uwnetid #login_button #uwnetid_button:hover {
+	background-color: #C53727;	
+	border: 1px solid #B0281A;
+	text-shadow:none;	
 }
 
 #login-instructions {
@@ -1052,11 +1084,6 @@ table.login td#other {
 	font-size: 92%;
 	margin-bottom: 20px;
 }
-
-table.login td:hover, table.login td#uwnetid:hover {
-	border: 2px solid #ddd;
-}
-
 
 input#openid_url {
 	background: url(http://openid.net/login-bg.gif) no-repeat;
@@ -1067,7 +1094,6 @@ input#openid_url {
 }
 
 
-
 /* @end */
 
 /* @end */
@@ -1075,13 +1101,13 @@ input#openid_url {
 /* @group Welcome Page */
 
 .welcome #wrap {
-	width: 70%;
+	width: 65%;
 	margin: 0 auto;
 }
 
 .welcome #header {
-	width: 70%;
-	margin: 30px auto;
+	width: 65%;
+	margin: 15px auto;
 	margin-bottom: 0;
 	background: url(../images/app/expo-logo-light.png) no-repeat;
 	border: none;
@@ -1156,7 +1182,7 @@ input#openid_url {
 
 .welcome .rails_env span {
 	position: relative;
-	top: 53px;
+	top: 33px;
 	left: 190px;
 }
 
