@@ -9,14 +9,15 @@ class SessionController < ApplicationController
   # render new.rhtml
   def new
   end
-
+  
   def create
-    # if params[:uwnetid_button]            
-    #       #uwnetid_authentication
-    #       redirect_back_or_default(root_url)
-    #     end   
-    password_authentication(params[:login], params[:password])
-   
+    auth = request.env["omniauth.auth"]
+    if !auth.nil? && auth["provider"] == "shibboleth"        
+        redirect_back_or_default(root_url)
+        return
+    else
+        password_authentication(params[:login], params[:password])
+    end   
   end
   
   def destroy

@@ -1,5 +1,6 @@
 <% title("Login") %>
-<!-- <p id="login-instructions">In order to access this web site, you must first log in.  If you are a member of the University of Washington community, you should log in using your UW NetID by clicking the button on the left. If you are a non-UW student, prospective student, community partner, or other non-UW user, please log in using the fields on the right.</p> -->
+<!-- <p id="login-instructions">In order to access this web site, you must first log in.  If you are a member of the University of Washington community, 
+you should log in using your UW NetID by clicking the button on the left. If you are a non-UW student, prospective student, community partner, or other non-UW user, please log in using the fields on the right.</p> -->
 <div class="login">
 	
 		<% form_tag '/auth/shibboleth' do -%>
@@ -19,14 +20,17 @@
 	<h2>All other non-uw users, log in using your expo account</h2>
 	
 	<div id="other">
-								
-			<p><label for="login">Expo Username</label>
-				<%= text_field_tag 'login', params[:login] %></p>
+		<table class="default">						
+			<tr>
+				<td><label for="login">Expo Username</td>
+				<td><%= text_field_tag 'login', params[:login] %></td>
+			</tr>
 
-			<p><label for="password" id="password">Password</label>
-				<%= password_field_tag 'password', params[:password] %>								
-			</p>
-
+			<tr>
+				<td><label for="password">Password</label></td>
+				<td><%= password_field_tag 'password', params[:password] %></td>
+			</tr>
+		</table>
 			<!-- <p><label for="remember_me">Remember me:</label>
 				<%= check_box_tag 'remember_me' %></p>
  			-->

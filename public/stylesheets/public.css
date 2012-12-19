@@ -1031,7 +1031,11 @@ div.login h2 {
 }
 
 div.login #other #password {
-	margin-right: 33px;	
+/*	margin-left: 33px;*/
+}
+
+div.login #other table tr td  {
+	vertical-align: middle;
 }
 
 div.login #weblogin_logo {

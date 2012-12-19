@@ -159,7 +159,7 @@ module AuthenticatedSystem
       #logger.info { "login_from_pubcookie() -- required_identity: #{require_identity}" }
       uwnetid, passwd = get_auth_data
       #logger.info "uwnetid #{uwnetid} detected in HTTP_AUTHORIZATION -- required identity: #{require_identity}" if uwnetid
-      #LoginHistory.login(PubcookieUser.authenticate(uwnetid, passwd, require_identity), (request.env["HTTP_X_FORWARDED_FOR"] || request.env["REMOTE_ADDR"]), session.session_id) if uwnetid
+      LoginHistory.login(PubcookieUser.authenticate(uwnetid, passwd, require_identity), (request.env["HTTP_X_FORWARDED_FOR"] || request.env["REMOTE_ADDR"]), session.session_id) if uwnetid
       self.current_user = PubcookieUser.authenticate(uwnetid, passwd, require_identity) if uwnetid          
     end
 
