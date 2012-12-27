@@ -94,7 +94,7 @@ class Admin::Communicate::EmailQueueController < Admin::BaseController
       elsif params[:release]
         ids = params[:select].collect{|key,val| val}.join(",")
         # Only use forked process if there are more than 25 messages
-        if params[:select].size > 1          
+        if params[:select].size > 25          
           logger.info { "Initiating fork for email_queue:release" }
           @pid = fork do
             call_rake("email_queue:release", "email_queue", {:email_queue_ids => ids })
