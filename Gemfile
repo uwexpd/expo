@@ -29,7 +29,7 @@ gem "hashie"
 gem "omniauth-shibboleth"
 
 group :production do
-  gem "mysql"  
+  gem "mysql"
 end
 
 group :development do

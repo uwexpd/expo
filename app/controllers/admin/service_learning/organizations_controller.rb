@@ -227,6 +227,9 @@ class Admin::ServiceLearning::OrganizationsController < Admin::ServiceLearningCo
     @organization = Organization.find(params[:organization]) if params[:organization]
     if params[:select]
       updated_placements = []
+      no_pipeline_courses_students = []
+      no_pipeline_placements_students = []
+      
       for object_type, ids in params[:select]
         if object_type == 'ServiceLearningPlacement'
           for id, val in ids
@@ -234,20 +237,26 @@ class Admin::ServiceLearning::OrganizationsController < Admin::ServiceLearningCo
             student = placement.person            
             course_param = placement.course.courses.first.abbrev
             
+            # Find pipeline course and placement
             pipeline_course = ServiceLearningCourseCourse.find_by_abbrev_and_quarter(course_param, @quarter, Unit.find_by_abbreviation("pipeline")).service_learning_course
-            pipeline_placement = ServiceLearningPlacement.find_by_person_id_and_service_learning_course_id(student.id, pipeline_course.id)            
             
+            if pipeline_course
+              pipeline_placement = ServiceLearningPlacement.find_by_person_id_and_service_learning_course_id(student.id, pipeline_course.id)
+            else
+              no_pipeline_courses_students << student.lastname              
+            end            
+                        
             if pipeline_placement
+              # Check if organization quarter exits, if not, then create.
               organization_quarter = OrganizationQuarter.find_by_organization_id_and_quarter_id_and_unit_id(pipeline_placement.organization.id, @quarter, @unit)
               if organization_quarter.nil?
                  organization_quarter = OrganizationQuarter.create(:organization_id => pipeline_placement.organization.id,
                                                                    :quarter_id => @quarter.id,
                                                                    :unit_id => @unit.id)
               end
-            
-              p = pipeline_placement.position
-              postion = ServiceLearningPosition.find_by_title_and_organization_quarter_id_and_unit_id(p.title, organization_quarter.id, @unit)
               
+              # Check if Carlson already has the position. If not, then clone the position.
+              postion = ServiceLearningPosition.find_by_title_and_organization_quarter_id_and_unit_id(pipeline_placement.position.title, organization_quarter.id, @unit)              
               if postion
                 @new_position = postion
               else
@@ -256,18 +265,26 @@ class Admin::ServiceLearning::OrganizationsController < Admin::ServiceLearningCo
                 @new_position.update_attribute(:unit_id, @unit)
                 @new_position.save
               end
-            
-              if ServiceLearningPlacement.find_by_person_id_and_service_learning_position_id_and_unit_id(student.id, @new_position.id, @unit).nil?
+              
+              if ServiceLearningPlacement.find_by_person_id_and_service_learning_position_id_and_service_learning_course_id_and_unit_id(student.id, @new_position.id, placement.course.id, @unit).nil?
                 placement.update_attribute(:service_learning_position_id, @new_position.id)
                 placement.save
               end
-              updated_placements << placement
+              updated_placements << placement              
+              
+            else
+              no_pipeline_placements_students << student.lastname
             end 
-          end
-        end
+            
+          end # end for loop
+          
+        end 
       end
-      flash[:notice] = "Matched #{updated_placements.size} pipeline placement(s) to carlson end."
-    elsif
+      flash[:notice] = "Matched #{updated_placements.size} pipeline placement(s) to carlson end." unless updated_placements.blank?
+      flash[:error] = "Cannot find student's enrolled course(s) in pipeline placement: #{no_pipeline_courses_students.join(', ')}" unless no_pipeline_courses_students.blank?
+      flash[:error] = "Cannot find student's placement(s) in pipeline end: #{no_pipeline_placements_students.join(', ')}" unless no_pipeline_placements_students.blank?
+      
+    else
       flash[:error] = "Please select at least one student first."
     end    
     redirect_to(service_learning_organization_path(@unit, @quarter, @organization, :anchor => "students"))

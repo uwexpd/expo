@@ -24,6 +24,8 @@
 				<p class="description"><%= @mentee_application_record.letter.original.content_type << "|" if @mentee_application_record.letter.original.content_type %>
 					 <%= number_to_human_size(@mentee_application_record.letter.original.size) %></p>
 			</div>
+			<br><br>
+			<%= f.submit "Submit and Replace File", :disable_with => "Replacing your letter..." unless @mentee_application.offering.asks_mentor_questions? %>
 			
 		<% end %>
 			
