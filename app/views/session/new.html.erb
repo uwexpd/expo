@@ -3,17 +3,17 @@
 you should log in using your UW NetID by clicking the button on the left. If you are a non-UW student, prospective student, community partner, or other non-UW user, please log in using the fields on the right.</p> -->
 <div class="login">
 	
-		<% form_tag '/auth/shibboleth' do -%>
+	<% form_tag '/auth/shibboleth' do -%>
 
 	<div id="uwnetid">			
 		<h2>UW Students, Faculty &amp; Staff</h2>
 		<div id="login_button">
-			<p><%= link_to image_tag('app/weblogin-logo.gif', :id => "weblogin_logo"), '/auth/shibboleth', :uwnetid_button => true %></p>
+			<p><%= link_to image_tag('app/weblogin-logo.gif', :id => "weblogin_logo"), '/auth/shibboleth' %></p>
 			<p><%= submit_tag 'Log in with your UW NetID', :name => 'uwnetid_button', :id => "uwnetid_button" %></p>
 		</div>
 	</div>	
 		<%#= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
-		<% end -%>	
+	<% end -%>	
 		
 	<% form_tag session_path do -%>
 

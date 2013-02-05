@@ -390,6 +390,7 @@ input#invitee_fullname {
 	padding: 10px;
 	margin: 10px;
 	background: #c8c8c8 url(../images/iui/pinstripes.png);
+	text-align: center;
 }
 
 .panel > fieldset {
@@ -401,14 +402,49 @@ input#invitee_fullname {
 	-moz-border-radius: 10px;
 	border: 1px solid #999999;
 	/*text-align: right;*/
- 
-
-font-size: 16px;
+	font-size: 16px;
 	margin: 10px;
 }
 
 .panel > fieldset .block {
 	padding: 10px;
+}
+
+.panel > small {
+	margin-left:10px;
+	font-size:0.7em;
+}
+
+a.uwnetid_link {	
+	text-decoration: none;
+	display: inline-block;
+	margin: 0.25em 1em 0.5em;
+}
+
+a.uwnetid_link #uwnetid_logo {
+	background-image: url(../images/app/weblogin-logo.gif);
+/*	min-width: 198px;*/
+	width: 198px;
+	padding-top: 60px;
+	margin-top:5px;
+	background-position-x: 10px;
+}
+
+
+#login_button {
+	padding:1em;
+	font-size:1em;
+}
+
+#uwnetid_button{
+    padding: 1em 2em 1em 1em !important;
+    color: white;
+    border: 1px solid transparent;
+    margin-bottom: 8px;
+    background-image: none;
+    background: url(../images/icons/simple_admin/ic_right.png) no-repeat right;
+    background-color: #D14836;
+    font-size: 1em;
 }
 
 .row {
@@ -440,7 +476,7 @@ fieldset > .row:last-child {
 }
 
 .row > label {
-	position: absolute;
+/*	position: absolute;*/
 	margin: 0 0 0 14px;
 	line-height: 42px;
 	font-weight: bold;
@@ -520,11 +556,13 @@ fieldset > .row:last-child {
 }
 
 .panel > h2 {
-	margin: 8px 0 8px 14px;
+	margin: 18px 0 12px 14px;
 	font-size: inherit;
 	font-weight: bold;
 	color: #4d4d70;
 	text-shadow: rgba(255, 255, 255, 0.75) 1px 1px 0;
+	text-align:center;
+	
 }
 
 .proceedings .session_identifier {

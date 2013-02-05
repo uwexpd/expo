@@ -1021,7 +1021,8 @@ div.login h2 {
 	background-color: #f3f8fd;
 	padding: 15px;	
 	border-bottom: 1px solid #ADC7E1;
-	color:#555;
+	text-shadow: rgba(255, 255, 255, 0.75) 1px 1px 0;
+	color:#4d4d70;
 	-moz-border-radius-topright:5px;
 	-webkit-border-top-right-radius:5px;
 	border-top-right-radius:5px;
