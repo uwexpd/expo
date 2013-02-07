@@ -2,7 +2,7 @@
 class SessionController < ApplicationController
   skip_before_filter :login_required, :check_authorization, :check_for_limited_login
 
-  before_filter :adjust_format_for_iphone, :only => [:new]
+  #before_filter :adjust_format_for_iphone, :only => [:new]
 
   layout 'welcome'
 

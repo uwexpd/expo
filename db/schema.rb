@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130001452) do
+ActiveRecord::Schema.define(:version => 20130206235151) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1974,6 +1974,7 @@ ActiveRecord::Schema.define(:version => 20121130001452) do
     t.text     "proceedings_welcome_text"
     t.string   "proceedings_pdf_letterhead"
     t.boolean  "allow_to_review_mentee",                      :default => false
+    t.datetime "confirmation_deadline"
   end
 
   create_table "open_id_authentication_associations", :force => true do |t|

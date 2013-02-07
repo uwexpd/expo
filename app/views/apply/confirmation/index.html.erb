@@ -9,27 +9,26 @@
 	
 	<table class="borderless extra_padding" style="width: 55%">
 
-		<tr>
+		<tr <%= "class='highlight'" if !@confirmer.confirmed.nil? && @confirmer.confirmed %>>
 			<td><%= f.radio_button :confirmed, true %></td>
 			<td><%= f.label :confirmed_true, textilize_without_paragraph(ERB.new(@offering.confirmation_yes_text).result(binding)) %></td>
 		</tr>
 		
-		<tr>
+		<tr <%= "class='highlight'" if !@confirmer.confirmed.nil? && @confirmer.confirmed==false %>>
 			<td><%= f.radio_button :confirmed, false %></td>
 			<td><%= f.label :confirmed_false, "No, I will not be participating in the #{@offering.title}." %>
 				<% unless @is_group_member %>
 					<br><small>Note: This will cancel your application.</small>
-				<% end -%></td>
-					
+				<% end -%></td>					
 		</tr>
 		
 	</table>
 	
 	<div class="progress_nav_buttons">
-			<% if @confirmer.confirmed.nil? || Date.today <= Date.new(2011, 04, 15) #TODO: Add @confirmer.offering.confirm_date %>
+			<% if @confirmer.confirmed.nil? || (Time.now <= @offering.confirmation_deadline if @offering.confirmation_deadline) %>
 				<%= f.submit "Submit your confirmation →", :disable_with => "Submitting confirmation..." %>
 			<% else %>
-				<p class="grey">You've confirmed your participation. Please contact urp@uw.edu if needs to change your participation.</p>	
+				<p><span class="green icon-left complete">You've confirmed your participation Please contact urp@uw.edu if you need to change your participation.</span></p>
 			<% end -%>
 	</div>
 

@@ -7,6 +7,12 @@
 </p>
 
 <p>
+	Confirmation Deadline:
+	<%= f.datetime_select :confirmation_deadline %></dd>
+	<p class="caption">Students can confirm their participations anytime for first time confirmation. However, they cannot change their confirmations by confirmation deadline</p>
+<p>
+	
+<p>
 	<%= f.label :confirmation_instructions %><br>
 	<%= f.text_area :confirmation_instructions, :style => "width: 99%" %>
 </p>

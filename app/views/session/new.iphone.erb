@@ -3,13 +3,13 @@
     <a id="backButton" class="button" href="#"></a>
 </div>
 
-<% form_tag 'session_path', :title => "EXPO Login", :class => 'panel', :selected => true, :target => "_self" do -%>
+<% form_tag session_path, :title => "EXPO Login", :class => 'panel', :selected => true, :target => "_self" do -%>
 	
 	<h2>UW Students, Faculty &amp; Staff</h2>
 	<fieldset class="row"><%= link_to "<div id='uwnetid_logo'></div><div id='uwnetid_button'>Log in with UW NetID</div>", '/auth/shibboleth', :class => "uwnetid_link" %></fieldset>
 	<%#= submit_tag 'Log in with UW NetID', :name => 'uwnetid_button', :id => "uwnetid_button" %>
 
-	<h2>All other non-uw users, log in using <br>your expo account</h2>
+	<h2>All other non-uw users, log in using your expo account</h2>
 
 	<fieldset>
 		
@@ -24,7 +24,7 @@
 		</div>
 		
 	</fieldset>
-	<center><%= submit_tag 'Log in', :id => "login_button" %></center>
+	<center><%= submit_tag 'Log in', :id => "login_button" %></center><br>
 	<small><%= link_to "Forgot your password?", :action => 'forgot' %></small><br><br><br>
 	<%= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
 <% end -%>

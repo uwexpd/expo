@@ -251,7 +251,7 @@ class OfferingQuestion < ActiveRecord::Base
       if mentor.waive_access_review_right.nil? && offering.ask_applicant_to_waive_mentor_access_right?
         page.errors.add_to_base "You must choose whether or not to waive your record access rights for this application."
       end
-      if !mentor.no_email && (mentor.email.nil? || !MustBeValidEmailAddressValidation::valid_email_address(mentor.email))
+      if !mentor.no_email && (mentor.email.blank? || !MustBeValidEmailAddressValidation::valid_email_address(mentor.email))
         page.errors.add_to_base "You must enter a valid e-mail address for your mentor."
       end
 #      if !mentor.no_email && (mentor.email_confirmation.blank? || mentor.email != mentor.email_confirmation )
