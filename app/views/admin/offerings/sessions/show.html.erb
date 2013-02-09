@@ -46,4 +46,5 @@
 <div id="presenters"><%= render :partial => "presenters" %></div>
 
 <% sidebar :add_presenter %>
+<% sidebar :rearrange if @session.application_type.title == "Oral Presentation" %>
 <% sidebar :print if @session.easel_numbers_assigned? %>

@@ -1,0 +1,8 @@
+<h3>Rearrange moderator presenters order</h3>
+
+<ul class="link-list">	
+	<li><%= link_to_function "Rearrange presenters order <br><small class='caption'>Click complete rearrangement after dragging and re-order presenters</small>", "$$('.sort-handle').invoke('toggle')", :class => "icon-left sort" %>
+		
+	</li>
+	<li><%= link_to "Complete rearrangement", offering_session_path(@offering, @session), :class => "icon-left go-next" %></li>
+</ul>

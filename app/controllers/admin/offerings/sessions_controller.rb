@@ -15,7 +15,7 @@ class Admin::Offerings::SessionsController < Admin::OfferingsController
   def show
     @session = @offering.sessions.find(params[:id])
     session[:breadcrumbs].add "#{@session.title}"
-    @presenters = @session.presenters.sort_by(&:lastname_first)
+    @presenters = @session.presenters.sort{|x,y| x.offering_session_order.nil? ? x.lastname_first <=> y.lastname_first : x.offering_session_order.to_i <=> y.offering_session_order.to_i }
     @presenters = @session.presenters.sort{|x,y| x.location_section_id.to_s <=> y.location_section_id.to_s} if @session.uses_location_sections?
     @presenters = @presenters.sort{|x,y| (x.instance_eval(params[:sort_by]).to_s) <=> (y.instance_eval(params[:sort_by]).to_s)} if params[:sort_by]
 
@@ -171,6 +171,16 @@ class Admin::Offerings::SessionsController < Admin::OfferingsController
     @location_sections = @offering.location_sections
     @sessions = @application_type.offering_sessions
     session[:breadcrumbs].add "Easel Arrangement"
+  end
+  
+  def sort_session_students
+    @session = @offering.sessions.find params[:id]
+    params[:session_students].each_with_index do |id, index|
+      @session.presenters.update_all(['offering_session_order=?', index+1], ['id=?', id])
+    end
+    respond_to do |format|
+       render :nothing => true
+    end
   end
 
   protected

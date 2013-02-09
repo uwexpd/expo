@@ -154,7 +154,7 @@ ActionController::Routing::Routes.draw do |map|
         statuses.resources       :emails, :controller => 'offerings/statuses/emails'
       end
       offerings.resources       :sessions, :controller => 'offerings/sessions', 
-                                           :member => { :add_presenter => :put, :remove_presenter => :delete, :easels => :get },
+                                           :member => { :add_presenter => :put, :remove_presenter => :delete, :easels => :get, :sort_session_students => :post },
                                            :collection => { :disciplines => :get }
       offerings.resources       :dashboard_items, :controller => 'offerings/dashboard_items',
                                                   :member => { :disable => :post, :enable => :post }

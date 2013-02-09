@@ -414,8 +414,8 @@ a.button.sort_handle {
 
 .sort-handle span {
 	visibility: hidden;
-	font-size: 6px;
-	margin: 1px;
+	/*font-size: 6px;
+		margin: 1px;*/
 }
 
 tr.full {

@@ -3,12 +3,15 @@
 <table class="sortable" id="sortable-table-0">
 	<thead>
 		<tr class="small left">
-			<th><div class="sort-icon">Student</div></th>
+			<% if @session.application_type.title == "Oral Presentation" %>
+				<th><div class="sort-icon">Moderator's Order</div></th>
+			<% end %>
+			<th style='width:15%'><div class="sort-icon">Student</div></th>
 			<th><div class="sort-icon">Presentation Title</div></th>
 			<% if @session.moderator %>
 				<th><div class="sort-icon">Moderator/Review Decision</div></th>
 			<% end -%>
-			<th><div class="sort-icon">Mentor Department</div></th>
+			<th style='width:15%'><div class="sort-icon">Mentor Department</div></th>
 			<% if @session.uses_location_sections? %>
 				<th><div class="sort-icon">Location Section</div></th>
 			<% end -%>
@@ -31,14 +34,18 @@
 					<td><a id="<%= app.location_section.title rescue "unassigned" %>" class="augmented anchor"></a></td>
 				</tr>
 			<% end -%>
-						
+			<% if @session.application_type.title == "Oral Presentation" %>
+				<td><span class="sort-handle" style="display: none"><span>[drag]</span></span>
+					<small class="light"><%=h app.offering_session_order %></small>
+				</td>			
+			<% end -%>
 			<td><%= link_to h(app.fullname), admin_student_url(app.person) %></td>
 			<td width=50%><%= link_to sanitize(app.project_title, :tags => %w(em i font sub sup)), admin_app_url(@offering, app) %></td>
 			<% if @session.moderator %>
 				<td><%= app.application_moderator_decision_type.try(:title)||app.application_review_decision_type.title rescue "<span class=light>No decision yet.</span>" %></td>
 			<% end -%>
 			<td><%=h app.academic_department || app.mentor_department %></td>
-			<% if params[:sort_by] %>
+			<% if @session.uses_location_sections? %>
 				<td><%=h app.location_section.title if app.location_section %></td>
 			<% end -%>
 			<% if @session.easel_numbers_assigned? %>
@@ -61,6 +68,7 @@
 		<% end -%>
 	
 	</tbody>
+	<%= sortable_element "session_students", :url => sort_session_students_offering_session_path(@offering, @session), :handle => 'sort-handle', :tag => 'tr', :indicator => true %>	
 </table>
 
 <% sidebar :location_sections if @session.uses_location_sections %>
