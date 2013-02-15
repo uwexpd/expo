@@ -1,0 +1,28 @@
+<h1><%= @offering.title %>
+	<span class="light">&raquo; <%= pluralize @awardees.size, "awardee" %></span>
+</h1>	
+
+<table>	
+	<tr>
+		<th>Student Name</th>
+		<th>Project Title</th>
+		<th>Major</th>
+		<th>Mentor</th>
+	</tr>
+
+	<% for app in @awardees %>
+	
+    	<tr>
+			<td>
+				<strong><%= app.person.firstname_first %></strong><br>
+				<small class="caption"><em><%= app.acceptance_response1 %></em></small>
+			</td>
+			<td><%= app.stripped_project_title %></td>
+			<td><%= app.person.majors_list(true) %></td>
+			<td><%= app.primary_mentor.fullname %>
+				<%= ", "+app.primary_mentor.department unless app.primary_mentor.department.blank? %>
+			</td>
+		</tr>	
+		
+	<% end %>
+</table>

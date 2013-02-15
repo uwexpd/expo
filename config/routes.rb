@@ -494,6 +494,9 @@ ActionController::Routing::Routes.draw do |map|
   # Locations
   map.location_summary 'location_summary/:id', :controller => 'application', :action => 'location_summary'
   map.location_fields 'location_fields/:id', :controller => 'application', :action => 'location_fields'
+  
+  # Public page
+  map.public_page 'public/offering/:id', :controller => 'public' ,:action => 'scholarslist'
 
   # Accountability
   map.resources :authorizations, 
