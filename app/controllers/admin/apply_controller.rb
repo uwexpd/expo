@@ -600,19 +600,19 @@ class Admin::ApplyController < Admin::BaseController
       select_hash.each do |object_id,v|
         @offering.interviewers.find_all{|r| r.id == object_id.to_i}.each do |i|
           if i.is_a?(OfferingInterviewer)
-            if email_template.name.include?("interviewer invite")
+            if email_template.name.downcase.include?("interviewer invite")
               ufield = "invite_email_contact_history_id"
-            elsif email_template.name.include?("interviewer interview times")
+            elsif email_template.name.downcase.include?("interviewer interview times")
               ufield = "interview_times_email_contact_history_id"
-            elsif email_template.name.include?("interviewer no interviews")
+            elsif email_template.name.downcase.include?("interviewer no interviews")
               ufield = "interview_times_email_contact_history_id"
             end
             if ufield
               command_after_delivery = "OfferingInterviewer.find(#{i.id}).update_attribute('#{ufield}', @email_contact.id)"
             end
           end
-          EmailQueue.queue i.reload.person.id, 
-                            ApplyMailer.create_interviewer_message(i, email_template, @offering),
+          EmailQueue.queue i.person.id,
+                            ApplyMailer.create_interviewer_message(i, email_template.reload, @offering),
                             nil,
                             command_after_delivery
         end

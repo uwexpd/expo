@@ -45,7 +45,7 @@ class Course < StudentInfo
   
   # Tries to parse a string into dept_abbrev, course_no, and section_id
   def self.match(abbrev)
-    abbrev.match /^([\w\W\s]{0,10}?)\s*(\d{3})\s*(\w{0,2})/
+    abbrev.match /^([\w\W\s]{0,10})\s*(\d{3})\s*(\w{0,2})/
   end
   
   # Finds all valid courses that exist for the given dept_abbrev, course_no in the given quarter(s). For instance,
