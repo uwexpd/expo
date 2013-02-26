@@ -19,8 +19,7 @@
 			</td>
 			<td><%= app.stripped_project_title %></td>
 			<td><%= app.person.majors_list(true) %></td>
-			<td><%= app.primary_mentor.fullname %>
-				<%= ", "+app.primary_mentor.department unless app.primary_mentor.department.blank? %>
+			<td><%= app.primary_mentor.fullname %><%= ", " + app.primary_mentor.department unless app.primary_mentor.department.blank? %>
 			</td>
 		</tr>	
 		

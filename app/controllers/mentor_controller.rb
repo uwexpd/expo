@@ -18,7 +18,7 @@ class MentorController < ApplicationController
     @mentee_application_record = @person.application_mentors.find params[:id]
     @mentee_application_record.reload
     @mentee_application_record.create_answers_if_needed
-    @mentee_application = ApplicationForOffering.find(@mentee_application_record.application_for_offering.id) #@mentee_application_record.application_for_offering => change to use ApplicationForOffering for solving undefine_method "dynamic_answer_xxxx". It seems a ghose method. TODO: Fix ghose method in ApplicationForOffering model
+    @mentee_application = ApplicationForOffering.find(@mentee_application_record.application_for_offering.id) #@mentee_application_record.application_for_offering => change to use ApplicationForOffering for solving undefine_method "dynamic_answer_xxxx". It seems a ghost method. TODO: Fix ghost method in ApplicationForOffering model
     @mentee = @mentee_application.person
     check_if_past_deadline unless @mentee_application_record.responded?
     if params["mentor"]

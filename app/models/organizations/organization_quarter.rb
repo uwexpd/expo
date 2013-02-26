@@ -80,9 +80,9 @@ class OrganizationQuarter < ActiveRecord::Base
   def students
     placements.collect{|p| p.person }.compact.uniq
   end
-  def pipeline_students
-    pipeline_placements.collect{|p| p.person }.compact.uniq
-  end
+  # def pipeline_students
+  #     pipeline_placements.collect{|p| p.person }.compact.uniq
+  #   end
 
   def courses
     placements.collect{|p| p.course }.compact.uniq
