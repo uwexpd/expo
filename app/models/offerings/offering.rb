@@ -13,6 +13,7 @@ class Offering < ActiveRecord::Base
                         {:group_members => :person },
                          :mentors
                       ] do
+    # Return applications with current_status, same as in_status. (Not sure why it is duplicate)
     def with_status(status_name)
       find :all, 
             :joins => [:person, {:current_application_status => :status_type }], 

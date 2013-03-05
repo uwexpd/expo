@@ -1073,8 +1073,8 @@ class Admin::ApplyController < Admin::BaseController
 
   # find application answers from offering project preference question_id from +option_column = 5+
   def amgen_project_preference
-    session[:breadcrumbs].add @offering.name    
-    admin_decision_statuses = %w(admin_decision_yes admin_decision_maybe)
+    session[:breadcrumbs].add @offering.name   
+    admin_decision_statuses = %w(admin_decision_yes+ admin_decision_yes admin_decision_maybe+ admin_decision_maybe)
     
     app_answers = ApplicationAnswer.find_all_by_offering_question_id(@offering.questions.find_all_by_display_as_and_option_column('checkbox_options',5)).select{|a| a.answer != "false" && admin_decision_statuses.include?(a.application_for_offering.current_status_name)}   
         

@@ -10,21 +10,21 @@
 	\textbf{Type:} <%= app.application_type.title if app.application_type %>
 	\\
 	\textbf{Category:} <%= app.application_category_title %>
-
-	\vspace{25pt}
+	\\
+	\textbf{Current Status:} <%= app.current_application_status.description %>
+	
+	\vspace{20pt}
 
 	<%= render :partial => 'abstract', :object => app %>
 
 	<% if params[:show_review_panel] %>
-	\vspace{35pt}
+	\vspace{20pt}
 	\large
 	\textsf{Review Decision}
 	\normalsize
 	\\
 	
-	\vspace{15pt}
 	Reviewer Name: \rule{300pt}{0.5pt}
-	\\
 	\\
 	
 	[ ]  Accept \hspace{20pt}
@@ -32,6 +32,21 @@
 	[ ]  Minor Revision (Commented) \hspace{20pt}
 	[ ]  Revise \hspace{20pt}
 	[ ]  Reject
+
+	\vspace{15pt}
+	
+	[ ]  Formatting issues (need to capitalize title, weird spacing/paragraph alignments) \newline
+	[ ]  Need to remove extraneous information (headings, citations, etc.) \newline
+	[ ]  Minor typos (spellings, punctuation, etc.): please note where \newline
+	[ ]  Define jargon/acronyms; please note where \newline
+	[ ]  Future/past tense issues \newline
+	[ ]  Student needs to discuss THEIR role in research (i.e., unclear what student actually did) \newline
+	[ ]  Section(s) Missing: \newline
+	\rule{10pt}{0.5pt} Purpose \hspace{10pt}
+	\rule{10pt}{0.5pt} Question/Hypothesis \hspace{10pt}
+	\rule{10pt}{0.5pt} Methods/Approach to the problem \newline
+	\rule{10pt}{0.5pt} Expected/Preliminary Results \hspace{10pt}
+	\rule{10pt}{0.5pt} Implications
 
 	\vspace{15pt}
 	Comments:

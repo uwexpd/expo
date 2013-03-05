@@ -6,6 +6,7 @@
 		<strong>ID:</strong> <%= app.id %>
 		<br><strong>Type:</strong> <%= app.application_type.title if app.application_type %>
 		<br><strong>Category:</strong> <%= app.application_category_title %>
+		<br><strong>Current Status:</strong> <%= app.current_application_status.description %>
 	</p>
 
 	<%= render :partial => "abstract", :object => app %>
@@ -18,6 +19,19 @@
 			<tt>[ ]</tt> Minor Revision &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<tt>[ ]</tt> Revise &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<tt>[ ]</tt> Reject</p>
+		
+		<p>	___ Formatting issues (need to capitalize title, weird spacing/paragraph alignments)</p>
+		<p>	___ Need to remove extraneous information (headings, citations, etc.)</p>
+		<p>	___ Minor typos (spellings, punctuation, etc.): please note where</p>
+		<p>	___ Define jargon/acronyms; please note where</p>
+		<p>	___ Future/past tense issues</p>
+		<p>	___ Student needs to discuss THEIR role in research (i.e., unclear what student actually did)</p>
+		<p>	___ Section(s) Missing:</p>
+		<p>	&nbsp; &nbsp; &nbsp; &nbsp; ___ Purpose</p>
+		<p>	&nbsp; &nbsp; &nbsp; &nbsp; ___ Question/Hypothesis</p>
+		<p>	&nbsp; &nbsp; &nbsp; &nbsp; ___ Methods/Approach to the problem</p>
+		<p>	&nbsp; &nbsp; &nbsp; &nbsp; ___ Expected/Preliminary Results</p>
+		<p>	&nbsp; &nbsp; &nbsp; &nbsp; ___ Implications</p>		
 		<p>Comments:
 			<%= "<br>#{textilize_without_paragraph(app.review_comments)}" unless app.review_comments.blank? %>
 			</p>
