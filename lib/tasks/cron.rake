@@ -7,9 +7,12 @@ namespace :cron do
       all_placements = Quarter.current_quarter.service_learning_placements
       all_placements.each do |p|
         if p.filled? && p.allocated? && !p.person.enrolled_service_learning_courses(Quarter.current_quarter, nil).include?(p.course)
-            print "Un-placing student: #{p.inspect}"
-            p.update_attribute(:person_id, nil)
-            print "done.\r\n"
+            puts "Un-placing student: #{p.id}, #{p.person.fullname}"
+            placement = ServiceLearningPlacement.find(p.id)
+            new_placement = placement.deep_clone!
+            new_placement.update_attribute(:person_id, nil)
+            placement.destroy
+            puts "done.\r\n"
         end
       end      
     end

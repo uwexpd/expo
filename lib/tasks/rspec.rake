@@ -1,18 +1,18 @@
-rspec_gem_dir = nil
-Dir["#{RAILS_ROOT}/vendor/gems/*"].each do |subdir|
-  rspec_gem_dir = subdir if subdir.gsub("#{RAILS_ROOT}/vendor/gems/","") =~ /^(\w+-)?rspec-(\d+)/ && File.exist?("#{subdir}/lib/spec/rake/spectask.rb")
-end
-rspec_plugin_dir = File.expand_path(File.dirname(__FILE__) + '/../../vendor/plugins/rspec')
-
-if rspec_gem_dir && (test ?d, rspec_plugin_dir)
-  raise "\n#{'*'*50}\nYou have rspec installed in both vendor/gems and vendor/plugins\nPlease pick one and dispose of the other.\n#{'*'*50}\n\n"
-end
-
-if rspec_gem_dir
-  $LOAD_PATH.unshift("#{rspec_gem_dir}/lib") 
-elsif File.exist?(rspec_plugin_dir)
-  $LOAD_PATH.unshift("#{rspec_plugin_dir}/lib")
-end
+# rspec_gem_dir = nil
+# Dir["#{RAILS_ROOT}/vendor/gems/*"].each do |subdir|
+#   rspec_gem_dir = subdir if subdir.gsub("#{RAILS_ROOT}/vendor/gems/","") =~ /^(\w+-)?rspec-(\d+)/ && File.exist?("#{subdir}/lib/spec/rake/spectask.rb")
+# end
+# rspec_plugin_dir = File.expand_path(File.dirname(__FILE__) + '/../../vendor/plugins/rspec')
+# 
+# if rspec_gem_dir && (test ?d, rspec_plugin_dir)
+#   raise "\n#{'*'*50}\nYou have rspec installed in both vendor/gems and vendor/plugins\nPlease pick one and dispose of the other.\n#{'*'*50}\n\n"
+# end
+# 
+# if rspec_gem_dir
+#   $LOAD_PATH.unshift("#{rspec_gem_dir}/lib") 
+# elsif File.exist?(rspec_plugin_dir)
+#   $LOAD_PATH.unshift("#{rspec_plugin_dir}/lib")
+# end
 
 begin
   require 'spec/rake/spectask'
@@ -68,13 +68,19 @@ begin
       t.spec_files = FileList['vendor/plugins/**/spec/**/*/*_spec.rb'].exclude('vendor/plugins/rspec/*').exclude("vendor/plugins/rspec-rails/*")
     end
 
+    desc "Run the code examples for testing service learning registration confirmation"
+    Spec::Rake::SpecTask.new(:place => spec_prereq) do |t|
+      t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
+      t.spec_files = FileList['spec/controllers/service_learning_controller_spec.rb']
+    end
+    
     namespace :plugins do
       desc "Runs the examples for rspec_on_rails"
       Spec::Rake::SpecTask.new(:rspec_on_rails) do |t|
         t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
         t.spec_files = FileList['vendor/plugins/rspec-rails/spec/**/*/*_spec.rb']
       end
-    end
+    end    
 
     # Setup specs for stats
     task :statsetup do
