@@ -29,12 +29,12 @@ GEM
     composite_primary_keys (2.3.5.1)
       activerecord (>= 2.3.5)
     daemons (1.1.6)
+    database_cleaner (0.9.1)
     dbd-odbc (0.2.5)
       dbi (>= 0.4.0)
     dbi (0.4.5)
       deprecated (= 2.0.1)
     deprecated (2.0.1)
-    diff-lcs (1.1.3)
     factory_girl (1.2.4)
     fastthread (1.0.7)
     gem_plugin (0.2.3)
@@ -86,14 +86,7 @@ GEM
     rcov (1.0.0)
     rdoc (2.4.3)
     rmagick (2.5.2)
-    rspec (2.8.0)
-      rspec-core (~> 2.8.0)
-      rspec-expectations (~> 2.8.0)
-      rspec-mocks (~> 2.8.0)
-    rspec-core (2.8.0)
-    rspec-expectations (2.8.0)
-      diff-lcs (~> 1.1.2)
-    rspec-mocks (2.8.0)
+    rspec (1.2.9)
     rspec-rails (1.2.7.1)
       rack (>= 0.4.0)
       rspec (>= 1.2.7)
@@ -122,10 +115,10 @@ DEPENDENCIES
   capistrano
   composite_primary_keys
   daemons
+  database_cleaner (>= 0.9.1)
   dbd-odbc
   dbi
   factory_girl (~> 1.2.2)
-  hashie
   hoe (~> 2.3.3)
   hoptoad_notifier
   htmldoc
@@ -140,8 +133,8 @@ DEPENDENCIES
   rcov
   rdoc (~> 2.4.3)
   rmagick
-  rspec
-  rspec-rails (~> 1.2.0)
+  rspec (~> 1.2.9)
+  rspec-rails (~> 1.2.7.1)
   rtex
   ruby-odbc
   sanitize

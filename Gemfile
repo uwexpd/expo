@@ -8,7 +8,7 @@ gem "sanitize"
 gem "rtex"
 gem "calendar_date_select"
 gem "factory_girl", "~> 1.2.2"
-gem "hoe", "~> 2.3.3"
+gem "hoe", "~> 2.3.3" # dependency with gem version 1.3.7
 gem "RedCloth"
 gem "htmldoc"
 gem "rcov"
@@ -16,20 +16,26 @@ gem "hoptoad_notifier"
 gem "spreadsheet"
 gem "nokogiri"
 gem "addressable","~> 2.1.0"
-gem "dbi"
-gem "dbd-odbc"
-gem "ruby-odbc"
-gem "activerecord-odbc-adapter", "~> 2.0"
 gem "pdf-writer"
 gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
-gem "hashie"
-gem "omniauth-shibboleth"
+#gem "hashie"
+# For UWSDB
+gem "dbi"
+gem "dbd-odbc"
+gem "ruby-odbc"
+gem "activerecord-odbc-adapter", "~> 2.0"
+# End
+gem "rspec", "~> 1.2.9", :group => [:development, :test] # dependecy with hoe 2.3.3
+gem "rspec-rails", "~> 1.2.7.1", :group => [:development, :test] # dependecy with rspec
 
-group :production do
+
+group :production do  
+  gem "omniauth-shibboleth"
   gem "mysql"
+  
 end
 
 group :development do
@@ -41,6 +47,5 @@ end
 
 group :test do
   # bundler requires these gems while running tests
-  gem "rspec"
-  gem "rspec-rails", "~> 1.2.0"
+  gem "database_cleaner", ">= 0.9.1"
 end
