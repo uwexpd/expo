@@ -1,0 +1,39 @@
+<% if dropper.nil? %>
+	<tr class="rowWithErrors" id="student_<%= dropper.id %>">
+		<td colspan=5>ERROR: could not find student record.</td>
+	</tr>
+<% else -%>
+
+<% drop_placements = @drop_placements[dropper.id] if @drop_placements %>	
+<% placed_for_course = !drop_placements.nil? %>
+
+<tr id="student_<%= dropper.id %>" class="unavailable">
+	<td><%= select_check_box(dropper, course.try(:id)) %></td>
+
+	<td>
+		<%= link_to dropper.fullname, [:admin, dropper], :target => "_blank" %>
+		<br><small><%= link_to_expo_email dropper rescue "#email error" %></small>
+	</td>
+	
+	<td>
+		<% if placed_for_course %>
+			<% drop_placements.each do |drop_placement| %>			
+				<% position = ServiceLearningPosition.find(drop_placement.service_learning_position_id) %>
+				
+				<%= link_to position.title, 
+					service_learning_organization_position_path(@unit, @quarter, position.organization, position) rescue "error" %>
+				<br>	
+				<span class="smaller lighter"> at
+					<%= link_to position.organization.name,
+					 			service_learning_organization_path(@unit, @quarter, position.organization) rescue "error" %>
+				</span><br>
+			
+			<% end %>	
+		<% end %>	
+	</td>
+	<td colspan="2">
+		<%#= restore function if need %>
+	</td>
+</tr>	
+
+<% end %>

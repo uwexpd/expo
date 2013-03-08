@@ -183,7 +183,7 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
         end
       end
     end
-    
+        
     # Display Carlson pipeline project placements in pipeline roster students page, which allows pipeline staff 
     # to easily find the students who should be placed pipeline positions.
     pipeline_org = Organization.find_by_name("Pipeline Project") 
@@ -197,6 +197,22 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
           @placements[p.person_id] << p
         end
     end        
+        
+    # Find the dropped placements and students
+    @course_dropper_placements = ServiceLearningPlacement::Deleted.find_all_by_service_learning_course_id(@service_learning_course.id)     
+    @course_droppers =  Person.find(@course_dropper_placements.collect(&:person_id).compact.uniq)
+    @drop_placements = {}
+    if @course_dropper_placements
+      for drop in @course_dropper_placements 
+        if @drop_placements[drop.person_id].nil?
+          @drop_placements[drop.person_id] = [drop]
+        else
+          @drop_placements[drop.person_id] << drop
+        end
+      end
+    end
+
+    
             
     session[:breadcrumbs].add @service_learning_course.title, service_learning_course_path(@unit, @quarter, @service_learning_course) rescue "Detail"
     session[:breadcrumbs].add "Students"
@@ -558,7 +574,7 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
     #redirect_to :action => "index", :copy_quarter_id => params[:copy_quarter_id]
     render :partial => "course_copy_dropdown"
   end
-     
+      
   private
   
   # Performs the search to find the positions for the pipeline course

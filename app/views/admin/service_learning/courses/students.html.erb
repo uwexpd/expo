@@ -51,6 +51,19 @@
 					:locals => { :course => @service_learning_course, :service_learning_course => @service_learning_course } %>
 	<% end -%>
 	
+	<% unless @course_droppers.empty? %>
+		<tr class="rowset-header">
+			<td><%= select_all_check_box(@service_learning_course.id) %></td>
+			<td colspan=4>Course Droppers
+				<font class="lighter grey">&raquo; <%= pluralize @course_droppers.size, "student" %></font></td>
+		</tr>		
+		<%= render :partial => "dropper", 
+					:collection => @course_droppers.sort{|x,y| x.fullname <=> y.fullname rescue -1},
+					:locals => { :course => @service_learning_course, :service_learning_course => @service_learning_course, :course_dropper_placements => @course_dropper_placements } %>
+	<% end -%>
+	
+	
+	
 	<% if @use_pipeline_links %>
     <tr id="pipeline_manually_place_box" style="display:none;">
     <td colspan=7>
