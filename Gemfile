@@ -28,8 +28,8 @@ gem "dbd-odbc"
 gem "ruby-odbc"
 gem "activerecord-odbc-adapter", "~> 2.0"
 # End
-gem "rspec", "~> 1.2.9", :group => [:development, :test] # dependecy with hoe 2.3.3
-gem "rspec-rails", "~> 1.2.7.1", :group => [:development, :test] # dependecy with rspec
+gem "rspec", "~> 1.2.9" # dependecy with hoe 2.3.3
+gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
 
 
 group :production do  

@@ -6,7 +6,7 @@
 		<strong>ID:</strong> <%= app.id %>
 		<br><strong>Type:</strong> <%= app.application_type.title if app.application_type %>
 		<br><strong>Category:</strong> <%= app.application_category_title %>
-		<br><strong>Current Status:</strong> <%= app.current_application_status.description %>
+		<br><strong>Current Status:</strong> <%= app.current_application_status.offering_status.private_title %>
 	</p>
 
 	<%= render :partial => "abstract", :object => app %>

@@ -11,7 +11,7 @@
 	\\
 	\textbf{Category:} <%= app.application_category_title %>
 	\\
-	\textbf{Current Status:} <%= app.current_application_status.description %>
+	\textbf{Current Status:} <%= app.current_application_status.offering_status.private_title %>
 	
 	\vspace{20pt}
 

@@ -1,6 +1,6 @@
 require 'csv'
 
-desc "Get a csv file that includes 300+ students and run a search to see if the students are in specific courses"
+desc "Import a csv file that includes students and run a search to see if the students are in specific courses for Todd Sperry/OMAD"
 task :student_courses => :environment do  
   puts "Loaded #{RAILS_ENV} environment."
   STDOUT.sync = true
@@ -131,6 +131,24 @@ task :pipeline_placements => :environment do
   puts "#{students.select{|k,v| v.size==2 && v[0]=="21" && v[1]="22"}.size}"
   puts "#{students.select{|k,v| v.size==2 && v[0]=="22" && v[1]="23"}.size}"
 
+end
+
+desc "Import a csv file wiht UW NetID and return their student numbers for Jumpstart"
+task :student_number => :environment do
+    print "Parsing CSV file...."    
+    file_path = "tmp/Jumpstart.csv"
+    print "(file path: #{file_path})\n"
+    
+    student_file = CSV.open(file_path, 'r', ?,, ?\r)  
+    student_data = student_file.map{|row| row.map {|cell| cell.to_s } }
+    puts "Total students number: #{student_data.size}"  
+    puts "====================================================================================================================="
+
+    for s in student_data      
+      student = Student.find_by_uw_netid(s)
+      print "#{student.student_no.to_s.ljust(7)}    #{student.fullname.ljust(35)}       #{student.email.ljust(25)}  \n" if student
+    end
+    
 end
 
 
