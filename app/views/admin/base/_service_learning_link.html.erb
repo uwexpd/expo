@@ -1,14 +1,15 @@
-<%- if @current_user.units.minus_exp.size == 1 && @current_user.units.minus_exp.first.abbreviation == 'pipeline' -%>
+<% current_user_unints = @current_user.units.minus_exp.uniq %>
+<%- if current_user_unints.size == 1 && current_user_unints.first.abbreviation == 'pipeline' -%>
 	<li class="service-learning">
 		<%= link_to "Pipeline", 
-					service_learning_home_url(@current_user.units.minus_exp.first, Quarter.current_quarter) %>
+					service_learning_home_url(current_user_unints.first, Quarter.current_quarter) %>
 	</li>
-<%- elsif @current_user.units.minus_exp.size == 1 -%>
+<%- elsif current_user_unints.size == 1 -%>
 	<li class="service-learning">
 		<%= link_to "Service-learning", 
-					service_learning_home_url(@current_user.units.minus_exp.first, Quarter.current_quarter) %>
+					service_learning_home_url(current_user_unints.first, Quarter.current_quarter) %>
 	</li>
-<%- elsif @current_user.units.minus_exp.size > 1 -%>
+<%- elsif current_user_unints.size > 1 -%>
 	<li class="service-learning menu">
 		<%= link_to_function "Service-learning", "toggle_menu('select_service_learning_unit', true);" %>
 
@@ -17,7 +18,7 @@
 
 			<h4>Select unit</h4>
 
-			<% for unit in @current_user.units.minus_exp %>
+			<% for unit in current_user_unints %>
 				<%= link_to unit.name, service_learning_home_url(unit, Quarter.current_quarter) %>
 			<% end -%>
 		</div>

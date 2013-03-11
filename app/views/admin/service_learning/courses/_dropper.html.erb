@@ -18,17 +18,17 @@
 	<td>
 		<% if placed_for_course %>
 			<% drop_placements.each do |drop_placement| %>			
-				<% position = ServiceLearningPosition.find(drop_placement.service_learning_position_id) %>
-				
-				<%= link_to position.title, 
-					service_learning_organization_position_path(@unit, @quarter, position.organization, position) rescue "error" %>
-				<br>	
-				<span class="smaller lighter"> at
-					<%= link_to position.organization.name,
-					 			service_learning_organization_path(@unit, @quarter, position.organization) rescue "error" %>
-				</span><br>
-			
-			<% end %>	
+				<% position = ServiceLearningPosition.find_by_id(drop_placement.service_learning_position_id) %>
+				<% if position %>
+					<%= link_to position.title, 
+						service_learning_organization_position_path(@unit, @quarter, position.organization, position) rescue "error" %>
+					<br>	
+					<span class="smaller lighter"> at
+						<%= link_to position.organization.name,
+						 			service_learning_organization_path(@unit, @quarter, position.organization) rescue "error" %>
+					</span><br>
+				<% end %>	
+			<% end %>
 		<% end %>	
 	</td>
 	<td colspan="2">
