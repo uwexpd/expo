@@ -21,7 +21,6 @@ gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
-#gem "hashie"
 # For UWSDB
 gem "dbi"
 gem "dbd-odbc"
@@ -43,6 +42,7 @@ group :development do
   #gem "sqlite3-ruby", :require => "sqlite3"  
   gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
+  gem "thin"
 end
 
 group :test do

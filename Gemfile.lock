@@ -35,6 +35,7 @@ GEM
     dbi (0.4.5)
       deprecated (= 2.0.1)
     deprecated (2.0.1)
+    eventmachine (1.0.3)
     factory_girl (1.2.4)
     fastthread (1.0.7)
     gem_plugin (0.2.3)
@@ -99,6 +100,10 @@ GEM
       nokogiri (>= 1.4.4, < 1.6)
     spreadsheet (0.6.8)
       ruby-ole (>= 1.0)
+    thin (1.5.0)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     transaction-simple (1.4.0)
       hoe (>= 1.1.7)
     will_paginate (2.3.16)
@@ -139,4 +144,5 @@ DEPENDENCIES
   ruby-odbc
   sanitize
   spreadsheet
+  thin
   will_paginate (~> 2.3.11)
