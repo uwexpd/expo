@@ -401,7 +401,7 @@ class Admin::ApplyController < Admin::BaseController
           ApplyMailer.deliver_templated_message(dean_approver.person, 
           EmailTemplate.find_by_name("dean approval request"), 
           dean_approver.person.email, 
-          "https://isidore.ued.washington.edu/expo/admin/apply/approve")
+          "https://expo.uw.edu/expo/admin/apply/approve")
       flash[:notice] = "Request for dean approvals sent."
     end
     redirect_to request.referer
