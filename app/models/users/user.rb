@@ -68,7 +68,9 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
   attr_accessor :allow_invalid_person
-
+  
+  acts_as_strip :login, :email
+  
   validates_presence_of     :login #, :person_id
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
@@ -109,7 +111,7 @@ class User < ActiveRecord::Base
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :password, :password_confirmation, :identity_url, :person_attributes, :picture, :picture_temp  #, :person_id
-
+  
   named_scope :admin, :conditions => { :admin => true }
 
 

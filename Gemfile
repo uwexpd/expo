@@ -7,7 +7,6 @@ gem "json"
 gem "sanitize"
 gem "rtex"
 gem "calendar_date_select"
-gem "factory_girl", "~> 1.2.2"
 gem "hoe", "~> 2.3.3" # dependency with gem version 1.3.7
 gem "RedCloth"
 gem "htmldoc"
@@ -17,35 +16,34 @@ gem "spreadsheet"
 gem "nokogiri"
 gem "addressable","~> 2.1.0"
 gem "pdf-writer"
-gem "composite_primary_keys"
 gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
+gem "acts_as_strip", "~> 1.0.0"
 # For UWSDB
 gem "dbi"
 gem "dbd-odbc"
 gem "ruby-odbc"
 gem "activerecord-odbc-adapter", "~> 2.0"
-# End
+gem "composite_primary_keys"
+# End 
+gem "factory_girl", "~> 1.2.2" # TODO upgrade to "~> 2.0.5"
+#gem "thoughtbot-factory_girl", :lib => 'factory_girl', :source => 'http://gems.github.com'
 gem "rspec", "~> 1.2.9" # dependecy with hoe 2.3.3
 gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
 
 
 group :production do  
   gem "omniauth-shibboleth"
-  gem "mysql"
-  
+  gem "mysql"  
 end
 
 group :development do
-  # bundler requires these gems in development
-  #gem "sqlite3-ruby", :require => "sqlite3"  
   gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
   gem "thin"
 end
 
 group :test do
-  # bundler requires these gems while running tests
   gem "database_cleaner", ">= 0.9.1"
 end

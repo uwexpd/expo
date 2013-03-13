@@ -14,6 +14,9 @@ GEM
     activeresource (2.3.5)
       activesupport (= 2.3.5)
     activesupport (2.3.5)
+    acts_as_strip (1.0.0)
+      activerecord
+      activerecord (>= 2.3.5)
     addressable (2.1.2)
     andrew311-activerecord-odbc-adapter (2.3.1)
     builder (3.0.0)
@@ -114,6 +117,7 @@ PLATFORMS
 DEPENDENCIES
   RedCloth
   activerecord-odbc-adapter (~> 2.0)
+  acts_as_strip (~> 1.0.0)
   addressable (~> 2.1.0)
   andrew311-activerecord-odbc-adapter
   calendar_date_select
