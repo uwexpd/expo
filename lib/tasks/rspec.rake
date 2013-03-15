@@ -67,13 +67,7 @@ begin
       t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
       t.spec_files = FileList['vendor/plugins/**/spec/**/*/*_spec.rb'].exclude('vendor/plugins/rspec/*').exclude("vendor/plugins/rspec-rails/*")
     end
-
-    desc "Run the code examples for testing service learning registration confirmation"
-    Spec::Rake::SpecTask.new(:place => spec_prereq) do |t|
-      t.spec_opts = ['--options', "\"#{RAILS_ROOT}/spec/spec.opts\""]
-      t.spec_files = FileList['spec/controllers/service_learning_controller_spec.rb']
-    end
-    
+        
     namespace :plugins do
       desc "Runs the examples for rspec_on_rails"
       Spec::Rake::SpecTask.new(:rspec_on_rails) do |t|

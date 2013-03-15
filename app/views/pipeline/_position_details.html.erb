@@ -1,13 +1,17 @@
 <% hide_functions ||= false %>
-<% unless hide_functions %>
-  <% @pipeline_position_id = pipeline_position.id %>
-  <% available_slots = nil %>
-  <% slots_for_class = nil %>
-  <% if pipeline_position.use_slots == true || @service_learning_course.try(:no_filters) %>
-    <% available_slots = @service_learning_course.nil? ? pipeline_position.placements.open_volunteer.size : pipeline_position.placements.open_for(@service_learning_course).size %>
-    <% slots_for_class = @service_learning_course.nil? ? pipeline_position.number_of_slots_unallocated : pipeline_position.placements.for(@service_learning_course).size %>
-  <% end %>
-<% end %>
+<% 
+unless hide_functions
+  @pipeline_position_id = pipeline_position.id
+  available_slots = nil
+  slots_for_class = nil
+
+  if pipeline_position.use_slots == true || @service_learning_course.try(:no_filters)
+  available_slots = @service_learning_course.nil? ? pipeline_position.placements.open_volunteer.size : pipeline_position.placements.open_for(@service_learning_course).size
+  slots_for_class = @service_learning_course.nil? ? pipeline_position.number_of_slots_unallocated : pipeline_position.placements.for(@service_learning_course).size
+  end
+  registration_open = @service_learning_course.nil? || !@service_learning_course.registration_open_time.nil?
+end 
+%>
 
 <% if slots_for_class.nil? || slots_for_class > 0 %>
 <tr id="pipeline_position_<%= pipeline_position.id %>" class="<%= 'filled' if (!available_slots.nil? && available_slots <= 0) %>">
@@ -171,17 +175,20 @@
 
 
 						<li>
+							
 							<% if (available_slots.nil? || available_slots > 0) && 
-									((@quarter == @current_quarter) && 
-									@student.show_pipeline_position_contact? && 
-									(@service_learning_course.nil? || !@service_learning_course.registration_open_time.nil?)) %>
-
+								  (@student.show_pipeline_position_contact? && registration_open) 
+							%>									
 								<%= render :partial => "confirm_position_sidebar", :locals => {:pipeline_position => pipeline_position} %>
 
 							<% else %>
+							    <% 
+									message = registration_open ? "The opening for this position is full"  : "Not open for registration yet"
+									icon = registration_open ? "ok"  : "restrictions"
+							    %> 							    
 								<%= tooltip "Confirm Position with Pipeline", 
-											"You can not confirm this position right now. The opening for this position is full",
-											:class => 'icon-left ok light' %>
+										    "You can not confirm this position right now. #{message}",
+											:class => "icon-left #{icon} light "%>	
 							<% end %>
 							<%= indicator("favorite_indicator_#{pipeline_position.id}") %>
 						</li>

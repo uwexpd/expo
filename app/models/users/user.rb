@@ -114,7 +114,6 @@ class User < ActiveRecord::Base
   
   named_scope :admin, :conditions => { :admin => true }
 
-
   # Pulls the current user out of Thread.current. We try to avoid this when possible, but sometimes we need 
   # to access the current user in a model (e.g., to check EmailQueue#messages_waiting?).
   def self.current_user
