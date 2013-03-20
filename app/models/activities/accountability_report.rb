@@ -359,10 +359,7 @@ class AccountabilityReport < ActiveRecord::Base
                    stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses][activity[:course]] += 1
                 else
                   stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses][activity[:course]] = 1
-                end
-                                               
-                #stats[:department][activity[:department]][:total] ||= { :students => [] }
-                #stats[:department][activity[:department]][:total][:students] << system_key                
+                end                                               
               end
                                
             end                  
