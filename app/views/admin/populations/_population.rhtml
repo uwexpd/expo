@@ -23,7 +23,8 @@
 											:confirm => "Are you sure you want to make a copy of this query?",
 											:method => :put, 
 											:class => 'icon-left no-text copy' %>
-		<%= link_to "<span>Destroy</span>", population_path(population), :method => :delete, :class => "icon-left trash no-text" %>
+		<%= link_to "<span>Destroy</span>", population_path(population), :confirm => "Are you sure you want to delete this query?",
+											:method => :delete, :class => "icon-left trash no-text" %>
 		<%= link_to "<span>Results</span>", objects_population_path(population), :class => "icon-left preview no-text" %>
 		<%= link_to "<span>Excel</span>", population_path(population, :format => :xls), :class => "icon-left xls no-text" %>
 		<%= link_to "<span>Demographics</span>", admin_population_stats_query_path(population), :class => "icon-left report no-text" %></td>

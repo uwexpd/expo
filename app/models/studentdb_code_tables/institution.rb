@@ -44,7 +44,8 @@ class Institution < StudentInfo
       "PACIFIC LUTHERAN U"    => "Pacific Lutheran University",
       "UNIV NORTH TEXAS"      => "University of North Texas",
       "CALIF ST UNIV DOM HL"  => "California State University, Dominguez Hills",
-      "UNIV WISC RIVER FLS"   => "University of Wisconsin, River Falls"
+      "UNIV WISC RIVER FLS"   => "University of Wisconsin, River Falls",
+      "MONTANA STATE UNIV"    => "Montana State University"
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end

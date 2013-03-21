@@ -46,13 +46,15 @@
 		</td>
 		
 		<td>
-		<% if placement.evaluation_submitted? %>
-			<%= link_to "Evaluation", service_learning_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
-		<%- else -%>
-			<% unless organization_quarter.unit != @unit || placement.course.nil? %>
-				<%= link_to "Submit", service_learning_submit_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
-			<% end %>
-		<% end -%>
+		<% unless placement.course.nil? %>
+			<% if placement.evaluation_submitted? %>
+				<%= link_to "Evaluation", service_learning_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
+			<%- else -%>
+				<% unless organization_quarter.unit != @unit || placement.course.nil? %>
+					<%= link_to "Submit", service_learning_submit_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
+				<% end %>
+			<% end -%>
+		<% end %>
 		</td>
 		
 	</tr>
