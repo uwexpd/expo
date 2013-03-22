@@ -95,8 +95,8 @@
 		<% end %>
 		</div>
 	</li>
-	
-	<% unless @confirmed_positions.empty? %>
+	<%# only allow inner pipeline students to input tutoring hours %>
+	<% unless @confirmed_positions.empty? || @service_learning_course.nil? || (!@service_learning_course.nil? && @service_learning_course.pipeline_student_type_name == "Service Learning") %>
 		<li id="tutoring_log_display" class="tutoring">
 			<span class="status_marker"></span>
 			<h4>Tutoring Log</h4>

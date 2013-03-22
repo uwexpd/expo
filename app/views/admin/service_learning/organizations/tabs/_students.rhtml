@@ -33,25 +33,25 @@
 		<td><%= link_to image_tag("icons/silk/note.png", :alt=> "Add note for this student" , :mouseover => "icons/silk/note_go.png"), 
 								  admin_student_path(placement.person, :anchor => "notes"), :popup => true %></td>
 		<td><%= link_to truncate(placement.position.title(true,true,false), :length => 30), 
-						service_learning_organization_position_path(@unit, 
+						service_learning_organization_position_path(placement.position.unit, 
 						              @quarter, @organization, placement.position ),
 						              :title => placement.position.title(true,true,false) %></td>
 		<td colspan=2>
 		<% unless placement.course.nil? %>
 		<%= link_to truncate(placement.course.title, :length => 20), 
-							service_learning_course_path(@unit, 
+							service_learning_course_path(placement.position.unit, 
 							            @quarter, placement.course ),
 							            :title => placement.course.title %>
 		<% end %>
 		</td>
 		
 		<td>
-		<% unless placement.course.nil? %>
+		<% unless placement.course.nil? || (!placement.course.nil? && placement.course.pipeline_student_type_name == "Service Learning") %>
 			<% if placement.evaluation_submitted? %>
-				<%= link_to "Evaluation", service_learning_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
+				<%= link_to "Evaluation", service_learning_student_evaluation_path(placement.position.unit, @quarter, placement.course, placement.id) %>
 			<%- else -%>
 				<% unless organization_quarter.unit != @unit || placement.course.nil? %>
-					<%= link_to "Submit", service_learning_submit_student_evaluation_path(@unit, @quarter, placement.course, placement.id) %>
+					<%= link_to "Submit", service_learning_submit_student_evaluation_path(placement.position.unit, @quarter, placement.course, placement.id) %>
 				<% end %>
 			<% end -%>
 		<% end %>

@@ -541,7 +541,7 @@ class PipelineController < ApplicationController
     else
       if @service_learning_course.finalized
         @progress_statuses[:search] = {
-          :text => "Searching is open for #{@service_learning_course.title}. You should identify your top three
+          :text => "Searching is open for <span class='highlight'>#{@service_learning_course.title}</span>. You should identify your top three
                     favorite schools that work with your schedule and interests.",
           :css_class => "success",
           :button => true

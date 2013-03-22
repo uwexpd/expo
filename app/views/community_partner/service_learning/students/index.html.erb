@@ -34,11 +34,13 @@
 				<td><%= link_to placement.position.title, community_partner_service_learning_position_path(@quarter, placement.position) %></td>
 
 				<td>
-					<% if placement.evaluation_submitted? %>
-						Completed <%= time_ago_in_words(placement.evaluation.submitted_at) %> ago
-						(<%= link_to "view", evaluate_community_partner_service_learning_student_path(@quarter, placement) %>)
-					<% elsif placement.position.organization_quarter.allow_evals? %>
-						<%= link_to "Submit evaluation", evaluate_community_partner_service_learning_student_path(@quarter, placement) %>
+					<% unless placement.course.nil? || (!placement.course.nil? && placement.course.pipeline_student_type_name == "Service Learning") %>
+						<% if placement.evaluation_submitted? %>
+							Completed <%= time_ago_in_words(placement.evaluation.submitted_at) %> ago
+							(<%= link_to "view", evaluate_community_partner_service_learning_student_path(@quarter, placement) %>)
+						<% elsif placement.position.organization_quarter.allow_evals? %>
+							<%= link_to "Submit evaluation", evaluate_community_partner_service_learning_student_path(@quarter, placement) %>
+						<% end -%>
 					<% end -%>
 				</td>
 			</tr>
