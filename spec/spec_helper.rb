@@ -44,4 +44,13 @@ Spec::Runner.configure do |config|
   # == Notes
   # 
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+  config.before(:suite) do
+      DatabaseCleaner.strategy = :truncation
+  end
+  config.before(:each) do
+      DatabaseCleaner.start
+  end
+  config.after(:each) do
+      DatabaseCleaner.clean
+  end
 end

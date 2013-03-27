@@ -6,6 +6,7 @@ Factory.define :offering do |o|
 	o.open_date(Time.now - 6.month)
 	o.min_number_of_reviews_per_applicant 2
 	o.min_number_of_mentors 2
+	o.unit_id 2
 end
 
 # Create an Offering that uses interviews

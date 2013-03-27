@@ -19,5 +19,5 @@ config.action_controller.perform_caching             = false
 config.action_mailer.delivery_method = :test
 
 #  Rspec setup info
-config.gem "rspec", :lib => false, :version => ">= 1.2.0"
-config.gem "rspec-rails", :lib => false, :version => ">= 1.2.0"
+config.gem "rspec", :lib => false, :version => ">= 1.2.9"
+config.gem "rspec-rails", :lib => false, :version => ">= 1.2.7.1"

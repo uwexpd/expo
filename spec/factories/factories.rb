@@ -32,7 +32,7 @@ end
 
 # Create a User with a person attached
 Factory.define :user, :parent => :simple_user do |u|
-	u.association :person, :factory => :person
+	u.association :person, :factory => :person 
 end
 
 # Make sure all logins are unique 
@@ -69,6 +69,41 @@ end
 
 # Create a Uint
 Factory.define :unit do |e|
-	e.name "Test Unit"
-	e.abbreviation "TU"
+	e.name "Carlson Center"
+	e.abbreviation "carlson"
 end
+
+# Create a Service Learning Course
+Factory.define :service_learning_course, :class => ServiceLearningCourse do |c|  
+	c.alternate_title 'HIST 249/POL S 249/SOC 266: Labor Studies'
+	c.quarter_id 26
+	c.unit_id 1
+	c.placements { |placement| [placement.association(:service_learning_placement)] }
+end
+
+# Create a Position
+Factory.define :service_learning_position, :class => ServiceLearningPosition do |p|  
+	p.title 'Outreach and Labor Research Assistant'
+	p.organization_quarter_id 461
+	p.supervisor_person_id 2394
+	p.ideal_number_of_slots 8
+	p.unit_id 1
+	p.placements { |placement| [placement.association(:service_learning_placement)] }
+	p.after_build do |position|
+     position.stub(:update_organization_quarter_counts).and_return true     
+  end
+end
+
+# Create a Placement
+Factory.define :service_learning_placement do |p|
+  p.association :service_learning_course_id, :factory => :service_learning_course
+  p.association :service_learning_position_id, :factory => :service_learning_position  
+  p.unit_id 1
+  # p.after_build do |placement|
+  #     placement.service_learning_position_id = Factory
+  #     placement.service_learning_course_id =
+  #   end
+  
+end
+
+

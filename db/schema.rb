@@ -1454,7 +1454,7 @@ ActiveRecord::Schema.define(:version => 20130206235151) do
     t.text     "applicant_list_criteria"
     t.text     "reviewer_list_criteria"
     t.text     "detail_text"
-    t.string   "url"
+    t.string   "url",                                      :limit => 500
     t.text     "notes"
     t.string   "progress_column_title"
     t.text     "progress_display_criteria"
