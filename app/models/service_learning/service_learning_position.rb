@@ -93,6 +93,15 @@ class ServiceLearningPosition < ActiveRecord::Base
         find(:all, :conditions => ["service_learning_course_id IS NULL AND (person_id <=> 0 OR person_id IS NULL) "]) rescue []
       end
     end
+    # Limits ONLY ONE of placements to those associated with the passed object but _also_ still considered and "open slot" (i.e., person_id is null)
+    # To avoid race condiction by useing mysql FOR UPDATE # add pessimistic locking
+    def open_for_place(obj)
+      unless obj.nil?
+        find(:all, :conditions => ["#{obj.class.name.foreign_key} = ? AND (person_id <=> 0 OR person_id IS NULL) ", obj], :limit => 1, :lock => true) rescue []
+      else
+        find(:all, :conditions => ["service_learning_course_id IS NULL AND (person_id <=> 0 OR person_id IS NULL) "], :limit => 1, :lock => true) rescue []
+      end
+    end
     # Limits the list of placements to only those that are not matched to a specific course yet.
     def unallocated
       find(:all, :conditions  => ["service_learning_course_id <=> 0 OR service_learning_course_id IS NULL"]) rescue []
