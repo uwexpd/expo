@@ -17,7 +17,9 @@ class MajorRestriction < OfferingRestriction
   end
   
   def allowed_majors
-    parameter.to_s.split(",").collect(&:strip)
+    majors ||= []
+    parameter.to_s.split(",").collect(&:strip).each{|m| majors << Major.find_by_abbrev(m).title}
+    majors
   end
   
 end
