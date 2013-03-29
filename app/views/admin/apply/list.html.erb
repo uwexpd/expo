@@ -46,7 +46,10 @@
 					<td><%= link_to a.person.lastname_first, admin_student_path(a.person) %>
 						<br><small><%= auto_link a.person.email rescue "Unknown" %></small></td>
 						<td><%= link_to (a.project_title.blank? ? "View Application" : strip_tags(a.project_title)), 
-										:action => "show", :id => a.id %></td>
+										:action => "show", :id => a.id %>
+							<%= link_to image_tag("icons/silk/note.png", :alt=> "Has notes" , :mouseover => "icons/silk/note_go.png"), 
+										:action => "show", :id => a.id, :anchor => 'notes' if a.notes.size > 0 %>
+						</td>
 						<td><%= print_status(a) %></td>
 				</tr>
 
