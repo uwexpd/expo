@@ -3,7 +3,7 @@ class Admin::TicketsController < Admin::BaseController
   before_filter :add_tickets_breadcrumbs
   
   def index
-    q_params = { :q => "sort:state" }
+    q_params = { :q => "sort:state responsible:Josh" }
     q_params[:page] = params[:page] if params[:page]
     @tickets = Ticket.find(:all, :params => q_params )
     @current_page = params[:page] ? params[:page] : 1
