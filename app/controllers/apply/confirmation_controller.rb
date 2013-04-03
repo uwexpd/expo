@@ -13,7 +13,8 @@ class Apply::ConfirmationController < ApplyController
       @confirmer.update_attribute(:confirmed, params[:confirmation][:confirmed])
       if @confirmer.confirmed?
         @user_application.set_status "confirmed" unless @is_group_member
-        redirect_to :action => "contact_info" and return
+        #redirect_to :action => "contact_info" and return
+        redirect_to :action => "workshops" and return
       else
         @user_application.set_status "cancelled" unless @is_group_member
         redirect_to apply_url(@offering) and return
