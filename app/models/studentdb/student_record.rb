@@ -30,7 +30,8 @@ class StudentRecord < StudentInfo
       find(:first, :conditions => ['regis_yr = ? and regis_qtr = ?', qtr.year, qtr.quarter_code_id])
     end
     def enrolled
-      find(:all, :conditions => "(request_status = 'A' OR request_status = 'C' OR request_status = 'R')")
+      #find(:all, :conditions => "(request_status = 'A' OR request_status = 'C' OR request_status = 'R')")
+      find(:all, :conditions => "enroll_status = 12") # see enrollment status codes: http://depts.washington.edu/reptreq/sdb-code-manual-registration-codes/#enrollmentstatus
     end
   end
   

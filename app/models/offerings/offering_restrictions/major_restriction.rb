@@ -13,13 +13,17 @@ class MajorRestriction < OfferingRestriction
 
   def detail
     "In order to apply for the #{self.offering.name}, you must be declared in one of the following majors:
-    <ul>#{allowed_majors.sort.collect{|m| "<li>#{m}</li>"}.join}</ul>"
+    <ul>#{allowed_majors(true).sort.collect{|m| "<li>#{m}</li>"}.join}</ul>"
   end
   
-  def allowed_majors
-    majors ||= []
-    parameter.to_s.split(",").collect(&:strip).each{|m| majors << Major.find_by_abbrev(m).title}
-    majors
+  def allowed_majors(full_title = false)    
+    if full_title
+      majors ||= []
+      parameter.to_s.split(",").collect(&:strip).each{|m| majors << Major.find_by_abbrev(m).title}
+      majors
+    else
+      parameter.to_s.split(",").collect(&:strip)
+    end
   end
   
 end

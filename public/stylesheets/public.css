@@ -943,7 +943,7 @@ div.restriction.failed {
 	background: url(../images/app/alert_large.png) no-repeat;
 	padding-top: 10px;
 	padding-left: 150px;
-	height: 150px;
+/*	height: 150px;*/
 }
 
 div.restriction.failed h1 {
