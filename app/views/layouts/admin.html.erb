@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link rel="shortcut icon" href="/images/favicon.ico" />
 	
-	<title><%= strip_tags session[:breadcrumbs].title(" &raquo; ", :skip_first => true) %></title>
+	<title><%= strip_tags session[:breadcrumbs].title(" &raquo; ", :skip_first => true) rescue nil %></title>
 	
 	<%= stylesheet_link_tag 'shared', :media => "all" %>
 	<!--[if lte IE 7]><%= stylesheet_link_tag 'shared_ie', :media => "all" %><![endif]-->

@@ -133,6 +133,26 @@ task :pipeline_placements => :environment do
 
 end
 
+desc "Get pipeline placements total number of credits that students have enrolled for acedemic year 2013"
+task :inner_pipeline_credits => :environment do
+  placements = Quarter.find(24,25,26,27).collect(&:service_learning_placements).flatten.select{|p| p.unit_id == 4 && p.filled? && p.allocated? && p.course.pipeline_student_type_id == 1}
+  
+  puts "Inner pipeline placements: #{placements.size}"
+  
+  total_credits = 0
+  
+  for p in placements    
+    for c in p.course.courses            
+      credits = StudentRecord.find(p.person.system_key).registrations.for(p.position.quarter).courses.fetch_course_credits(c)      
+      total_credits += credits if credits      
+    end        
+  end
+  
+  puts "Total credits => #{total_credits}"
+  
+end
+
+
 desc "Import a csv file wiht UW NetID and return their student numbers for Jumpstart"
 task :student_number => :environment do
     print "Parsing CSV file...."    

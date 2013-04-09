@@ -7,6 +7,9 @@ class StudentRegistration < StudentInfo
     def enrolled
       find(:all, :conditions => "request_status IN ('A','C','R')")
     end
+    def fetch_course_credits(course)
+      find(:first, :conditions => ['course_branch = ? and crs_number = ? and crs_curric_abbr = ? and crs_section_id = ?', course.course_branch, course.course_no, course.dept_abbrev.strip, course.section_id.strip]).credits.to_i
+    end
   end
   
 end
