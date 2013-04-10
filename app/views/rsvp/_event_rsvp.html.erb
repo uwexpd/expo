@@ -47,7 +47,7 @@
 					<% if time.full? -%>
 						This time slot is full.
 					<% elsif event.attending?(@current_user.person) && !event.allow_multiple_times_per_attendee -%>
-						<!-- You cannot attend more than one time slot for this event. -->
+						You cannot attend more than one time slot for this event. You already attended this event in the past.
 					<% else %>
 						<%= button_to "RSVP →", rsvp_attend_path(event, { :time_id => time }.merge(return_to)) %>
 					<% end -%>
