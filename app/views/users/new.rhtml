@@ -1,6 +1,8 @@
 <% title("Create New Account") %>
 
-<p>To create a new account, simply fill out the fields below. When you're done, click "Sign up." All fields are required.</p>
+<p class='highlight'><span class='icon-left info'>If you are a UW member, no need to create any accounts, <a href="/auth/shibboleth">log in with your UW NetID here.</a><span></p>
+<hr class='light'>
+<p>To create a new expo account, simply fill out the fields below. All fields are required.</p>
 
 <%= error_messages_for :user %>
 <% form_for :user, :url => { :controller => 'users', :action => 'create' } do |f| -%>

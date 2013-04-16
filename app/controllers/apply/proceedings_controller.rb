@@ -100,10 +100,11 @@ class Apply::ProceedingsController < ApplyController
 
     name_conditions = []; group_name_conditions = []
     query.split.each do |name_part|
-      name_conditions << "LOWER(people.firstname) LIKE '%#{name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''")}%'"
-      name_conditions << "LOWER(people.lastname) LIKE '%#{name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''")}%'"
-      group_name_conditions << "LOWER(application_group_members.firstname) LIKE '%#{name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''")}%'"
-      group_name_conditions << "LOWER(application_group_members.lastname) LIKE '%#{name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''")}%'"
+      name_part = name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+      name_conditions << "LOWER(people.firstname) LIKE '%#{name_part}%'"
+      name_conditions << "LOWER(people.lastname) LIKE '%#{name_part}%'"
+      group_name_conditions << "LOWER(application_group_members.firstname) LIKE '%#{name_part}%'"
+      group_name_conditions << "LOWER(application_group_members.lastname) LIKE '%#{name_part}%'"
     end
 
     presenters = @offering.application_for_offerings.find :all, 
@@ -127,16 +128,21 @@ class Apply::ProceedingsController < ApplyController
     result = []
     
     name_conditions = []
+    # name_vars = []
     query.split.each do |name_part|
-      name_conditions << "LOWER(people.firstname) LIKE '%#{name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''")}%'"
-      name_conditions << "LOWER(people.lastname) LIKE '%#{name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''")}%'"
-    end
-
+      name_part = name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+      name_conditions << "LOWER(people.firstname) LIKE '%#{name_part}%'"
+      name_conditions << "LOWER(people.lastname) LIKE '%#{name_part}%'"
+      # name_conditions << "LOWER(people.firstname) LIKE ?"
+      # name_conditions << "LOWER(people.lastname) LIKE ?"
+      # name_vars = name_vars << "%#{name_part}%" << "%#{name_part}%"
+    end    
+    #name_conditions = [name_conditions.join(" OR "), name_vars].flatten    
     mentors = @offering.application_for_offerings.find :all, 
-            :joins => [{ :mentors => :person }, {:current_application_status => :status_type }], 
+            :joins => [{ :mentors => :person }, {:current_application_status => :status_type }],             
             :conditions => "name = 'confirmed' AND (#{name_conditions.join(" OR ")})",
+            #:conditions => name_conditions,
             :order => "people.lastname, people.firstname"
-    
   end
 
   def find_by_department(query)
