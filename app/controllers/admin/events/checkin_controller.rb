@@ -155,7 +155,7 @@ class Admin::Events::CheckinController < Admin::EventsController
       if @invitee && @invitee.checkin!
         format.js
       else
-        format.js { |page| page.replace_html 'find_student_error', 'Error checking in student.'}
+        format.js { render :update do |page| page.replace_html 'find_student_error', 'Error checking in student. Please check if student number is correct.' end }
       end
     end
     

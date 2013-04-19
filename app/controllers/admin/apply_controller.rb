@@ -232,8 +232,8 @@ class Admin::ApplyController < Admin::BaseController
         @offering = award.application_for_offering.offering
       end
       flash[:notice] = "Saved disbursement information. Thank you."
-      redirect_to_action = params[:redirect_to_action] || "disberse"
-      redirect_to :action => redirect_to_action
+      #redirect_to_action = params[:redirect_to_action] || "disberse"
+      #redirect_to :action => redirect_to_action
     end
     
     respond_to do |format|

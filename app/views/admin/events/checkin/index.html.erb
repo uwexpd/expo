@@ -58,7 +58,8 @@
 
 	<%= submit_tag 'Check-in', :onClick => "$('find_student_error').innerHTML=''" %>
 	<%= indicator 'find_student_indicator' %>
-	<%= content_tag(:span, nil, :class => 'error-message', :id => 'find_student_error') %>
+	<%#= content_tag(:span, nil, :class => 'error-message', :id => 'find_student_error') %>
+	<span class="error-message" id="find_student_error"></span>
 
 <% end -%>
 

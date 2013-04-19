@@ -27,7 +27,7 @@ class ApplicationMentor < ActiveRecord::Base
                     :allow_nil => true,
                     :if => :require_validations?
   validates_presence_of :letter, :on => :update, :message => "must be submitted.", :if => :require_validations?
-  validates_format_of :letter, :with => %r{\.(pdf)$}i, :message => "must be uplaoded with PDF file.", :if => :require_validations?
+  validates_format_of :letter, :with => %r{\.(pdf)$}i, :message => "must be uploaded with PDF file.", :if => :require_validations?
       
   after_save :send_invite_email_if_needed
 

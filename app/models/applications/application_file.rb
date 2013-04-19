@@ -6,7 +6,7 @@ class ApplicationFile < ActiveRecord::Base
   
   acts_as_soft_deletable
 
-  #validates_format_of :file, :with => %r{\.(pdf|gif|jpg|png|xls|xlsx)$}i, :message => ": File must be uplaoded with PDF file." - Didn't work with nested active record for file. Add file validation in offeringQuestion model
+  #validates_format_of :file, :with => %r{\.(pdf|gif|jpg|png|xls|xlsx)$}i, :message => ": File must be uploaded with PDF file." - Didn't work with nested active record for file. Add file validation in offeringQuestion model
   
   # Take away pdf conversion function, instead, force users to upload PDF
   upload_column :file, 
