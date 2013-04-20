@@ -120,12 +120,14 @@ class StudentRecord < StudentInfo
   end
   
   # Tries to find a student based on the parameter passed. If the parameter is numeric, we search by student number. Otherwise, search
-  # by UW NetID and then name. Returns an array of the results (or an empty array if nothing is found). This is very similar to
-  # Student#find_by_anything, except for that it returns an array of StudentRecord objects, not Student objects.
+  # by UW NetID and then name. If student number is 0, then return empty array. The reason is that there are some students whose student number is 0 from SDB. 
+  # They are still findable by name search
+  # Returns an array of the results (or an empty array if nothing is found). This is very similar to Student#find_by_anything, 
+  # except for that it returns an array of StudentRecord objects, not Student objects.
   def self.find_by_anything(q, limit = 100)
     students = []
-    if q.to_i != 0
-      students = self.find_by_student_no("#{q}")
+    if q.to_s.is_numeric?
+      q.to_i == 0 ? students = [] : students = self.find_by_student_no("#{q}")
     else
       students << self.find_by_uw_netid("#{q}") << self.find_by_name("#{q}", limit)
     end

@@ -81,7 +81,7 @@ class Admin::StudentsController < Admin::BaseController
   def auto_complete_for_student_anything
     @students = StudentRecord.find_by_anything(params[:student_search], 10)
     partial_name = params[:show] == 'table_row' ? "auto_complete_table" : "auto_complete"
-    render :partial => partial_name, :object => @students, :locals => { :highlight_phrase => params[:student_search] }    
+    render :partial => partial_name, :object => @students, :locals => { :highlight_phrase => params[:student_search] }
   end
   
   def get_pipeline_positions

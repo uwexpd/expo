@@ -232,8 +232,8 @@ class Student < Person
   # elsewhere, such as in Admin::StudentsController and ExtraEnrolleesController.
   def self.find_by_anything(q, limit = 10000)
     students = []
-    if q.to_i != 0
-      students = Student.find_by_student_no("#{q}")
+    if q.to_s.is_numeric?
+      q.to_i == 0 ? students = [] : students = Student.find_by_student_no("#{q}")      
     else
       students << Student.find_by_uw_netid("#{q}") << Student.find_by_name("#{q}", limit)
     end
