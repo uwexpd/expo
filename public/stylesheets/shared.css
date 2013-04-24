@@ -2376,6 +2376,7 @@ input[type='submit'], input[type='button'], input[type='reset'] {
 	border-left-color: #c0c0c0;
 	border-bottom-color: #6c6c6c;
 	border-style: solid;
+	cursor:pointer;
 }
 
 input[type='submit']:hover, input[type='button']:hover, input[type='reset']:hover {	
@@ -2423,7 +2424,7 @@ a.button {
 	border-left-color: #c0c0c0;
 	border-bottom-color: #6c6c6c;
 	border-style: solid;
-	cursor: default;
+	cursor: pointer;
 	font: normal 11px/250% "Lucida Grande", Lucida, Verdana, sans-serif;
 }
 
@@ -2436,8 +2437,12 @@ a.button.icon-left {
 	padding-left: 26px !important;
 }
 
-a.button:hover {
-	text-decoration: none;
+a.button:hover {	
+	-moz-box-shadow:inset 0px 0px 1px rgba(160,170,184,1);
+	-webkit-box-shadow:inset 0px 0px 1px rgba(160,170,184,1);
+	box-shadow:inset 0px 0px 1px rgba(160,170,184,1);	
+	color: #444D59 !important;
+	text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
 }
 
 a.button:active {

@@ -14,6 +14,10 @@
 			Invitation Code in order to create an application. This allows you to hand out invitation codes to individuals
 			at other institutions, or elsewhere, just like class add codes.</p>
 		<br>
+		
+		<%= checkbox_with_label f, :disable_signature, "Disable digital signature" %>
+		<p class="caption">Check this box to hide the electronic signature input box on the "Review and Submit" page. Students won't need to enter their electronic signatures.</p>
+		<br>
 	
 		<div class="for_uses_mentors">
 		<%= checkbox_with_label f, :ask_applicant_to_waive_mentor_access_right %>

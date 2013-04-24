@@ -206,9 +206,11 @@ class ApplyController < ApplicationController
   end
   
   def submit
-    @user_application.electronic_signature = params[:user_application]['electronic_signature']
-    @user_application.electronic_signature_date = Time.now
-    if @user_application.passes_validations? && @user_application.electronic_signature_valid?
+    unless @offering.disable_signature?
+      @user_application.electronic_signature = params[:user_application]['electronic_signature']
+      @user_application.electronic_signature_date = Time.now
+    end
+    if @user_application.passes_validations? && (@offering.disable_signature? || @user_application.electronic_signature_valid?)
       if @user_application.mentor_letter_received?
         @user_application.set_status "complete"
       else

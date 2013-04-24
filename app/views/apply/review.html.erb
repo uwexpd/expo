@@ -19,9 +19,11 @@
 
 
 <% if @user_application.passes_validations? && @user_application.user_editable? %>
-	<div class="yellow box">
-	
+
+  <% unless @offering.disable_signature? %>
+	<div class="yellow box">	
 	<p class="digital_signature">By entering my full legal name below, I hereby affirm that the information presented in this application is true and is my work. <%= @offering.final_text %></p>
+  <% end %>
 
 	<% form_for :user_application, @user_application, :url => { :action => :submit } do |f| %>
 
@@ -30,13 +32,15 @@
 				<div id="errorExplanation">You must electronically sign your application by entering your full legal name here.</div>
 			<% end %>
 
-			<div id="electronic_signature">
-				Electronic Signature (type your full legal name): 
-				<%= f.text_field :electronic_signature %>
-				<%= content_tag('em', '*', :class => 'required') %>
-			</div>
+			 <% unless @offering.disable_signature? %>
+				<div id="electronic_signature">
+					Electronic Signature (type your full legal name): 
+					<%= f.text_field :electronic_signature %>
+					<%= content_tag('em', '*', :class => 'required') %>
+				</div>
+			 <% end %>	
 			
-			<% if @electronic_signature_error %>
+		<% if @electronic_signature_error %>
 			</div>
 		<% end %>
 
@@ -47,14 +51,13 @@
 		you will not be able to make changes to your application.</p>
 
 	<p class="final_submit">
-		<%= submit_tag "Submit Your Application", :disable_with => "Submitting your application...", :class => "final_submit" %></p>
-
+		<%= submit_tag "Submit Your Application", :disable_with => "Submitting your application...", :class => "final_submit" %></p><br>
+		
 	<% end %>
 <% end %>
 
-<% unless @user_application.user_editable? %>
+<% unless @user_application.user_editable? || @offering.disable_signature? %>
 	<div class="yellow box">
-	
 		<p class="digital_signature">By entering my full legal name below, I hereby affirm that the information presented in this application is true and is my work. <%= @offering.final_text %></p>
 
 			<div id="electronic_signature">
@@ -62,6 +65,5 @@
 				<span id="signature_text"><%= @user_application.electronic_signature %></span>
 				(<span id="signature_date"><%= @user_application.electronic_signature_date %></span>)
 			</div>
-
 	</div>
 <% end %>
