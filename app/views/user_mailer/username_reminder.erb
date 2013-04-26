@@ -1,0 +1,8 @@
+Dear <%= @users.first.person.fullname rescue "EXPO user" %>,
+
+Your username is: <%= @users.collect(&:login).join(', ') %>
+
+If you have any questions about this email, please contact our tech staff by replying to this message.
+
+Thank you,
+EXP-Online Staff

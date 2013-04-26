@@ -1,13 +1,24 @@
-<% title("Forgot Your Password?") %>
-<p>If you've forgotten your password, we can send a link to your e-mail address so that you can change it. If your e-mail address has changed, or you can't remember your username, please contact <%= auto_link "expohelp@u.washington.edu" %>.</p>
+<% title("Forgot Your Username/Password?") %>
+<p>If you've forgotten your password, we can send a link to your e-mail address so that you can reset it.
 
 <form method=post class="yellow box">
 
 	<strong>Please enter your username:</strong>
-	<%= text_field_tag :login %>
+	<%= text_field_tag :login, params[:login] %>
 
-	<%= submit_tag "Send me a new password" %>
-	
+	<%= submit_tag "Reset my password" %>	
 </form>
+<br>
+<p>If you can't remember your username, please enter your email below.</p>
 
+<form method=post class="yellow box">
+
+	<strong>Please enter your email:</strong>
+	<%= text_field_tag 'email', params[:email], :size => 30 %>
+
+	<%= submit_tag "Find your username" %>	
+</form>
+<br>
+<p>If your e-mail address has changed, please contact <%= auto_link "expohelp@u.washington.edu" %> </p>
+<br>
 <%= link_to "&larr; Back to Login Screen", login_url, :class => 'button' %>

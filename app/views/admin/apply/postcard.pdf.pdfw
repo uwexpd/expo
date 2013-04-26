@@ -21,13 +21,13 @@ for guest in @guests
   # Return Address
   pdf.select_font "Helvetica"
   
-  pdf.add_image_from_file "#{RAILS_ROOT}/images/app/UW.Signature_left_sm.png", 380, 375, 150
+  pdf.add_image_from_file "#{RAILS_ROOT}/public/images/app/UW.Signature_left_sm.png", 380, 375, 150
   pdf.add_text 402, 360, (guest.application_for_offering.offering.unit.name rescue "Center for Experiential Learning"), 9
   pdf.add_text 402, 350, "Box 352803", 9
   pdf.add_text 402, 340, "Seattle, WA 98195-2803", 9
   
   # Barcode/Stamp
-  pdf.add_image_from_file "#{RAILS_ROOT}/images/symposium/74-1301.png", 400, 300, 99
+  pdf.add_image_from_file "#{RAILS_ROOT}/public/images/symposium/74-1301.png", 400, 300, 99
   
   # Guest ID Number
   pdf.add_text 20, 20, "#{guest.id.to_s} #{guest.custom_postcard_text? ? "*" : ""}", 6

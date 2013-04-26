@@ -35,13 +35,28 @@ class SessionController < ApplicationController
 
   def forgot
     if params[:commit]
-      user = User.find_by_login params[:login], :conditions => 'type IS NULL'
-      flash[:error] = "That username does not exist." and return if user.nil?
-      user.create_token
-      if email = UserMailer.deliver_password_reminder(user)
-        EmailContact.log(user.person, email)
-        flash[:notice] = "Instructions have been sent to your email address that will tell you how to reset your password."
-      end
+      if params[:login]
+        user = User.find_by_login params[:login].strip, :conditions => 'type IS NULL'
+        flash.now[:error] = "That username does not exist." and return if user.nil?
+        user.create_token
+        if email = UserMailer.deliver_password_reminder(user)
+          EmailContact.log(user.person, email)
+          flash.now[:notice] = "Instructions have been sent to your email address that will tell you how to reset your password."
+        end
+      elsif params[:email]
+        @email_address = params[:email].strip
+        @users= User.find_all_by_email @email_address, :conditions => 'type IS NULL'        
+        if @users.blank?
+          flash.now[:error] = "Can not find any usernames with this email." and return           
+        else
+          if email = UserMailer.deliver_username_reminder(@email_address, @users)
+            for user in @users
+              EmailContact.log(user.person, email)
+            end            
+            flash.now[:notice] = "Your username reminder have been sent to your email address."
+          end
+        end        
+      end    
     end
   end
 

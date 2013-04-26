@@ -27,14 +27,19 @@ class UsersController < ApplicationController
   end
 
   def create
-    cookies.delete :auth_token
+    cookies.delete :auth_token    
     @user = User.new(params[:user])
-    @user.email = params[:user][:person_attributes][:email] rescue nil
-    @user.save!
-    self.current_user = @user
-    redirect_back_or_default('/')
-    flash[:notice] = "Thanks for signing up!"
-    successful_login
+    if User.find_by_email params[:user][:person_attributes][:email].strip, :conditions => 'type IS NULL'
+      flash.now[:error] = "This email address is already in use. <small>#{@template.link_to('Forgot your username/password?', :controller => 'session', :action => 'forgot')}</small>"
+      render :action => 'new'
+    else      
+      @user.email = params[:user][:person_attributes][:email] rescue nil
+      @user.save!
+      self.current_user = @user
+      redirect_back_or_default('/')
+      flash[:notice] = "Thanks for signing up!"
+      successful_login
+    end
   rescue ActiveRecord::RecordInvalid
     render :action => 'new'
   end
