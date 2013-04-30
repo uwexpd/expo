@@ -3,7 +3,7 @@ class PublicController < ApplicationController
   before_filter :fetch_offering , :only => [:scholarslist]
       
   def scholarslist
-    @awardees = @offering.application_for_offerings.awarded    
+    @awardees = @offering.application_for_offerings.awarded.sort_by(&:firstname_first)
     
     respond_to do |format|
       format.html # scholarslist.html.erb      

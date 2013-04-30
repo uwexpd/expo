@@ -15,6 +15,9 @@
 		<th>Majors</th>
 		<th>Scholarships</th>
 		<th>Comments</th>
+		<% 1.upto(@offering.year_offered - 2009) do |number| %> <%# We have online expo symposium since 2009 %>
+			<th> <%= @offering.year_offered - number rescue "past" %> Symposium Mentee Count</th>
+		<% end %>
 	</tr>
 </thead>
 
@@ -23,23 +26,26 @@
 	<% for mentor_type, nominees in @nominees %>
 		<% for nominee, nominators in nominees %>
 			<% nominators.each_with_index do |nominator, i| %>
-				<tr>
-					<td><%=h nominator.nominated_mentor.id %></td>
-					<td><%=h nominee.lastname %></td>
-					<td><%=h nominee.firstname %></td>
-					<td><%=h nominator.nominated_mentor.mentor_type.title rescue nil %></td>
-					<td><%=h nominee.department_name %></td>
-					<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering.award_types.collect(&:scholar_title).include?("Mary Gates Research Scholar") }.size if nominee.is_a?(Person) %></td>
-					<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering == @offering }.size if nominee.is_a?(Person) %></td>
-					<td><%= nominators.size %></td>
-					<td></td>
-					<td><%=h nominator.fullname %></td>
-					<td><%=h nominator.type.to_s + " "  + nominator.id.to_s %></td>
-					<td><%=h nominator.person.class_standing_description rescue nil %></td>
-					<td><%= nominator.person.majors_list(true) rescue nil %></td>
-					<td><%= nominator.person.awards_list rescue nil %></td>
-					<td><%=h nominator.nominated_mentor_explanation %></td>
-				</tr>
+			<tr>
+				<td><%=h nominator.nominated_mentor.id %></td>
+				<td><%=h nominee.lastname %></td>
+				<td><%=h nominee.firstname %></td>
+				<td><%=h nominator.nominated_mentor.mentor_type.title rescue nil %></td>
+				<td><%=h nominee.department_name %></td>
+				<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering.award_types.collect(&:scholar_title).include?("Mary Gates Research Scholar") }.size if nominee.is_a?(Person) %></td>
+				<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering == @offering }.size if nominee.is_a?(Person) %></td>
+				<td><%= nominators.size %></td>
+				<td></td>
+				<td><%=h nominator.fullname %></td>
+				<td><%=h nominator.type.to_s + " "  + nominator.id.to_s %></td>
+				<td><%=h nominator.person.class_standing_description rescue nil %></td>
+				<td><%= nominator.person.majors_list(true) rescue nil %></td>
+				<td><%= nominator.person.awards_list rescue nil %></td>
+				<td><%=h nominator.nominated_mentor_explanation %></td>			
+					<% 1.upto(@offering.year_offered - 2009) do |number| %>
+						<td><%= nominee.application_mentors.reject{|a| a.application_for_offering.offering.sessions.empty? }.select{|a| a.application_for_offering.offering.year_offered == @offering.year_offered - number}.size if nominee.is_a?(Person) %></td>
+					<% end %>
+			</tr>
 			<% end -%>
 		<% end -%>
 	<% end -%>
