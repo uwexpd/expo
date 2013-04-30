@@ -38,6 +38,9 @@ class UsersController < ApplicationController
       self.current_user = @user
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!"
+      if email = UserMailer.deliver_welcome_signup(@user)
+        EmailContact.log(@user.person, email)
+      end
       successful_login
     end
   rescue ActiveRecord::RecordInvalid

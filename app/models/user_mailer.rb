@@ -18,4 +18,12 @@ class UserMailer < ActionMailer::Base
     body       :users => users        
   end
 
+  def welcome_signup(user, sent_at = Time.now)
+    subject    'Welcome to UW EXPO online system'
+    recipients user.email
+    from       CONSTANTS[:system_help_email]
+    sent_on    sent_at
+    body       :user => user
+  end
+
 end
