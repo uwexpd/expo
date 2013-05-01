@@ -47,12 +47,15 @@ class ProceedingsProgramReport < ProceedingsReport
     set_page_number 1
     fix_margins
 
+    poster_type = @offering.poster_application_type
+    oral_type   = @offering.oral_application_type
+
     # Poster Session 1
     puts "\nPoster Session 1"
         change_divider_tab("Poster 1", 4)
         start_new_page(true)
         fix_margins
-        add_session @offering.sessions.for_type_in_group(33, 1), :include_heading => false
+        add_session @offering.sessions.for_type_in_group(poster_type, 1), :include_heading => false
       
     # Oral Session 1
     puts "\nOral Session 1"
@@ -61,7 +64,7 @@ class ProceedingsProgramReport < ProceedingsReport
         start_new_page(true)
         change_divider_tab("Presentation 1", 3)
         start_new_page(true)
-        add_session @offering.sessions.for_type_in_group(34, 1).sort_by(&:identifier)
+        add_session @offering.sessions.for_type_in_group(oral_type, 1).sort_by(&:identifier)
         # oral_1 = @offering.sessions.for_type_in_group(34, 1).sort_by(&:identifier)
         #     add_session oral_1[0..18]
         #     start_new_page(true)    
@@ -76,7 +79,7 @@ class ProceedingsProgramReport < ProceedingsReport
         change_divider_tab("Poster 2", 2)
         start_new_page(true)
         fix_margins
-        add_session @offering.sessions.for_type_in_group(33, 2), :include_heading => false
+        add_session @offering.sessions.for_type_in_group(poster_type, 2), :include_heading => false
         
     # Oral Session 2
      puts "\nOral Session 2"
@@ -90,18 +93,30 @@ class ProceedingsProgramReport < ProceedingsReport
         start_new_page(true)
         change_divider_tab("Presentation 2", 1)
         start_new_page(true)
-        add_session @offering.sessions.for_type_in_group(34, 2).sort_by(&:identifier)
+        add_session @offering.sessions.for_type_in_group(oral_type, 2).sort_by(&:identifier)
+    
+    # Poster Session 3
+    puts "\nPoster Session 3"        
+        change_divider_tab
+        start_new_page(true)
+        start_new_page(true)
+        start_new_page(true)        
+        change_divider_tab("Poster 3", 4)
+        start_new_page(true)
+        fix_margins
+        add_session @offering.sessions.for_type_in_group(poster_type, 3), :include_heading => false    
          
-     # Poster Session 3
-     puts "\nPoster Session 3"
+         
+     # Poster Session 4
+     puts "\nPoster Session 4"
        change_divider_tab
        start_new_page(true)
        start_new_page(true)
        start_new_page(true)
-       change_divider_tab("Poster 3", 4)
+       change_divider_tab("Poster 4", 3)
        start_new_page(true)
        fix_margins
-       add_session @offering.sessions.for_type_in_group(33, 3), :include_heading => false       
+       add_session @offering.sessions.for_type_in_group(poster_type, 4), :include_heading => false       
        
      # Index
      puts "Index"

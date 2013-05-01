@@ -136,7 +136,7 @@ class ProceedingsReport
       @pdf.add_text @x-18, @pdf.y, app.id, 6
       @pdf.select_font DEFAULT_FONT
     end
-    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>"
+    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>" # + " (#{app.id})" # add app.id for proof reading and should take away later.
     keep_together(title, @size, 0, @@abstract_keep_height)
     parse_and_add_text title
     move_to_newline

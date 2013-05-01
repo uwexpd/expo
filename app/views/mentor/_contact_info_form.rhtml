@@ -9,6 +9,11 @@
 
 	</dl>
 
-<%= f.submit "Save Contact Information" %>
+<%= f.submit "Save Contact Information", :disable_with => "Updating contacting information..." %>
+
+<span class='separator'> – or – </span>
+
+<%= f.submit "Skip and Continue", :disable_with => "Continuing..." %>
+
 
 <% end %>

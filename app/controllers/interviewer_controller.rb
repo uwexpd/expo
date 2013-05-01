@@ -247,10 +247,10 @@ class InterviewerController < ApplicationController
   end
 
   # Checks to see if the contact information for this mentor is current. This is done by checking for a value in
-  # person.contact_info_updated_at. If it is blank or older than 3 months, then redirect to the "update" page.
+  # person.contact_info_updated_at. If it is blank or older than 12 months, then redirect to the "update" page.
   def check_if_contact_info_is_current
     update_date = @current_user.person.contact_info_updated_at
-    if update_date.blank? || Time.now - update_date > 3.months
+    if update_date.blank? || Time.now - update_date > 12.months
       redirect_to :action => "update", :return_to => request.request_uri
     end
   end

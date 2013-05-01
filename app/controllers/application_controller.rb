@@ -227,7 +227,7 @@ class ApplicationController < ActionController::Base
   end
   
   def check_if_contact_info_is_current
-    if @current_user && !@current_user.person.contact_info_updated_since(6.months.ago)
+    if @current_user && !@current_user.person.contact_info_updated_since(12.months.ago)
       flash[:notice] = "You haven't updated your contact information for awhile. Please confirm your contact information below."
       return redirect_to profile_path(:return_to => request.url)
     end

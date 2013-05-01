@@ -511,6 +511,11 @@ class Offering < ActiveRecord::Base
     application_types.find(:first, :joins => :application_type, :conditions => { "application_types.title" => "Poster Presentation" })
   end
 
+  # Returns the OfferingApplicationType that is assigned to the "Oral Session" application type.
+  def oral_application_type
+    application_types.find(:first, :joins => :application_type, :conditions => { "application_types.title" => "Oral Presentation" })
+  end  
+
   # Returns a new or existing Population with the requested starting set. The starting set can be any valid association
   # or method of this Offering that returns an array of objects. If the population doesn't exist, it is created and the
   # +system+ boolean flag is set.
