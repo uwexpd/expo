@@ -6,7 +6,7 @@
 
 	<br><%= abstract.person.firstname_first rescue nil %>, 
 		<%= abstract.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil %>,
-		<%= abstract.person.majors_list(true, ", ", reference_quarter) rescue nil %>
+		<%= abstract.person.majors_list(true, ", ") rescue nil %>
 
 	<% unless abstract.other_awards.empty? %>
 		<br> &nbsp; &nbsp; &nbsp;<%= abstract.other_awards.sort.collect(&:scholar_title).join(", ") %>

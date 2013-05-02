@@ -22,7 +22,7 @@
 						<!-- Primary presenter -->
 						<li><% 	presenter = [(content_tag(:span, abstract.person.firstname_first, :class => "student_name") rescue "Unknown")]
 								presenter << "#{abstract.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}"
-							    presenter << "#{content_tag(:span, abstract.person.majors_list(true, ", ", reference_quarter), :class => "student_major") rescue nil}"
+							    presenter << "#{content_tag(:span, abstract.person.majors_list(true, ", "), :class => "student_major") rescue nil}"
 							    presenter << "#{abstract.person.institution_name rescue nil}" unless abstract.person.is_a?(Student)
 						%><%= presenter.join(", ") %>
 	
