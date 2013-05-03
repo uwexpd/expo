@@ -7,7 +7,7 @@ reference_quarter ||= @reference_quarter || Quarter.find_by_date(abstract.offeri
 
 presenter = "#{abstract.person.firstname_first rescue "(Name Error)"}, "
 presenter << "#{abstract.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}, "
-presenter << "#{abstract.person.majors_list(true, ", ") rescue nil}"
+presenter << "#{abstract.person.majors_list(true, ", ", reference_quarter) rescue nil}"
 presenter << ", #{abstract.person.institution_name rescue nil}" unless abstract.person.is_a?(Student)
 @content << '\textit{' + latex_clean(presenter) + '}' + "\n\n"
 

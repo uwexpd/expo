@@ -564,12 +564,12 @@ class Offering < ActiveRecord::Base
       for a in all_apps
         if a.person
           # print a.person.id.to_s.ljust(10)
-          if a.person.is_a?(Student)
+          if a.person.is_a?(Student) && (Quarter.current_quarter != Quarter.find_by_date(confirmation_deadline))
             sk = a.person.system_key
-            rq = reference_quarter
+            rq = reference_quarter            
             t = StudentTranscript.find(sk, rq.year, rq.quarter_code_id) rescue nil
             t = (StudentTranscript.find(sk, rq.prev.year, rq.prev.quarter_code_id) rescue nil) if t.nil?
-            ref_majors = t.nil? ? [] : t.majors
+            ref_majors = t.nil? ? [] : t.majors                    
             # puts ref_majors.size
           else
             ref_majors = a.person.majors

@@ -136,7 +136,7 @@ class ProceedingsReport
       @pdf.add_text @x-18, @pdf.y, app.id, 6
       @pdf.select_font DEFAULT_FONT
     end
-    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>" # + " (#{app.id})" # add app.id for proof reading and should take away later.
+    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>"  #+ " (#{app.id})" # add app.id for proof reading and should take away later.
     keep_together(title, @size, 0, @@abstract_keep_height)
     parse_and_add_text title
     move_to_newline
@@ -187,10 +187,19 @@ class ProceedingsReport
       parse_and_add_text "Mentor: #{mentor.info_detail_line(false,true)}"
       move_to_newline
     end
+        
     # @pdf.text "</em>"
-    parse_and_add_text "</em></i>"
-    move_to_newline
+    parse_and_add_text "</em></i>"    
     
+    # print "esel number, "
+    print "E"
+    unless app.easel_number.blank?
+      parse_and_add_text "Easel: ##{app.easel_number}"
+      move_to_newline
+    end    
+        
+    move_to_newline
+        
     unless @skip_abstracts
       print "A"
       # print "abstract "
