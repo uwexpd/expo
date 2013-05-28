@@ -41,11 +41,14 @@ class Institution < StudentInfo
       "MINNESOTA STATE UNIV"  => "Minnesota State University",
       "ST MARYS UNIVERSITY"   => "St. Mary's University",
       "CENTRAL WASHINGTON UNIV" => "Central Washington University",
-      "PACIFIC LUTHERAN U"    => "Pacific Lutheran University",
+      "PACIFIC LUTHERAN UNIV" => "Pacific Lutheran University",
       "UNIV NORTH TEXAS"      => "University of North Texas",
       "CALIF ST UNIV DOM HL"  => "California State University, Dominguez Hills",
       "UNIV WISC RIVER FLS"   => "University of Wisconsin, River Falls",
-      "MONTANA STATE UNIV"    => "Montana State University"
+      "MONTANA STATE UNIV"    => "Montana State University",
+      "ARKANSAS ST UNIV"      => "Arkansas State University",
+      "UNIV NTHRN IOWA"       => "University of Northern Iowa",
+      "UNIV OF WASHINGTON"     => "University of Washington"
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end

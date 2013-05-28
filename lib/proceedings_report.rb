@@ -143,10 +143,10 @@ class ProceedingsReport
     
     print "P" ## "primary presenter name, "
     add_to_index(:people, app.person.lastname_first.strip)
-    presenter = "<i>#{app.person.firstname_first rescue "(Name Error)"}, "
+    presenter = "<i>#{app.person.firstname_first.strip rescue "(Name Error)"}, "
     reference_quarter ||= @reference_quarter || Quarter.find_by_date(@offering.deadline)
-    presenter << "#{app.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}, "
-    presenter << "#{app.person.majors_list(true, ", ", reference_quarter) rescue nil}"
+    presenter << "#{app.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}"
+    presenter << ", #{app.person.majors_list(true, ", ", reference_quarter).strip rescue nil}" unless app.person.majors_list(true, ", ", reference_quarter).blank?
     presenter << ", #{app.person.institution_name rescue nil}" unless app.person.is_a?(Student)
     # @pdf.text presenter
     parse_and_add_text presenter
@@ -273,7 +273,7 @@ class ProceedingsReport
   # Creates a session heading for an oral presentation session.
   def session_heading(session)
     puts "\nAdding session heading for session #{session.id}..."    
-    if session.location.include?("Johnson Hall")
+    if session.location.include?("JHN")
       keep_together(session.title, 14, 32, 100)
     else
       keep_together(session.title, 14, 32, 84)
@@ -300,8 +300,8 @@ class ProceedingsReport
     @size = 9
     move_to_newline
        
-    if session.location.include?("Johnson Hall")
-            parse_and_add_text "<i>Johnson Hall is just west of Mary Gates Hall; please see map and further details on page 98.</i>"
+    if session.location.include?("JHN")
+            parse_and_add_text "<i>Johnson Hall is just west of Mary Gates Hall; please see map and further details on page 113.</i>"
             move_to_newline
             move_to_newline
     end    

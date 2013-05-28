@@ -241,7 +241,7 @@ class StudentRecord < StudentInfo
   # 
   # To see this student's majors list from a previous quarter, specify that quarter for +reference_quarter+. If the student had no
   # majors in that quarter, this method returns a blank string.
-  def majors_list(show_full_names = false, join_string = ", ", reference_quarter = nil)
+  def majors_list(show_full_names = true, join_string = ", ", reference_quarter = nil)
     if reference_quarter.nil? || (Quarter.current_quarter != reference_quarter)
       ref_majors = majors
     else

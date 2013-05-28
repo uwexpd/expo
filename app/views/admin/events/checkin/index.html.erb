@@ -21,18 +21,17 @@
 		<%= link_to "PDF Sign-in Form", manual_event_checkin_path(@event, :event_time_id => params[:event_time_id], :extra_pages => 2, :format => :pdf), :class => 'pdf button' %>
 	</span></h1>
 
-<% form_tag({:action => 'checkin' }, :id => 'search-form', :class => 'panel', :style => "display: inline", :title => "Check-in", :selected => true) do -%>
+<% form_tag({:action => 'checkin'}, :id => 'search-form', :class => 'panel', :style => "display: inline", :title => "Check-in", :selected => true) do -%>
 
-	<label for="invitee_fullname"><strong>Student Name:</strong></label>
-	<%= text_field_tag 'invitee[fullname]', nil, :class => 'search', :autocomplete => "off" %>
-	
+	<label for="invitee_fullname"><strong>Search by Student Name:</strong></label>
+	<%= text_field_tag 'invitee[fullname]', nil, :class => 'search', :autocomplete => "off", :placeholder => 'lastname, firstname', :size => 25 %>	
 	<input type="reset" value="Clear">
 	
 	<%= observe_field 'invitee_fullname', 
 					:frequency => 0.75, 
 					:update => 'results',
 					:url => { :action => 'auto_complete', :id => @event },
-					:indicator => 'find_student_indicator',
+					:indicator => 'global',
 					:with => 'invitee[fullname]'
 					%>
 
@@ -63,6 +62,6 @@
 
 <% end -%>
 
-<div id="results" class="auto_complete" style="width: 100%;">
+<div id="results" class="auto_complete" style="width: 100%;margin-top:10px">
 	<%= render :partial => 'empty_result' %>
 </div>

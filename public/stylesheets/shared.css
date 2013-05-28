@@ -317,9 +317,7 @@ tr.empty:hover, td.empty:hover {
 table.highlightless tr:hover td, table.highlightless tr:hover,
 td.highlightless:hover {
 	background-color: transparent;
-/
-
-*background-color: inherit;*/
+	/*background-color: inherit;*/
 }
 
 tr.highlightless:hover {

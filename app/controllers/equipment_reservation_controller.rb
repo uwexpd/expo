@@ -120,11 +120,14 @@ class EquipmentReservationController < ApplicationController
     end
   end
   
-  def check_must_be_student_restriction
-    not_equipment_approver = @current_user.roles.select{|u| u.role == Role.find_by_name("equipment_reservation_approver")}.blank?
-    if !@current_user.person.is_a?(Student) && (@current_user.admin? && not_equipment_approver)
+  def check_must_be_student_restriction    
+    if !@current_user.person.is_a?(Student) && !@current_user.admin?
       return render :action => "students_only"
-    end
+    end    
+    # Only allow equipment approver to make a reservation
+    if @current_user.admin? && @current_user.roles && @current_user.roles.select{|u| u.role == Role.find_by_name("equipment_reservation_approver")}.blank?
+      return render :action => "students_only"
+    end    
   end
   
   def check_reservation_restrictions

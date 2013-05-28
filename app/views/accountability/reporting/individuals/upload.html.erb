@@ -3,13 +3,13 @@
 <%= HelpText.caption :reporting_interface_report_courses_note, AccountabilityReport %>
 <br>
 <p>Use this page to upload a file containing all of your individual student involvement. You can use this page multiple times to upload multiple sets of data.<br> 	
-	<b>( <%= link_to "Download an Excel template to start", "http://exp.washington.edu/files/individual_reporting_template.xls", :class => 'icon-left xls' %>)</b>
+	<b><%= link_to "Download an Excel template to start and follow an instruction below", "http://exp.washington.edu/files/individual_reporting_template.xls", :class => 'icon-left xls' %></b>
 </p>
-
+<h3>Instruction:</h3>
 <ul class="pretty">
 	<li>Student Number <span class="light">(e.g., "0123456")</span> or UW NetID <span class="light">(e.g., "hhusky")</span></li>
 	<li>Project Title <span class="light">(either a research or service project title or community partner organization name)</span></li>
-	<li>Activity Type <span class="light">(use the words exactly "Public Service" or "Undergraduate Research")</span></li>
+	<li>Activity Type <span class="light">(use the words exactly "Public Service", "Undergraduate Research", or "Non Public Service And Research Internship")</span></li>
 	<li>Faculty UW NetID <span class="light">(e.g., "jdecosmo")</span></li>
 	<li>Faculty Name</li>
 	<% for quarter in @quarters %>

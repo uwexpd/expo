@@ -62,7 +62,6 @@ class ProceedingsProgramReport < ProceedingsReport
         change_divider_tab
         start_new_page(true)
         start_new_page(true)
-        start_new_page(true)        
         change_divider_tab("Poster 2", 3)
         start_new_page(true)
         fix_margins
@@ -86,6 +85,8 @@ class ProceedingsProgramReport < ProceedingsReport
         change_divider_tab
         start_new_page(true)
         start_new_page(true)
+        start_new_page(true)
+        start_new_page(true)
         start_new_page(true)        
         change_divider_tab("Poster 3", 1)
         start_new_page(true)
@@ -97,11 +98,6 @@ class ProceedingsProgramReport < ProceedingsReport
         change_divider_tab
         start_new_page(true)
         start_new_page(true)
-        start_new_page(true)
-        start_new_page(true)
-        start_new_page(true)
-        start_new_page(true)
-        start_new_page(true)
         change_divider_tab("Presentation 2", 4)
         start_new_page(true)
         add_session @offering.sessions.for_type_in_group(oral_type, 2).sort_by(&:identifier)
@@ -109,7 +105,6 @@ class ProceedingsProgramReport < ProceedingsReport
      # Poster Session 4
      puts "\nPoster Session 4"
        change_divider_tab
-       start_new_page(true)
        start_new_page(true)
        start_new_page(true)
        change_divider_tab("Poster 4", 3)
@@ -120,6 +115,7 @@ class ProceedingsProgramReport < ProceedingsReport
      # Index
      puts "Index"
        change_divider_tab
+       start_new_page(true)
        start_new_page(true)
        start_new_page(true)
        start_new_page(true)

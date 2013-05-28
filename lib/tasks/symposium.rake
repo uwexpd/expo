@@ -203,6 +203,38 @@ namespace :symposium do
     puts "\nDone."
   end
 
+  task :update_department_students_count => :environment do
+    puts "Loaded #{RAILS_ENV} environment."
+    STDOUT.sync = true
+    
+    # Fetch offering
+    print "What is the symposium offering ID? Please enter: "
+    offering = Offering.find $stdin.gets.strip
+    puts "Counting UW department students for: #{offering.title}..."
+    
+    students = offering.applications_with_status(:confirmed).collect{|a| [a.person] + a.group_members.collect(&:person) if a.person.institution_name == "University of Washington" }.flatten.uniq.compact.reject{|s|s.student_no.nil?}.flatten
+    
+    puts "Total students: #{students.size}"
+    
+    departments = students.collect(&:majors).flatten.collect(&:major).flatten.collect(&:department).flatten.reject{|d| d.dept_code == 1 || d.dept_code == 256 || d.dept_code == 864 || d.dept_code == 998 || d.dept_code == 999 || d.dept_code == 1082}
+    
+    dept_count = departments.flatten.collect(&:dept_code).flatten.inject(Hash.new(0)) {|hash, item| hash[item] += 1; hash}
+    
+    puts "Groupping by with depeartments..."
+    
+    dept_count.each do |key, value|      
+      dept = DepartmentExtra.find_by_dept_code(key.to_i)
+      if dept
+        puts "Department: #{dept.name} => #{value}" 
+        dept.temp_num_students = value
+        dept.save!
+      else
+        puts "==== Could not find in department_extra table: #{key} ==== "
+      end
+    end
+    
+  end
+
   # task :add_scholarships_to_mgh_awardees => :environment do
   #     puts "Loaded #{RAILS_ENV} environment."
   # 

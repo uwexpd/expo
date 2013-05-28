@@ -138,7 +138,7 @@ class Admin::EventsController < Admin::BaseController
       end
       for invitee in @event_time.invitees
         if invitee.invitable.is_a?(ApplicationForOffering) || invitee.invitable.is_a?(ApplicationGroupMember)
-          invitee.update_attribute(:attending => false) if invitee.invitable.app.in_status?(:cancelled)
+          invitee.update_attribute(:attending, false) if invitee.invitable.app.in_status?(:cancelled)
         end
       end
       redirect_to :action => "attendees"

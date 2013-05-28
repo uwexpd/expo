@@ -76,7 +76,8 @@ class Person < ActiveRecord::Base
   
   has_one :pipeline_student_info
 
-  acts_as_strip :firstname, :lastname, :email
+  acts_as_strip :firstname, :lastname, :nickname, :email, :phone, :address1, :address2, :address3, :city, :zip, :organization, :title
+  
   # validates_presence_of :salutation, :if => :require_validations?
   validates_presence_of :firstname, :if => :require_validations?
   validates_presence_of :firstname, :if => :require_name_validations?
@@ -212,17 +213,18 @@ class Person < ActiveRecord::Base
     "#{lastname}, #{formal ? formal_firstname(true) : firstname}" # rescue "(name unknown)"
   end
   
+  # TODO: fix nickname return without stripping
   def formal_firstname(include_nickname = false)
-    include_nickname ? "#{firstname}#{" (" + nickname.strip + ")" unless nickname.blank?}" : firstname
+    include_nickname ? "#{firstname.try(:strip)}#{" (" + nickname.strip + ")" unless nickname.blank?}" : firstname.try(:strip)
   end
   
   def firstname_first(formal = true)
-    "#{formal ? formal_firstname(true) : firstname} #{lastname}"
+    "#{formal ? formal_firstname(true) : firstname.try(:strip)} #{lastname}"
   end
   
   # Returns this person's nickname, unless the nickname is the exact same as the firstname (in which case, return nil).
   def nickname
-    formal_firstname(false) == read_attribute(:nickname) ? nil : read_attribute(:nickname)
+    formal_firstname(false).try(:strip) == read_attribute(:nickname).try(:strip) ? nil : read_attribute(:nickname).try(:strip)
   end
   
   # Splits a fullname into firstname and lastname.

@@ -16,7 +16,7 @@ class StudentMajor < StudentInfo
   
   # Returns the full name of the major, stripped of whitespace.
   def full_name
-    major.title rescue major_abbr
+    major.title.gsub(/\s{2,}/, ' ') rescue major_abbr
   end
   
   def to_s

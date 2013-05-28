@@ -39,7 +39,7 @@ while !@nametags.empty?
       pdf.pointer = footer_y[row%3].to_i + 20
       pdf.text @event.unit.name, :justification => :center, :font_size => 14
     else
-      pdf.add_image_from_file "#{RAILS_ROOT}/images/#{@event.unit.logo_uri}", 
+      pdf.add_image_from_file "#{RAILS_ROOT}/public/images/#{@event.unit.logo_uri}", 
                               pdf.left_margin + ((pdf.column_number-1) * 0), 
                               footer_y[row%3].to_i, 
                               250
