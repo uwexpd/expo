@@ -2,10 +2,9 @@
 
 <form>
 
-Search by e-mail address:
+Search by expo person id: <!-- e-mail address: -->
 <br>
 <%= text_field_tag :to, params[:to] %>
-
-
+<%= content_tag('div', @error, :class => 'red') if @error %>
 <%= submit_tag "Search", :disable_with => "Searching..." %>
 </form>

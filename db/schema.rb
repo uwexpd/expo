@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423000831) do
+ActiveRecord::Schema.define(:version => 20130510232330) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -655,6 +655,7 @@ ActiveRecord::Schema.define(:version => 20130423000831) do
   add_index "contact_histories", ["application_status_id"], :name => "application_status_id"
   add_index "contact_histories", ["contactable_id"], :name => "index_contact_histories_on_contactable_id"
   add_index "contact_histories", ["contactable_type"], :name => "index_contact_histories_on_contactable_type"
+  add_index "contact_histories", ["creator_id"], :name => "index_contact_histories_on_creator_id"
   add_index "contact_histories", ["original_contact_history_id"], :name => "original_contact_history_index"
   add_index "contact_histories", ["person_id"], :name => "index_contact_histories_on_person_id"
 
