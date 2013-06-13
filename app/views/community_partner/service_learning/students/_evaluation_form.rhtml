@@ -83,6 +83,10 @@
 								<td><%= tutoring_log.hours rescue "<span class='red'>Unknown</span>" %></td>						
 							</tr>										
 						<% end -%>
+						<tr>
+							<td>Total hours</td>
+							<td><%= @placement.tutoring_logs.sum('hours').to_s %></td>
+						</tr>						
 						<% if @tutoring_logs.empty? %>
 							<tr class="empty">
 								<td colspan=2>No tutoring log submitted. </td>

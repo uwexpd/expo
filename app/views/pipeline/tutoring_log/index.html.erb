@@ -27,11 +27,17 @@
 		</tr>				
 		
 	<%= render :partial => 'tutoring_log', :collection => @tutoring_logs %>
-
-	<% if @tutoring_logs.empty? %>
-	<tr class="empty">
-		<td colspan=3>No tutoring log input. <%= link_to "Add a new one.", new_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement) %></td>
+	
+	<tr>
+		<td align=center>Total hours</td>
+		<td align=center><%= @tutoring_logs.sum('hours').to_s %></td>
+		<td></td>
 	</tr>
+	
+	<% if @tutoring_logs.empty? %>
+		<tr class="empty">
+			<td colspan=3>No tutoring log input. <%= link_to "Add a new one.", new_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement) %></td>
+		</tr>	
 	<% end -%>
 
 	</table>
@@ -41,7 +47,7 @@
 	<hr><br>	
 	<center>
 	<% if @placement.tutoring_submitted? %>
-		<p class="highlight">You have already submitted your tutoring logs to your supervisor.</p>
+		<p class="highlight">Your supervisor is able to see your logs currently. Note that you are still able to make changes and your supervisor can see those changes.</p>
 	<% else %>
 		<% form_tag submit_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement), :method => :put do %>
 			<%= submit_tag "Submit Tutoring Logs", :disable_with => 'Submitting tutoring hours...', :disabled => @placement.tutoring_submitted? %>

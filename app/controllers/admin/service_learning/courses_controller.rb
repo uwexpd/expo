@@ -394,6 +394,16 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
     flash[:notice] = "The evaluation was successfully unsubmitted. Please notify the community partner to re-submit it."
     redirect_to students_service_learning_course_path(@unit, @quarter, @service_learning_course)
   end
+  
+  # No need for this method because students can always make changes to their logs after submission
+  # def unsubmit_tutoring_log
+  #   @placement = ServiceLearningPlacement.find(params[:id])    
+  #   @service_learning_course = params[:course_id]
+  #   @placement.update_attribute(:tutoring_submitted_at, nil)
+  #   flash[:notice] = "The student tutoring log was successfully unsubmitted. Please notify the student to re-submit it."
+  #   redirect_to students_service_learning_course_path(@unit, @quarter, @service_learning_course)
+  # end
+  
 
   def course_numbers
     render :partial => "course_numbers_dropdown", :locals => { :dept_abbrev => params[:dept_abbrev] }
