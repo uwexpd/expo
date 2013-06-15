@@ -515,7 +515,7 @@ class Person < ActiveRecord::Base
   
   # Returns true if this person has a +equipment_reservation_restriction_until+ date set in the future
   def equipment_reservation_restriction?
-    equipment_reservation_restriction_until && equipment_reservation_restriction_until > Time.now
+    equipment_reservation_restriction_until? && equipment_reservation_restriction_until > Time.now
   end
 
   # Returns true if this person has a +equipment_reservation_non_student_override_until+ date set in the future.

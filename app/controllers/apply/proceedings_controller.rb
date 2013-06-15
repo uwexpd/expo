@@ -11,7 +11,7 @@ class Apply::ProceedingsController < ApplyController
 
   before_filter :adjust_format_for_iphone
   
-  cache_sweeper :application_for_offering_sweeper, :only => [ :result ]
+  #cache_sweeper :application_for_offering_sweeper, :only => [ :result ]
   
   def index
     @sessions = {}

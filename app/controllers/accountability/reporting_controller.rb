@@ -5,7 +5,7 @@ class Accountability::ReportingController < AccountabilityController
   before_filter :check_department_authorizations
   before_filter :fetch_department, :except => [:choose_department]
   before_filter :fetch_year_and_related, :except => [:choose_department]
-  before_filter :fetch_service_learning_courses, :only => [:index]
+  before_filter :fetch_service_learning_courses, :only => [:index]  
   
   layout 'admin'
 
@@ -15,7 +15,6 @@ class Accountability::ReportingController < AccountabilityController
         
     @course_activity_type_ids = ActivityCourse.for_quarter_and_department(@quarters, @department).collect(&:activity_type_id)
     @individual_activity_type_ids = ActivityProject.for_quarter(@quarters).for_department(@department).collect(&:activity_type_id)        
-    
   end
 
   def individuals
@@ -78,8 +77,8 @@ class Accountability::ReportingController < AccountabilityController
     @activity_types.each{|a| @service_learning_courses[a.id] ||= {}; @quarters.each{|q| @service_learning_courses[a.id][q.id] ||= [] } }
     activity_type_id = ActivityType.find_by_title("Public Service").id
     
-    ar = AccountabilityReport.find_by_year_and_quarter_abbrevs_and_activity_type_id(@year, @quarter_abbrevs.join(" "), activity_type_id)
-    @report = ar.service_learning_course_statistics(@department) unless ar.in_progress?
+    @accountability_report = AccountabilityReport.find_by_year_and_quarter_abbrevs_and_activity_type_id(@year, @quarter_abbrevs.join(" "), activity_type_id)
+    @report = @accountability_report.service_learning_course_statistics(@department) unless @accountability_report.in_progress?
     
     unless @report[:department]["#{@department.dept_code}_#{@department.name}"].blank?      
       for q in @quarters

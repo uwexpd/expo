@@ -2,9 +2,9 @@ class EquipmentReservationController < ApplicationController
   skip_before_filter :login_required
   before_filter :student_login_required, :except => [:policies]
   before_filter :apply_alternate_stylesheet
+  before_filter :check_if_equipment_loan_available, :except => [:restricted, :policies]
   before_filter :check_must_be_student_restriction, :except => [:students_only, :policies]
   before_filter :check_reservation_restrictions, :except => [:restricted, :policies]
-
 
   def index
     @current_reservations = @current_user.person.equipment_reservations.current
@@ -133,8 +133,17 @@ class EquipmentReservationController < ApplicationController
   def check_reservation_restrictions
     if !@current_user.person.valid_equipment_reservation_override? && !@current_user.admin?
       return render :action => 'restricted' if @current_user.person.equipment_reservation_restriction?
-      return render :action => 'restricted' if @current_user.person.current_credits.zero?
+      @current_student = !@current_user.person.current_credits.zero? rescue false
+      return render :action => 'restricted' if @current_student
     end
+  end
+  
+  # STF equipment loan program for EXPD is no longer available by Jun 15, 2013
+  def check_if_equipment_loan_available
+    @equipment_loan_available = Date.today.to_s < '2013-06-15'
+    if !@current_user.admin? && !@equipment_loan_available
+      return render :action => 'restricted'
+    end    
   end
   
 end

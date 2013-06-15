@@ -129,9 +129,11 @@ Duplication processing details appear below.
 
 =end
 class AccountabilityReport < ActiveRecord::Base
+  #extend ActiveSupport::Memoizable # Memoizable is deprecated in Rails 3.2. Use memoist gem instead then
     
   # Makes sure that we only count EXPO's service-learning courses for public service reports
   SERVICE_LEARNING_ACTIVITY_TYPE_ABBREVIATION = "S"
+  ACCOUNTABILITY_CACHE = FileStoreWithExpiration.new("tmp/cache/accountability")
   
   belongs_to :activity_type
   validates_presence_of :quarter_abbrevs, :activity_type_id
@@ -334,41 +336,45 @@ class AccountabilityReport < ActiveRecord::Base
   
   # Calculates the totals by courses for all ServiceLearningPlacement in the data hash. Display this information in reporting course in accountability
   def service_learning_course_statistics(department, force = false)
-    load_results(:with_departments, force) if force || @results.empty?
-    stats = {:department => {}}
+    ACCOUNTABILITY_CACHE.fetch("accountability_report_#{self.id}_for_department_#{department.dept_code}_stats", :expires_in => 24.hours) do
+      load_results(:with_departments, force) if force || @results.empty?
+      stats = {:department => {}}
             
-    for system_key, quarter_hash in @results
-      for quarter_abbrev, activities in quarter_hash
+      for system_key, quarter_hash in @results
+        for quarter_abbrev, activities in quarter_hash
         
-        for activity in activities       
-            klass, id = activity[:activity].split("_")
-            a = klass.constantize.find(id) rescue nil
+          for activity in activities       
+              klass, id = activity[:activity].split("_")
+              a = klass.constantize.find(id) rescue nil
             
-            department_id, department_name = activity[:department].split("_")
+              department_id, department_name = activity[:department].split("_")
             
-            if a.is_a?(ServiceLearningPlacement) && department_id.to_i == department.dept_code
-              unless stats[:department][activity[:department]]
-                stats[:department][activity[:department]] = { :quarters => {} }
-                for quarter in @quarters
-                  stats[:department][activity[:department]][:quarters][quarter.abbrev] = { :courses => {} }
+              if a.is_a?(ServiceLearningPlacement) && department_id.to_i == department.dept_code
+                unless stats[:department][activity[:department]]
+                  stats[:department][activity[:department]] = { :quarters => {} }
+                  for quarter in @quarters
+                    stats[:department][activity[:department]][:quarters][quarter.abbrev] = { :courses => {} }
+                  end
                 end
-              end
               
-              unless activity[:course].blank?                
-                if stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses].include?(activity[:course])
-                   stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses][activity[:course]] += 1
-                else
-                  stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses][activity[:course]] = 1
-                end                                               
-              end
+                unless activity[:course].blank?                
+                  if stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses].include?(activity[:course])
+                     stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses][activity[:course]] += 1
+                  else
+                    stats[:department][activity[:department]][:quarters][quarter_abbrev][:courses][activity[:course]] = 1
+                  end                                               
+                end
                                
-            end                  
-        end  
+              end                  
+          end  
                                                
-      end
-    end    
-    stats
+        end
+      end    
+      stats
+    end
   end
+  #memoize :service_learning_course_statistics
+  #Comment this out because it only improves about 1.5 second and we need to dyamically reload the data when regerenate, not a good fit for this method.
 
   protected
 
