@@ -11,7 +11,12 @@
 		because a restriction has been placed on your student record.</p>
 <% end -%>
 
-<% if @current_user.person.current_credits.zero? %>
+<% if @current_student %>
 	<p>You must be a current, registered student in order to checkout equipment. 
 		Our records indicate that you are not registered for <%= Quarter.current_quarter.title %>.</p>
 <% end -%>
+
+<% unless @equipment_loan_available %>
+	<br>
+	<h2>STF equipment loan program for EXPD is <span class='red'>no longer available</span> by Jun 15, 2013.</h2>
+<% end -%>	

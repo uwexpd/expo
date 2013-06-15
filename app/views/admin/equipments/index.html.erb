@@ -14,7 +14,7 @@
 			<th>Functions</th>
 		</tr>
 	
-		<!-- <tr class="rowset-header"><td colspan=10>Staff-only Equipment</td></tr> -->
+		<tr class="rowset-header"><td colspan=10>Staff-only Equipment</td></tr>
 	
 		<% for equipment in @equipments %>
 		<% if !equipment.staff_only? && !@did_staff_only_header %>

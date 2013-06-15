@@ -5,8 +5,8 @@ class Admin::EquipmentsController < Admin::BaseController
   uses_tiny_mce
   
   def index
-    # Not showing staff-only equipments since it is changed to check out through Corporate time
-    @equipments = Equipment.find :all, :include => :category, :conditions => 'staff_only=false', :order => 'staff_only DESC, equipment_category_id'
+    # Not showing staff-only equipments since it is changed to check out through Corporate time #:conditions => 'staff_only=false',
+    @equipments = Equipment.find :all, :include => :category, :order => 'staff_only DESC, equipment_category_id'
 
     respond_to do |format|
       format.html # index.html.erb
