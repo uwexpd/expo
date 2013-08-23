@@ -111,6 +111,7 @@ class ServiceLearningPosition < ActiveRecord::Base
       find(:all, :conditions  => ["(service_learning_course_id <=> 0 OR service_learning_course_id IS NULL) AND (person_id <=> 0 OR person_id IS NULL)"]) rescue []
     end
   end
+  has_many :self_placements, :class_name => "ServiceLearningSelfPlacement", :dependent => :destroy
   has_many :placement_courses, :through => :placements, :source => :course
   
   named_scope :pending, :conditions => "approved IS NULL OR approved = 0"
@@ -119,16 +120,21 @@ class ServiceLearningPosition < ActiveRecord::Base
   has_and_belongs_to_many :skill_types
   has_and_belongs_to_many :social_issue_types
   
-  attr_accessor :require_ideal_number_of_slots
+  attr_accessor :require_ideal_number_of_slots, :require_validations
   
   # By default, return true, unless we've specifically been told not to require this.
   def require_ideal_number_of_slots?
     require_ideal_number_of_slots || (require_ideal_number_of_slots.nil? ? true : require_ideal_number_of_slots)
   end
   
-  validates_presence_of :organization_quarter_id, :message => "is invalid. You must choose the UW unit that you're working with."
-  validates_presence_of :supervisor_person_id, :message => "must be identified."
-  validates_presence_of :ideal_number_of_slots, :if => :require_ideal_number_of_slots?
+  # By default, return true, unless we've specifically been told not to require this.
+  def require_validations?
+    require_validations.nil? ? true : require_validations
+  end
+  
+  validates_presence_of :organization_quarter_id, :message => "is invalid. You must choose the UW unit that you're working with.", :if => :require_validations?
+  validates_presence_of :supervisor_person_id, :message => "must be identified.", :if => :require_validations?
+  validates_presence_of :ideal_number_of_slots, :if => :require_ideal_number_of_slots?, :if => :require_validations?
   validate :title_is_not_blank
   def title_is_not_blank
     errors.add(:title, "cannot be blank") if read_attribute(:title).blank?
@@ -162,7 +168,11 @@ class ServiceLearningPosition < ActiveRecord::Base
     title
   end
   
-  def title(show_self_placement = true, show_pending = true, html = true)
+  def name
+    read_attribute :title
+  end
+  
+  def title(show_self_placement = true, show_pending = true, html = true, require_validation = true)
     t = read_attribute :title
     pending_tag = html ? "<span class='pending tag'>pending</span>" : "[PENDING]"
     pending_tag = html ? "<span class='in_progress tag'>in progress</span>" : "[IN PROGRESS]" if in_progress
@@ -170,7 +180,7 @@ class ServiceLearningPosition < ActiveRecord::Base
     self_placement_tag = html ? "<span class='self_placement tag'>self-placement</span>" : "(self-placement)"
     t = "#{t} #{self_placement_tag}" if show_self_placement && self_placement?
     t = "#{t} #{pending_tag}" if show_pending && !approved?
-    t = "#{t} #{invalid_tag}" if !valid?
+    t = "#{t} #{invalid_tag}" if require_validation && !valid?
     t
   end
   
@@ -564,7 +574,7 @@ class ServiceLearningPosition < ActiveRecord::Base
   end
   
   def update_organization_quarter_counts
-    organization_quarter.update_position_counts!
+    organization_quarter.update_position_counts! if organization_quarter
   end
   
 end

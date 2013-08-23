@@ -1,0 +1,39 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  person_id: 1
+  service_learning_position_id: 1
+  quarter_id: 1
+  service_learing_course_id: 1
+  organization: MyString
+  organization_mailing_line_1: MyString
+  organization_mailing_line_2: MyString
+  organization_mailing_city: MyString
+  organization_mailing_state: MyString
+  organization_mailing_zip: MyString
+  organization_website_url: MyString
+  organization_main_phone: MyString
+  organization_contact_person: MyString
+  organization_contact_title: MyString
+  organization_email: MyString
+  organization_mission_statement: MyText
+  hope_to_learn: MyText
+
+two:
+  person_id: 1
+  service_learning_position_id: 1
+  quarter_id: 1
+  service_learing_course_id: 1
+  organization: MyString
+  organization_mailing_line_1: MyString
+  organization_mailing_line_2: MyString
+  organization_mailing_city: MyString
+  organization_mailing_state: MyString
+  organization_mailing_zip: MyString
+  organization_website_url: MyString
+  organization_main_phone: MyString
+  organization_contact_person: MyString
+  organization_contact_title: MyString
+  organization_email: MyString
+  organization_mission_statement: MyText
+  hope_to_learn: MyText

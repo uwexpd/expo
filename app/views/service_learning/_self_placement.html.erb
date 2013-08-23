@@ -1,0 +1,123 @@
+<%= javascript_include_tag 'chosen.proto' %>
+<%= javascript_include_tag 'prototype.1.7' %>
+<%= stylesheet_link_tag 'chosen' %>
+		
+<% fields_for :self_placement_attributes, @self_placement do |f| %>
+		
+	<h2>Student Information</h2>
+		<dl class="inline-definitions">
+			<dt>Student Name </dt><dd><%= @student.fullname %></dd>
+			<dt>Student Number</dt><dd><%= @student.student_no %></dd>
+			<dt>Email </dt><dd><%= @student.email %></dd>
+			<dt>Enrolled Course </dt><dd>
+				<%= @service_learning_course.title %>
+				<%= f.hidden_field :service_learning_course_id, :value => @service_learning_course.id %>
+				<span class='small'>
+					<%= link_to "(Switch to another course)", :action => 'which', :type => 'self_placement' if @enrolled_service_learning_courses && @enrolled_service_learning_courses.size > 1 %>
+				</span>
+			</dd>
+		</dl>
+
+	<h2>Organization Information</h2>
+		<dl class="inline-definitions">
+		<!--[if lt IE 9]><div class="error-message"><span class='icon-left error'></span>Warning: You need to upgrade to a modern web browser such as <a href="http://www.google.com/chrome" target="_blank">Google Chrome</a>, <a href="http://www.browserforthebetter.com/download.html" target="_blank">the latest IE</a>, or <a href="http://www.firefox.com" target="_blank">Firefox<a> to input this field.</div> <![endif]-->
+		
+		<div id = "select_organization" <%= "style='display:none'" if !@self_placement.new_record? && !@self_placement.existing_organization? %>>
+			<dt>Organization Name</dt>
+			<dd><%= select_tag :organization_id, options_for_select(@organization_options, @self_placement.organization_id.to_i),
+			 			   	   :class => "chzn-select", :style => "width:500px;",
+							   :data_placeholder => "<span class='small'>Select a Organization or Type Keyword for Search</span>" %>
+
+				<span class="small">Can't find your organization? 
+					<%= link_to_function "Create a new one.", "Element.toggle(new_organization);Element.toggle(select_organization)" %>
+				</span>
+
+			</dd>
+		</div>					
+				
+		<div id = "new_organization" <%= "style='display:none'" if @self_placement.new_record? || @self_placement.existing_organization? %>>
+			<dt>Organization Name</dt>
+			<dd><%= f.text_field :organization_id, :size => 70, :value => @self_placement.organization_id %>
+				<span class="small"><%= link_to_function "Select existing organizations", "Element.toggle(new_organization);Element.toggle(select_organization)" %>
+				</span>
+			</dd>
+			<dt>Mailing address</dt>
+			<dd><%= f.text_field :organization_mailing_line_1 %>
+				<br><%= f.text_field :organization_mailing_line_2 %>
+				<br><%= f.text_field :organization_mailing_city, :size => 15 %>, 
+					<%= f.state_select :organization_mailing_state, 'US', :selected => 'Washington' %>
+					<%= f.text_field :organization_mailing_zip, :size => 10 %></dd>
+
+			<dt>Website Address</dt>
+			<dd><%= f.text_field :organization_website_url %></dd>
+
+			<dt>What is the organization all about?</dt>
+			<dd>
+				<%= f.text_area :organization_mission_statement, :style => "width:99%", :rows => 6 %>
+				<p class="caption">Mission statement or other background information</p>
+			</dd>		
+		</div>
+
+			<dt>Contact Person</dt>
+			<dd><%= f.text_field :organization_contact_person %> Title: <%= f.text_field :organization_contact_title %></dd>
+
+			<dt>Contact phone</dt>
+			<dd><%= f.text_field :organization_contact_phone %> <span class='caption'>e.g: 2061234567</span></dd>
+
+			<dt>Contact Email</dt>
+			<dd><%= f.text_field :organization_contact_email %></dd>
+							
+		</dl>	
+
+<% fields_for :service_learning_position, @position do |p| %>
+
+	<h2>Basic Position Information</h2>
+		<dl class="inline-definitions">
+			<dt>Position Title</dt>
+			<dd><%= p.text_field :title, :size => 70 %></dd>
+			
+			<dt>Please set a the context for how this service-learning position contributes to the mission of your organization.</dt>
+			<dd><%= p.text_area :context_description, :style => "width:70%", :rows => 6  %></dd>
+			
+			<dt>Describe the work of the position-what will their work with your organization look like day to day? What might students learn working in this role? What is the work environment like?</dt>
+			<dd><%= p.text_area :description, :style => "width:70%", :rows => 6 %></dd>
+			
+			<dt>How will this service-learning position make an impact on your organization and/or the people you serve?</dt>
+			<dd><%= p.text_area :impact_description, :style => "width:70%", :rows => 6 %></dd>		
+		</dl>
+		
+	<h2>Service Learning Schedule</h2><br>
+	<% content_for :head do %>
+		<%= javascript_include_tag "scheduling_tools" %>
+	<% end %>
+	<center>
+	<table class="selectable">
+		<tr class="center">
+			<th></th>
+			<th>Sunday</th>
+			<th>Monday</th>
+			<th>Tuesday</th>
+			<th>Wednesday</th>
+			<th>Thursday</th>
+			<th>Friday</th>
+			<th>Saturday</th>
+			<th></th>
+		</tr>
+
+		<%= render :partial => "admin/service_learning/organizations/positions/time_row", 
+				   :collection => 7..23,
+				   :locals => { :service_learning_position => @position } %>
+
+	</table>
+	</center>
+	<%= p.hidden_field :new_times %>
+<%- end # end new_position_attributes -%>
+
+<dl class="inline-definitions">
+	<h2>Through service-learning, I hope to learn</h2>
+	<dt></dt><dd><%= f.text_area :hope_to_learn, :style => "width:85%", :rows => 5 %></dd>
+</dl>
+
+<% end #end self_placement_attruibutes %>
+
+

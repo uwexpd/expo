@@ -34,7 +34,12 @@
 
 	<%- if 4.weeks.ago > @quarter.first_day -%>
 	<li><%= link_to "Mid-Quarter Check-in", 
-					service_learning_mid_quarter_path(@unit, @quarter) %></li>
+					service_learning_mid_quarter_path(@unit, @quarter), 
+					:class => "icon-left checkin" %></li>
 	<% end -%>
+	
+	<li><%= link_to "Self Placements Request <span>(#{@quarter.service_learning_self_placements.size})</span>", 
+					service_learning_self_placements_path(@unit, @quarter),
+					:class => "icon-left assign-people" %></li>
 	
 </ul>

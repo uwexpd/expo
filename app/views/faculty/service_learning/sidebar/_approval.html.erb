@@ -1,0 +1,10 @@
+<h3>Approve Self Placement Position</h3>
+
+<center>
+	<p class='small grey'>After approving this position, Carlson Center will review the position and place the student.</p>
+	<% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>
+	 	<%= f.submit "Approve this Position", :class => 'green' %>
+	<% end -%>
+</center>
+
+

@@ -14,13 +14,14 @@ class ServiceLearningController < ApplicationController
   before_filter :assign_service_learning_course, :except => [:which, :complete]
   before_filter :show_minor_warning, :only => [:index, :position]
   before_filter :require_waiver_if_minor, :only => [:choose, :contact, :risk]
-  before_filter :check_if_already_registered, :except => [:complete, :my_position, :which, :test]
+  before_filter :check_if_already_registered, :except => [:complete, :my_position, :which, :test, :self_placement, :self_placement_submit]
   before_filter :fetch_position, :only => [:position, :choose, :contact, :risk]
   before_filter :check_if_registration_finalized, :only => [:position, :choose, :contact, :risk, :change]
   before_filter :check_if_registration_open, :only => [:choose, :contact, :risk, :change]
 
 
   def index
+    session[:type] = nil # clean session so it won't redirect to self_placement action
   end
 
   def positions
@@ -33,7 +34,11 @@ class ServiceLearningController < ApplicationController
   def which
     if params[:course]
       session[:course] = params[:course]
-      redirect_to :action => "index"
+      if session[:type] == "self_placement"
+        redirect_to :action => "self_placement"
+      else
+        redirect_to :action => "index"
+      end
     end
   end
   
@@ -120,6 +125,84 @@ class ServiceLearningController < ApplicationController
     flash[:notice] = "Time: #{Time.now - @start_time} seconds"
   end
 
+  def self_placement
+    # Stop this method if find student has a service learning placement that is already confirmed for same course
+    if @student.service_learning_placements.select{|p| p.course == @service_learning_course && p.position.quarter == @quarter }.size > 0
+      flash[:error] = "You already have a placement for #{@service_learning_course.title}. Please contact Carlson Center staff for self placement request."
+      redirect_to :action => 'index' and return
+    end
+       
+    @self_placement ||= (ServiceLearningSelfPlacement.find(params[:id]) if params[:id]) || ServiceLearningSelfPlacement.find_by_person_id_and_quarter_id_and_service_learning_course_id(@student, @quarter, @service_learning_course) || ServiceLearningSelfPlacement.new
+    @position ||= @self_placement.position || ServiceLearningPosition.new
+    @position.times.build
+
+    # Stop this method if submitted already
+    if @self_placement.submitted?
+      flash[:notice] = "Your self placement position form has been submitted."
+      redirect_to :action => "self_placement_submit", :id => @self_placement.id and return
+    end
+    
+    @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")    
+        
+    if request.put? || request.post?       
+      @position.unit = Unit.find_by_abbreviation('carlson')
+      @position.approved = false
+      @position.in_progress = true
+      @position.require_validations = false      
+            
+      if @position.save
+        @position.update_attributes(params[:service_learning_position])
+                
+        @self_placement.person_id = @student.id
+        @self_placement.service_learning_position_id = @position.id        
+        @self_placement.quarter_id = @quarter.id
+        # If student fill with new organzation name, then don't use the exsiting organziation param value.
+        @self_placement.organization_id = params[:organization_id] if params[:self_placement_attributes][:organization_id].blank?
+        @self_placement.save
+        @self_placement.update_attributes(params[:self_placement_attributes])
+                
+        flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"         
+        redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
+      else
+        flash[:error] = "We are sorry! Something went wrong. Please try again later."
+      end
+      redirect_to :back
+    end
+        
+  end
+
+  def self_placement_submit
+    @self_placement ||= ServiceLearningSelfPlacement.find(params[:id]) if params[:id]
+    if @self_placement.nil?
+      flash[:error] = "Can not find your self placements."        
+      redirect_to :action => :self_placement and return
+    end
+    
+    if params[:commit] == "Submit"
+      @self_placement.submitted = true
+      if @self_placement.save
+        @self_placement.course.instructors.each do |instrutor|
+          EmailContact.log(instrutor.person.id, 
+          ServiceLearningMailer.deliver_templated_message(instrutor.person, 
+                        EmailTemplate.find_by_name("self placement position approval request"),
+                                                    instrutor.person.email,
+                                                    "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
+                                                    { :student => @student,
+                                                      :quarter => @quarter, 
+                                                      :self_placement => @self_placement,
+                                                      :faculty_link => "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/students"})
+                                                     )
+        end
+        flash[:notice] = "Your self placement position form sucessfully submitted. An request email has been sent to your instructor."
+        redirect_to :action => :self_placement and return
+      end
+    end
+    
+    redirect_to :action => :self_placement if params[:commit] == "Back to edit"
+    
+  end
+
+
   protected
 
   def fetch_quarter
@@ -187,6 +270,9 @@ class ServiceLearningController < ApplicationController
   
   def assign_service_learning_course
     if @enrolled_service_learning_courses.size > 1
+      if params[:action] == "self_placement" || params[:type] == "self_placement"
+        session[:type] = "self_placement"
+      end 
       redirect_to :action => "which" and return if session[:course].nil?
       @service_learning_course = @enrolled_service_learning_courses.find{|c| c.id==session[:course].to_i}
     else

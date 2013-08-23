@@ -1,0 +1,8 @@
+<h3>Approve Self Placement Position</h3>
+
+<p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and place this student into self placement</p>
+<center>	
+	<% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>
+	 	<%= f.submit "Approve this Position", :class => 'green' %>
+	<% end -%>	
+</center>

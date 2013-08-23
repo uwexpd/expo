@@ -1438,6 +1438,10 @@ hr.light {
 	font-size: smaller;
 }
 
+.larger {
+	font-size: larger;
+}
+
 .smaller select {
 	font-size: 90%;
 }

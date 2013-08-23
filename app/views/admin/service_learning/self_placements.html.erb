@@ -1,0 +1,8 @@
+<h1>Self Placements</h1>
+<h3>Total <%= pluralize @self_placements.size, "self placement" %></h3>
+
+<%= render :partial => "self_placements", :locals => {:self_placements => @self_placements} %>
+
+<% sidebar :search, :entities %>
+
+<% sidebar :with_selected %>

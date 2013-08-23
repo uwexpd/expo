@@ -133,6 +133,15 @@ class Person < ActiveRecord::Base
     end
     
   end
+
+  has_many :service_learning_self_placements do
+  #Object can be a ServiceLearningPosition, or a ServiceLearningCourse.
+    def for(obj, quarter)
+      find(:all, 
+          :conditions => ["#{obj.class.name.foreign_key} = ? AND quarter_id = ?", obj, quarter.id ]
+          ) rescue []
+    end
+  end
   
   has_many :course_extra_enrollees, :dependent => :destroy do
     def for(qtr)

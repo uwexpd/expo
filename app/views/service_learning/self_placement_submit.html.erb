@@ -1,0 +1,15 @@
+<% title("Service-Learning Self Placement Position Form", @quarter.title) %> 
+
+<%= render :partial => "self_placement_fields" %>
+		
+<% unless @self_placement.submitted? %>
+	<% form_tag do %>
+		<div class="progress_nav_buttons">
+			<p class='larger'>A request e-mail will be sent to your faulty when you submit.</p>
+			<%= submit_tag "Back to edit", :disable_with => "Editing..." %>		
+			<span class="separator"> – or – </span>
+			<%= submit_tag "Submit", :confirm => "Are you sure to submit?", :disable_with => "Submitting..." %>				
+		</div>
+		<%= hidden_field_tag :id, @self_placement.id %>
+	<% end %>
+<% end %>

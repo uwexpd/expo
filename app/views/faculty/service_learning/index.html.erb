@@ -10,7 +10,9 @@
 	
 	<li id="evaluations"><%= link_to "View service-learning students and evaluations for #{@quarter.title}", 
 					faculty_service_learning_path(:action => 'students', :quarter_abbrev => @quarter) %>
-		<br>See where your students are volunteering and view evaluations from community partners.</li>
+		<br>See where your students are volunteering and view evaluations from community partners.
+		<br><span class='admin tag'>NEW</span>Approve your students self placement positions
+	</li>		
 		
 	<% end -%>
 

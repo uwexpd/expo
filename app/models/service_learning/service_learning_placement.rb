@@ -10,6 +10,7 @@ class ServiceLearningPlacement < ActiveRecord::Base
   belongs_to :person
   has_one :evaluation, :as => :evaluatable
   has_many :tutoring_logs, :class_name => "PipelineTutoringLog", :dependent => :destroy
+  has_one :self_placement, :class_name => "ServiceLearningSelfPlacement"
   
   acts_as_soft_deletable
   

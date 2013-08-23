@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130510232330) do
+ActiveRecord::Schema.define(:version => 20130726213955) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2164,6 +2164,7 @@ ActiveRecord::Schema.define(:version => 20130510232330) do
     t.string   "reg_id"
   end
 
+  add_index "people", ["email"], :name => "index_people_on_email"
   add_index "people", ["student_no"], :name => "index_people_on_student_no"
   add_index "people", ["system_key"], :name => "index_people_on_system_key"
 
@@ -2271,7 +2272,7 @@ ActiveRecord::Schema.define(:version => 20130510232330) do
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "object_ids"
+    t.text     "object_ids",            :limit => 16777215
     t.datetime "objects_generated_at"
     t.integer  "objects_count"
     t.text     "output_fields"
@@ -2577,6 +2578,31 @@ ActiveRecord::Schema.define(:version => 20130510232330) do
     t.datetime "updated_at"
     t.integer  "creator_id"
     t.integer  "updater_id"
+  end
+
+  create_table "service_learning_self_placements", :force => true do |t|
+    t.integer "person_id"
+    t.integer "service_learning_placement_id"
+    t.integer "service_learning_position_id"
+    t.integer "service_learning_course_id"
+    t.integer "quarter_id"
+    t.string  "organization_id"
+    t.string  "organization_mailing_line_1"
+    t.string  "organization_mailing_line_2"
+    t.string  "organization_mailing_city"
+    t.string  "organization_mailing_state"
+    t.string  "organization_mailing_zip"
+    t.string  "organization_website_url"
+    t.string  "organization_contact_person"
+    t.string  "organization_contact_phone"
+    t.string  "organization_contact_title"
+    t.string  "organization_contact_email"
+    t.text    "organization_mission_statement"
+    t.text    "hope_to_learn"
+    t.integer "submitted",                      :limit => 1
+    t.integer "faculty_approved",               :limit => 1
+    t.text    "faculty_feedback"
+    t.integer "admin_approved",                 :limit => 1
   end
 
   create_table "session_histories", :force => true do |t|

@@ -1,0 +1,72 @@
+<h3>Student Information <%= "<span class='green tag'>admin approved</span>" if @self_placement.admin_approved? %></h3>
+	<dl class="inline-definitions">
+		<dt>Student Name </dt><dd><%= @self_placement.person.fullname %></dd>
+		<dt>Student Number</dt><dd><%= @self_placement.person.student_no %></dd>
+		<dt>Email </dt><dd><%= @self_placement.person.email %></dd>
+		<dt>Enrolled Course</dt>
+		<dd><%= @self_placement.course.title %>
+		</dd>
+	</dl>
+
+<h3>Organization Information</h3>
+	<dl class="inline-definitions">
+		<dt>Organization Name</dt>
+		<dd><%= @self_placement.organization_name %></dd>
+		<div <%= "style='display:none'" if @self_placement.organization_id.is_numeric? %>>
+			<dt>Mailing address</dt>
+			<dd><%= @self_placement.organization_mailing_line_1 %>
+				<br><%= @self_placement.organization_mailing_line_2 %>
+				<br><%= @self_placement.organization_mailing_city %>, 
+					<%= @self_placement.organization_mailing_state %>
+					<%= @self_placement.organization_mailing_zip %></dd>
+
+			<dt>Website Address</dt>
+			<dd><%= @self_placement.organization_website_url %></dd>
+
+			<dt>What is the organization all about?</dt><br>
+			<dd><%= @self_placement.organization_mission_statement %></dd>
+		</div>
+	
+		<dt>Contact Person</dt>
+		<dd><%= @self_placement.organization_contact_person %>, <%= @self_placement.organization_contact_title %></dd>
+	
+		<dt>Contact phone</dt>
+		<dd><%= phone_number @self_placement.organization_contact_phone %></dd>
+				
+		<dt>Contact Email</dt>
+		<dd><%= @self_placement.organization_contact_email %></dd>
+		
+	</dl>
+	
+<h3>Basic Position Information</h3>
+	<dl class="inline-definitions">
+		<dt>Position Title</dt>
+		<dd><%= @self_placement.position.name %></dd>
+		
+		<dt>Please set a the context for how this service-learning position contributes to the mission of your organization.</dt><br>
+		<dd><%= @self_placement.position.context_description %></dd>
+		
+		<dt>Describe the work of the position-what will their work with your organization look like day to day? What might students learn working in this role? What is the work environment like?</dt>
+		<dd><%= @self_placement.position.description %></dd>
+		
+		<dt>How will this service-learning position make an impact on your organization and/or the people you serve?</dt><br>
+		<dd><%= @self_placement.position.impact_description %></dd>		
+		
+		<dt>Schedule Times</dt>
+		<dd>
+		<% if @self_placement.position.times.size < 10 %>
+			<% for time in @self_placement.position.times %>
+				<%= time.pretty_print %><br />
+			<% end %>
+			<%= "You did not select any times" if @self_placement.position.times.empty? %>
+		<% else %>
+			Multiple
+		<% end -%>
+		</dd>
+	</dl>
+<h3>Through service-learning</h3>
+<dl class="inline-definitions">
+	<dt>Hope to learn</dt><dd><%= @self_placement.hope_to_learn %></dd>
+</dl>
+	
+	

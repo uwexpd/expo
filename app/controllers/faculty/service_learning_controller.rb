@@ -73,6 +73,34 @@ class Faculty::ServiceLearningController < FacultyController
     session[:breadcrumbs].add "Students", faculty_service_learning_path(:action => 'students')
     session[:breadcrumbs].add "View Evaluation"
   end
+  
+  def self_placement_approval
+    @self_placement = ServiceLearningSelfPlacement.find(params[:id])
+    
+    if @self_placement.nil?
+      flash[:error] = "Can not find the student's self placements."
+      redirect_to :action => :students
+    end    
+    
+    flash.now[:notice] = "You already approved this position." if  @self_placement.faculty_approved?
+    
+    if request.put?      
+      @self_placement.faculty_approved = true
+      if @self_placement.save 
+        template = EmailTemplate.find_by_name("self placement position approval request for admin")
+        TemplateMailer.deliver(template.create_email_to(@self_placement, 
+                                                        "https://expo.uw.edu/admin/service_learning/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
+                                                        "serve@u.washington.edu")
+                              ) if template
+      end
+      flash[:notice] = "You successfully approved #{@self_placement.position.name} for #{@self_placement.student.fullname} . Thank you."
+      redirect_to :action => :students
+    end
+    
+    session[:breadcrumbs].add "Students", faculty_service_learning_path(:action => 'students')
+    session[:breadcrumbs].add "View Self Placement Positions"
+  end
+    
 
   protected
   

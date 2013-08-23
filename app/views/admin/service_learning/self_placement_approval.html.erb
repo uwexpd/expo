@@ -1,0 +1,11 @@
+<% unless @self_placement.admin_approved %>
+<div>
+	<h1>Self Placement Approval
+		<span class="right"><%= link_to "Edit", service_learning_self_placement_update_path(@unit, @quarter, @self_placement.id), :class => "edit button" %></span>
+	</h1>
+</div>
+<% end %>
+
+<%= render :partial => "service_learning/self_placement_fields", :local => { :admin => true }  %>
+
+<% sidebar :approval unless @self_placement.admin_approved %>

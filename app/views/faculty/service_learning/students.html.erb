@@ -8,12 +8,13 @@
 		<th>Position</th>
 		<th>Organization</th>
 		<th>View Evaluation</th>
+		<th>Self Placement</th>
 	</tr>
 	
 	<% for @service_learning_course in @courses_for_quarter %>
 		<% for course in @service_learning_course.courses %>
 			<tr class="rowset-header">
-				<td colspan=4><%= course.course.short_title %>
+				<td colspan=5><%= course.course.short_title %>
 					<font class="lighter grey">&raquo; <%= pluralize course.course.all_enrollees.size, "student" %></font></td>
 			</tr>
 			<%= render :partial => "student", 

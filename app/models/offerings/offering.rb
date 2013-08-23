@@ -185,7 +185,7 @@ class Offering < ActiveRecord::Base
 
   # An Offering is open if we're past the +open_date+ and before the deadline
   def open?
-    open_date < Time.now && !past_deadline?
+    open_date < Time.now && !past_deadline? rescue nil
   end
 
   # An Offering is considered "current" if the +quarter_offered+ is the current quarter or if +year_offered+ is the current year.

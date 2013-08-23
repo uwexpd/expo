@@ -1,0 +1,56 @@
+<%= javascript_include_tag "tablesort" %>
+
+<% form_tag admin_communicate_write_email_url, :id => 'self_placements_form' do %>
+  
+  <table class="sortable groupable" id="invitees_table">
+	<tr>
+  		<th class="nosort"><%= select_all_check_box %></th>
+  		<th class="sortfirstasc" width="25%"><div class="sort-icon">Name</div></th>  		
+  		<th id="expected_sort" class="groupvalue"><div class="sort-icon">Course</div></th>
+  		<th id="attended_sort" class="groupvalue"><div class="sort-icon">Position</div></th>
+		<th class="groupvalue"><div class="sort-icon">Organization</div></th>
+		<th class="groupvalue"><div class="sort-icon">Status</div></th>
+		<th class="groupvalue"><div class="sort-icon">Functions</div></th>
+  	</tr>
+    
+  	<% for self_placement in self_placements %>
+  	  <tr id="self_placement_<%= self_placement.id %>">
+      	<td><%= select_check_box(self_placement) %>
+      	<td>
+		  <%= link_to self_placement.person.fullname, service_learning_self_placement_approval_path(@unit, @quarter, self_placement.id) %><br>
+      	  <span class='small'><% if self_placement.person.is_a? Student %>
+      	    <%= link_to "student info", admin_student_path(self_placement.person, :anchor => 'service_learning') %>
+      	  <% else %>
+      	    <%=h self_placement.person.fullname rescue self_placement.fullname rescue "#error" %>
+      	  <% end %></span>
+      	</td>      	
+      	
+      	<td value="<%= self_placement.course.nil? ? 'Unknown course' : self_placement.course.title %>">
+      	  <%= self_placement.course.nil? ? 'Unknown course' : link_to(self_placement.course.title,
+ 				service_learning_course_path(@unit, @quarter, self_placement.course)) %>
+      	</td>
+      	
+      	<td value="<%= self_placement.position.name %>">
+      	  	<%= link_to_if self_placement.position.organization_quarter && self_placement.admin_approved, self_placement.position.title(true,false,true,false),
+              	service_learning_organization_position_path(@unit, @quarter, self_placement.existing_organization, self_placement.position) rescue self_placement.position.title(true,false,true,false) %>
+      	</td>
+		
+      	<td value="<%= self_placement.organization_name %>">
+      	  <%= link_to_if self_placement.position.organization_quarter && self_placement.admin_approved, self_placement.organization_name,
+						 service_learning_organization_path(@unit, @quarter, self_placement.existing_organization) rescue self_placement.organization_name %>
+	   	</td>
+	
+		<td value="<%= self_placement.position.name %>">
+			<%= self_placement.status %>
+		</td>		
+	
+		<td>
+		<%= link_to self_placement.admin_approved? ? '<span>View</span>' : '<span>Approve</span>' , 
+					service_learning_self_placement_approval_path(@unit, @quarter, :id => self_placement.id) %>	 
+	    <td/>     	
+
+      </tr>
+  	<% end %>
+  </table>
+
+<% end %>

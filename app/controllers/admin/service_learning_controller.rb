@@ -59,6 +59,101 @@ class Admin::ServiceLearningController < Admin::BaseController
     session[:breadcrumbs].add "Placements"
   end
   
+  def self_placements
+    @self_placements = @quarter.service_learning_self_placements
+    session[:breadcrumbs].add "Self Placements"
+  end
+
+  # After admin approved, automatically activate organization quarter, update position quarter, create contact person, and create a placement. 
+  # Then place the student into the placement
+  def self_placement_approval
+    @self_placement = ServiceLearningSelfPlacement.find params[:id]
+    session[:breadcrumbs].add "Self Placements", service_learning_self_placements_path(@unit, @quarter)
+    session[:breadcrumbs].add "Self Placement Approval"
+    
+    if request.put?
+        @self_placement.admin_approved = true
+        if @self_placement.save
+          if @self_placement.existing_organization?
+             organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)        
+          else
+             organization = Organization.create(:name => @self_placement.organization_name,
+                                                :mailing_line_1 => @self_placement.organization_mailing_line_1,
+                                                :mailing_line_2 => @self_placement.organization_mailing_line_2,
+                                                :mailing_city => @self_placement.organization_mailing_city,
+                                                :mailing_state => @self_placement.organization_mailing_state,
+                                                :mailing_zip => @self_placement.organization_mailing_zip,
+                                                :website_url => @self_placement.organization_website_url,
+                                                :mission_statement => @self_placement.organization_mission_statement,
+                                                :approved => true
+                                               )
+          
+             organization_quarter = organization.activate_for(@quarter, true)
+
+             contact = organization.contacts.create
+             contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
+                                                 :lastname => @self_placement.organization_contact_person.split.second,
+                                                 :email => @self_placement.organization_contact_email,
+                                                 :phone => @self_placement.organization_contact_phone,
+                                                 :title => @self_placement.organization_contact_title
+                                                )
+             organization.save;contact.save
+             @self_placement.update_attribute(:organization_id, organization) # mark as existing org
+          end
+          
+          @self_placement.position.update_attributes(:organization_quarter_id => organization_quarter.id,
+                                                     :unit_id =>  @unit.id,
+                                                     :self_placement => true,
+                                                     :approved => true,
+                                                     :supervisor_person_id => contact.person.id,
+                                                     :ideal_number_of_slots => 1
+                                                    )
+        
+          ServiceLearningPlacement.transaction do  
+            placement = ServiceLearningPlacement.create(:service_learning_position_id => @self_placement.service_learning_position_id,
+                                                        :service_learning_course_id => @self_placement.service_learning_course_id,
+                                                        :created_at => Time.now,
+                                                        :unit_id => @unit.id
+                                                       )        
+
+            if @self_placement.person.place_into(@self_placement.position, @self_placement.course)
+              @self_placement.update_attribute(:service_learning_placement_id, placement.id) if placement
+              flash[:notice] = "You successfully approved the position and place #{@self_placement.person.fullname} into a self placement."
+            else
+              flash[:error] = "You have activated the organization but something went wrong when placing the student into self placement"
+              raise ActiveRecord::Rollback
+            end
+          
+          end
+        
+        end
+        redirect_to :action => 'self_placements'      
+    end # end of request.put?
+  end  
+  
+  
+  def self_placement_update
+    @self_placement = ServiceLearningSelfPlacement.find params[:id]
+    @student = @self_placement.person
+    @service_learning_course = @self_placement.course
+    @position = @self_placement.position
+    
+    @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")
+    
+    if request.put?
+      @position.require_validations = false
+      if @position.update_attributes(params[:service_learning_position]) && @self_placement.update_attributes(params[:self_placement_attributes])
+        flash[:notice] = "You have saved the self placement position sucessfully."
+        redirect_to :action => "self_placement_approval", :id => @self_placement.id 
+      else
+        flash[:error] = "Something went wrong when saving the self placement position"
+        redirect_to :back
+      end                  
+    end
+    session[:breadcrumbs].add "Self Placement Approval", service_learning_self_placement_approval_path(@unit, @quarter, params[:id])
+    session[:breadcrumbs].add "Self Placement Edit"
+  end
+  
   protected
 
   def fetch_quarter

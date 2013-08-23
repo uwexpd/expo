@@ -72,7 +72,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :pubcookie_users, { :controller => :users, :name_prefix => '' }
   
     admin.resources :units, :name_prefix => ''
-    
+     
     # Communications
     # admin.email_template 'email_template/:id', :controller => 'email_template', :action => 'show'
     # admin.template 'template', :controller => 'email_template', :action => 'index'
@@ -241,7 +241,13 @@ ActionController::Routing::Routes.draw do |map|
                                           :controller => 'service_learning', :action => 'mid_quarter', :name_prefix => ''
     admin.service_learning_students 'service_learning/:unit/:quarter_abbrev/students', 
                                           :controller => 'service_learning', :action => 'students', :name_prefix => ''
-            
+    admin.service_learning_self_placements 'service_learning/:unit/:quarter_abbrev/self_placements',
+                                          :controller => 'service_learning', :action => 'self_placements', :name_prefix => ''
+    admin.service_learning_self_placement_approval 'service_learning/:unit/:quarter_abbrev/self_placements/:id',
+                                          :controller => 'service_learning', :action => 'self_placement_approval', :name_prefix => ''
+    admin.service_learning_self_placement_update 'service_learning/:unit/:quarter_abbrev/self_placement_update/:id',
+                                          :controller => 'service_learning', :action => 'self_placement_update', :name_prefix => ''                                          
+                
     admin.service_learning_pipeline_students 'service_learning/pipeline/:quarter_abbrev/students', 
                                               :controller => 'pipeline', :action => 'students', :name_prefix => ''
     admin.service_learning_pipeline_placements 'service_learning/pipeline/:quarter_abbrev/placements', 

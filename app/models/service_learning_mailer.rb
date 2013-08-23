@@ -26,4 +26,14 @@ class ServiceLearningMailer < ActionMailer::Base
     @sent_on    = sent_at
     @headers    = {}
   end
+  
+  def templated_message(person, email_template, recipients, link, options = {})
+    @subject    = email_template.subject
+    @body       = { :person => person, :text => email_template.body.to_s, :link => link }.merge(options)
+    @from       = email_template.from
+    @sent_on    = Time.now
+    @headers    = {}
+    @recipients = recipients
+  end
+  
 end

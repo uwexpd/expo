@@ -42,7 +42,7 @@ class Quarter < ActiveRecord::Base
       find(:all, :conditions => {:unit_id => (unit.nil? ? nil : unit.class == Fixnum ? unit : unit.id)})
     end
   end
-  
+  has_many :service_learning_self_placements
 
   default_scope :order => "year, quarter_code_id"
 

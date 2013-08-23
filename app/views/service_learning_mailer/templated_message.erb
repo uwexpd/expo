@@ -1,0 +1,8 @@
+<%
+# replace %link% with a link to the controller
+@text.gsub!("%link%", @link)
+
+# replace %attribute% with @service_learning_self_placement.attribute
+@text.gsub!(/\%([a-z0-9_.]+)\%/) { |a| eval("@#{a.gsub!(/\%/,'')}") rescue nil }
+
+%><%= @text %>

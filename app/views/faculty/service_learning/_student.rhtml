@@ -3,11 +3,12 @@
 <% 
 placements = student.service_learning_placements.for(course, course.try(:unit))
 placed_for_course = !placements.empty? rescue false
+self_placements = student.service_learning_self_placements.for(course, @quarter)
 %>
 
 <% if student.nil? %>
 	<tr class="rowWithErrors">
-		<td colspan=4>ERROR: could not find student record.</td>
+		<td colspan=5>ERROR: could not find student record.</td>
 	</tr>
 <% else -%>
 
@@ -56,6 +57,17 @@ placed_for_course = !placements.empty? rescue false
 		<% end -%>
 	</td>
 
+	
+	<td style='width:100px'>
+		<% self_placements.each do |self_placement| %>
+			<% if self_placement.submitted? %>
+			<%= link_to self_placement.faculty_approved? ? "Request Pending" : "View Request",
+				        faculty_service_learning_path(:action => 'self_placement_approval', :id => self_placement.id), 
+				 		:class => self_placement.faculty_approved? ? '' : 'button' %>
+			<% end -%>
+		<% end -%>
+	</td>
+	
 	
 	
 </tr>
