@@ -54,7 +54,7 @@ class Admin::Accountability::AuthorizationsController < Admin::AccountabilityCon
 
   def auto_complete_for_department
     @q = params[:department_search]
-    @departments = Department.find(:all, :conditions => ["dept_name LIKE ? OR dept_abbr = ?", "%#{@q}%", @q], :limit => 10)
+    @departments = Department.find(:all, :conditions => ["dept_full_nm LIKE ? OR dept_abbr = ?", "%#{@q}%", @q], :limit => 10)
     @departments << DepartmentExtra.find(:all, :conditions => ["fixed_name LIKE ? AND dept_code IS NULL", "%#{@q}%"], :limit => 10)
     @departments.flatten!
     render :partial => "auto_complete_for_department"

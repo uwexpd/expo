@@ -122,14 +122,14 @@ desc "Get pipeline placements with 2 or 3 quarters in a row from Fall 2011 to Sp
 task :pipeline_placements => :environment do  
   puts "Loaded #{RAILS_ENV} environment."
 
-  placements = Quarter.find(21,22,23).collect(&:service_learning_placements).flatten.select(&:filled?).select{|p|p.unit_id == 4}  
+  placements = Quarter.find(25,26,27).collect(&:service_learning_placements).flatten.select(&:filled?).select{|p|p.unit_id == 4}  
   puts "placements: #{placements.size}"  
   students={}
   placements.each{|s| students[s.person_id] = (students[s.person_id].nil? ? [s.quarter_id] : students[s.person_id] << s.quarter_id )}
 
   puts "#{students.select{|k,v| v.size==3}.size}"
-  puts "#{students.select{|k,v| v.size==2 && v[0]=="21" && v[1]="22"}.size}"
-  puts "#{students.select{|k,v| v.size==2 && v[0]=="22" && v[1]="23"}.size}"
+  puts "#{students.select{|k,v| v.size==2 && v[0]=="25" && v[1]="26"}.size}"
+  puts "#{students.select{|k,v| v.size==2 && v[0]=="26" && v[1]="27"}.size}"
 
 end
 

@@ -10,7 +10,7 @@ class MustBeValidEmailAddressValidation < OfferingQuestionValidation
 
   def self.valid_email_address(email)
     format = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/
-    format.match(email.downcase) ? true : false
+    format.match(email.try(:downcase)) ? true : false
   end
   
 

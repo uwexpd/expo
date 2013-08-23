@@ -13,7 +13,7 @@
 	<td>
 		<%= [mentor.person.title, 
 			 mentor.person.department_name, 
-			 mentor.person.organization].compact.delete_if{|x| x.blank?}.join('<br>') if mentor.person %>
+			 mentor.person.organization].compact.delete_if{|x| x.blank?}.join('<br>')+'<br>' if mentor.person %>
 			
 		<%= [
 				("<span class=light>Title:</span> #{mentor.title}" if @offering.ask_for_mentor_title),
