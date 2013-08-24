@@ -2582,10 +2582,9 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
 
   create_table "service_learning_self_placements", :force => true do |t|
     t.integer "person_id"
-    t.integer "service_learning_placement_id"
     t.integer "service_learning_position_id"
-    t.integer "service_learning_course_id"
     t.integer "quarter_id"
+    t.integer "service_learning_course_id"
     t.string  "organization_id"
     t.string  "organization_mailing_line_1"
     t.string  "organization_mailing_line_2"
@@ -2599,10 +2598,10 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
     t.string  "organization_contact_email"
     t.text    "organization_mission_statement"
     t.text    "hope_to_learn"
-    t.integer "submitted",                      :limit => 1
-    t.integer "faculty_approved",               :limit => 1
+    t.boolean "submitted"
+    t.boolean "faculty_approved"
     t.text    "faculty_feedback"
-    t.integer "admin_approved",                 :limit => 1
+    t.boolean "admin_approved"
   end
 
   create_table "session_histories", :force => true do |t|

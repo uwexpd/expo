@@ -79,21 +79,29 @@ class Faculty::ServiceLearningController < FacultyController
     
     if @self_placement.nil?
       flash[:error] = "Can not find the student's self placements."
-      redirect_to :action => :students
+      redirect_to :action => :students and return
     end    
     
     flash.now[:notice] = "You already approved this position." if  @self_placement.faculty_approved?
     
     if request.put?      
-      @self_placement.faculty_approved = true
-      if @self_placement.save 
-        template = EmailTemplate.find_by_name("self placement position approval request for admin")
-        TemplateMailer.deliver(template.create_email_to(@self_placement, 
-                                                        "https://expo.uw.edu/admin/service_learning/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
-                                                        "serve@u.washington.edu")
-                              ) if template
-      end
-      flash[:notice] = "You successfully approved #{@self_placement.position.name} for #{@self_placement.student.fullname} . Thank you."
+      if @self_placement.update_attributes params[:service_learning_self_placement]
+          if @self_placement.faculty_approved?
+              template = EmailTemplate.find_by_name("self placement position request for admin approval")
+              TemplateMailer.deliver(template.create_email_to(@self_placement, 
+                                                              "https://expo.uw.edu/admin/service_learning/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
+                                                              "serve@u.washington.edu")
+                                    ) if template
+              flash[:notice] = "You successfully approved #{@self_placement.position.name} for #{@self_placement.person.fullname} . Thank you."
+          else
+              template = EmailTemplate.find_by_name("self placement request decline by facutly")
+              TemplateMailer.deliver(template.create_email_to(@self_placement, 
+                                                              "https://expo.uw.edu/service_learning/self_placement",
+                                                              @self_placement.person.email)
+                                    ) if template            
+              flash[:notice] = "You declined the self placement request for #{@self_placement.person.fullname}. A email with your feedback sent to the student."
+          end
+      end      
       redirect_to :action => :students
     end
     

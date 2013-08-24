@@ -2,10 +2,11 @@ class CreateServiceLearningSelfPlacements < ActiveRecord::Migration
   def self.up
     create_table :service_learning_self_placements do |t|
       t.integer :person_id
+      t.integer :service_learning_placement_id
       t.integer :service_learning_position_id
-      t.integer :quarter_id
       t.integer :service_learning_course_id
-      t.string :organization
+      t.integer :quarter_id
+      t.string :organization_id
       t.string :organization_mailing_line_1
       t.string :organization_mailing_line_2
       t.string :organization_mailing_city
