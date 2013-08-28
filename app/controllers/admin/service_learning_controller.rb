@@ -72,7 +72,7 @@ class Admin::ServiceLearningController < Admin::BaseController
     session[:breadcrumbs].add "Self Placement Approval"
     
     if request.put?
-        @self_placement.admin_approved = true
+        @self_placement.admin_approved = true        
         if @self_placement.save
           if @self_placement.existing_organization?
              organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)        

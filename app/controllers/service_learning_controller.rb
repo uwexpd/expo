@@ -144,8 +144,7 @@ class ServiceLearningController < ApplicationController
     
     @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")    
         
-    if request.put? || request.post?       
-      @position.unit = Unit.find_by_abbreviation('carlson')
+    if request.put? || request.post?      
       @position.approved = false
       @position.in_progress = true
       @position.require_validations = false      
