@@ -72,10 +72,11 @@ class Admin::ServiceLearningController < Admin::BaseController
     session[:breadcrumbs].add "Self Placement Approval"
     
     if request.put?
-        @self_placement.admin_approved = true        
+        @self_placement.admin_approved = true
         if @self_placement.save
           if @self_placement.existing_organization?
-             organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)        
+             organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)
+             
           else
              organization = Organization.create(:name => @self_placement.organization_name,
                                                 :mailing_line_1 => @self_placement.organization_mailing_line_1,
@@ -99,14 +100,15 @@ class Admin::ServiceLearningController < Admin::BaseController
                                                 )
              organization.save;contact.save
              @self_placement.update_attribute(:organization_id, organization) # mark as existing org
+             @self_placement.position.update_attribute(:supervisor_person_id, contact.person.id)
           end
           
           @self_placement.position.update_attributes(:organization_quarter_id => organization_quarter.id,
                                                      :unit_id =>  @unit.id,
                                                      :self_placement => true,
-                                                     :approved => true,
-                                                     :supervisor_person_id => contact.person.id,
-                                                     :ideal_number_of_slots => 1
+                                                     :approved => true,                                                     
+                                                     :ideal_number_of_slots => 1,
+                                                     :require_validations => false
                                                     )
         
           ServiceLearningPlacement.transaction do  

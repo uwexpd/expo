@@ -3,8 +3,8 @@
 <p>After approving this position, Carlson Center will review the position and place the student.</p>
 
 <% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>
- 	<%= f.radio_button :faculty_approved, 1 %> <span class='green'>Approve this position</span><br>
-	<%= f.radio_button :faculty_approved, 0 %> Decline. Leave a feedback to student<br><br>
+ 	<%= f.radio_button :faculty_approved, true %> <span class='green'>Approve this position</span><br>
+	<%= f.radio_button :faculty_approved, false %> Decline. Leave a feedback to student<br><br>
 	Feedback:<br>
 	<%= f.text_area :faculty_feedback, :rows => 4 %>
 	<span class='caption'>An auto-email will send this feedback to student.</span><br><br>

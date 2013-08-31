@@ -60,8 +60,8 @@ self_placements = student.service_learning_self_placements.for(course, @quarter)
 	
 	<td style='width:100px'>
 		<% self_placements.each do |self_placement| %>
-			<% if self_placement.submitted? %>
-			<%= link_to self_placement.faculty_approved? ? "Request Pending" : "View Request",
+			<% unless self_placement.admin_approved? %>
+			<%= link_to self_placement.faculty_approved? ? "Pending" : "View Request",
 				        faculty_service_learning_path(:action => 'self_placement_approval', :id => self_placement.id), 
 				 		:class => self_placement.faculty_approved? ? '' : 'button' %>
 			<% end -%>

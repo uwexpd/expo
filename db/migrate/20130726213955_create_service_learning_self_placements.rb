@@ -23,6 +23,8 @@ class CreateServiceLearningSelfPlacements < ActiveRecord::Migration
       t.boolean :faculty_approved
       t.text :faculty_feedback
       t.boolean :admin_approved
+      
+      t.timestamps
     end
   end
 

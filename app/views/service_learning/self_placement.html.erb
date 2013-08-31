@@ -2,13 +2,13 @@
 
 <p class="intro"><%= HelpText.caption(:self_placement, ServiceLearningPosition) %></p>
 	
-<% form_for @student, :url => { :action => "self_placement" } do |s| %>
-	
-	<%= render :partial => "self_placement", :locals => { :s => s } %>
+<% form_for @student, :url => { :action => "self_placement" } do |f| %>
+		
+	<%= render :partial => "self_placement", :locals => { :f => f } %>
 		
 	<div class="progress_nav_buttons">
-		<%= s.submit "Save", :disable_with => "Saving..." %>
-		<%= s.submit "Review and Submit", :disable_with => "Next to review page..." %>
+		<%= f.submit "Save", :disable_with => "Saving..." %>
+		<%= f.submit "Review and Submit", :disable_with => "Next to review page..." %>
 	</div>
 	<br>
 <% end %>

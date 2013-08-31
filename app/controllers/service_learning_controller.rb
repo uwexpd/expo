@@ -141,31 +141,42 @@ class ServiceLearningController < ApplicationController
       flash[:notice] = "Your self placement position form has been submitted."
       redirect_to :action => "self_placement_submit", :id => @self_placement.id and return
     end
-    
+          
     @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")    
         
-    if request.put? || request.post?      
-      @position.approved = false
-      @position.in_progress = true
-      @position.require_validations = false      
+    if request.put? || request.post?               
+        if params[:service_learning_position][:title].blank?
+          @position.errors.add :title, "cannot be blank."                     
+        else  
+          @position.title = params[:service_learning_position][:title]
+          @position.approved = false
+          @position.in_progress = true
+          @position.require_validations = false
+          
+          if @position.save && @position.update_attributes(params[:service_learning_position])
             
-      if @position.save
-        @position.update_attributes(params[:service_learning_position])
-                
-        @self_placement.person_id = @student.id
-        @self_placement.service_learning_position_id = @position.id        
-        @self_placement.quarter_id = @quarter.id
-        # If student fill with new organzation name, then don't use the exsiting organziation param value.
-        @self_placement.organization_id = params[:organization_id] if params[:self_placement_attributes][:organization_id].blank?
-        @self_placement.save
-        @self_placement.update_attributes(params[:self_placement_attributes])
-                
-        flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"         
-        redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
-      else
-        flash[:error] = "We are sorry! Something went wrong. Please try again later."
-      end
-      redirect_to :back
+            if params[:self_placement_attributes][:organization_contact_person].blank? ||
+               params[:self_placement_attributes][:organization_contact_phone].blank? ||
+               params[:self_placement_attributes][:organization_contact_email].blank? ||
+               (params[:organization_id].blank? && params[:self_placement_attributes][:organization_id].blank?)
+              @self_placement.errors.add_to_base "organization name, contact person, phone, email cannot be blank."              
+            else                                      
+                @self_placement.update_attributes(params[:self_placement_attributes])
+                @self_placement.person_id = @student.id
+                @self_placement.service_learning_position_id = @position.id        
+                @self_placement.quarter_id = @quarter.id
+                # If student fill with new organzation name, then don't use the exsiting organziation param value.
+                @self_placement.organization_id = params[:organization_id] if params[:self_placement_attributes][:organization_id].blank?
+                @self_placement.save
+
+                flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
+                redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
+            end                
+          else
+            flash[:error] = "Sorry, but we could not save your information. Please try submitting again."
+            redirect_to :back
+          end
+        end      
     end
         
   end
@@ -177,28 +188,37 @@ class ServiceLearningController < ApplicationController
       redirect_to :action => :self_placement and return
     end
     
-    if params[:commit] == "Submit"
-      @self_placement.submitted = true
-      if @self_placement.save
-        @self_placement.course.instructors.each do |instrutor|
-          EmailContact.log(instrutor.person.id, 
-          ServiceLearningMailer.deliver_templated_message(instrutor.person, 
-                        EmailTemplate.find_by_name("self placement position approval request"),
-                                                    instrutor.person.email,
-                                                    "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
-                                                    { :student => @student,
-                                                      :quarter => @quarter, 
-                                                      :self_placement => @self_placement,
-                                                      :faculty_link => "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/students"})
-                                                     )
-        end
-        flash[:notice] = "Your self placement position form sucessfully submitted. An request email has been sent to your instructor."
-        redirect_to :action => :self_placement and return
-      end
-    end
-    
     redirect_to :action => :self_placement if params[:commit] == "Back to edit"
     
+    if params[:commit] == "Submit"
+      if params[:student][:electronic_signature].blank?
+        flash[:error] = "Electronic signature cannot be blank."
+        @student.errors.add :electronic_signature, "cannot be blank."
+      else
+        @student.update_attribute :service_learning_risk_signature, params[:student][:electronic_signature]
+        @student.update_attribute :service_learning_risk_date, Time.now
+                
+        @self_placement.submitted = true
+        if @self_placement.save
+          @self_placement.course.instructors.each do |instrutor|
+            EmailContact.log(instrutor.person.id, 
+            ServiceLearningMailer.deliver_templated_message(instrutor.person, 
+                          EmailTemplate.find_by_name("self placement position approval request"),
+                                                      instrutor.person.email,
+                                                      "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
+                                                      { :student => @student,
+                                                        :quarter => @quarter, 
+                                                        :self_placement => @self_placement,
+                                                        :faculty_link => "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/students"})
+                                                       )
+        end
+        
+          flash[:notice] = "Your self placement position form sucessfully submitted. A request email has been sent to your instructor(s)."
+          redirect_to :action => :self_placement and return
+        end
+      end
+    end # end if submit
+        
   end
 
 

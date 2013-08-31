@@ -14,7 +14,7 @@
   	</tr>
     
   	<% for self_placement in self_placements %>
-  	  <tr id="self_placement_<%= self_placement.id %>">
+  	  <tr id="self_placement_<%= self_placement.id %>" <%= "class='unavailable'" if self_placement.admin_approved %> >
       	<td><%= select_check_box(self_placement) %>
       	<td>
 		  <%= link_to self_placement.person.fullname, service_learning_self_placement_approval_path(@unit, @quarter, self_placement.id) %><br>

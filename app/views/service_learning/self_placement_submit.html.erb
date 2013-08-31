@@ -1,15 +1,35 @@
 <% title("Service-Learning Self Placement Position Form", @quarter.title) %> 
 
 <%= render :partial => "self_placement_fields" %>
-		
+
+<% form_for @student, :url => { :action => 'self_placement_submit', :id => @self_placement } do |f| -%>
+
 <% unless @self_placement.submitted? %>
-	<% form_tag do %>
+
+	<h2>Acknowledgement of Risk</h2>
+
+	<%= error_messages_for :student %>
+	
+	<%= render :partial => "risk" %>
+
+	<div class="yellow box">
+		<div id="electronic_signature">
+			Electronic Signature (type your full legal name): 
+			<%= f.text_field :electronic_signature %>
+			<%= content_tag('em', '*', :class => 'required') %>
+			Date: <u style="font-weight:normal"><%= Time.now.to_date.to_s(:long) %></u>
+		</div>
+	</div>
+	
+	</blockquote>
+			
 		<div class="progress_nav_buttons">
 			<p class='larger'>A request e-mail will be sent to your faulty when you submit.</p>
 			<%= submit_tag "Back to edit", :disable_with => "Editing..." %>		
 			<span class="separator"> – or – </span>
-			<%= submit_tag "Submit", :confirm => "Are you sure to submit?", :disable_with => "Submitting..." %>				
+			<%= submit_tag "Submit", :confirm => "Are you sure to submit?", :disable_with => "Submitting...", :class => "final_submit" %>				
 		</div>
 		<%= hidden_field_tag :id, @self_placement.id %>
 	<% end %>
+
 <% end %>

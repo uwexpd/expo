@@ -82,16 +82,17 @@ class Faculty::ServiceLearningController < FacultyController
       redirect_to :action => :students and return
     end    
     
-    flash.now[:notice] = "You already approved this position." if  @self_placement.faculty_approved?
+    flash.now[:notice] = "This position has been approved already." if  @self_placement.faculty_approved?
     
-    if request.put?      
-      if @self_placement.update_attributes params[:service_learning_self_placement]
+    if request.put?
+        @self_placement.submitted = params[:service_learning_self_placement][:faculty_approved]=="false" ? false : true
+      if @self_placement.save && @self_placement.update_attributes(params[:service_learning_self_placement])
           if @self_placement.faculty_approved?
-              template = EmailTemplate.find_by_name("self placement position request for admin approval")
-              TemplateMailer.deliver(template.create_email_to(@self_placement, 
-                                                              "https://expo.uw.edu/admin/service_learning/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
-                                                              "serve@u.washington.edu")
-                                    ) if template
+              # template = EmailTemplate.find_by_name("self placement position request for admin approval")
+              # TemplateMailer.deliver(template.create_email_to(@self_placement, 
+              #                                                 "https://expo.uw.edu/admin/service_learning/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
+              #                                                 "serve@u.washington.edu")
+              #                       ) if template
               flash[:notice] = "You successfully approved #{@self_placement.position.name} for #{@self_placement.person.fullname} . Thank you."
           else
               template = EmailTemplate.find_by_name("self placement request decline by facutly")
@@ -103,8 +104,7 @@ class Faculty::ServiceLearningController < FacultyController
           end
       end      
       redirect_to :action => :students
-    end
-    
+    end    
     session[:breadcrumbs].add "Students", faculty_service_learning_path(:action => 'students')
     session[:breadcrumbs].add "View Self Placement Positions"
   end
