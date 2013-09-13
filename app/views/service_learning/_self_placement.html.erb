@@ -1,7 +1,9 @@
-<%= javascript_include_tag 'chosen.proto' %>
+<%= javascript_include_tag 'chosen.proto.min' %>
 <%= javascript_include_tag 'prototype.1.7' %>
-<%= stylesheet_link_tag 'chosen' %>
-		
+<%= javascript_include_tag 'event.simulate.js' %>
+<%= stylesheet_link_tag 'chosen.min' %>
+<% admin ||= false %>
+
 <% fields_for :self_placement_attributes, @self_placement do |s| %>
 		
 	<h2>Student Information</h2>
@@ -17,33 +19,28 @@
 				</span>
 			</dd>
 		</dl>
-	
-	<%= s.error_messages %>
 		
 	<h2>Organization Information</h2>
-		<dl class="inline-definitions">
-		<!--[if lt IE 9]><div class="error-message"><span class='icon-left error'></span>Warning: You need to upgrade to a modern web browser such as <a href="http://www.google.com/chrome" target="_blank">Google Chrome</a>, <a href="http://www.browserforthebetter.com/download.html" target="_blank">the latest IE</a>, or <a href="http://www.firefox.com" target="_blank">Firefox<a> to input this field.</div> <![endif]-->
-		
-		<div id = "select_organization" <%= "style='display:none'" if !@self_placement.new_record? && !@self_placement.existing_organization? %>>
-			<dt>Organization Name <%= content_tag('em', '*', :class => 'required') %></dt>
-			<dd><%= select_tag :organization_id, options_for_select(@organization_options, @self_placement.organization_id.to_i),
-			 			   	   :class => "chzn-select", :style => "width:500px;",							   
-							   :data_placeholder => "<span class='small'>Select a Organization or Type Keyword for Search</span>" %>
+	<%= s.error_messages %>
+	<dl class="inline-definitions">
 
-				<span class="small">Can't find your organization? 
-					<%= link_to_function "Create a new one.", "Element.toggle(new_organization);Element.toggle(select_organization)" %>
-				</span>
-
-			</dd>
-		</div>					
-				
-		<div id = "new_organization" <%= "style='display:none'" if @self_placement.new_record? || @self_placement.existing_organization? %>>
-			<dt>Organization Name <%= content_tag('em', '*', :class => 'required') %></dt>
-			<dd><%= s.text_field :organization_id, :size => 70, :value => @self_placement.organization_id %>
-				<span class="small"><%= link_to_function "Select existing organizations", "Element.toggle(new_organization);Element.toggle(select_organization)" %>
+		<div id = "create_organization" <%= "style='display:none'" if @display_contact || @self_placement.new_record? || @self_placement.existing_organization? %>>
+			
+			<dt>New organization?</dt>
+			<dd>
+			 	<%= s.check_box :new_organization, :checked => @new_organization || (@new_organization.nil? && @self_placement.new_organization) %> 
+			    Check to create a new organization. Uncheck if you want to 
+				<span class="small">
+					<%= link_to_function "select from existing one.", "Element.toggle(create_organization);Element.toggle(select_organization);" %>
 				</span>
 			</dd>
-			<dt>Mailing address</dt>
+						
+			<dt>New Organization <br>Name <%= content_tag('em', '*', :class => 'required') %></dt>
+			<dd><%= s.text_field :organization_id, :size => 70, 
+								 :value => (@self_placement.new_record? || @self_placement.existing_organization?) ? "" : @self_placement.try(:organization_id) %>				
+			</dd>					
+			
+			<dt>Mailing Address</dt>
 			<dd><%= s.text_field :organization_mailing_line_1 %>
 				<br><%= s.text_field :organization_mailing_line_2 %>
 				<br><%= s.text_field :organization_mailing_city, :size => 15 %>, 
@@ -57,9 +54,7 @@
 			<dd>
 				<%= s.text_area :organization_mission_statement, :style => "width:99%", :rows => 6 %>
 				<p class="caption">Mission statement or other background information</p>
-			</dd>		
-		</div>
-
+			</dd>
 			<dt>Contact Person	<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= s.text_field :organization_contact_person, :class => "required" %> Title: <%= s.text_field :organization_contact_title %></dd>
 
@@ -67,14 +62,48 @@
 			<dd><%= s.text_field :organization_contact_phone %>	<span class='caption'>e.g: 2061234567</span></dd>
 
 			<dt>Contact Email <%= content_tag('em', '*', :class => 'required') %></dt>
-			<dd><%= s.text_field :organization_contact_email %></dd>
-							
-		</dl>	
+			<dd><%= s.text_field :organization_contact_email %></dd>	
+		</div>
+		
+		<!--[if lt IE 9]><div class="error-message"><span class='icon-left error'></span>Warning: You need to upgrade to a modern web browser such as <a href="http://www.google.com/chrome" target="_blank">Google Chrome</a>, <a href="http://www.browserforthebetter.com/download.html" target="_blank">the latest IE</a>, or <a href="http://www.firefox.com" target="_blank">Firefox<a> to input this field.</div> <![endif]-->		
+		<div id = "select_organization" <%= "style='display:none'" if !@display_contact && !@self_placement.new_record? && !@self_placement.existing_organization? %>>
+			<dt>Organization Name <%= content_tag('em', '*', :class => 'required') %></dt>
+			<dd><%= select_tag :organization_id, options_for_select(@organization_options, @organization.try(:id) || @self_placement.try(:organization_id).to_i),
+			 			   	   :class => "chosen-single"  %>
+				<span class="small"><%= "Can't find your organization?" unless admin %>
+					<%= link_to_function "Create a new one.", "Element.toggle(create_organization);Element.toggle(select_organization);" %>
+				</span>
+				<% javascript_tag do -%>					  
+					  new Chosen($("organization_id"),{
+						allow_single_deselect: <%= @self_placement.new_record? %>,
+						placeholder_text_single: "<span class='smaller'>Select an Organization or Type Keyword for Search</span>",
+						width: "400px"}
+					  );									
 
+				<% end %>
+			</dd>
+			
 <% fields_for :service_learning_position, @position do |p| %>
-	<%= p.error_messages %>
+
+			<dt>Contact Person 	<%= content_tag('em', '*', :class => 'required') %></dt>
+			<dd>
+				<%= indicator 'contact_person' %>
+					<%= p.collection_select(:supervisor_person_id,
+											@organization.contacts,
+											:id, :fullname) rescue "Please select an organization first" %>
+			</dd>	
+			<%= observe_field :organization_id,			
+							  :url => { :action => admin ? "self_placement_update" : "self_placement", 
+									    :id => @self_placement.id,
+									    :update_contact_options => true },
+							  :with => "'organization_id=' + value + '&self_placement_attributes[new_organization]=' + $F('self_placement_attributes_new_organization')",						
+							  :indicator => 'contact_person'
+			%>
+		</div>
+	</dl>	
 	
 	<h2>Basic Position Information</h2>
+	<%= p.error_messages %>
 		<dl class="inline-definitions">
 			<dt>Position Title	<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_field :title, :size => 70 %></dd>
@@ -123,4 +152,13 @@
 
 <% end #end self_placement_attruibutes %>
 
-
+<div class="progress_nav_buttons">
+<% if admin %>
+	<%= submit_tag "Save", :disable_with => "Saving..." %>
+	<span class="separator"> – or – </span>
+	<%= link_to 'Cancel', :action => 'self_placement_approval', :id => @self_placement.id,	:class => 'cancel button' %>		
+<% else %>
+	<%= submit_tag "Save", :disable_with => "Saving..." %>
+	<%= submit_tag "Review and Submit", :disable_with => "Next to review page..." %>
+<% end %>
+</div><br>

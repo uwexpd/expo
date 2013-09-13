@@ -1,0 +1,3 @@
+	<%= p.collection_select(:supervisor_person_id,
+							@organization.contacts,
+							:id, :fullname) rescue "Please select an organization first" %>

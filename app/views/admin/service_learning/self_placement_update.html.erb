@@ -1,13 +1,6 @@
-<% form_tag({:action => 'self_placement_update'}, :method => :put) do %>
+<% form_tag({:action => 'self_placement_update'}, :method => :put, :id => "self_placement_update_#{@self_placement.id}") do %>
 	
-	<%= render :partial => "service_learning/self_placement" %>
+	<%= render :partial => "service_learning/self_placement", :locals => { :admin => true } %>
 		
-	<div class="progress_nav_buttons">
-		<%= submit_tag "Save", :disable_with => "Saving..." %>
-		<span class="separator"> – or – </span>
-		<%= link_to 'Cancel', :action => 'self_placement_approval', :id => @self_placement.id,	:class => 'cancel button' %>		
-	</div>
-	<br>
-
 <% end -%>
 

@@ -1,0 +1,1 @@
+page.replace_html "edit_student_#{@student.id}", :partial => "self_placement"

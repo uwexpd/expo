@@ -18,6 +18,7 @@ class ServiceLearningController < ApplicationController
   before_filter :fetch_position, :only => [:position, :choose, :contact, :risk]
   before_filter :check_if_registration_finalized, :only => [:position, :choose, :contact, :risk, :change]
   before_filter :check_if_registration_open, :only => [:choose, :contact, :risk, :change]
+  before_filter :check_if_registered_with_same_course, :only => [:self_placement]
 
 
   def index
@@ -125,60 +126,70 @@ class ServiceLearningController < ApplicationController
     flash[:notice] = "Time: #{Time.now - @start_time} seconds"
   end
 
-  def self_placement
-    # Stop this method if find student has a service learning placement that is already confirmed for same course
-    if @student.service_learning_placements.select{|p| p.course == @service_learning_course && p.position.quarter == @quarter }.size > 0
-      flash[:error] = "You already have a placement for #{@service_learning_course.title}. Please contact Carlson Center staff for self placement request."
-      redirect_to :action => 'index' and return
-    end
-       
-    @self_placement ||= (ServiceLearningSelfPlacement.find(params[:id]) if params[:id]) || ServiceLearningSelfPlacement.find_by_person_id_and_quarter_id_and_service_learning_course_id(@student, @quarter, @service_learning_course) || ServiceLearningSelfPlacement.new
-    @position ||= @self_placement.position || ServiceLearningPosition.new
+  def self_placement       
+    @self_placement = (ServiceLearningSelfPlacement.find(params[:id]) if params[:id]) ||
+                       ServiceLearningSelfPlacement.find_by_person_id_and_quarter_id_and_service_learning_course_id(@student, @quarter, @service_learning_course) ||
+                       ServiceLearningSelfPlacement.new
+    @position = @self_placement.position || ServiceLearningPosition.new
     @position.times.build
-
+    @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")
+    @organization = (params[:organization_id].blank?) ? Organization.find(@self_placement.try(:organization_id)) : Organization.find(params[:organization_id]) rescue nil
+    
     # Stop this method if submitted already
     if @self_placement.submitted?
       flash[:notice] = "Your self placement position form has been submitted."
       redirect_to :action => "self_placement_submit", :id => @self_placement.id and return
     end
-          
-    @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")    
         
-    if request.put? || request.post?               
-        if params[:service_learning_position][:title].blank?
-          @position.errors.add :title, "cannot be blank."                     
-        else  
-          @position.title = params[:service_learning_position][:title]
-          @position.approved = false
-          @position.in_progress = true
-          @position.require_validations = false
+    if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)        
+        # If student check +new_organization+, then think student creates a new organziation instead of exsiting organziation
+        if params[:self_placement_attributes][:new_organization] == "1"
+            return @self_placement.errors.add_to_base "New organization name cannot be blank." if params[:self_placement_attributes][:organization_id].blank?
+        else
+            return @self_placement.errors.add_to_base "Please select an organization" if params[:organization_id].blank?
+        end
+                                
+        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
           
-          if @position.save && @position.update_attributes(params[:service_learning_position])
-            
-            if params[:self_placement_attributes][:organization_contact_person].blank? ||
-               params[:self_placement_attributes][:organization_contact_phone].blank? ||
-               params[:self_placement_attributes][:organization_contact_email].blank? ||
-               (params[:organization_id].blank? && params[:self_placement_attributes][:organization_id].blank?)
-              @self_placement.errors.add_to_base "organization name, contact person, phone, email cannot be blank."              
-            else                                      
-                @self_placement.update_attributes(params[:self_placement_attributes])
-                @self_placement.person_id = @student.id
-                @self_placement.service_learning_position_id = @position.id        
-                @self_placement.quarter_id = @quarter.id
-                # If student fill with new organzation name, then don't use the exsiting organziation param value.
-                @self_placement.organization_id = params[:organization_id] if params[:self_placement_attributes][:organization_id].blank?
-                @self_placement.save
+        @position.title = params[:service_learning_position][:title]
+        @position.approved = false
+        @position.in_progress = true
+        @position.require_validations = false
 
-                flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
-                redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
-            end                
-          else
+        if @position.save && @position.update_attributes(params[:service_learning_position])
+
+            @self_placement.update_attributes(params[:self_placement_attributes])
+            @self_placement.person_id = @student.id
+            @self_placement.service_learning_position_id = @position.id        
+            @self_placement.quarter_id = @quarter.id
+            if params[:self_placement_attributes][:new_organization] == "1"
+              @self_placement.require_validations = true 
+            else 
+              @self_placement.organization_id = params[:organization_id] 
+            end
+                      
+            if @self_placement.save
+              flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
+              redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
+            end
+            
+         else
             flash[:error] = "Sorry, but we could not save your information. Please try submitting again."
             redirect_to :back
-          end
-        end      
+         end                       
+    end # request.put?              
+    
+    # update contact person options
+    if params[:update_contact_options] && params[:organization_id]      
+      @display_contact = true
+      @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
+    end          
+       
+    respond_to do |format|
+       format.html
+       format.js
     end
-        
+    
   end
 
   def self_placement_submit
@@ -339,5 +350,13 @@ class ServiceLearningController < ApplicationController
       raise ServiceLearningException.new("Service-learning registration is closed.")
     end
   end
+  
+  def check_if_registered_with_same_course
+    # Stop this method if find student has a service learning placement that is already confirmed for same course
+    if @student.service_learning_placements.select{|p| p.course == @service_learning_course && p.position.quarter == @quarter }.size > 0
+      flash[:error] = "You already have a placement for #{@service_learning_course.title}. Please contact Carlson Center staff for self placement request."
+      redirect_to :action => 'index'
+    end
+  end    
 
 end

@@ -2599,6 +2599,7 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
     t.string   "organization_contact_email"
     t.text     "organization_mission_statement"
     t.text     "hope_to_learn"
+    t.boolean  "new_organization"
     t.boolean  "submitted"
     t.boolean  "faculty_approved"
     t.text     "faculty_feedback"

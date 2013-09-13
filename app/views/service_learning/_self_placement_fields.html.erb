@@ -12,7 +12,13 @@
 	<dl class="inline-definitions">
 		<dt>Organization Name</dt>
 		<dd><%= @self_placement.organization_name %></dd>
-		<div <%= "style='display:none'" if @self_placement.organization_id.is_numeric? %>>
+		
+		<div <%= "style='display:none'" unless @self_placement.existing_organization? %>>
+			<dt>Contact Person</dt>
+			<dd><%= @self_placement.position.supervisor.fullname %></dd>
+		</div>	
+						
+		<div <%= "style='display:none'" if @self_placement.existing_organization? %>>
 			<dt>Mailing address</dt>
 			<dd><%= @self_placement.organization_mailing_line_1 %>
 				<br><%= @self_placement.organization_mailing_line_2 %>
@@ -25,16 +31,16 @@
 
 			<dt>What is the organization all about?</dt><br>
 			<dd><%= @self_placement.organization_mission_statement %></dd>
-		</div>
-	
-		<dt>Contact Person</dt>
-		<dd><%= @self_placement.organization_contact_person %>, <%= @self_placement.organization_contact_title %></dd>
-	
-		<dt>Contact phone</dt>
-		<dd><%= phone_number @self_placement.organization_contact_phone %></dd>
-				
-		<dt>Contact Email</dt>
-		<dd><%= @self_placement.organization_contact_email %></dd>
+			
+			<dt>Contact Person</dt>
+			<dd><%= @self_placement.organization_contact_person %>, <%= @self_placement.organization_contact_title %></dd>
+
+			<dt>Contact phone</dt>
+			<dd><%= phone_number @self_placement.organization_contact_phone %></dd>
+
+			<dt>Contact Email</dt>
+			<dd><%= @self_placement.organization_contact_email %></dd>
+		</div>			
 		
 	</dl>
 	

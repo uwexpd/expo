@@ -15,14 +15,14 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
   validates_presence_of :organization_contact_person, :if => :require_validations?
   validates_presence_of :organization_contact_phone, :if => :require_validations?
   validates_presence_of :organization_contact_email, :if => :require_validations?
-  validates_format_of :organization_contact_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :if => :require_validations?    
+  validates_format_of :organization_contact_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :if => :require_validations?
     
   def require_validations?
-    require_validations.nil? ? true : require_validations
+    require_validations.nil? ? false : require_validations
   end
   
   def existing_organization?
-    organization_id.is_numeric?
+    organization_id.try(:is_numeric?)
   end
   
   def existing_organization
