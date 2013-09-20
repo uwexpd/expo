@@ -15,7 +15,7 @@
 		
 		<div <%= "style='display:none'" unless @self_placement.existing_organization? %>>
 			<dt>Contact Person</dt>
-			<dd><%= @self_placement.position.supervisor.fullname %></dd>
+			<dd><%= @self_placement.existing_organization? ? @self_placement.position.supervisor.try(:fullname) : @self_placement.organization_contact_person rescue "#error" %></dd>
 		</div>	
 						
 		<div <%= "style='display:none'" if @self_placement.existing_organization? %>>

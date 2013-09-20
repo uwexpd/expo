@@ -88,7 +88,7 @@ class Admin::ServiceLearningController < Admin::BaseController
                                                   :approved => true
                                                  )
           
-               organization_quarter = organization.activate_for(@quarter, true)
+               organization_quarter = organization.activate_for(@quarter, true)               
 
                contact = organization.contacts.create
                contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
@@ -101,11 +101,14 @@ class Admin::ServiceLearningController < Admin::BaseController
                @self_placement.update_attribute(:organization_id, organization) # mark as existing org
                @self_placement.position.update_attribute(:supervisor_person_id, contact.id)
             end
+
+          organization_quarter.statuses.create :organization_quarter_status_type_id => OrganizationQuarterStatusType.find_by_title("Ready").id
           
           @self_placement.position.update_attributes(:organization_quarter_id => organization_quarter.id,
                                                      :unit_id =>  @unit.id,
                                                      :self_placement => true,
-                                                     :approved => true,                                                     
+                                                     :in_progress => false,
+                                                     :approved => true,
                                                      :ideal_number_of_slots => 1,
                                                      :require_validations => false
                                                     )

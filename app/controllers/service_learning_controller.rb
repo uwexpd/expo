@@ -148,16 +148,15 @@ class ServiceLearningController < ApplicationController
         else
             return @self_placement.errors.add_to_base "Please select an organization" if params[:organization_id].blank?
         end
-                                
-        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
+        
+        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?   
           
         @position.title = params[:service_learning_position][:title]
         @position.approved = false
         @position.in_progress = true
         @position.require_validations = false
 
-        if @position.save && @position.update_attributes(params[:service_learning_position])
-
+        if @position.save && @position.update_attributes(params[:service_learning_position])            
             @self_placement.update_attributes(params[:self_placement_attributes])
             @self_placement.person_id = @student.id
             @self_placement.service_learning_position_id = @position.id        
@@ -168,7 +167,12 @@ class ServiceLearningController < ApplicationController
               @self_placement.organization_id = params[:organization_id] 
             end
                       
-            if @self_placement.save
+            if @self_placement.save              
+              [:context_description, :description, :impact_description].each do |field|
+                 return @position.errors.add(field, "cannot be blank.") if params[:service_learning_position][field].blank?
+              end
+              #return @position.errors.add_to_base "Service learning schedule cannot not be blank." if params[:service_learning_position][:new_times].blank?    
+                            
               flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
               redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
             end

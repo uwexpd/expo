@@ -5,7 +5,7 @@
 <% admin ||= false %>
 
 <% fields_for :self_placement_attributes, @self_placement do |s| %>
-		
+
 	<h2>Student Information</h2>
 		<dl class="inline-definitions">
 			<dt>Student Name </dt><dd><%= @student.fullname %></dd>
@@ -108,17 +108,19 @@
 			<dt>Position Title	<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_field :title, :size => 70 %></dd>
 			
-			<dt>Please set a the context for how this service-learning position contributes to the mission of your organization.</dt>
+			<dt>Please set a the context for how this service-learning position contributes to the mission of your organization. 
+				<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :context_description, :style => "width:70%", :rows => 6  %></dd>
 			
-			<dt>Describe the work of the position-what will their work with your organization look like day to day? What might students learn working in this role? What is the work environment like?</dt>
+			<dt>Describe the work of the position-what will their work with your organization look like day to day? What might students learn working in this role? What is the work environment like? <%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :description, :style => "width:70%", :rows => 6 %></dd>
 			
-			<dt>How will this service-learning position make an impact on your organization and/or the people you serve?</dt>
+			<dt>How will this service-learning position make an impact on your organization and/or the people you serve? 
+				<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :impact_description, :style => "width:70%", :rows => 6 %></dd>		
 		</dl>
 		
-	<h2>Service Learning Schedule</h2><br>
+	<h2>Service Learning Schedule <%= content_tag('em', '*', :class => 'required') %></h2><br>
 	<% content_for :head do %>
 		<%= javascript_include_tag "scheduling_tools" %>
 	<% end %>
@@ -146,19 +148,25 @@
 <%- end # end new_position_attributes -%>
 
 <dl class="inline-definitions">
-	<h2>Through service-learning, I hope to learn</h2>
+	<h2>Through service-learning, I hope to learn <%= content_tag('em', '*', :class => 'required') %></h2>
 	<dt></dt><dd><%= s.text_area :hope_to_learn, :style => "width:85%", :rows => 5 %></dd>
 </dl>
 
 <% end #end self_placement_attruibutes %>
 
-<div class="progress_nav_buttons">
 <% if admin %>
-	<%= submit_tag "Save", :disable_with => "Saving..." %>
-	<span class="separator"> – or – </span>
-	<%= link_to 'Cancel', :action => 'self_placement_approval', :id => @self_placement.id,	:class => 'cancel button' %>		
+	<div class="progress_nav_buttons">
+		<%= submit_tag "Save", :disable_with => "Saving..." %>
+		<span class="separator"> – or – </span>
+		<%= link_to 'Cancel', :action => 'self_placement_approval', :id => @self_placement.id,	:class => 'cancel button' %>		
+	</div>
 <% else %>
-	<%= submit_tag "Save", :disable_with => "Saving..." %>
-	<%= submit_tag "Review and Submit", :disable_with => "Next to review page..." %>
+	<div class="progress_nav_buttons">
+		<%= submit_tag "Save", :disable_with => "Saving..." %>
+		<%= submit_tag "Review and Submit", :disable_with => "Next to review page..." %>
+	</div>
 <% end %>
-</div><br>
+<br>
+
+
+

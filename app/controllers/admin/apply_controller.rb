@@ -26,7 +26,7 @@ class Admin::ApplyController < Admin::BaseController
 	  @offering_graph_object = open_flash_chart_object_and_div_name( '100%', '100%', 
 	                            offering_line_graph_applicants_charts_path(:o=>@offering.id),
 	                            true,
-	                            "expo/open-flash-chart.swf",
+	                            "open-flash-chart.swf",
 	                            "open-flash-chart.swf")
     session[:breadcrumbs].add "Manage"
   end

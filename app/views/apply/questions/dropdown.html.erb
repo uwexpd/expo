@@ -3,9 +3,9 @@
 		
 		<%= qf.collection_select(question.attribute_to_update, 
 								question.options.sort_by(&:title), 
-								:value, 
-								:title, 
-								{:prompt => true }
+								:value,
+								:title,
+								{:prompt => true, :selected => @user_application.get_answer(question.id).to_s }
 								) %>
 		
 		<%= content_tag('em', '*', :class => 'required') if question.required? %>	
