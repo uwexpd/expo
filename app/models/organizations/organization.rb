@@ -117,7 +117,7 @@ class Organization < ActiveRecord::Base
   end
   
   def position_supervisor_contacts
-    contacts.select{|contact| contact.supervised_positions.count > 0 }
+    contacts.select{|contact| contact.supervised_positions.valid.count > 0 }
   end
   
   def primary_pipeline_contacts

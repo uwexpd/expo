@@ -24,7 +24,7 @@
 	<td>
 		<small>
 		<ul>
-		<% for position in contact.supervised_positions %>
+		<% for position in contact.supervised_positions.valid %>
 			<li><%= link_to position.title, community_partner_service_learning_position_path(position.quarter, position) %>
 				(<%= position.organization_quarter.quarter.title %>)
 				</li>

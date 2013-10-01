@@ -12,8 +12,8 @@
 		
 		<%= "<br><span class='caption'>#{contact.note}</span>" unless contact.note.blank? rescue "#error" %>
 		
-		<% unless contact.supervised_positions.empty? %>
-			<br><%= link_to_function "Supervised positions (#{contact.supervised_positions.size})", 
+		<% unless contact.supervised_positions.valid.empty? %>
+			<br><%= link_to_function "Supervised positions (#{contact.supervised_positions.valid.size})", 
 									"Effect.toggle('positions_#{contact.id}', 'blind', {duration: 0.25})" %>		
 		<% end -%>
 		
@@ -81,7 +81,7 @@
 <tr id="positions_<%= contact.id %>" style="display:none" class="details">
 	<td colspan=3>
 		<table>
-			<% positions = contact.supervised_positions.sort_by(&:quarter).reverse %>
+			<% positions = contact.supervised_positions.valid.sort_by(&:quarter).reverse %>
 			<%= render :partial => "admin/service_learning/organizations/mini_position", :collection => positions %>
 		</table>
 	</td>

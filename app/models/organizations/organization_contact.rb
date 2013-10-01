@@ -8,7 +8,9 @@ class OrganizationContact < ActiveRecord::Base
   
   belongs_to :person
   belongs_to :organization
-  has_many :supervised_positions, :class_name => "ServiceLearningPosition", :foreign_key => "supervisor_person_id", :dependent => :nullify
+  has_many :supervised_positions, :class_name => "ServiceLearningPosition", :foreign_key => "supervisor_person_id", :dependent => :nullify do
+    def valid; find(:all, :conditions => "organization_quarter_id IS NOT NULL"); end
+  end
 
   has_one :token, :as => :tokenable
   after_save :create_token_if_needed
