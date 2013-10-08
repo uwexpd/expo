@@ -29,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
   	admin.resources :major_extras, :member => { :edit_discipline_category => :post } , :name_prefix => nil
 		
     admin.resources :equipments, :name_prefix => nil
-    admin.resources :equipment_categories, :name_prefix => nil
+    admin.resources :equipment_categories, :name_prefix => nil    
     admin.resources :equipment_reservations, :name_prefix => nil, :collection => { :unit => :get, :all => :get,
                                                                               :todays_checkouts => :get,
                                                                               :todays_checkins => :get,
@@ -37,10 +37,14 @@ ActionController::Routing::Routes.draw do |map|
                                                                               :tomorrows_checkins => :get,
                                                                               :late_returns => :get,
                                                                               :policies => :get,
-                                                                              :current_checkout_viewing => :get },
+                                                                              :current_checkout_viewing => :get, 
+                                                                              :staff => :get,
+                                                                              :staff_create => :post },
                                                                   :member => { :approve => :post, 
                                                                               :checkin => [:get, :put], 
-                                                                              :checkout => [:get, :put] }
+                                                                              :checkout => [:get, :put],
+                                                                              :staff_reserve => :any }
+                                                                              
     admin.resources :notes, :name_prefix => nil
     admin.resources :populations, :name_prefix => nil, 
                                   :as => 'queries',

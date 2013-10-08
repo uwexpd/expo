@@ -1,0 +1,52 @@
+<div id="date_range_select">
+		
+<label>Step 1: Dates of Reservation</label>
+
+<span id="date_range_error" class="error-message"></span><br>
+
+<table class='borderless'>
+	<tr>		
+		<td><h3>Start time:</h3></td>
+		<% valid_date_checks = ["date >= (new Date()).stripTime()",
+								"date.getDay() != 0",
+								"date.getDay() != 6",
+								"date < Date.parse(\"#{Quarter.current_quarter.next.first_day.to_s(:long)}\")"
+								]
+
+		for holiday in UwCalendar.holidays.keys
+			holiday_check = "!(date.getFullYear() == '#{holiday.strftime("%Y")}' && date.getMonth() == '#{holiday.strftime("%m").to_i-1}' && date.getDate() == '#{holiday.strftime("%d").to_i}')"
+			valid_date_checks << holiday_check
+		end %>
+		<td>			
+			<%= calendar_date_select :reservation, 
+			 						 :start_date,
+									 :embedded => "true",
+									 :time => "true",										
+									 :minute_interval => 30,
+									 :valid_date_check => valid_date_checks.join(" && "),
+									 :year_range => Time.now..1.year.from_now,
+									 :after_show => @reservation.start_date.nil? ? "this.calendar_date_select.today(true);" : "" %></td>
+									
+		<td><h3>End time:</h3></td>
+		<td><%= calendar_date_select :reservation, 
+								 	 :end_date,
+									 :embedded => "true",
+									 :time => "true",
+									 :minute_interval => 30,
+								 	 :valid_date_check => valid_date_checks.join(" && "),
+									 :year_range => Time.now..1.year.from_now,
+									 :after_show => @reservation.end_date.nil? ? "this.calendar_date_select.today(true);" : "" %></td>										
+    </tr>
+</table>
+
+
+<br><br><center><%= submit_to_remote "search_button",
+                         "Search available equipments with selected time",
+   					     :url => { :action => 'staff_reserve', :id => @reservation },
+					     :submit => 'date_range_select',
+					     :html => {:class => 'large button'},
+						 :disable_with => 'Searching...',
+					     :indicator => 'global' %></center>
+</div>
+<!-- <div id="equipment"></div> -->
+				

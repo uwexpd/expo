@@ -1,0 +1,33 @@
+<%= calendar_date_select_includes %>
+	
+<h2 style="border-bottom:none">Create a reservation</h2>
+
+<% form_for @reservation, 
+			:url => { :action => 'finalize', :id => @reservation }, 
+			:html => { :class => 'help_text', :id => 'reservation_form' } do |f| %>
+	
+	<%= f.error_messages %>
+	
+	<div>	
+		<%= render :partial => "date_range_select", :locals => { :f => f } %>	
+	</div>
+	
+	<br class="clear">
+
+	<%= render :partial => "equipment_select", :locals => { :f => f } %>
+
+	<br class="clear">
+	
+	<%= render :partial => "staff_summary", :local => { :admin => true } %>
+	
+	<br>
+	
+	<center><div id="submit_equipment" <%= "style='display:none'" if @reservation.start_date.blank? %>>
+		<%= f.submit "Submit My Reservation", :name => "finalize", 
+					:confirm => "Are you sure you want to submit your reservation?",
+					:class => 'large button' %>
+	</div></center>	
+
+	<br class="clear">
+	
+<% end -%>

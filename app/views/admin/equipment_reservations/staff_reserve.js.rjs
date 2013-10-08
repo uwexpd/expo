@@ -1,0 +1,21 @@
+page.replace :equipment_select, :partial => 'equipment_select'
+page.replace :equipment_summary, :partial => 'staff_summary'
+page.replace :date_range_select, :partial => 'date_range_select'
+
+if !@reservation.start_date.blank? && !@reservation.end_date.blank?
+  page.show :equipment_select
+else
+  page.hide :equipment_select
+end
+
+if !@reservation.equipments.empty?
+  page.show :equipment_summary
+  page.show :submit_equipment  
+else
+  page.hide :equipment_summary
+  page.hide :submit_equipment
+end
+
+unless @success
+  page.replace_html :equipment_errors, :partial => '/equipment_reservation/equipment_errors'
+end

@@ -62,6 +62,7 @@ class Person < ActiveRecord::Base
 
   has_many :equipment_reservations do
     def submitted; find(:all, :conditions => { :submitted => true }); end
+    def in_progress; find(:all, :conditions => "status = 'in_progress'"); end
     def current; find(:all, :conditions => { :submitted => true, :checked_in_at => nil }); end
     def today; find(:all, :conditions => "(status = 'approved' AND TO_DAYS(start_date) = TO_DAYS(CURDATE()))
                                             OR status = 'checked_out' OR status = 'late'"); end

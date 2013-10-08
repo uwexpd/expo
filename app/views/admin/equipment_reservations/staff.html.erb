@@ -1,0 +1,106 @@
+<h1>Staff Equipment Reservation System
+	<span class="right light"><%= link_to "Create a new Reservation", {:action => "staff_create"}, :method => :post, :class => 'button' %></span>
+</h1>
+<br>
+<% unless @current_reservations.empty? %>
+<h2>Current Reservations</h2>
+<div class="equipment_select">
+
+	<% for reservation in @current_reservations %>
+	<div class="category">
+	<h4>Reservation # <%= reservation.id_s %>		
+		<span class="right light"><%= link_to "Edit Reservation Details &#x2192;", :action => 'staff_reserve', :id => reservation %></span>
+		</h4>
+	
+	<ul>
+		<li class="reservation_details">
+			<dl>
+				<dt>Pick up on</dt>
+				<dd><%= reservation.start_date.to_s(:date_at_time12) %></dd>
+				
+				<dt>Return on</dt>
+				<dd><%= reservation.expected_time_due_back.to_s(:date_by_time12) %></dd>
+
+				<dt>Length</dt>
+				<dd><%= reservation.length_in_words %></dd>
+			</dl>
+		</li>
+		
+		<% for equipment in reservation.equipments %>
+			<li id="equipment_<%= equipment.id %>">
+			
+				<% content = "" %>
+				<% content << image_tag(equipment.picture.thumb.url) %>
+				<% content << "<br>" %>
+				<% content << "<span class=\"title\">#{equipment.title}</span>" %>
+				<% content << "<small class=\"tag\">#{equipment.tag}</small>" %>
+				
+				<a><%= content %></a>
+
+				<%= link_to "More info", 
+							{:action => 'about', :id => equipment}, 
+							:class => "more_info",
+							:popup => ['height=600,width=700'] %>
+
+			</li>
+		<% end -%>
+	</ul>
+
+	</div>
+	<% end -%>
+
+</div>
+<br class="clear">
+<% end -%>	
+
+<% if @current_reservations.empty? %>
+<div class="empty">
+	You have no current reservations in the system.
+</div>
+<% end -%>
+
+<% unless @in_progress_reservations.empty? %>
+<br class="clear">
+	<h2>UnSubmit Reservations</h2>
+	<table width=80%>
+		<tr>
+			<th>ID</th>
+			<th>Dates</th>
+			<th>Equipment</th>
+		</tr>
+	
+		<% for reservation in @in_progress_reservations %>
+		<tr>
+			<td><%= link_to "Reservation #{reservation.id_s}", :action => 'staff_reserve', :id => reservation %></td>
+			<td><%= reservation.start_date.to_s(:date_time12) unless reservation.start_date.blank? %> to 
+				<%= reservation.end_date.to_s(:date_time12) unless reservation.end_date.blank? %></td>
+			<td><%= reservation.equipments.collect(&:title).join(", ") unless reservation.equipments.blank? %></td>
+		</tr>
+		<% end -%>
+	
+	</table>
+<% end %>
+
+<% unless @past_reservations.empty? %>
+	<br><br><%= link_to_function "Show my past reservations", "Effect.toggle('past_reservations', 'blind', {duration: 0.25}); this.hide()" %>
+	<div id="past_reservations" style="display:none">
+	<h3>Past Reservations</h3>
+	<table width=100%>
+		<tr>
+			<th>ID</th>
+			<th>Dates</th>
+			<th>Equipment</th>
+		</tr>
+	
+		<% for reservation in @past_reservations %>
+		<tr>
+			<td><%= link_to "Reservation #{reservation.id_s}", :action => 'show', :id => reservation %></td>
+			<td><%= reservation.start_date.to_s(:date_with_day_of_week) %> to <%= reservation.end_date.to_s(:date_with_day_of_week) %></td>
+			<td><%= reservation.equipments.collect(&:title).join(", ") %></td>
+		</tr>
+		<% end -%>
+	
+	</table>
+	</div>
+<% end %>
+<br><br>

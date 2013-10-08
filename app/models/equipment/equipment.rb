@@ -59,10 +59,11 @@ class Equipment < ActiveRecord::Base
                   ['(start_date >= :start_date AND start_date <= :end_date)'],
                		['(end_date >= :start_date AND end_date <= :end_date)']]
     reservations.find(:all, :conditions => ["submitted = true
-                                            AND equipment_reservation_id != #{reservation.id} 
-                                            AND (#{conditions.join(" OR ")})", 
+                                             AND equipment_reservation_id != #{reservation.id} 
+                                             AND (#{conditions.join(" OR ")})", 
                                             { :start_date => reservation_start_date_with_buffer, :end_date => reservation_end_date }]).empty?
   end
+    
 
   # Returns true if this piece of equipment is currently checked out (i.e., in a student's possession) by
   # determining if there is an EquipmentReservation for this equipment that has a status of "late" or "checked_out".

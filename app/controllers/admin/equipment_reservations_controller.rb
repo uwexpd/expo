@@ -1,7 +1,8 @@
 class Admin::EquipmentReservationsController < Admin::BaseController
 
-  before_filter :add_equipment_reservations_breadcrumbs
-  before_filter :assign_status_class
+  before_filter :add_equipment_reservations_breadcrumbs, :except => [:staff, :staff_reserve]
+  before_filter :add_equipment_breadcrumbs, :only => [:staff, :staff_reserve]
+  before_filter :assign_status_class, :except => [:staff, :staff_reserve]
   
   skip_before_filter :login_required, :admin_required, :check_ferpa_reminder_date, :add_to_session_history, :save_user_in_current_thread, :only => ['current_checkout_viewing']
 
@@ -246,11 +247,83 @@ class Admin::EquipmentReservationsController < Admin::BaseController
     }
   end  
 
+  def staff
+    @current_reservations = @current_user.person.equipment_reservations.submitted.select{|e| e.end_date > Time.now }
+    @in_progress_reservations = @current_user.person.equipment_reservations.in_progress
+    @past_reservations = @current_user.person.equipment_reservations.submitted.select{|e| e.end_date < Time.now }
+    
+    session[:breadcrumbs].add "Staff Reservation"
+  end
+  
+  def staff_create            
+    @reservation = @current_user.person.equipment_reservations.new(params[:reservation])
+    @reservation.staff = true if @current_user.admin?
+    @reservation.unit = Unit.find_by_abbreviation("EXP")
+
+    if @reservation.save
+       redirect_to :action => "staff_reserve", :id => @reservation
+    else
+       flash[:error] = "There was an error processing your reservation. Please try again." 
+       render :action => "staff"
+    end         
+  end
+  
+  def staff_reserve        
+    @reservation = @current_user.person.equipment_reservations.find(params[:id])
+    @reservation.update_attributes(params[:reservation]) if params[:reservation]
+        
+    if params[:equipment_id]
+      @success = @reservation.add_or_remove!(params[:equipment_id])
+    else
+      @success = true
+    end    
+    
+    @reservation.remove_disallowed_items! unless @success == false
+    
+    session[:breadcrumbs].add "Staff Reservation", :action => 'staff'
+    session[:breadcrumbs].add "Reserve"
+    
+    # TODO Error message won't show up...
+    # if params[:reservation] && ((@reservation.end_date - @reservation.start_date)/60).to_i <= 30       
+    #   @reservation.errors.add_to_base "The internal between start time and end time needs at least 30 minutes."
+    #   @success = false
+    # end    
+    #logger.debug "Debug => #{@reservation.errors.full_messages}"
+        
+    respond_to do |format|
+      format.html
+      format.js
+    end        
+  end
+
+  # Finalize the reservation and send it off for approval
+  def finalize
+    @reservation = @current_user.person.equipment_reservations.find(params[:id])
+    # if @reservation.submitted?
+    #   flash[:error] = "This reservation is already submitted, so you cannot change the details of it."
+    #   return redirect_to :action => "staff"
+    # end
+    
+    @reservation.submitted = true
+        
+    if @reservation.valid? && @reservation.save!      
+      flash[:notice] = "Thank you for submitting your reservation ##{@reservation.id}"
+      redirect_to :action => "staff"
+    else
+      flash[:error] = "There was an error processing your reservation. Please try again."
+      redirect_to :action => "staff_reserve", :id => @reservation
+    end
+  end  
+  
+
   protected
 
   def add_equipment_reservations_breadcrumbs
     session[:breadcrumbs].add "Equipment Reservations", equipment_reservations_path
   end
-
+  
+  def add_equipment_breadcrumbs
+    session[:breadcrumbs].add "Equipment", equipments_path
+  end
 
 end

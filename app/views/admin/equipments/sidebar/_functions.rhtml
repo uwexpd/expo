@@ -4,5 +4,6 @@
 	
 	<li><%= link_to "Categories (#{EquipmentCategory.all.size})", equipment_categories_path, :class => 'icon-left categories' %></li>
 	<li><%= link_to "Reservations", equipment_reservations_path, :class => "icon-left calendar" %></li>
+	<li><%= link_to "Staff Reservations", staff_equipment_reservations_path, :class => "icon-left calendar" %></li>
 	
 </ul>
