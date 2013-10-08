@@ -6,7 +6,10 @@ my_formats = {
   :time12                 => "%l:%M %p",
   :time_with_seconds      => "%H:%M:%S",
   :date_at_time12         => "%A, %B %d, %Y at %I:%M",
-  :date_by_time12         => "%A, %B %d, %Y by %I:%M"
+  :date_by_time12         => "%A, %B %d, %Y by %I:%M",
+  :date_at_time24         => "%A, %B %d, %Y at %H:%M",
+  :date_by_time24         => "%A, %B %d, %Y by %H:%M"
+  
 }
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(my_formats)

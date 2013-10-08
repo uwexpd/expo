@@ -16,10 +16,10 @@
 		<li class="reservation_details">
 			<dl>
 				<dt>Pick up on</dt>
-				<dd><%= reservation.start_date.to_s(:date_at_time12) %></dd>
+				<dd><%= reservation.start_date.to_s(:date_at_time24) %></dd>
 				
 				<dt>Return on</dt>
-				<dd><%= reservation.expected_time_due_back.to_s(:date_by_time12) %></dd>
+				<dd><%= reservation.expected_time_due_back.to_s(:date_by_time24) %></dd>
 
 				<dt>Length</dt>
 				<dd><%= reservation.length_in_words %></dd>
