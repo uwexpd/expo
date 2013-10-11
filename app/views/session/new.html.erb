@@ -5,11 +5,12 @@ you should log in using your UW NetID by clicking the button on the left. If you
 	
 	<% form_tag '/auth/shibboleth' do -%>
 
-	<div id="uwnetid">			
-		<h2>UW Students, Faculty &amp; Staff</h2>
-		<div id="login_button">
-			<p><%= link_to image_tag('app/weblogin-logo.gif', :id => "weblogin_logo"), '/auth/shibboleth' %></p>
-			<p><%= submit_tag 'Log in with your UW NetID', :name => 'uwnetid_button', :id => "uwnetid_button" %></p>
+	<h2 id="uw">UW Students, Faculty &amp; Staff</h2>
+	
+	<div id="uwnetid">				
+		<div id="login_button">	
+			<%= submit_tag 'Sign In &raquo;', :name => 'uwnetid_button', :id => "uwnetid_button" %>
+			<%= link_to image_tag('app/weblogin-logo.gif', :id => "weblogin_logo"), '/auth/shibboleth' %>		
 		</div>
 	</div>	
 		<%#= hidden_field_tag "referer", request.env['HTTP_REFERER'] %>
@@ -17,10 +18,15 @@ you should log in using your UW NetID by clicking the button on the left. If you
 		
 	<% form_tag session_path do -%>
 
-	<h2>All other non-uw users, log in using your expo account</h2>
+	<h2 id="non_uw">
+	<%= link_to_function "All Other Non-UW Users &#x25BE;", "Element.toggle(other);" %>		
+		<%#= link_to_function "&#x25BE;", "Element.toggle(other);Element.toggle(arrow_up);Element.toggle(arrow_down)", :id => "arrow_down" %>
+		<%#= link_to_function "&#x25B4;", "Element.toggle(other);Element.toggle(arrow_up);Element.toggle(arrow_down)", :id => "arrow_up", :style => "display:none" %>
+	</h2>
 	
-	<div id="other">
-		<table class="default">						
+	<div id="other" style="display:none">
+		<p class="icon-left info grey smaller">Only for community parter, non-UW student, prospective student, or other non-UW user.</p>
+		<table class="default">
 			<tr>
 				<td><label for="login">Expo Username</td>
 				<td><%= text_field_tag 'login', params[:login] %></td>
@@ -34,7 +40,7 @@ you should log in using your UW NetID by clicking the button on the left. If you
 			<!-- <p><label for="remember_me">Remember me:</label>
 				<%= check_box_tag 'remember_me' %></p>
  			-->
-			<p><%= submit_tag 'Log in' %>&nbsp; <small><%= link_to "Forgot your username/password?", :action => 'forgot' %></small></p>
+			<p><%= submit_tag 'Log in' %>&nbsp; <small><%= link_to "Forgot username/password?", :action => 'forgot' %></small></p>
 
 			<!-- <p id="separator">&mdash; or &mdash;</p>
 

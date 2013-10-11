@@ -1,6 +1,6 @@
-<% form_tag({:action => 'self_placement_update'}, :method => :put, :id => "self_placement_update_#{@self_placement.id}") do %>
-	
-	<%= render :partial => "service_learning/self_placement", :locals => { :admin => true } %>
-		
+<% form_tag ({:action => 'self_placement_update'}, :method=> :put) do %>
+	<div id="self_placement_update_<%= @self_placement.id %>">
+		<%= render :partial => "service_learning/self_placement", :locals => { :admin => true } %>
+	</div>
 <% end -%>
 

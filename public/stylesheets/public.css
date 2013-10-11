@@ -1002,7 +1002,7 @@ div.restriction.failed h1 {
 /* @group Login */
 
 .session div#main-content {
-	padding: 0 40px;
+	padding: 0 30px;
 }
 
 .session div#main-content h1 {
@@ -1011,16 +1011,14 @@ div.restriction.failed h1 {
 }
 
 div.login {
-	margin-top: 40px;
 	width: 90%;
-	margin: 0 auto;
+	margin: 30px auto 0;
 }
 
 div.login h2 {
-	margin-bottom: 15px;
 	background-color: #f3f8fd;
-	padding: 15px;	
-	border-bottom: 1px solid #ADC7E1;
+	padding: 15px 15px 15px 50px;	
+	border-bottom: 1px solid #ADC7E1;	
 	text-shadow: rgba(255, 255, 255, 0.75) 1px 1px 0;
 	color:#4d4d70;
 	-moz-border-radius-topright:5px;
@@ -1031,6 +1029,22 @@ div.login h2 {
 	border-top-left-radius:5px;
 }
 
+div.login a{
+	text-decoration:none;
+}
+
+div.login #uw {
+	background: url(../images/app/uw-block-logo.gif) no-repeat 0.5em;
+	background-color: #f3f8fd;
+}
+
+div.login #non_uw {
+	background: url(../images/icons/icon_building.png) no-repeat 0.5em;
+	background-color: #f3f8fd;
+	background-size: 28px 28px;
+}
+
+
 div.login #other #password {
 /*	margin-left: 33px;*/
 }
@@ -1040,12 +1054,13 @@ div.login #other table tr td  {
 }
 
 div.login #weblogin_logo {
-	vertical-align: bottom;
+	vertical-align: top;
 	-webkit-transition: all 0.5s ease-in-out;
-/*    -moz-transition: all 1s ease-in-out;*/
+    -moz-transition: all 1s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
-/*    transition: all 0.5s ease-in-out;	*/
+    transition: all 0.5s ease-in-out;	
+    margin-left:2em;
 }
 
 div.login #weblogin_logo:hover {
@@ -1056,31 +1071,52 @@ div.login #weblogin_logo:hover {
 	opacity:0.9;
 }
 
-div.login #uwnetid {
-	margin-bottom:50px;	
+div.login #uwnetid #login_button {
+	margin: 20px 0;
+	border-left: 5px solid #EAF2FA;
+	padding: 20px 0 20px 15px;
 }
 
-div.login #uwnetid #login_button, div.login #other {
-	margin: 25px 0;
+div.login #other {
+	margin: 20px 0;
 	border-left: 5px solid #EAF2FA;
-	padding-left: 15px;
-	font-size: 95%;
+	padding: 5px 0 10px 15px;
 }	
 
 div.login #uwnetid #login_button #uwnetid_button{
-	padding: 1em 3em 1em 1em !important;
+/*	padding: 1em 3em 1em 1em !important;
 	color: white;
-	border: 1px solid transparent;
-/*	margin-left: 25px;*/
+	border: 1px solid #B0281A;	
 	background-image: none;
 	background: url(../images/icons/simple_admin/ic_right.png) no-repeat right;
-	background-color: #D14836;
+  	background-color: #D14836;
+	font-size: 1.2em;
+	font-weight: 600;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16);
+    -webkit-font-smoothing: antialiased;
+*/
+	padding: 1em 6em !important;
+	background-color: hsl(0, 75%, 57%) !important;
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#D14836", endColorstr="#AF3123");
+	background-image: -khtml-gradient(linear, left top, left bottom, from(#D14836), to(#AF3123));
+	background-image: -moz-linear-gradient(top, #D14836, #AF3123);
+	background-image: -ms-linear-gradient(top, #D14836, #AF3123);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D14836), color-stop(100%, #AF3123));
+	background-image: -webkit-linear-gradient(top, #D14836, #AF3123);
+	background-image: -o-linear-gradient(top, #D14836, #AF3123);
+	background-image: linear-gradient(#D14836, #AF3123);
+	border-color: #C53727 #C53727 hsl(0, 75%, 52%);
+	color: #fff !important;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33);
+	-webkit-font-smoothing: antialiased;
 	font-size: 1.1em;
+	font-weight: 600;
 }
 
 div.login #uwnetid #login_button #uwnetid_button:hover {
-	background-color: #C53727;	
-	border: 1px solid #B0281A;
+/*	background-color: #C53727;*/
+	border: 1px solid transparent;
 	text-shadow:none;	
 }
 
@@ -1106,12 +1142,12 @@ input#openid_url {
 /* @group Welcome Page */
 
 .welcome #wrap {
-	width: 65%;
+	width: 55%;
 	margin: 0 auto;
 }
 
 .welcome #header {
-	width: 65%;
+	width: 55%;
 	margin: 15px auto;
 	margin-bottom: 0;
 	background: url(../images/app/expo-logo-light.png) no-repeat;
