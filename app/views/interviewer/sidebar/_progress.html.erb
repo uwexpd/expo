@@ -1,0 +1,49 @@
+<h3>Progress</h3>
+
+<ul class="link-list">
+
+	<% i = 1 %>
+	<li>
+		<%= link_to "<small class='light'>#{i}</small>Welcome", committee_member_path(:action => 'index') %>
+	</li>
+
+	<% i += 1 %>
+	<li>
+		<%= link_to "<small class='light'>#{i}</small>Update your Availability", committee_member_path(:action => 'availability') %>
+	</li>
+
+	<% i += 1 %>
+	<li>
+		<%= link_to "<small class='light'>#{i}</small>Identify your Specialty", committee_member_path(:action => 'specialty') %>
+	</li>
+	
+	<% unless params[:no_meeting] %>
+	<% i += 1 %>
+	<li>
+		<%= link_to "<small class='light'>#{i}</small>Meetings & Trainings", committee_member_path(:action => 'meetings') %>
+	</li>
+	<% end -%>
+		
+	<% i += 1 %>
+	<li <%= "class='current'" if params[:action] == 'welcome' %>> 
+		<%= link_to "<small class='light'>#{i}</small>Input your Recusal", 
+				:action => 'welcome', 
+				:committee => params[:committee],
+				:no_meeting => params[:no_meeting] %>
+	</li>
+
+	<% i += 1 %>
+	<li <%= "class='current'" if params[:action] == 'availability' %>> 
+		<%= link_to "<small class='light'>#{i}</small>Input your Availability for Interviews", 
+				:action => 'availability', 
+				:committee => params[:committee],
+				:no_meeting => params[:no_meeting] %>
+	</li>
+		
+
+	<% i += 1 %>
+	<li>
+		<%= link_to "<small class='light'>#{i}</small>Complete", committee_member_path(:action => 'complete') %>
+	</li>
+	
+</ul>

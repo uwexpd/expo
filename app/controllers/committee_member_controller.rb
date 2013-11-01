@@ -55,6 +55,13 @@ class CommitteeMemberController < ApplicationController
   def meetings
     session[:breadcrumbs].add "Meetings"
     if @committee_member.committee_member_meetings.future.empty?
+      unless @committee_member.committee.interview_offering_id.blank?
+         Offering.find(@committee_member.committee.interview_offering_id).offering_interviewers.create(:person_id => @committee_member.person_id)
+         redirect_to interviewer_path(:offering => @committee_member.committee.interview_offering_id , 
+                                      :action => 'availability',
+                                      :committee => @committee_member.committee, 
+					                            :no_meeting => @committee_member.committee_member_meetings.future.empty?) and return
+      end      
       redirect_to :action => "complete"
     end
     if params[:committee_member]

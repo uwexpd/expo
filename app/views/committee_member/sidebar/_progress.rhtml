@@ -27,7 +27,30 @@
 					:action => 'meetings' %>
 	</li>
 	<% end -%>
+		
+	<% offering_id = @committee_member.committee.interview_offering_id %>
+	<% unless offering_id.blank? %>
 
+	<% i += 1 %>
+	<li> 
+		<%= link_to "<small class='light'>#{i}</small>Input your Recusal",
+			interviewer_path(:offering => offering_id , 
+							 :action => 'welcome', 
+							 :committee => @committee_member.committee,
+							 :no_meeting => @committee_member.committee_member_meetings.future.empty?) %>
+	</li>	
+	
+	<% i += 1 %>
+	<li> 
+		<%= link_to "<small class='light'>#{i}</small>Input your Availability for Interviews", 
+			interviewer_path(:offering => offering_id , 
+							 :action => 'availability', 
+							 :committee => @committee_member.committee, 
+							 :no_meeting => @committee_member.committee_member_meetings.future.empty?) %>
+	</li>
+	
+	<% end %>	
+	
 	<% i += 1 %>
 	<li <%= "class='current'" if params[:action] == 'complete' %>>
 		<%= link_to "<small class='light'>#{i}</small>Complete", 

@@ -4,17 +4,19 @@
 h3 { margin-top: 2em;}
 </style>
 
+<% unless params[:committee] %> 
 <h1>Welcome, <%= @person.firstname %>.</h1>
+<% end %>
 
 <p>We are excited to have you involved as an interviewer this quarter. Please provide the following information so that we can begin forming interview groups and scheduling interviews with students.</p>
-
 
 <h2>1. Not this Quarter?</h2>
 <p>If you <strong>cannot</strong> serve on the committee this quarter, please 
 	<%= link_to "click here", :action => 'not_this_quarter', :id => @offering_interviewer.id %>.</p>
 
-<% form_for :conflict_of_interests, @offering_interviewer do |f| %>
-	<h2>2. Conflicts of Interest (optional)</h2>
+<h2>2. Conflicts of Interest (optional)</h2>
+
+<% form_for :conflict_of_interests, @offering_interviewer do |f| %>	
 	<p>Below you will find the list of students who may be interviewed this quarter. If you feel that you need to recuse yourself from interviewing a specific student due to a conflict of interest, please check the box next to the student's name and click the "Recuse Myself from Selected Interviews" button.</p>
 
 	<table>
@@ -29,6 +31,8 @@ h3 { margin-top: 2em;}
 	</table>
 	<%= hidden_field_tag :conflict_of_interests %>
 	<p><%= f.submit "Recuse Myself from Selected Interviews" %></p>
+	<%= hidden_field_tag 'committee', params[:committee].blank? ? nil : params[:committee] %>
+	<%= hidden_field_tag 'no_meeting', params[:no_meeting].blank? ? nil : params[:no_meeting] %>
 <% end %>
 
 <% form_for :welcome, @offering_interviewer do |f| %>		
@@ -36,8 +40,15 @@ h3 { margin-top: 2em;}
 	<p>If you have any special notes for the program staff, enter them here:</p>
 	<p><%= f.text_area :special_notes, :rows => 10, :cols => 50 %></p>
 	<p><%= f.submit "Submit Special Requests or Notes" %></p>
+	<%= hidden_field_tag 'committee', params[:committee].blank? ? nil : params[:committee] %>
+	<%= hidden_field_tag 'no_meeting', params[:no_meeting].blank? ? nil : params[:no_meeting] %>
+	
 <% end %>
 
 <h2>4. Submit Your Availability for Interviews</h2>
 <p>You can submit your availability using our online system. This will help us to more easily schedule interviews with students.</p>
-<p><%= button_to "Submit Your Availability →", :action => "availability" %></p>
+<p><%= button_to "Submit Your Availability →", :action => "availability", 
+											   :committee => params[:committee].blank? ? nil : params[:committee],
+											   :no_meeting => params[:no_meeting].blank? ? nil : params[:no_meeting] %></p>
+
+<% sidebar :progress if params[:committee] %>

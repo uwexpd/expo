@@ -92,6 +92,9 @@ class InterviewerController < ApplicationController
         @offering_interviewer.special_notes = params[:welcome][:special_notes]
         @offering_interviewer.save
         flash[:notice] = "Special requests and notes saved. Thank you."
+        if params[:committee] && params[:no_meeting]
+          redirect_to :action => 'welcome',  :committee => params[:committee], :no_meeting => params[:no_meeting], :layout => @layout and return 
+        end        
       end
     end
     yes_option_id = @offering.application_review_decision_types.find_by_yes_option(true)
@@ -105,9 +108,13 @@ class InterviewerController < ApplicationController
         end
       end
       flash[:notice] = "Conflicts of interest saved. Thank you."
+      if params[:committee] && params[:no_meeting]
+        redirect_to :action => 'welcome',  :committee => params[:committee], :no_meeting => params[:no_meeting], :layout => @layout and return 
+      end      
     end
     
     render :action => 'welcome', :layout => @layout
+    
   end
   
   def update
@@ -138,10 +145,12 @@ class InterviewerController < ApplicationController
     end
   end
   
-  def availability
+  def availability    
     if params[:commit]
       flash[:notice] = "Thank you for submitting your availability! We will contact you as soon as interviews are scheduled."
+      redirect_to committee_member_path(:action => 'complete') unless params[:committee].blank?
     end
+
     # render availability.html.erb
   end
   

@@ -666,6 +666,7 @@ table.default td {
 /* @group Service Learning */
 
 table#service_learning_positions {
+	width:100%;
 }
 
 table#service_learning_positions td {

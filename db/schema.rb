@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130726213955) do
+ActiveRecord::Schema.define(:version => 20131028211734) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -635,6 +635,7 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
     t.boolean  "ask_for_replacement"
     t.date     "response_reset_date"
     t.text     "meetings_text"
+    t.integer  "interview_offering_id"
   end
 
   create_table "contact_histories", :force => true do |t|
@@ -692,6 +693,21 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "deleted_application_answers", :force => true do |t|
     t.integer  "application_for_offering_id"
@@ -2294,6 +2310,14 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
     t.integer  "updater_id"
   end
 
+  create_table "potential_course_organization_match_instructor_comments", :force => true do |t|
+    t.integer  "service_learning_course_instructor_id"
+    t.integer  "organization_quarter_id"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "proceedings_favorites", :force => true do |t|
     t.integer  "user_id"
     t.integer  "application_for_offering_id"
@@ -2401,6 +2425,7 @@ ActiveRecord::Schema.define(:version => 20130726213955) do
     t.integer  "creator_id"
     t.integer  "updater_id"
     t.text     "note"
+    t.text     "comment"
   end
 
   create_table "service_learning_course_status_types", :force => true do |t|

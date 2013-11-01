@@ -1,3 +1,7 @@
+<%= javascript_include_tag 'chosen.proto' %>
+<%= javascript_include_tag 'prototype.1.7' %>
+<%= stylesheet_link_tag 'chosen' %>
+
 <dt>name</dt>
 <dd><%= f.text_field :name %></dd>
 
@@ -52,3 +56,14 @@
 		"October 1, 2009" and a member hasn't responded since March of 2009, then they will be listed
 		under the "Not Responded" section on the members page.
 		</p></dd>
+		
+<dt>Include interview <br>process?</dt>
+<dd>
+	<p><%= f.collection_select(:interview_offering_id, Offering.all.reverse, :id, :title, 
+	  						    {:include_blank => "Please select an offering"},
+	    						{:class => "chzn-select", 
+								 :style => "width:450px"}) %></p>	
+<small class="light">Select this will automatically add committee member as an interviewer when they confirm participation. 
+					 Also, this will add interview recusal and availability page into the committee member confirmation progress.
+</small></p>
+</dd>		
