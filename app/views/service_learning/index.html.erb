@@ -11,4 +11,29 @@
 	<%= link_to "(Switch to another course)", :action => 'which' if @enrolled_service_learning_courses.size > 1%>
 	</p>
 	
-	<%= render :partial => "positions", :object => @service_learning_course %>
+	<%#= render :partial => "positions", :object => @service_learning_course %>
+	
+	<h4><%= @service_learning_course.title %> has <%= pluralize @service_learning_course.positions.open.size, "position" %> open.</h4>
+
+	<% if @service_learning_course.finalized? && !@service_learning_course.open? %>
+		<div class="yellow box">
+		<strong>Service-learning registration is not open for this course.</strong> 
+		Until it is, you can browse the positions that are available for this course. Please 
+		note that these positions are subject to change until registration opens.
+		</div>
+	<% elsif !@service_learning_course.finalized? -%>
+		<div class="yellow box">
+		<strong>Service-learning positions have not yet been finalized for this course.</strong> Please check back later.
+		</div>
+	<% end -%>	
+
+	<% if @service_learning_course.finalized? %>
+		<% show_switch_link = @placements.empty? ? :false : :true %>
+		<table id="service_learning_positions">
+			<%= render 	:partial => "position", 
+						:collection => @service_learning_course.positions.uniq.reject{|p| p.self_placement? || !p.approved?}, 
+						:locals => { :service_learning_course => @service_learning_course, :show_switch_link => show_switch_link } %>
+		</table>
+	<% end -%>
+
+	<br>

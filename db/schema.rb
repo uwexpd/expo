@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131028211734) do
+ActiveRecord::Schema.define(:version => 20131119014337) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2097,6 +2097,8 @@ ActiveRecord::Schema.define(:version => 20131028211734) do
     t.boolean  "finished_evaluation"
   end
 
+  add_index "organization_quarters", ["organization_id"], :name => "index_organization_quarters_on_organization_id"
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.integer  "default_location_id"
@@ -2586,6 +2588,8 @@ ActiveRecord::Schema.define(:version => 20131028211734) do
     t.integer  "total_placements_count"
     t.integer  "unallocated_placements_count"
   end
+
+  add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"
 
   create_table "service_learning_positions_skill_types", :force => true do |t|
     t.integer  "service_learning_position_id"
