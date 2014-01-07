@@ -1,3 +1,24 @@
+/* @override 
+	http://localhost:3000/stylesheets/symposium.css?1230674162
+	http://localhost:3000/stylesheets/symposium.css?1230938871
+	http://localhost:3000/stylesheets/symposium.css?1231205996
+	http://localhost:3000/stylesheets/symposium.css?1232136735
+	http://localhost:3000/stylesheets/symposium.css?1232140418
+	http://localhost:3000/stylesheets/symposium.css?1232140550
+	http://localhost:3000/stylesheets/symposium.css?1232560820
+	http://localhost:3000/stylesheets/symposium.css?1235774138
+	http://localhost:3000/stylesheets/symposium.css?1237484848
+	http://localhost:3000/stylesheets/symposium.css?1237485123
+	http://localhost:3000/stylesheets/symposium.css?1237485141
+	http://localhost:3000/stylesheets/symposium.css?1237485174
+	http://localhost:3000/stylesheets/symposium.css?1238185988
+	http://localhost:3000/stylesheets/symposium.css?1238443676
+	http://localhost:3000/stylesheets/symposium.css?1238443728
+	http://localhost:3000/stylesheets/symposium.css?1238462993
+	http://localhost:3000/stylesheets/symposium.css?1262630991
+	http://localhost:3000/stylesheets/symposium.css?1271972912
+	http://localhost:3000/stylesheets/symposium.css?1271978428
+*/
 
 html {
 	margin: 0;
@@ -16,9 +37,9 @@ body {
 }
 
 #header {
-	background: #2e3192 url(../images/symposium/header.png);
-	height: 149px;
-	border-bottom: 1px solid #b2b2b2;
+	background-image: url(../images/symposium/header-purple.jpg);
+	height: 150px;
+	border-bottom: none;
 }
 
 #flashes {
@@ -34,9 +55,6 @@ body {
 	color: #065309;
 	border-color: #8da;
 	border-width: 1px 0;
-	-moz-border-radius:0;
-	-webkit-border-radius:0;
-	border-radius:0;
 }
 
 #flashes #error, .delete-dialog, #errorExplanation {
@@ -47,16 +65,13 @@ body {
 
 
 h1.page_title {
+	background: url(../images/symposium/header-title.png) no-repeat;
 	text-indent: -9000px;
-	height: 150px;
-	width: 750px;
+	height: 67px;
+	width: 600px;
 	position: absolute;
-	top: 0px;
+	top: 70px;
 	left: 50px;
-}
-
-.proceedings h1.page_title {
-/*	background-image: url(../images/symposium/2013/header.png);*/
 }
 
 h5.unit_name {
@@ -65,9 +80,9 @@ h5.unit_name {
 
 #account-nav-wrap {
 	position: absolute;
-	top: 25px;
+	top: 30px;
 	right: 50px;
-	color: #fff;
+	color: #e5e5e5;
 	z-index: 100;
 }
 
@@ -77,10 +92,11 @@ h5.unit_name {
 }
 
 #account-nav a {
-	color: #fff;
+	color: #e5e5e5;
 }
 
 div#title {
+	border-bottom: 1px solid #e5e5e5;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -99,24 +115,26 @@ div#title {
 }
 
 #footer {
-	color: #f2f2f2;
+	color: #323232;
 	border: none;
-	border-top: 1px solid #b2b2b2;
 	background: none;
 	margin: 0;
-	padding: 20px 20px 0 50px;
+	padding: 30px 50px;
+	padding-right: 300px;
 	font: 100% "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-
+	background: url(../images/symposium/temple.png) no-repeat right bottom;
+	border-bottom: 1px solid #606060;
+	clear: both;
 }
 
 #footer-wrap {
 	clear: both;
-	background: #000;
+	background: url(../images/symposium/footer-green.png) left bottom;
 	border-bottom: 1px solid #727272;
 }
 
 #footer a {
-	color: #f2f2f2;
+	color: #323232;
 }
 
 #footer p {
@@ -126,25 +144,7 @@ div#title {
 }
 
 #footer .dso_statement {
-	color: #999999;
-	background: #39275b;
-	margin: 30px -20px 0 -50px;
-	padding: 30px 50px;
-	padding-right: 200px;
- 	border-bottom: 1px solid #606060;
-}
-
-#footer .dso_statement a {
-	color: #f2f2f2;
-}
-
-#footer-focus-element {
-	background: url(../images/symposium/2012/footer-side-image.png) no-repeat;
-	width: 200px;
-	height: 200px;
-	z-index: 1000;
-	float: right;
-	margin-left:10px;
+	color: #323232;
 }
 
 h2#application_page_title {
@@ -161,16 +161,12 @@ p.page_intro {
 
 #time_left {
 	position: absolute;
-	top: 42px;
+	top: 100px;
 	right: 50px;
 }
 
 #time_left, #time_left strong, #time_left.three.days strong, #time_left.one.day strong {
-	color: #fff;
-}
-
-#time_left.one.day strong {
-	color: red;
+	color: #e9c855;
 }
 
 div#left_sidebar {
