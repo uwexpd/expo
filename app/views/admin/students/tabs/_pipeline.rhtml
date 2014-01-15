@@ -1,7 +1,7 @@
 <h2>Pipeline History</h2>
-
+<% pipeline_placements = @student.pipeline_placements %>
 <table>
-<% for pipeline_placement in @student.pipeline_placements %>
+<% for pipeline_placement in pipeline_placements %>
   <tr id="pipeline_placement_<%= pipeline_placement.id %>">
     
     <td><%= pipeline_placement.position.quarter.title %></td>
@@ -23,7 +23,7 @@
                     :confirm => "Are you sure you want to delete the confirmation?" %></td>
   </tr>
 <% end %>
-<% if @student.pipeline_placements.empty? %>
+<% if pipeline_placements.empty? %>
 <tr class="empty">
 	<td colspan=5>This student has no Pipeline placements.</td>
 </tr>

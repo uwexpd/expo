@@ -1,13 +1,13 @@
 <h2>Service Learning History</h2>
-
+<% courses = @student.enrolled_service_learning_courses(Quarter.all) %>
 <table>
 
-	<% if @student.enrolled_service_learning_courses(Quarter.all).empty? %>
+	<% if courses.empty? %>
 		<tr class="empty">
 			<td colspan=4>This student has not enrolled in any service learning courses.</td>
 		</tr>
 	<% else %>
-		<% for service_learning_course in @student.enrolled_service_learning_courses(Quarter.all) %>
+		<% for service_learning_course in courses %>
 		<tr>
 			<td><%= link_to service_learning_course.quarter.title, 
 							service_learning_home_url(service_learning_course.unit.abbreviation, service_learning_course.quarter) %></td>
