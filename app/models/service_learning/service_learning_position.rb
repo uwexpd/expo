@@ -186,12 +186,12 @@ class ServiceLearningPosition < ActiveRecord::Base
   
   # Returns the Organization object from the OrganizationQuarter relationship
   def organization
-    organization_quarter.organization
+    organization_quarter.organization unless organization_quarter.nil?
   end
   
   # Returns the Quarter object from the OrganizationQuarter relationship  
   def quarter
-    organization_quarter.quarter
+    organization_quarter.quarter unless organization_quarter.nil?
   end
   
   # Returns the number of slots available for this position
