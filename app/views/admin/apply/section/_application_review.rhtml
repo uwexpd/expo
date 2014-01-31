@@ -1,19 +1,22 @@
-<h2>Application Details
-	<span class="light">(<%= link_to "edit", :action => 'edit', :id => @app rescue nil %>)</span></h2>
-
 <% 
 	audience ||= :admin
-
+	admin_view = true if audience == :admin
 	@user_application = @app 	# need to use the same instance variable so the partials work 
 	@full_view = true			# with full_view on, we get to see extra things that mentors and others can't see
 	@pages = @app.pages.reject{|p| audience == :reviewer ? p.hide_in_reviewer_view? : p.hide_in_admin_view? }
 	@download = true if audience == :download
 %>
+<h2>Application Details
+	<% if admin_view%>
+		<span class="light">(<%= link_to "Edit abstract", :action => "edit", :id => @app, :anchor => "abstract" rescue nil %>)</span>
+		<span class="float_right"><%= button_to "Edit application details", :action => "edit", :id => @app rescue nil %></span>
+	<% end %>
+</h2>
 
 <table class="application_review not_centered highlightless">
 	<%= render 	:partial => "/apply/page_review", 
 				:collection => @pages, 
-				:locals => { :links => :false } %>		
+				:locals => { :links => :false, :admin_view => admin_view } %>		
 </table>
 
 

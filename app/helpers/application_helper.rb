@@ -274,6 +274,22 @@ module ApplicationHelper
     @ptex.clean(html, escape_ampersands_twice)
   end
 
+  # Generates a caption element and computes any generated content within it (e.g., converts %foo% into "bar")
+  def display_computed_caption(caption)
+    caption.gsub!(/\%([a-z0-9_.]+)\%/) { |a| eval("@user_application.#{a.gsub!(/\%/,'')}") }
+    content_tag('p', caption, :class => 'question_caption')
+  end
+  
+  # Provides a link of class "help" that opens a popup with the help_text for the supplied question.
+  def help_link(question)
+    return nil if question.help_text.blank?
+    link_text = question.help_link_text.blank? ? "Help" : question.help_link_text
+    link_to link_text, 
+  				apply_help_url(question.offering, question), 
+  				:popup => ['help', 'height=500,width=400,toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=1,resizable=1'],
+  				:class => 'help'
+  	
+  end
   
 end
 

@@ -2332,6 +2332,10 @@ h3 .right {
 	font-size: 95%;
 }
 
+.float_right {
+	float: right;
+}
+
 .card.reader.status {
 	position: absolute;
 	right: 0;

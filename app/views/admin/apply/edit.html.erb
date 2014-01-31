@@ -22,26 +22,40 @@
 		<%= f.error_messages %>
 		<%= f.submit "Save", :disable_with => 'Saving...' %>
 		<%= separator "or" %>
-		<%= link_to 'Cancel', { :action => 'show' }, :class => 'cancel button' %>
+		<%= link_to 'Cancel', { :action => 'show' }, :class => 'cancel button' %>				
 
 	</div>
 
 	<div class="tabview">
-
 		<div id="tabs">
-			<ul>
-				<%= link_to_tab_pane "Abstract", :abstract, :class => 'current' %>
-			</ul>
+			<% for page in @app_pages %>
+			<% %>
+				<ul>
+					<%= link_to_tab_pane page.offering_page.title, page.offering_page.title.parameterize.underscore.to_sym, 
+						:class => page.offering_page.ordering==1 ? "current" : "" %>
+				</ul>
+			<% end %>
+			<ul><%= link_to_tab_pane "Abstract", :abstract %></ul>
 		</div>
 
 		<div id="frame">
-
-			<% tab_pane :abstract, :selected => true do %>
+			<% for app_page in @app_pages %>
+				<% tab_pane app_page.offering_page.title.parameterize.underscore.to_sym, :selected => app_page.offering_page.ordering==1 ? true : false do %>
+					<%= render :partial => "admin/apply/edit_tabs/application_detail", :locals => { :f => f, :app_page => app_page } %>
+				<% end -%>
+			<% end %>
+			
+			<% tab_pane :abstract do %>
 				<%= render :partial => "admin/apply/edit_tabs/abstract", :locals => { :f => f } %>
 			<% end -%>
-		
-		</div>
-	
-	</div>
+			<br><hr class="light">
+			<%= f.error_messages %>
+			<%= f.submit "Save", :disable_with => 'Saving...' %>
+			<%= separator "or" %>
+			<%= link_to 'Cancel', { :action => 'show' }, :class => 'cancel button' %>
+		</div>	
+	</div>	
 	
 <% end -%>
+
+<%= autoload_tab_pane %>

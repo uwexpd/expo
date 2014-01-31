@@ -131,6 +131,13 @@ class Admin::ApplyController < Admin::BaseController
   
   def edit
     @app = @offering.application_for_offerings.find params[:id]
+    @app_pages = []   
+    for page in @app.pages
+      question_types = page.offering_page.questions.collect(&:display_as).uniq.to_set
+      unless ["files","mentors"].any? {|type| question_types.include?(type) }
+        @app_pages << page
+      end
+    end
     
     session[:breadcrumbs].add "#{@app.fullname}", {:action => 'show', :id => @app}
     session[:breadcrumbs].add "Edit"
@@ -160,6 +167,13 @@ class Admin::ApplyController < Admin::BaseController
           flash[:error] = Thread.current['pdf_conversion_error']
           Thread.current['pdf_conversion_error'] = nil
         end
+      end
+    end        
+    if params['user_application']
+      if @app.update_attributes(params['user_application'])
+        flash[:notice] = "Application detail changes saved."
+      else
+        flash[:error] = "Could not save the application detail."
       end
     end
     if params[:remove_group_member]

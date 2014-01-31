@@ -4,14 +4,24 @@
 	klass = "incomplete " if page_review.started && !page_review.passes_validations?
 	
 	links ||= true
+	admin_view ||= false
  %>
-
 <tr class="<%= klass %>">
 	<td class="page_title">
 		<% unless links == :false %>
 		<a href="<%= url_for :action => :page, :page => page_review.offering_page.ordering %>" title="<%= page_review.offering_page.title %>">
 		<% end %>
 			<span class="title_block"><%= page_review.offering_page.title %></span>
+			<% if admin_view %>
+				<% question_types = page_review.offering_page.questions.collect(&:display_as).uniq.to_set %>
+				<% unless  ["files","mentors"].any? {|type| question_types.include?(type) } %>
+					<span class="small">
+					<%= link_to "(Edit section)", admin_apply_edit_path(:offering => @offering, :id => @app, 
+																		:anchor => page_review.offering_page.title.parameterize.underscore.to_sym ), 
+																		:style => "background: none"  %>
+			        </span>
+				<% end %>
+			<% end %>			
 		<% unless links == :false %></a><% end %>
 			
 			<% if page_review.started %>
@@ -29,6 +39,5 @@
 		<% if page_review.started && !page_review.passes_validations? %>
 			<br>(<%#= page_review.errors.on_base.size %>errors found)
 		<% end %>
-		</td>
-		
+	</td>		
 </tr>

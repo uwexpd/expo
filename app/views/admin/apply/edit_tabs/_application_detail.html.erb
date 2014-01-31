@@ -1,0 +1,10 @@
+<% 
+	@user_application = @app 
+	@page = app_page.offering_page
+%>
+
+<h2><%= @page.title %> </h2>
+
+<ol class="offering_questions">
+	<%= render :partial => 'apply/question', :collection => @page.questions, :locals => { :f => f, :page => app_page } %>
+</ol>

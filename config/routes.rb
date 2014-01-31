@@ -178,6 +178,7 @@ ActionController::Routing::Routes.draw do |map|
     # admin.apply_phase 'apply/:offering/phases/:id', :controller => 'apply/phases', :action => 'show'
     admin.apply_home 'apply', :controller => 'apply', :action => 'all'
     admin.apply_create 'apply/create', :controller => 'apply', :action => 'create'
+    admin.apply_edit 'apply/:offering/edit/:id', :controller => 'apply', :action => 'edit'
     admin.apply 'apply/approve', :controller => 'apply', :action => 'approve'
     admin.apply 'apply/finaid_approve', :controller => 'apply', :action => 'finaid_approve'
     admin.apply 'apply/disberse', :controller => 'apply', :action => 'disberse'
