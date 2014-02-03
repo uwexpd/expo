@@ -17,7 +17,7 @@
 <br>
 
 
-<% fields_for "app[texts_attributes][Abstract]", @app.text("Abstract") do |text_fields| %>
+<% fields_for "user_application[texts_attributes][Abstract]", @app.text("Abstract") do |text_fields| %>
 
 	<%= text_fields.label :body, "Abstract:" %><br>
 	<%= text_fields.text_area :body, :rows => 20, :style => "width: 95%", :id => "abstract_editor" %>

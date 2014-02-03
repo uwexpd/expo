@@ -16,7 +16,7 @@
 			<%= render :partial => "application_status" %>
 		</span>
 
-		<% form_for :app, @app, :url => { :action => 'update', :id => @app } do |f| %>
+		<% form_for :user_application, @app, :url => { :action => 'update', :id => @app } do |f| %>
 
 		<br>
 		<%= f.error_messages %>
