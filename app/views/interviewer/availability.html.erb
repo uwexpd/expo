@@ -10,23 +10,25 @@
 <% end %>
 </ol><br>
 
-<table class="availability">
+<% if @offering.interview_timeblocks.blank? %>
+	<div class="red">No interview time block created yet. Please contact admin to create.</div>
+<% else %>
+	<table class="availability">
+		<tr>
+			<th></th>
+			<% @offering.interview_timeblocks.each do |b| %>
+				<th><%= b.date.strftime("%A, %B %d") %></th>
+			<% end %>
+			<th></th>
+		</tr>
 
-	<tr>
-		<th></th>
-		<% @offering.interview_timeblocks.each do |b| %>
-			<th><%= b.date.strftime("%A, %B %d") %></th>
-		<% end %>
-		<th></th>
-	</tr>
+	<%- (@offering.earliest_interview_timeblock_start .. @offering.latest_interview_timeblock_end).each do |t| -%>
+		<%- if t.sec == 0 && t.min%15==0  -%>
+		 	<%= render :partial => "apply/timeslot_row", :object => t, :locals => { :person_record => @offering_interviewer } %>
+		<%- end -%>
+	<%- end rescue nil -%>
+	</table>
 	
-<%- (@offering.earliest_interview_timeblock_start .. @offering.latest_interview_timeblock_end).each do |t| -%>
-	<%- if t.sec == 0 && t.min%15==0  -%>
-	 	<%= render :partial => "apply/timeslot_row", :object => t, :locals => { :person_record => @offering_interviewer } %>
-	<%- end -%>
-<%- end -%>		
-
-
-</table>
+<% end %>
 
 <% sidebar :progress if params[:committee] %>

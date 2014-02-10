@@ -44,8 +44,20 @@ class CommitteeMemberController < ApplicationController
     session[:breadcrumbs].add "Specialty"
     if params[:committee_member]
       if @committee_member.update_attributes(params[:committee_member])
-        flash[:notice] = "Specialty saved successfully."
-        redirect_to :action => 'meetings'
+        flash[:notice] = "Specialty saved successfully."        
+        if @committee_member.committee_member_meetings.future.empty?      
+            if @committee_member.committee.interview_offering_id.blank?
+              redirect_to :action => "complete"
+            else
+              Offering.find(@committee_member.committee.interview_offering_id).offering_interviewers.create(:person_id => @committee_member.person_id)
+              redirect_to interviewer_path(:offering => @committee_member.committee.interview_offering_id , 
+                                           :action => 'welcome',
+                                           :committee => @committee_member.committee, 
+      					                            :no_meeting => @committee_member.committee_member_meetings.future.empty?) and return                
+            end
+        else
+          redirect_to :action => "meetings"
+        end                
       else
         flash[:error] = "Could not save your changes."
       end
@@ -53,21 +65,19 @@ class CommitteeMemberController < ApplicationController
   end
 
   def meetings
-    session[:breadcrumbs].add "Meetings"
-    if @committee_member.committee_member_meetings.future.empty?
-      unless @committee_member.committee.interview_offering_id.blank?
-         Offering.find(@committee_member.committee.interview_offering_id).offering_interviewers.create(:person_id => @committee_member.person_id)
-         redirect_to interviewer_path(:offering => @committee_member.committee.interview_offering_id , 
-                                      :action => 'availability',
-                                      :committee => @committee_member.committee, 
-					                            :no_meeting => @committee_member.committee_member_meetings.future.empty?) and return
-      end      
-      redirect_to :action => "complete"
-    end
+    session[:breadcrumbs].add "Meetings"        
     if params[:committee_member]
       if @committee_member.update_attributes(params[:committee_member])
         flash[:notice] = "All information saved."
-        redirect_to :action => 'complete'
+        if @committee_member.committee.interview_offering_id.blank?
+          redirect_to :action => "complete"
+        else
+          Offering.find(@committee_member.committee.interview_offering_id).offering_interviewers.create(:person_id => @committee_member.person_id)
+          redirect_to interviewer_path(:offering => @committee_member.committee.interview_offering_id , 
+                                       :action => 'welcome',
+                                       :committee => @committee_member.committee, 
+  					                            :no_meeting => @committee_member.committee_member_meetings.future.empty?) and return                
+        end
       else
         flash[:error] = "Could not save your changes."
       end
