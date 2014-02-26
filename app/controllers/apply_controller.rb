@@ -6,7 +6,7 @@ class ApplyController < ApplicationController
   before_filter :fetch_user_applications, :except => [:cancelled, :list]
   before_filter :choose_application, :except => [:which, :cancelled, :list]
   before_filter :redirect_to_group_member_area, :except => [:group_member_validation, :group_member, :which, :cancelled, :list]
-  before_filter :check_restrictions, :except => [:restricted, :cancelled, :list, :which]
+  before_filter :check_restrictions, :except => [:restricted, :cancelled, :list, :which, :group_member_validation]
   before_filter :check_must_be_student_restriction, :except => [:restricted, :cancelled, :list, :which, :enter_code, :group_member_validation, :group_member]
   before_filter :display_submitted_note, :except => [:restricted, :cancelled, :availability, :summary, :list, :which, :revise_abstract, :index, :accept]
   

@@ -134,9 +134,11 @@ class Admin::ApplyController < Admin::BaseController
     @app_pages = []   
     for page in @app.pages
       question_types = page.offering_page.questions.collect(&:display_as).uniq.to_set
-      unless ["files","mentors"].any? {|type| question_types.include?(type) }
+      attribute_types = page.offering_page.questions.collect(&:attribute_to_update).uniq.to_set
+      unless ["files","mentors","application_type","application_category"].any? {|type| question_types.include?(type) } || ["Abstract"].any? {|attribute| attribute_types.include?(attribute) }
         @app_pages << page
       end
+      
     end
     
     session[:breadcrumbs].add "#{@app.fullname}", {:action => 'show', :id => @app}
@@ -146,7 +148,7 @@ class Admin::ApplyController < Admin::BaseController
   def update
     @app = ApplicationForOffering.find params[:id]
     anchor = params[:section] if params[:section]
-    if params['app']
+    if params['app'] || params['user_application']
       unless params['app']['new_status'].blank?
         @app.set_status(params['app']['new_status'], false, {:force => true, :note => params['app']['new_status_note']}) 
         params['app'].delete('new_status')
@@ -161,7 +163,7 @@ class Admin::ApplyController < Admin::BaseController
         flash[:notice] = "Application notes saved."
         anchor = "review_committee"
       end
-      if @app.update_attributes(params['app'])
+      if @app.update_attributes(params['app']) && (params['user_application'] && @app.update_attributes(params['user_application']))
         flash[:notice] = "Application changes saved."
         if Thread.current['pdf_conversion_error']
           flash[:error] = Thread.current['pdf_conversion_error']
@@ -169,13 +171,6 @@ class Admin::ApplyController < Admin::BaseController
         end
       end
     end        
-    if params['user_application']
-      if @app.update_attributes(params['user_application'])
-        flash[:notice] = "Application detail changes saved."
-      else
-        flash[:error] = "Could not save the application detail."
-      end
-    end
     if params[:remove_group_member]
       @app.group_members.find(params[:remove_group_member]).destroy
       anchor = "group_members"
