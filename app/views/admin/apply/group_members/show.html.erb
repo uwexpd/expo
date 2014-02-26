@@ -1,5 +1,5 @@
 <h1><%=h @group_member.firstname_first %>
-	<span class="light right"><%= link_to "edit", :action => 'edit', :id => @group_member %></span></h1>
+	<span class="light right"><%= link_to "Edit", {:action => 'edit', :id => @group_member}, :class => "button" %></span></h1>
 
 <dl class="inline-definitions">
 
@@ -40,25 +40,25 @@
 	<dd><%= @group_member.requests_printed_program? %></dd>
 
 	<dt>fullname</dt>
-	<dd><%= @group_member.person.fullname %></dd>
+	<dd><%= @group_member.person.fullname rescue "unknown" %></dd>
 
 	<dt>email</dt>
-	<dd><%= @group_member.person.email %></dd>
+	<dd><%= @group_member.person.email rescue "unknown" %></dd>
 
 	<dt>phone</dt>
-	<dd><%= @group_member.person.phone %></dd>
+	<dd><%= @group_member.person.phone rescue "unknown" %></dd>
 
 	<dt>institution</dt>
-	<dd><%= @group_member.person.institution %></dd>
+	<dd><%= @group_member.person.institution rescue "unknown" %></dd>
 
 	<dt>majors</dt>
-	<dd><%= @group_member.person.majors_list %></dd>
+	<dd><%= @group_member.person.majors_list rescue "unknown" %></dd>
 
 	<dt>class</dt>
-	<dd><%= @group_member.person.class_standing_description %></dd>
+	<dd><%= @group_member.person.class_standing_description rescue "unknown" %></dd>
 
 	<dt>scholarships</dt>
-	<dd><%= @group_member.person.awards_list %></dd>
+	<dd><%= @group_member.person.awards_list rescue "unknown" %></dd>
 
 
 </dl>

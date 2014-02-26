@@ -206,7 +206,7 @@ class InterviewerController < ApplicationController
       params[:include].each do |part,value|
         parts << part.to_sym
       end
-      @apps = @offering_interviewer.offering_interview_interviewers.collect(&:applicant)
+      @apps = @offering_interviewer.offering_interview_interviewers.collect(&:applicant).compact
       report = MultiApplicationCompositeReport.new(@offering, @apps.sort_by(&:fullname), parts)
       report.offering_interviewer = @offering_interviewer
       file = report.generate!(params[:format].to_sym)

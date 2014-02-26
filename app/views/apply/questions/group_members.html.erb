@@ -58,7 +58,7 @@
 								:class => 'add button' %>
 
 					<div id="new_group_member" class="yellow box" style="display:<%= @group_member.nil? && !qf.object.group_members.empty? ? "none" : "block" %>">
-						<%= render :partial => "new_group_member", :locals => { :question => question, :qf => qf} %>
+						<%= render :partial => "apply/new_group_member", :locals => { :question => question, :qf => qf} %>
 					</div>
 				<% end -%>
 

@@ -24,9 +24,9 @@
 	
 	<br>
 	<% if params[:editor] == 'plaintext' %>
-		<%= link_to "Use fancy editor", { :editor => 'fck' }, :class => 'light smaller' %>
+		<%= link_to "Use fancy editor", { :editor => 'fck', :anchor => :abstract }, :class => 'light smaller' %>
 	<%- else -%>
-		<%= link_to "Use plain-text editor", { :editor => 'plaintext' }, :class => 'light smaller' %>
+		<%= link_to "Use plain-text editor", { :editor => 'plaintext', :anchor => :abstract }, :class => 'light smaller' %>
 	<% end -%>
 	
 	<% unless params[:editor] == 'plaintext' %>
