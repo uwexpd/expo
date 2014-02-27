@@ -1,0 +1,15 @@
+<h1>Edit Academic Department</h1>
+
+<% form_for :academic_department, @academic_department, 
+			:url => academic_department_path(@academic_department), 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', academic_department_path(@academic_department), :class => 'cancel button' %>
+
+<% end %>

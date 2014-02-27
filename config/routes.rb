@@ -109,6 +109,8 @@ ActionController::Routing::Routes.draw do |map|
     end
 
     admin.resources :event_types, :controller => 'event_types', :name_prefix => ''
+    
+    admin.resources :academic_departments, :controller => 'academic_departments', :name_prefix => ''
 
     admin.resources :events, :name_prefix => '', :collection => { :all => :get }, :member => { :attendees => :get, :sync_with_offering => [:get, :post], :clone => :put } do |events|  
       events.resources :times, :controller => 'events/times', :member => { :background_checks => :get } do |times|

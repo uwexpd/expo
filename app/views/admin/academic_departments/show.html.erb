@@ -1,0 +1,15 @@
+<h1><%=h @academic_department.name %>
+	<span class="light right"><%= link_to "Edit", edit_academic_department_path(@academic_department), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@academic_department) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>title</dt>
+	<dd><%=h @academic_department.name %></dd>
+
+	<dt>description</dt>
+	<dd><%=h @academic_department.description %></dd>
+
+
+</dl>

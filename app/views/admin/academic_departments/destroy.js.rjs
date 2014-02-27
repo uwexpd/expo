@@ -1,0 +1,1 @@
+page.visual_effect :fade, "academic_departments_#{@academic_department.id}"
