@@ -4,7 +4,7 @@ class Interviewer::CommitteeController < InterviewerController
   before_filter :fetch_offering_interview_interviewer_from_id, :only => [ :update ]
   
   def index
-    @apps = @offering_interviewer.offering_interview_interviewers.collect(&:applicant)
+    @apps = @offering_interviewer.offering_interview_interviewers.collect(&:applicant).compact
     @apps = @apps.sort_by(&:fullname)
     render :action => 'index_scored', :layout => @layout if @offering.uses_scored_interviews?
   end
@@ -22,7 +22,7 @@ class Interviewer::CommitteeController < InterviewerController
 
   def finalize
     if params[:commit]
-      @apps = @offering_interviewer.offering_interview_interviewers.collect(&:applicant)
+      @apps = @offering_interviewer.offering_interview_interviewers.collect(&:applicant).compact
       for interviewer in @apps.collect{|a| a.interview.interviewers.find_or_create_by_committee_score(true)}
         interviewer.update_attribute(:finalized, true) if interviewer.started_scoring? && !interviewer.finalized?
       end

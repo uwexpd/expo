@@ -51,6 +51,8 @@
 			<% if @use_pipeline_links %>
 			<tr><td><%= check_box_tag "copy[]", "pipeline_position", false, :id => "copy_pipeline_position" %></td>
 				<td><label for="copy_pipeline_position">Pipeline Position Information</label></td></tr>
+			<tr><td><%= check_box_tag "copy[]", "ideal_number_of_slots", true, :id => "ideal_number_of_slots" %></td>
+					<td><label for="copy_pipeline_position">Ideal number of slots</label></td></tr>
 			<% end %>
 		</table>
 		</dd>

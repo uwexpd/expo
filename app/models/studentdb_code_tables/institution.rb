@@ -48,7 +48,9 @@ class Institution < StudentInfo
       "MONTANA STATE UNIV"    => "Montana State University",
       "ARKANSAS ST UNIV"      => "Arkansas State University",
       "UNIV NTHRN IOWA"       => "University of Northern Iowa",
-      "UNIV OF WASHINGTON"     => "University of Washington"
+      "UNIV OF WASHINGTON"    => "University of Washington",
+      "SOUTH SEATTLE CC"      => "South Seattle Community College"
+      
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end
