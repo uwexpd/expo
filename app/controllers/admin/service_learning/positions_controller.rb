@@ -51,7 +51,7 @@ class Admin::ServiceLearning::PositionsController < Admin::ServiceLearningContro
                                     :unit => @unit )
       end
       
-      new_position = service_learning_position.clone(['details','times','supervisor','location','pipeline_position', 'approved'])
+      new_position = service_learning_position.clone(['details','times','supervisor','location','pipeline_position', 'approved', 'ideal_number_of_slots'])
       new_position.update_attribute(:organization_quarter_id, @organization_quarter.id)
       
       new_position.save
