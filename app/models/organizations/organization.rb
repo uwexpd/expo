@@ -174,10 +174,10 @@ class Organization < ActiveRecord::Base
 
   # Sends an invite email to all primary service learning contacts for the organization and sets the command_after_delivery
   # on the email to activate the organization for the specified quarter.
-  def invite_for(quarter)
+  def invite_for(quarter, unit = nil)
     command_after_delivery = "Organization.find(#{id}).activate_for(Quarter.find(#{quarter.id}), true)"
     #  Send the email
-    primary_service_learning_contacts.each do |r|
+    primary_contacts_for_unit(unit).each do |r|
       tmail_object = OrganizationQuarter::MID_QUARTER_EMAIL_TEMPLATES['Invite only'].create_email_to(r)
       EmailQueue.queue(r.person_id, tmail_object, nil, command_after_delivery)
       @emails_sent = true

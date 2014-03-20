@@ -17,6 +17,11 @@ class OrganizationQuarter < ActiveRecord::Base
   has_many :statuses, :class_name => "OrganizationQuarterStatus", :dependent => :destroy
   has_many :potential_course_organization_match_for_quarters, :dependent => :destroy
   has_many :potential_courses, :through => :potential_course_organization_match_for_quarters, :source => :service_learning_course
+  # has_many :instructor_comments, :class_name => "PotentialCourseOrganizationMatchInstructorComments", :dependent => :destroy do
+  #   def for(instructor)
+  #     find :first, :conditions => { :service_learning_course_instructor_id => instructor.is_a?(ServiceLearningCourseInstructor) ? instructor.id : instructor}
+  #   end
+  # end
   
   has_many :related_organization_quarters, :class_name => "OrganizationQuarter", 
            :finder_sql => %q( SELECT * FROM organization_quarters oq WHERE oq.organization_id = #{organization_id} AND oq.quarter_id = #{quarter_id} AND oq.unit_id != #{unit_id} )
@@ -135,9 +140,9 @@ class OrganizationQuarter < ActiveRecord::Base
     send_invites = (action == 'invite')
     
     emails = { 'Evaluate only' => [], 'Invite only' => [], 'Invite and Evaluate' => [] }
-    
+
     # go through each primary contact and add to the two lists
-    organization.primary_service_learning_contacts.each do |contact|
+    organization.primary_contacts_for_unit(unit).each do |contact|
       emails['Evaluate only'] << contact if send_evals
       emails['Invite only']   << contact if send_invites
     end
@@ -145,7 +150,7 @@ class OrganizationQuarter < ActiveRecord::Base
     # add all the position supervisors and primary contacts to the eval list
     if send_evals
       emails['Evaluate only'] << placements.filled.collect(&:position).collect(&:supervisor)
-      emails['Evaluate only'] << organization.primary_service_learning_contacts
+      emails['Evaluate only'] << organization.primary_contacts_for_unit(unit)
     end
     
     # flatten the hashes
