@@ -42,6 +42,9 @@ Rails::Initializer.run do |config|
 
   # Setup the cache store
   config.cache_store = :file_store, "/tmp/cache"
+  
+  # Setup action mailer defaulty content type instead of plain text
+  config.action_mailer.default_content_type = 'text/html'
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
