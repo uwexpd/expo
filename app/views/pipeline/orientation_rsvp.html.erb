@@ -1,7 +1,7 @@
 <h1>RSVP for an Orientation Time</h1>
 <p><%= simple_format @rsvp_event_times.first.event.description rescue nil %></p>
 
-<% unless @rsvp_event_times.empty? %>
+<% unless @rsvp_event_times.blank? %>
   <%= render :partial => "rsvp/event_rsvp", 
              :locals => {:current_date => nil, 
                          :return_to => {},
