@@ -329,10 +329,13 @@ class Person < ActiveRecord::Base
         update_attribute :service_learning_risk_paper_date, Time.now if update_service_learning_risk_paper_date == "1"
         if send_confirmation_email == "1" && position.try(:unit).try(:bothell?)
           EmailContact.log self.id, ServiceLearningMailer.deliver_bothell_registration_complete(placement) 
+          #TODO EmailContact.delay.log self.id, ServiceLearningMailer.deliver_bothell_registration_complete(placement) 
         elsif send_confirmation_email == "1"
           EmailContact.log self.id, ServiceLearningMailer.deliver_registration_complete(placement) 
+          #TODO EmailContact.delay.log self.id, ServiceLearningMailer.deliver_registration_complete(placement) 
         elsif send_confirmation_email == "2"
           EmailContact.log self.id, ServiceLearningMailer.deliver_pipeline_registration_complete(placement)
+          #TODO EmailContact.delay.log self.id, ServiceLearningMailer.deliver_pipeline_registration_complete(placement)
         end
       end
     end

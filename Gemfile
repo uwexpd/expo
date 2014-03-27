@@ -20,7 +20,7 @@ gem "rdoc", "~> 2.4.3"
 gem "rmagick"
 gem "daemons"
 gem "acts_as_strip", "~> 1.0.0"
-# For UWSDB
+# Begin For UWSDB
 gem "dbi"
 gem "dbd-odbc"
 gem "ruby-odbc"
@@ -31,18 +31,20 @@ gem "factory_girl", "~> 1.2.2" # TODO upgrade to "~> 2.0.5"
 #gem "thoughtbot-factory_girl", :lib => 'factory_girl', :source => 'http://gems.github.com'
 gem "rspec", "~> 1.2.9" # dependecy with hoe 2.3.3
 gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
-#gem "pry", "~> 0.9.12.2"
 
 
 group :production do  
   gem "omniauth-shibboleth"
-  gem "mysql"  
+  gem "mysql"
 end
 
 group :development do
   gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
   gem "thin"
+  gem "pry", "~> 0.9.12.2"
+  gem "request-log-analyzer"
+  gem "tourbus", "~> 0.1.5"
 end
 
 group :test do
