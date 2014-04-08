@@ -222,7 +222,7 @@ class Admin::ApplyController < Admin::BaseController
                       ApplyMailer.deliver_templated_message(@offering.disbersement_approver.person, 
                       EmailTemplate.find_by_name("disbersement approval request"), 
                       @offering.disbersement_approver.person.email, 
-                      "http://expo.uw.edu/expo/admin/apply/disberse") if params[:commit]
+                      "http://#{CONSTANTS[:base_system_url]}/admin/apply/disberse") if params[:commit]
       flash[:notice] = "Saved financial aid eligibility approvals. Thank you."
       redirect_to_action = params[:redirect_to_action] || "finaid_approve"
       redirect_to :action => redirect_to_action
@@ -410,7 +410,7 @@ class Admin::ApplyController < Admin::BaseController
           ApplyMailer.deliver_templated_message(dean_approver.person, 
           EmailTemplate.find_by_name("dean approval request"), 
           dean_approver.person.email, 
-          "https://expo.uw.edu/expo/admin/apply/approve")
+          "https://#{CONSTANTS[:base_system_url]}/admin/apply/approve")
       flash[:notice] = "Request for dean approvals sent."
     end
     redirect_to request.referer
@@ -424,7 +424,7 @@ class Admin::ApplyController < Admin::BaseController
           ApplyMailer.deliver_templated_message(dean_approver.person, 
           EmailTemplate.find_by_name("dean approval request"), 
           dean_approver.person.email, 
-          "https://expo.uw.edu/expo/admin/apply/approve")
+          "https://#{CONSTANTS[:base_system_url]}/admin/apply/approve")
       flash[:notice] = "Request for dean approvals sent."
     end
     if params[:new_status] && params[:select]
@@ -456,7 +456,7 @@ class Admin::ApplyController < Admin::BaseController
         ApplyMailer.deliver_templated_message(@offering.financial_aid_approver.person, 
         EmailTemplate.find_by_name("financial aid approval request"), 
         @offering.financial_aid_approver.person.email, 
-        "https://expo.uw.edu/expo/admin/apply/finaid_approve")
+        "https://#{CONSTANTS[:base_system_url]}/admin/apply/finaid_approve")
     flash[:notice] = "Request for financial aid approvals sent."
     @offering.update_attribute(:financial_aid_approval_request_sent_at, Time.now)
     # end

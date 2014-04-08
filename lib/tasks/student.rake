@@ -21,10 +21,10 @@ task :student_courses => :environment do
   puts "Quarter: #{quarter.title}"
   
   # Fetch courses 
-  math_courses = [98,111,120,124,125,126,300,307,308,309,324,327] 
-  biol_courses = [118,180,200,220]
-  qsci_courses = [291]
-  engl_courses = [109,111,121,131,197,198,199,200,281]
+  math_courses = [98,112,120,124,125,126,300,301,307,308,309,324,326,327,328] 
+  biol_courses = [106,118,180,200,220]
+  qsci_courses = [291,292]
+  engl_courses = [110,111,121,131,198,199,200,281]
   courses = []  
   dept_courses = []  
   
@@ -48,7 +48,7 @@ task :student_courses => :environment do
   
   print "Parsing CSV file...."
   #print "Input file path of CSV file: "
-  file_path = "tmp/SSS_ID_Fall_2012.csv" #$stdin.gets.strip
+  file_path = "tmp/SSS_ID_SPR_2014.csv" #$stdin.gets.strip
   print "(file path: #{file_path})\n"
     
   # turn csv into array of hashes

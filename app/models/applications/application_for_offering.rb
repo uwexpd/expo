@@ -356,7 +356,7 @@ class ApplicationForOffering < ActiveRecord::Base
       end
     elsif email.send_to == "staff"
       if deliver_emails_now
-        ApplyMailer.deliver_status_update(self, email.email_template, self.offering.notify_email) # don't log messages to staff
+        ApplyMailer.deliver_status_update(self, email.email_template, self.offering.notify_email || self.offering.contact_email) # don't log messages to staff
       end
     elsif email.send_to == "group_members"
       self.group_members.verified.each do |group_member|

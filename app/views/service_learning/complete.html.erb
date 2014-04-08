@@ -10,7 +10,7 @@
 				:locals => { :show_my_details_link => true, :service_learning_course => placement.course, :position => @position } %>
 
 <p>To get started with your service-learning, log into EXPO to review your position details:
-<%= auto_link "https://expo.uw.edu/expo/service_learning" %></p>
+<%= auto_link "https://#{CONSTANTS[:base_system_url]}/service_learning" %></p>
 
 <p>Then, complete the follow steps:</p>
 <ol>

@@ -319,13 +319,13 @@ class ApplyController < ApplicationController
       if params[:pdf_button]
         redirect_to :action => "abstract", :format => :pdf and return
       else
-        # if @user_application.in_status?(:conditionally_accepted_full_revision_needed)
-        #   @user_application.set_status "fully_accepted"
-        #   flash[:notice] = "Thank you for submitting your revised abstract. Your application is now fully accepted."
-        # else
-        @user_application.set_status "revision_submitted"
-        flash[:notice] = "Thank you for submitting your revised abstract. An email has been sent to your mentor."
-        # end
+        if @user_application.in_status?(:conditionally_accepted_full_revision_needed) || @user_application.in_status?(:conditionally_accepted_commented)
+          @user_application.set_status "final_revision_submitted"
+          flash[:notice] = "Thank you for submitting your final revisions."
+        else
+          @user_application.set_status "revision_submitted"
+          flash[:notice] = "Thank you for submitting your revised abstract. An email has been sent to your mentor."
+        end
         redirect_to :action => "index" and return
       end
     end

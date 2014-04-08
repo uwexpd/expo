@@ -54,7 +54,7 @@ class ApplicationGroupMember < ActiveRecord::Base
   end
   
   
-  delegate :offering, :project_title, :stripped_project_title, :current_status_name, :current_status, :passed_status?, :application_type_id, :application_type, :nominated_mentor, :submitted?, :to => :application_for_offering
+  delegate :offering, :project_title, :stripped_project_title, :current_status_name, :current_status, :passed_status?, :application_type_id, :application_type, :submitted?, :to => :application_for_offering
   
   # Adds an extra custom validation to ensure that the supplied UW NetID is valid if this group member is a UW student. If a
   # person has been assigned to this group member already, then this method will *always* return true as long as the person

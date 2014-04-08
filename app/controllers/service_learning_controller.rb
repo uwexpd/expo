@@ -218,14 +218,14 @@ class ServiceLearningController < ApplicationController
           @self_placement.course.instructors.each do |instrutor|
             EmailContact.log(instrutor.person.id, 
             ServiceLearningMailer.deliver_templated_message(instrutor.person, 
-                          EmailTemplate.find_by_name("self placement position approval request"),
-                                                      instrutor.person.email,
-                                                      "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
-                                                      { :student => @student,
-                                                        :quarter => @quarter, 
-                                                        :self_placement => @self_placement,
-                                                        :faculty_link => "https://expo.uw.edu/faculty/service_learning/#{@quarter.abbrev}/students"})
-                                                       )
+                      EmailTemplate.find_by_name("self placement position approval request"),
+                                                 instrutor.person.email,
+                                                 "https://#{CONSTANTS[:base_url_host]}/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
+                                                 { :student => @student,
+                                                   :quarter => @quarter, 
+                                                   :self_placement => @self_placement,
+                                                   :faculty_link => "https://#{CONSTANTS[:base_url_host]}/faculty/service_learning/#{@quarter.abbrev}/students"})
+                                                )
         end
         
           flash[:notice] = "Your self placement position form sucessfully submitted. A request email has been sent to your instructor(s)."

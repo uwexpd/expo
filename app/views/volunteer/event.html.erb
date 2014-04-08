@@ -13,7 +13,6 @@
 
 <%= render :partial => "my_positions" unless @current_user.person.event_staff_positions(@event).empty? %>
 
-<p>To signup for a specific position, check the box next to the position and click the Submit button.
 	<% if @event.allow_multiple_positions_per_staff %>
 		You can sign up for as many positions as you'd like, as long as the times do not conflict.
 	<% else %>
