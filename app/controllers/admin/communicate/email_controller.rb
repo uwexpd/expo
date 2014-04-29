@@ -27,9 +27,12 @@ class Admin::Communicate::EmailController < Admin::BaseController
     @recipients.each do |r|
       person_id = r.is_a?(Person) ? r.id : r.person.id rescue nil
       command_after_delivery = nil
-      EmailQueue.queue person_id, 
-                        TemplateMailer.create_message(r, params[:email][:from], params[:email][:subject], params[:email][:body]),
-                        nil, command_after_delivery, nil, r
+      if params[:html_format].nil? || params[:html_format]==false
+        template = TemplateMailer.create_message(r, params[:email][:from], params[:email][:subject], params[:email][:body])
+      else 
+        template = TemplateMailer.create_html_message(r, params[:email][:from], params[:email][:subject], params[:email][:body])
+      end
+      EmailQueue.queue(person_id, template, nil, command_after_delivery, nil, r)
     end
     flash[:notice] = "Successfully queued messages."
     return redirect_to admin_communicate_email_queue_index_url if EmailQueue.messages_waiting?

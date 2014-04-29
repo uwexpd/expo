@@ -107,7 +107,10 @@
 					named: <%= text_field_tag "new_email_template_name", (@email_template ? @email_template.name : nil) %>
 				</span>
 			</p>
-		
+			<p>
+				<%= check_box_tag :html_format, true, !@email_template.nil? %>
+				<label for="html_format">Send email template with HTML format</label>				
+			</p>
 	
 		</div>
 	</div>
