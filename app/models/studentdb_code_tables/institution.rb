@@ -49,8 +49,13 @@ class Institution < StudentInfo
       "ARKANSAS ST UNIV"      => "Arkansas State University",
       "UNIV NTHRN IOWA"       => "University of Northern Iowa",
       "UNIV OF WASHINGTON"    => "University of Washington",
-      "SOUTH SEATTLE CC"      => "South Seattle Community College"
-      
+      "SOUTH SEATTLE CC"      => "South Seattle Community College",
+      "UNIV OF NEW HAMPSHIRE" => "University of New Hampshire",
+      "UNIV NEVADA LAS VEGA"  => "University Nevada Las Vegas",
+      "BEMIDJI ST UNIV"       => "Bemidji State University",
+      "KENT STATE UNIV"       => "Kent State University",
+      "QUEENS COLL NY"        => "Queens College of New York"
+       
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end
