@@ -71,7 +71,7 @@ class CommitteeMember < ActiveRecord::Base
   after_save :create_token_if_needed
   after_validation :update_status_cache!
   
-  PLACEHOLDER_CODES = %w(login_url)
+  PLACEHOLDER_CODES = %w(login_url current_symposium_session)
   PLACEHOLDER_ASSOCIATIONS = %w(person committee)
 
   DEFAULT_RESPONSE_LIFETIME = 9.months
@@ -158,6 +158,11 @@ class CommitteeMember < ActiveRecord::Base
     token.generate rescue create_token
     "http://#{CONSTANTS[:base_system_url]}/committee_member/map/#{id}/#{token.token}"
   end
+  
+  def current_symposium_session
+    current = offering_sessions.last    
+    "Session: #{current.title}\nLocation: #{current.location}\nTime:#{current.time_detail}"
+  end 
 
   def create_committee_member_quarters_if_needed
     if committee

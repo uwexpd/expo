@@ -51,7 +51,7 @@ class Institution < StudentInfo
       "UNIV OF WASHINGTON"    => "University of Washington",
       "SOUTH SEATTLE CC"      => "South Seattle Community College",
       "UNIV OF NEW HAMPSHIRE" => "University of New Hampshire",
-      "UNIV NEVADA LAS VEGA"  => "University Nevada Las Vegas",
+      "UNIV NEVADA LAS VEGA"  => "University of Nevada Las Vegas",
       "BEMIDJI ST UNIV"       => "Bemidji State University",
       "KENT STATE UNIV"       => "Kent State University",
       "QUEENS COLL NY"        => "Queens College of New York"

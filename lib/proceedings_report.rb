@@ -121,7 +121,7 @@ class ProceedingsReport
   # Fetches an abstract and converts the necessary elements into our little markup language so that it can be processed.
   def add_abstract(app, options = {})
     print "\nAdding abstract for ApplicationForOffering #{app.id}:"
-    unless app.in_status?(:confirmed)
+    unless app.in_status?(:confirmed) || app.in_status?(:fully_accepted)
       @skipped_applications << app
       print "\n   --> Skipping (application status == '#{app.current_status_name}')"
       return
