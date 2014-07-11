@@ -30,7 +30,7 @@ while !@people.empty?
     pdf.text "<b>#{person.nickname.blank? ? person.firstname_first : person.nickname+" "+person.lastname}</b>", :justification => :center, :font_size => 24
     
     # "EVENT STAFF"
-    pdf.fill_color! Color::RGB::Purple
+    pdf.fill_color! Color::RGB::GoldenRod
     pdf.rectangle(pdf.left_margin - 20, footer_y[row%3].to_i + 60, 300, 35).fill
     pdf.fill_color! Color::RGB::White
     pdf.select_font "Helvetica"

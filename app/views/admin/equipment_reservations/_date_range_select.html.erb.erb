@@ -9,8 +9,7 @@
 		<td><h3>Start time:</h3></td>
 		<% valid_date_checks = ["date >= (new Date()).stripTime()",
 								"date.getDay() != 0",
-								"date.getDay() != 6",
-								"date < Date.parse(\"#{Quarter.current_quarter.next.first_day.to_s(:long)}\")"
+								"date.getDay() != 6"
 								]
 
 		for holiday in UwCalendar.holidays.keys

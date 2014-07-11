@@ -21,9 +21,9 @@ task :student_courses => :environment do
   puts "Quarter: #{quarter.title}"
   
   # Fetch courses 
-  math_courses = [98,112,120,124,125,126,300,301,307,308,309,324,326,327,328] 
-  biol_courses = [106,118,180,200,220]
-  qsci_courses = [291,292]
+  math_courses = [111,120,124,125,126,300,301,307,308,309,324,326,327,328] 
+  biol_courses = [118,180,200,220]
+  qsci_courses = [291,292,381]
   engl_courses = [110,111,121,131,198,199,200,281]
   courses = []  
   dept_courses = []  
@@ -48,7 +48,7 @@ task :student_courses => :environment do
   
   print "Parsing CSV file...."
   #print "Input file path of CSV file: "
-  file_path = "tmp/SSS_ID_SPR_2014.csv" #$stdin.gets.strip
+  file_path = "tmp/SSS_ID_SUM_2014.csv" #$stdin.gets.strip
   print "(file path: #{file_path})\n"
     
   # turn csv into array of hashes
@@ -118,18 +118,18 @@ task :check_if_MGE_scholar=> :environment do
     
 end
 
-desc "Get pipeline placements with 2 or 3 quarters in a row from Fall 2011 to Spring 2012"
+desc "Get pipeline placements with 2 or 3 quarters in a row from Fall 2013 to Spring 2014"
 task :pipeline_placements => :environment do  
   puts "Loaded #{RAILS_ENV} environment."
 
-  placements = Quarter.find(25,26,27).collect(&:service_learning_placements).flatten.select(&:filled?).select{|p|p.unit_id == 4}  
+  placements = Quarter.find(220,221,222).collect(&:service_learning_placements).flatten.select(&:filled?).select{|p|p.unit_id == 4}  
   puts "placements: #{placements.size}"  
   students={}
   placements.each{|s| students[s.person_id] = (students[s.person_id].nil? ? [s.quarter_id] : students[s.person_id] << s.quarter_id )}
 
-  puts "#{students.select{|k,v| v.size==3}.size}"
-  puts "#{students.select{|k,v| v.size==2 && v[0]=="25" && v[1]="26"}.size}"
-  puts "#{students.select{|k,v| v.size==2 && v[0]=="26" && v[1]="27"}.size}"
+  puts "Student who tutored 3 academic quarters => #{students.select{|k,v| v.size==3}.size}"
+  puts "Student who tutored Fall and Winter quarters => #{students.select{|k,v| v.size==2 && v[0]=="220" && v[1]="221"}.size}"
+  puts "Student who tutored Winter and Spring quarters => #{students.select{|k,v| v.size==2 && v[0]=="221" && v[1]="222"}.size}"
 
 end
 
@@ -171,5 +171,83 @@ task :student_number => :environment do
     
 end
 
+desc "Import a csv file wiht UW NetID and return their student number for pipeline Alternative Spring Break "
+task :student_number_abs => :environment do
+    print "Parsing CSV file...."    
+    file_path = "tmp/pipeline_2014.csv"
+    print "(file path: #{file_path})\n"
+    
+    student_file = CSV.open(file_path, 'r', ?,, ?\r)  
+    student_data = student_file.map{|row| row.map {|cell| cell.to_s } }
+    puts "Total students number: #{student_data.size}"  
+    puts "====================================================================================================================="
+
+    for s in student_data
+      uwnetid = s.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1) 
+      student = Student.find_by_uw_netid(uwnetid)
+      print "#{student.student_no.to_s.ljust(7)}    #{student.fullname.ljust(35)}       #{student.email.ljust(25)}  \n" if student
+    end
+    
+end
 
 
+desc "Import for migration of general study faculty data"
+task :general_study_faculty => :environment do
+    print "Parsing CSV file...."    
+    file_path = "tmp/GENST_Faculty.csv"
+    print "(file path: #{file_path})\n"
+    
+    lineno = 0
+    
+    faculty_file = CSV.open(file_path, 'r', ?,, ?\r)  
+   
+     puts "Start to add faculty information..."
+     
+    faculty_file.each do |row|
+      lineno += 1    
+
+      fullname     = row[0].strip unless row[0].blank?
+      code         = row[1].strip unless row[1].blank?
+      employee_id  = row[2].strip unless row[2].blank?
+      uw_netid     = row[3].strip unless row[3].blank?
+
+      # fullname     = row[0].blank? ? row[0] : row[0].strip 
+      # code         = row[1].blank? ? row[1] : row[1].strip 
+      # employee_id  = row[2].blank? ? row[2] : row[2].strip 
+      # uw_netid     = row[3].blank? ? row[3] : row[3].strip
+      
+      unless fullname.blank?
+        firstname = fullname.split(",").first
+        lastname  = fullname.split(",").second
+      end          
+
+      faculty = GeneralStudyFaculty.find_or_create_by_code(code)
+      faculty.update_attributes(:firstname => firstname,
+                                :lastname => lastname,
+                                :uw_netid => uw_netid,
+                                :code => code,
+                                :employee_id => employee_id,
+                                :created_at => Time.now)
+      faculty.save
+    end
+    
+    puts "Updated #{lineno} General Study Fauclty"
+    
+end
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
