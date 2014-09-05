@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131119014337) do
+ActiveRecord::Schema.define(:version => 20140722184714) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1067,6 +1067,15 @@ ActiveRecord::Schema.define(:version => 20131119014337) do
     t.integer  "filled_placements_count"
     t.integer  "unallocated_placements_count"
     t.integer  "total_placements_count"
+    t.boolean  "general_study"
+    t.text     "learning_goals"
+    t.text     "academic_topics"
+    t.text     "sources"
+    t.boolean  "public_service"
+    t.integer  "total_hours"
+    t.integer  "credit"
+    t.integer  "volunteer"
+    t.decimal  "compensation",                          :precision => 8, :scale => 2
   end
 
   create_table "department_extras", :force => true do |t|
@@ -1332,6 +1341,17 @@ ActiveRecord::Schema.define(:version => 20131119014337) do
     t.string   "url"
     t.string   "title"
     t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "general_study_faculties", :force => true do |t|
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "uw_netid"
+    t.string   "code"
+    t.string   "employee_id"
+    t.string   "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -2468,6 +2488,7 @@ ActiveRecord::Schema.define(:version => 20131119014337) do
     t.boolean  "no_filters"
     t.integer  "pipeline_student_type_id"
     t.boolean  "required",                 :default => false
+    t.boolean  "general_study"
   end
 
   create_table "service_learning_orientations", :force => true do |t|
@@ -2587,6 +2608,15 @@ ActiveRecord::Schema.define(:version => 20131119014337) do
     t.integer  "filled_placements_count"
     t.integer  "total_placements_count"
     t.integer  "unallocated_placements_count"
+    t.boolean  "general_study"
+    t.text     "learning_goals"
+    t.text     "academic_topics"
+    t.text     "sources"
+    t.boolean  "public_service"
+    t.integer  "total_hours"
+    t.integer  "credit"
+    t.integer  "volunteer"
+    t.decimal  "compensation",                          :precision => 8, :scale => 2
   end
 
   add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"
@@ -2635,6 +2665,19 @@ ActiveRecord::Schema.define(:version => 20131119014337) do
     t.boolean  "admin_approved"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "faculty_person_id"
+    t.string   "faculty_firstname"
+    t.string   "faculty_lastname"
+    t.string   "faculty_email"
+    t.string   "faculty_dept"
+    t.string   "faculty_phone"
+    t.boolean  "general_study"
+    t.boolean  "supervisor_approved"
+    t.text     "supervisor_feedback"
+    t.datetime "general_study_risk_date"
+    t.string   "general_study_risk_signature"
+    t.integer  "register_person_id"
+    t.datetime "registered_at"
   end
 
   create_table "session_histories", :force => true do |t|

@@ -45,7 +45,8 @@
 			<th class="grey">No basis for judgment</th>
 		</tr>
 		<% evaluation_questions_unit = @placement.unit_id == 9 ? 1 : @placement.unit_id # force bothell to use carlson's evaluation's questions %>
-		<% @quarter.service_learning_evaluation_questions.for_unit(evaluation_questions_unit).reject{|q| q.display_as != 'scale_rating'}.each_with_index do |question,i| %>
+		
+		<% @quarter.service_learning_evaluation_questions.for_unit(evaluation_questions_unit).select{|q| q.display_as == 'scale_rating' && q.general_study? == @placement.position.general_study?}.each_with_index do |question,i| %>
 		<% response = @evaluation.response_for(question) %>
 		
 			<% response.valid? if @show_errors # HACK to make the errors on the associated model show up. Not sure what's happening here %>
@@ -61,7 +62,8 @@
 
 	<div class="smaller">
 
-	<% @quarter.service_learning_evaluation_questions.for_unit(evaluation_questions_unit).reject{|q| q.display_as == 'scale_rating'}.each_with_index do |question,i| %>
+	<% @quarter.service_learning_evaluation_questions.for_unit(evaluation_questions_unit).select{|q| q.display_as != 'scale_rating' && q.general_study? == @placement.position.general_study?}.each_with_index do |question,i| %>
+	
 	<% response = @evaluation.response_for(question) %>
 		
 		<% response.valid? if @show_errors %>

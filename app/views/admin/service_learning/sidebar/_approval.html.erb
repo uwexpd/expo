@@ -1,8 +1,21 @@
-<h3>Approve Self Placement Position</h3>
+<h3>Approve <%= @type_of_self_placement %> Position</h3>
 
-<p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and place this student into self placement</p>
-<center>	
+<% if @self_placement.general_study? && @is_new_contact %>
+	<p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and create a new contact.</p>
+	<p>It will also send a login url for the new contact you create.</p>
+	<% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>	
+	<center><%= f.submit "Approve new contact", :class => 'green' %></center>
+	<% end %>
+<% else %>
+<p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and place this student into <%= @type_of_self_placement.downcase %> position.</p>
+
 	<% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>
-	 	<%= f.submit "Approve this Position", :class => 'green' %>
+	<%= f.error_messages %>
+		<% if @self_placement.general_study? %>
+			<p style='font-size: 100%'><%= f.check_box :confirm_registered %>Check to confirm that you have completed registering the student.</p>
+		<% end %><br>
+
+		<center><%= f.submit "Approve this Position", :class => 'green' %></center>
+		
 	<% end -%>	
-</center>
+<% end %>

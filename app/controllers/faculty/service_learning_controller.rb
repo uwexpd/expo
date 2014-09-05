@@ -99,9 +99,10 @@ class Faculty::ServiceLearningController < FacultyController
   
   def self_placement_approval
     @self_placement = ServiceLearningSelfPlacement.find(params[:id])
+    @position_type = @self_placement.general_study ? "general study" : "self placement"
     
     if @self_placement.nil?
-      flash[:error] = "Can not find the student's self placements."
+      flash[:error] = "Can not find the student's #{@position_type} position."
       redirect_to :action => :students and return
     end    
     
@@ -118,18 +119,18 @@ class Faculty::ServiceLearningController < FacultyController
               #                       ) if template
               flash[:notice] = "You successfully approved #{@self_placement.position.name} for #{@self_placement.person.fullname} . Thank you."
           else
-              template = EmailTemplate.find_by_name("self placement request decline by facutly")
+              template = EmailTemplate.find_by_name("#{@position_type} request decline by facutly")
               TemplateMailer.deliver(template.create_email_to(@self_placement, 
-                                                              "http://#{CONSTANTS[:base_url_host]}/service_learning/self_placement",
+                                                              "http://#{CONSTANTS[:base_url_host]}/service_learning/#{@position_type.tr(' ', '_')}",
                                                               @self_placement.person.email)
                                     ) if template            
-              flash[:notice] = "You declined the self placement request for #{@self_placement.person.fullname}. A email with your feedback sent to the student."
+              flash[:notice] = "You declined the #{@position_type} position request for #{@self_placement.person.fullname}. A email with your feedback sent to the student."
           end
       end      
       redirect_to :action => :students
     end    
     session[:breadcrumbs].add "Students", faculty_service_learning_path(:action => 'students')
-    session[:breadcrumbs].add "View Self Placement Positions"
+    session[:breadcrumbs].add "View #{@position_type.titleize} Positions"
   end
     
 

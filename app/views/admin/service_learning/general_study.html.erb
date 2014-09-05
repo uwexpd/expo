@@ -1,0 +1,8 @@
+<h1>General Study</h1>
+<h3>Total <%= pluralize @self_placements.size, "general study request" %></h3>
+
+<%= render :partial => "self_placements", :locals => {:self_placements => @self_placements} %>
+
+<% sidebar :search, :entities %>
+
+<% sidebar :with_selected %>

@@ -1,17 +1,25 @@
 <h3><strong>Instructors
-	<span>
-		<%= link_to_expo_email(@service_learning_course.instructors, "email all", :class => "icon-left email") %> | 
-		<%= link_to "edit", service_learning_course_instructors_path(@unit, @quarter, @service_learning_course) %>
-	</span></strong>
-	</h3>
+		<% unless @service_learning_course.general_study? %>
+			<span>
+				<%= link_to_expo_email(@service_learning_course.instructors, "email all", :class => "icon-left email") %> | 
+				<%= link_to "edit", service_learning_course_instructors_path(@unit, @quarter, @service_learning_course) %>
+			</span>
+		<% end %>
+	</strong>
+</h3>
 
-<ul class="link-list">
-	
-	<% for instructor in @service_learning_course.instructors %>
-	<li>
-		<%= link_to "#{instructor.fullname}#{"<span>TA</span>" if instructor.ta?}", 
-					service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, instructor) %>
-	</li>
-	<% end -%>
 
-</ul>
+	<% if @service_learning_course.general_study? %>
+		Current Faculties: 
+		<strong><%= @service_learning_course.instructors.count %></strong>
+		<%= link_to "(view list)", :action => "faculties" %>
+	<% else %>
+		<ul class="link-list">
+			<% for instructor in @service_learning_course.instructors %>
+			<li>
+				<%= link_to "#{instructor.fullname}#{"<span>TA</span>" if instructor.ta?}", 
+							service_learning_course_instructor_path(@unit, @quarter, @service_learning_course, instructor) %>
+			</li>
+			<% end -%>
+		</ul>
+    <% end %>

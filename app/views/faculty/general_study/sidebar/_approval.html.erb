@@ -1,0 +1,16 @@
+<h3>Approve General Study Position</h3>
+
+<p>After approving this position, Carlson Center will review the position and place the student.</p>
+
+<% form_for @self_placement, :url => { :action => "general_study_approval" } do |f| %>
+ 	<%= f.radio_button :faculty_approved, true %> <span class='green'>Approve this position</span><br>
+	<%= f.radio_button :faculty_approved, false %> Decline. Leave a feedback to student<br><br>
+	Feedback:<br>
+	<%= f.text_area :faculty_feedback, :rows => 4 %>
+	<span class='caption'>An auto-email will send this feedback to student.</span><br>
+	<p class="intro"><%= HelpText.caption(:general_study_faculty, ServiceLearningSelfPlacement) %></p>
+	<center><%= f.submit "Submit" %></center>
+<% end -%>
+
+
+

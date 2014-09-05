@@ -1,0 +1,24 @@
+<% skip_nav ||= false %>
+<% skip_title ||= false %>
+<% admin ||= false %>
+
+<% unless skip_title %>
+	<h2>General Study Details</h2>
+<% end %>
+	
+	<%= f.check_box :public_service %>
+		
+	<%= f.text_field :total_hours, :size => 20 %>
+	
+	<%= f.label_with_caption :volunteer %>
+	<p>
+	<%= f.radio_button :volunteer, 1 %> Volunteer <%= f.radio_button :volunteer, 0 %> Paid
+	</p>
+	
+	<%= f.text_field :compensation, :size => 10 %>
+
+<% unless skip_nav %>
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Basic Info", :basic_info, :link_only => true, :link_class => "button" %>
+</div>
+<% end %>

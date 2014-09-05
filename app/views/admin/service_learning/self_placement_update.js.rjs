@@ -1,1 +1,1 @@
-page.replace_html "self_placement_update_#{@self_placement.id}", :partial => "service_learning/self_placement", :locals => { :admin => true }
+page.replace_html "self_placement_update_#{@self_placement.id}", :partial => @self_placement.general_study? ? "service_learning/general_study" : "service_learning/self_placement", :locals => { :admin => true }

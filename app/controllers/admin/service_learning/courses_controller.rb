@@ -584,6 +584,23 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
     #redirect_to :action => "index", :copy_quarter_id => params[:copy_quarter_id]
     render :partial => "course_copy_dropdown"
   end
+
+  def faculties
+    @service_learning_course = ServiceLearningCourse.find(params[:id])
+    
+    @general_study_placements = {}
+              
+    for placement in @service_learning_course.placements
+      if placement.position.general_study?
+        if @general_study_placements[placement.self_placement.faculty_person_id.to_i].nil?
+          @general_study_placements[placement.self_placement.faculty_person_id.to_i] = [placement]
+        else
+          @general_study_placements[placement.self_placement.faculty_person_id.to_i] << placement
+        end
+      end
+    end
+    
+  end
       
   private
   

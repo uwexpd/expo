@@ -1,0 +1,72 @@
+<h1>View General Study Students
+	<small class="light">&raquo; <%= @quarter.title %></small></h1>
+	
+<table>
+	
+	<tr>
+		<th>Student</th>
+		<th>Position</th>
+		<th>Organization</th>
+		<th>Approve</th>
+		<th>View Evaluation</th>
+	</tr>
+
+	
+	<tr class="rowset-header">
+		<td colspan=5>Total students <font class="lighter grey">&raquo; <%= pluralize @faculty_students.size, "student" %></font></td>
+	</tr>		
+
+	<% if @faculty_students.blank? %>
+		<tr class="highlight">
+			<td colspan=5>No general study position request.</td>
+		</tr>
+	<% else -%>
+		<% @faculty_students.each do |general_study| %>
+			<tr>
+				<td>
+					<%= general_study.person.fullname %>
+					<br><span class="smaller"><%= auto_link general_study.person.email %></span>
+
+					<% if extra_enrollee = general_study.course.extra_enrollees.find_by_person_id(general_study.person) rescue nil %>
+						<br><small class="lighter">(Not officially enrolled)</small>
+					<% end %>
+				</td>
+				
+				<td>
+					<%#= link_to general_study.position.name, 
+								faculty_general_study_path(:action => 'general_study_approval', :id => general_study.id) rescue general_study.position.name %>
+					<%= general_study.position.name %>
+				</td>
+				
+				<td>
+					<%#= link_to general_study.position.organization.name,
+					 			faculty_service_learning_path(:action => 'organization', :quarter_abbrev => @quarter, 
+								:id => general_study.position.organization) rescue general_study.organization_name %>
+					<%= general_study.organization_name %>
+				</td>
+				
+				<td>
+					<% unless general_study.nil? || general_study.admin_approved? %>
+						<%= link_to general_study.faculty_approved? ? "Pending" : "View Request",
+							        faculty_general_study_path(:action => 'general_study_approval', :id => general_study.id), 
+							 		:class => general_study.faculty_approved? ? '' : 'button' %>
+					<% end -%>
+
+					<%= link_to "<span class='green-check'></span>View details",
+					    faculty_general_study_path(:action => 'general_study_approval', :id => general_study.id) if general_study.admin_approved? %>
+			    </td>
+			
+				<td>
+					<% unless general_study.placement.nil? || !general_study.placement.evaluation_submitted? %>
+						<%= link_to "View Evaluation", 
+									faculty_service_learning_path(:action => 'evaluation', :quarter_abbrev => @quarter, :id => general_study.placement.id) %>
+					<% end -%>
+				</td>
+			</tr>			
+					
+		<% end %>
+		
+	<% end %>
+	
+	
+</table>

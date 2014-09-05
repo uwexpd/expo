@@ -38,8 +38,12 @@
 					:class => "icon-left checkin" %></li>
 	<% end -%>
 	
-	<li><%= link_to "Self Placements Request <span>(#{@quarter.service_learning_self_placements.reject{|s|s.admin_approved}.size})</span>", 
+	<li><%= link_to "Self Placements Request <span>(#{@quarter.service_learning_self_placements.reject{|s|s.admin_approved || s.general_study == true}.size})</span>", 
 					service_learning_self_placements_path(@unit, @quarter),
 					:class => "icon-left assign-people" %></li>
+	
+	<li><%= link_to "General Study Request <span>(#{@quarter.service_learning_self_placements.reject{|s|s.admin_approved || s.general_study != true}.size})</span>", 
+					service_learning_general_study_path(@unit, @quarter),
+					:class => "icon-left assign-people" %></li>				
 	
 </ul>

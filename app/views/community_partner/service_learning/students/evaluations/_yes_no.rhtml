@@ -5,12 +5,13 @@
 	
 	<table class="borderless highlightless">
 		<tr>
-		<% for i in ["Yes", "No, but is expected to by the end of the quarter", "No, and is *not* expected to by the end of the quarter"] %>
-			<td width=10 <%= "class='selected'" if @evaluation.submitted? && r.object.response == i.to_s %>>
-				<%= r.radio_button :response, i, :disabled => @evaluation.submitted? %>
-			</td>
-			<td><%= i %></td>
-		<% end -%>
+		<% radio_options = question.general_study? ? ["Yes","No"] : ["Yes", "No, but is expected to by the end of the quarter", "No, and is *not* expected to by the end of the quarter"]%>
+			<% for i in radio_options %>
+				<td width=10 <%= "class='selected'" if @evaluation.submitted? && r.object.response == i.to_s %>>
+					<%= r.radio_button :response, i, :disabled => @evaluation.submitted? %>
+				</td>
+				<td><%= i %></td>
+			<% end -%>
 		</tr>
 	</table>
 		

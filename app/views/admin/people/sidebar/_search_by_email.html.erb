@@ -1,0 +1,10 @@
+<h3>Search by email</h3>
+
+<% form_tag url_for(:action => 'search'), :method => :get do %>
+
+	<label for="search_code">Email:</label>
+	<%= text_field_tag 'search[email]' %>
+	
+	<%= submit_tag "Search" %>
+	
+<% end -%>

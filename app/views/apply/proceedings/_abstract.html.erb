@@ -13,7 +13,7 @@
 		
 			<dl class="<%= 'half' unless params[:action] == 'offering_session' %>">
 				
-				<% cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_presenters', :expires_in => 1.day) do %>
+				<% cache "abstract_#{abstract.id}", abstract.updated_at.to_i do %>
 		
 				<dt><%= pluralize_without_count (1 + abstract.group_members.count), "Presenter" %></dt>
 				<dd>
@@ -78,7 +78,7 @@
 
 	</div>
 
-	<% cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_text', :expires_in => 1.day) do %>
+	<%# cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_text') do %>
 
 		<!-- Abstract -->
 		<div class="abstract_text" style="display:none" id="abstract_text_<%= abstract.id %>">
@@ -108,7 +108,7 @@
 			<% end -%>
 		</ul>
 		
-	<% end -%>
+	<%# end -%>
 
 <br style="clear:right">
 

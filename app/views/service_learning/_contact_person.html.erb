@@ -1,0 +1,11 @@
+<% enable_contact_creation ||= false %>
+<dt>Contact Person	<%= content_tag('em', '*', :class => 'required') %></dt>
+<dd><%= s.text_field :organization_contact_person, :class => "required" %> Title: <%= s.text_field :organization_contact_title %>
+	<span class="small"><%= link_to_function "Select from existing contacts", "Element.toggle(create_contact_person);Element.toggle(select_contact_person);" if enable_contact_creation == true %></span>
+</dd>
+
+<dt>Contact phone <%= content_tag('em', '*', :class => 'required') %></dt>
+<dd><%= s.text_field :organization_contact_phone %>	<span class='caption'>e.g: 2061234567</span></dd>
+
+<dt>Contact Email <%= content_tag('em', '*', :class => 'required') %></dt>
+<dd><%= s.text_field :organization_contact_email %></dd>

@@ -1,0 +1,7 @@
+<h1>View and Approve Student General Study Position <%= "<span class='green tag'>faculty approved</span>" if @self_placement.faculty_approved? %></h1>
+
+<%= render :partial => "service_learning/self_placement_fields" %><br>
+
+<%= link_to "&#x2190; Back to Student Listing", faculty_general_study_path(:action => 'students', :quarter_abbrev => @quarter) %>
+
+<% sidebar :approval unless @self_placement.faculty_approved? %>

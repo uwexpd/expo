@@ -41,12 +41,13 @@
 	   	</td>
 	
 		<td value="<%= self_placement.position.name %>">
-			<%= self_placement.status %>
+			<%= self_placement.general_study ? self_placement.general_study_status : self_placement.status %>
 		</td>		
 	
 		<td>
 		<%= link_to self_placement.admin_approved? ? '<span>View</span>' : '<span>Approve</span>' , 
-					service_learning_self_placement_approval_path(@unit, @quarter, :id => self_placement.id) %>	 
+					service_learning_self_placement_approval_path(@unit, @quarter, :id => self_placement.id),
+					:class => self_placement.admin_approved? ? '' : 'button' %>	 
 	    <td/>     	
 
       </tr>

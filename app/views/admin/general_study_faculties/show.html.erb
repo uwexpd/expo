@@ -1,0 +1,21 @@
+<h1><%= @general_study_faculty.firstname %> <%= @general_study_faculty.lastname %>
+	<span class="light right"><%= link_to "Edit", edit_general_study_faculty_path(@general_study_faculty), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@general_study_faculty) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>Name</dt>
+	<dd><%= @general_study_faculty.firstname %> <%= @general_study_faculty.lastname %></dd>
+
+	<dt>UW NetID</dt>
+	<dd><%= @general_study_faculty.uw_netid %></dd>
+
+	<dt>Code</dt>
+	<dd><%= @general_study_faculty.code %></dd>
+
+	<dt>Employee ID</dt>
+	<dd><%= @general_study_faculty.employee_id %></dd>
+
+
+</dl>

@@ -3,18 +3,23 @@
 	<div id="tabs">
 		<ul>
 			<%= link_to_tab_pane "Basic Info", :basic_info, :class => 'current' %>
-			<%= link_to_tab_pane "Description", :description %>
-			<% unless @use_pipeline_links %>
-			<%= link_to_tab_pane "Requirements", :requirements %>
-			<% end %>
-			<%= link_to_tab_pane "Scheduling", :scheduling %>
-			<%= link_to_tab_pane "Location", :location %>
-			<% unless @use_pipeline_links %>
-			<%= link_to_tab_pane "Orientation", :orientation %>
+			<% if service_learning_position.general_study? %>
+				<%= link_to_tab_pane "General Study Description", :general_study_description %>
+				<%= link_to_tab_pane "General Study", :general_study %>
 			<% else %>
-			<%= link_to_tab_pane "Subjects", :subjects %>
-			<%= link_to_tab_pane "Grade Levels", :grade_levels %>
-			<%= link_to_tab_pane "Tutoring Formats", :tutoring_formats %>
+				<%= link_to_tab_pane "Description", :description %>			
+				<% unless @use_pipeline_links %>
+				<%= link_to_tab_pane "Requirements", :requirements %>
+				<% end %>
+				<%= link_to_tab_pane "Scheduling", :scheduling %>
+				<%= link_to_tab_pane "Location", :location %>
+				<% unless @use_pipeline_links %>
+				<%= link_to_tab_pane "Orientation", :orientation %>
+				<% else %>
+				<%= link_to_tab_pane "Subjects", :subjects %>
+				<%= link_to_tab_pane "Grade Levels", :grade_levels %>
+				<%= link_to_tab_pane "Tutoring Formats", :tutoring_formats %>
+				<% end %>
 			<% end %>
 		</ul>
 	</div>
@@ -26,10 +31,25 @@
 			 			:locals => { :f => f, :admin => true, :service_learning_position => service_learning_position } %>
 		<% end -%>
 
+	<% if service_learning_position.general_study? %>
+		
+		<% tab_pane :general_study_description do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/general_study_description",
+			 			:locals => { :f => f, :admin => true, :service_learning_position => service_learning_position } %>
+		<% end -%>
+		
+		<% tab_pane :general_study do %>
+			<%= render :partial => "admin/service_learning/organizations/positions/tabs/general_study",
+			 			:locals => { :f => f, :admin => true, :service_learning_position => service_learning_position } %>
+		<% end -%>
+				
+	<% else %>
+							
 		<% tab_pane :description do %>
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/description",
 			 			:locals => { :f => f, :admin => true, :service_learning_position => service_learning_position } %>
 		<% end -%>
+			
 
 		<% tab_pane :requirements do %>
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/requirements",
@@ -65,6 +85,8 @@
   			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
   		<% end -%>
 		<% end %>
+
+	<% end %>
 
 	</div>
 	

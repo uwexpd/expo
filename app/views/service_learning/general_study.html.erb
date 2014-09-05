@@ -1,0 +1,9 @@
+<% title("General Study 350 A: Entry Form", @quarter.title) %>
+
+<p class="intro"><%= HelpText.caption(:general_study, ServiceLearningPosition) %></p>
+	
+<% form_for @student, :url => { :action => "general_study" } do |f| %>
+		
+	<%= render :partial => "general_study", :locals => { :f => f } %>
+		
+<% end %>

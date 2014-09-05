@@ -1,0 +1,48 @@
+<h2>Potential Organizations for <%= @quarter.title %></h2>
+
+<% form_tag :url => { :action => "potential_organizations" } do %>
+
+<center style="padding:20px 0">
+	<%= submit_tag "Save", :name => "save" %>
+	<%= submit_tag "Submit all of your comments (an email will be sent to staff)", :name => "submit" %>
+</center>
+
+<table>		
+	<% for course in @courses_for_quarter %>
+		<tr class="rowset-header">
+			<td><%= course.title %> &raquo; <%= pluralize course.potential_organizations.size, "potential organization" %></td>
+			<td>Comments</td>
+		</tr>
+		<% instructor = ServiceLearningCourseInstructor.find_by_service_learning_course_id_and_person_id(course, @person) %>
+		<% for organization_quarter in course.potential_organizations.sort_by(&:name) %>					
+			<tr id="organization_match_<%= organization_quarter.id %>">
+				<td><%= link_to organization_quarter.organization.name, 
+				 				faculty_service_learning_path(:action => 'organization', 
+															  :quarter_abbrev => @quarter, 
+															  :id => organization_quarter.organization.id) %></td>
+
+				<td><%= text_field_tag "instructor_comments[#{course.id}][#{organization_quarter.id}]", organization_quarter.instructor_comments.for(instructor).try(:comment),
+				                       :size => 40 %></td>
+			</tr>			
+		<% end -%>
+		
+		<tr><td>Overall comment for the list of organizations for <%= course.title %></td>
+			<td><%= text_area_tag "instructor_comments[#{course.id}][overall_comment]", instructor.comment, :size => "30x4" %></td>
+		</tr>
+	
+		<% if course.potential_organizations.empty? %>
+			<tr class="empty">
+				<td>No potential organizations yet. </td>
+			</tr>
+		<% end -%>
+		
+	<% end -%>
+		
+</table>
+
+<center style="padding:20px 0">
+	<%= submit_tag "Save", :name => "save" %>
+	<%= submit_tag "Submit all of your comments (an email will be sent to staff)", :name => "submit" %>
+</center>
+
+<% end %>

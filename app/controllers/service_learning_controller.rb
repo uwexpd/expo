@@ -14,11 +14,12 @@ class ServiceLearningController < ApplicationController
   before_filter :assign_service_learning_course, :except => [:which, :complete]
   before_filter :show_minor_warning, :only => [:index, :position]
   before_filter :require_waiver_if_minor, :only => [:choose, :contact, :risk]
-  before_filter :check_if_already_registered, :except => [:complete, :my_position, :which, :test, :self_placement, :self_placement_submit]
+  before_filter :check_if_already_registered, :except => [:complete, :my_position, :which, :test, :self_placement, :self_placement_submit, :general_study, :general_study_submit]
   before_filter :fetch_position, :only => [:position, :choose, :contact, :risk]
   before_filter :check_if_registration_finalized, :only => [:position, :choose, :contact, :risk, :change]
   before_filter :check_if_registration_open, :only => [:choose, :contact, :risk, :change]
   before_filter :check_if_registered_with_same_course, :only => [:self_placement]
+  before_filter :fetch_self_placement, :only => [:self_placement, :general_study]
 
 
   def index
@@ -126,31 +127,16 @@ class ServiceLearningController < ApplicationController
     flash[:notice] = "Time: #{Time.now - @start_time} seconds"
   end
 
-  def self_placement       
-    @self_placement = (ServiceLearningSelfPlacement.find(params[:id]) if params[:id]) ||
-                       ServiceLearningSelfPlacement.find_by_person_id_and_quarter_id_and_service_learning_course_id(@student, @quarter, @service_learning_course) ||
-                       ServiceLearningSelfPlacement.new
-    @position = @self_placement.position || ServiceLearningPosition.new
-    @position.times.build
-    @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")
-    @organization = (params[:organization_id].blank?) ? Organization.find(@self_placement.try(:organization_id)) : Organization.find(params[:organization_id]) rescue nil
-    
-    # Stop this method if submitted already
+  def self_placement           
     if @self_placement.submitted?
       flash[:notice] = "Your self placement position form has been submitted."
       redirect_to :action => "self_placement_submit", :id => @self_placement.id and return
     end
         
     if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)        
-        # If student check +new_organization+, then think student creates a new organziation instead of exsiting organziation
-        if params[:self_placement_attributes][:new_organization] == "1"
-            return @self_placement.errors.add_to_base "New organization name cannot be blank." if params[:self_placement_attributes][:organization_id].blank?
-        else
-            return @self_placement.errors.add_to_base "Please select an organization" if params[:organization_id].blank?
-        end
-        
-        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?   
-          
+        self_placement_form_validation
+        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
+            
         @position.title = params[:service_learning_position][:title]
         @position.approved = false
         @position.in_progress = true
@@ -166,29 +152,25 @@ class ServiceLearningController < ApplicationController
             else 
               @self_placement.organization_id = params[:organization_id] 
             end
+            @self_placement.self_placement_validations = true
                       
             if @self_placement.save              
               [:context_description, :description, :impact_description].each do |field|
                  return @position.errors.add(field, "cannot be blank.") if params[:service_learning_position][field].blank?
               end
-              #return @position.errors.add_to_base "Service learning schedule cannot not be blank." if params[:service_learning_position][:new_times].blank?    
+              #return @position.errors.add_to_base "Service learning schedule cannot not be blank." if params[:service_learning_position][:new_times].blank?
                             
               flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
               redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
-            end
-            
+            end            
          else
             flash[:error] = "Sorry, but we could not save your information. Please try submitting again."
             redirect_to :back
          end                       
     end # request.put?              
     
-    # update contact person options
-    if params[:update_contact_options] && params[:organization_id]      
-      @display_contact = true
-      @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
-    end          
-       
+    update_contact_options
+           
     respond_to do |format|
        format.html
        format.js
@@ -197,43 +179,164 @@ class ServiceLearningController < ApplicationController
   end
 
   def self_placement_submit
+    #self_placement_update(:self_placement, params[:id], params[:commit])
     @self_placement ||= ServiceLearningSelfPlacement.find(params[:id]) if params[:id]
-    if @self_placement.nil?
-      flash[:error] = "Can not find your self placements."        
-      redirect_to :action => :self_placement and return
+       if @self_placement.nil?
+         flash[:error] = "Can not find your self placements."        
+         redirect_to :action => :self_placement and return
+       end
+
+       redirect_to :action => :self_placement if params[:commit] == "Back to edit"
+
+       if params[:commit] == "Submit"
+         if params[:student][:electronic_signature].blank?
+           flash[:error] = "Electronic signature cannot be blank."
+           @student.errors.add :electronic_signature, "cannot be blank."
+         else
+           @student.update_attribute :service_learning_risk_signature, params[:student][:electronic_signature]
+           @student.update_attribute :service_learning_risk_date, Time.now
+
+           @self_placement.submitted = true
+           if @self_placement.save
+             @self_placement.course.instructors.each do |instrutor|
+               EmailContact.log(instrutor.person.id, 
+               ServiceLearningMailer.deliver_templated_message(instrutor.person, 
+                         EmailTemplate.find_by_name("self placement position approval request"),
+                                                    instrutor.person.email,
+                                                    "https://#{CONSTANTS[:base_url_host]}/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
+                                                    { :student => @student,
+                                                      :quarter => @quarter, 
+                                                      :self_placement => @self_placement,
+                                                      :faculty_link => "https://#{CONSTANTS[:base_url_host]}/faculty/service_learning/#{@quarter.abbrev}/students"})
+                                                   )
+           end
+
+             flash[:notice] = "Your self placement position form sucessfully submitted. A request email has been sent to your instructor(s)."
+             redirect_to :action => :self_placement and return
+           end
+         end
+       end # end if submit
+    
+  end
+
+  def general_study    
+    if @self_placement.submitted?
+      flash[:notice] = "Your general study form has been submitted."
+      redirect_to :action => "general_study_submit", :id => @self_placement.id and return
     end
-    
-    redirect_to :action => :self_placement if params[:commit] == "Back to edit"
-    
-    if params[:commit] == "Submit"
-      if params[:student][:electronic_signature].blank?
-        flash[:error] = "Electronic signature cannot be blank."
-        @student.errors.add :electronic_signature, "cannot be blank."
-      else
-        @student.update_attribute :service_learning_risk_signature, params[:student][:electronic_signature]
-        @student.update_attribute :service_learning_risk_date, Time.now
+        
+    if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)
+        self_placement_form_validation
+        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
                 
-        @self_placement.submitted = true
-        if @self_placement.save
-          @self_placement.course.instructors.each do |instrutor|
-            EmailContact.log(instrutor.person.id, 
-            ServiceLearningMailer.deliver_templated_message(instrutor.person, 
-                      EmailTemplate.find_by_name("self placement position approval request"),
-                                                 instrutor.person.email,
-                                                 "https://#{CONSTANTS[:base_url_host]}/faculty/service_learning/#{@quarter.abbrev}/self_placement_approval/#{@self_placement.id}",
-                                                 { :student => @student,
-                                                   :quarter => @quarter, 
-                                                   :self_placement => @self_placement,
-                                                   :faculty_link => "https://#{CONSTANTS[:base_url_host]}/faculty/service_learning/#{@quarter.abbrev}/students"})
-                                                )
-        end
-        
-          flash[:notice] = "Your self placement position form sucessfully submitted. A request email has been sent to your instructor(s)."
-          redirect_to :action => :self_placement and return
-        end
-      end
-    end # end if submit
-        
+        @position.title = params[:service_learning_position][:title]
+        @position.approved = false
+        @position.in_progress = true
+        @position.require_validations = false        
+
+        if @position.save && @position.update_attributes(params[:service_learning_position])            
+            @self_placement.update_attributes(params[:self_placement_attributes])
+            @self_placement.person_id = @student.id
+            @self_placement.service_learning_position_id = @position.id        
+            @self_placement.quarter_id = @quarter.id            
+            
+            if params[:self_placement_attributes][:new_organization] == "1"
+              @self_placement.require_validations = true 
+            else 
+              @self_placement.organization_id = params[:organization_id] 
+            end
+                                                                          
+            @position.require_general_study_validations = true
+                                              
+            if @self_placement.save && @position.save
+              flash[:notice] = "Your general study form sucessfully saved." if params[:commit] == "Save"     
+              redirect_to :action => "general_study_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
+            end            
+         else
+            flash[:error] = "Sorry, but we could not save your information. Please try submitting again."
+            redirect_to :back
+         end                       
+    end # request.put?
+    
+    update_contact_options
+    
+    respond_to do |format|
+       format.html
+       format.js
+    end
+  end
+  
+  def general_study_submit    
+    @self_placement ||= ServiceLearningSelfPlacement.find(params[:id]) if params[:id]
+
+    if @self_placement.nil?
+      flash[:error] = "Can not find your general study request."
+      redirect_to :action => :general_study and return
+    end
+
+   redirect_to :action => :general_study if params[:commit] == "Back to edit"
+
+       if params[:commit] == "Submit"
+         if params[:service_learning_self_placement][:general_study_risk_signature].blank?
+           flash[:error] = "Electronic signature cannot be blank."
+           @self_placement.errors.add :general_study_risk_signature, "cannot be blank."
+         else
+           @self_placement.update_attribute :general_study_risk_signature, params[:service_learning_self_placement][:general_study_risk_signature]
+           @self_placement.update_attribute :general_study_risk_date, Time.now
+
+           @self_placement.submitted = true
+           if @self_placement.save
+             
+               faculty_netid = @self_placement.faculty_email.match(/^(\w+)(@.+)?$/).try(:[], 1)
+               faculty = GeneralStudyFaculty.find_by_uw_netid(faculty_netid)
+               if faculty.nil?
+                  # send notification to admin for adding faculty code
+                  template = EmailTemplate.find_by_name("general study notification for carlson center admin staff")
+                  TemplateMailer.deliver(template.create_email_to(@self_placement,                                                                  "http://#{CONSTANTS[:base_url_host]}/admin/service_learning/carlson/#{@quarter.abbrev}/courses/#{@service_learning_course.id}/instructors",
+                                                                  Unit.find_by_abbreviation("carlson").email)
+                                        ) if template                                                               
+                  #no_faculty_match_message = "Carlson Center Staff will work on the faculty you entered."
+               else
+
+                  faculty_user = User.find_by_login_and_identity_type(faculty_netid, nil)
+                  if faculty_user.nil?
+                    faculty_user = PubcookieUser.authenticate faculty_netid
+                    faculty_user.person.update_attribute :firstname, faculty.firstname
+                    faculty_user.person.update_attribute :lastname, faculty.lastname
+                    faculty_user.person.update_attribute :email, @self_placement.faculty_email
+                  end
+                  
+                  @self_placement.update_attribute :faculty_person_id, faculty_user.person
+
+                  ServiceLearningCourseInstructor.find_or_create_by_service_learning_course_id_and_person_id(@self_placement.course.id, faculty_user.person.id)
+                   
+                  unless @self_placement.faculty_approved?
+                      faculty_template = EmailTemplate.find_by_name("general study position faculty approval request")
+                      TemplateMailer.deliver(faculty_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/faculty/general_study/#{@quarter.abbrev}/general_study_approval/#{@self_placement.id}",
+                                                                              @self_placement.faculty_email)
+                                            ) if faculty_template
+                  end
+
+                  unless @self_placement.supervisor_approved?
+                    if @self_placement.position.supervisor.nil?
+                      admin_template = EmailTemplate.find_by_name("general study admin notification for new contact or organization")
+                      TemplateMailer.deliver(admin_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/admin/service_learning/carlson/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
+                                                                  Unit.find_by_abbreviation("carlson").email)
+                                            ) if admin_template
+                    else
+                      supervisor_template = EmailTemplate.find_by_name("general study position supervisor approval request")
+                      TemplateMailer.deliver(supervisor_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/service_learning/#{@quarter.abbrev}/general_study/approve/#{@self_placement.id}",
+                                                                      @self_placement.position.supervisor.person.email)
+                                            ) if supervisor_template
+                    end
+                  end                                      
+                                      
+               end
+               flash[:notice] = "Your general study position form sucessfully submitted. A request email has been sent to your faculty"
+               redirect_to :action => :general_study and return               
+            end
+           end
+        end # end of if submit        
   end
 
 
@@ -338,6 +441,17 @@ class ServiceLearningController < ApplicationController
       redirect_to :action => "index"
     end
   end
+  
+  def fetch_self_placement
+    general_study_action = params[:action] == "general_study" ? true : false
+      
+    @self_placement = (ServiceLearningSelfPlacement.find(params[:id]) if params[:id]) || ServiceLearningSelfPlacement.find_by_person_id_and_quarter_id_and_service_learning_course_id_and_general_study(@student, @quarter, @service_learning_course, general_study_action) || ServiceLearningSelfPlacement.new                          
+    
+    @position = @self_placement.position || ServiceLearningPosition.new
+    @position.times.build unless general_study_action
+    @organization = (params[:organization_id].blank?) ? Organization.find(@self_placement.try(:organization_id)) : Organization.find(params[:organization_id]) rescue nil
+    @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")
+  end
 
   def check_if_already_registered
     @placements ||= @student.service_learning_placements.for(@quarter)
@@ -361,6 +475,24 @@ class ServiceLearningController < ApplicationController
       flash[:error] = "You already have a placement for #{@service_learning_course.title}. Please contact Carlson Center staff for self placement request."
       redirect_to :action => 'index'
     end
-  end    
+  end
+  
+  def self_placement_form_validation
+    if params[:self_placement_attributes][:new_organization] == "1"
+        return @self_placement.errors.add_to_base "New organization name cannot be blank." if params[:self_placement_attributes][:organization_id].blank?
+    else
+        return @self_placement.errors.add_to_base "Please select an organization" if params[:organization_id].blank?
+    end        
+  end      
+  
+  def update_contact_options
+    if params[:update_contact_options] && params[:organization_id]      
+      @display_contact = true
+      @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
+    end          
+    @new_contact = @position.supervisor_person_id.nil?
+  end
+  
 
 end
+

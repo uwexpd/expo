@@ -1,0 +1,16 @@
+<h1>General Study for Faculty</h1><br>
+<h3>Welcome, <%= @person.firstname %>.
+	<small class="light">&raquo; <%= @quarter.title %></small></h3>
+
+<ul id="service-learning-welcome-links" class="extra-padding">
+		
+	<% unless @general_study_course.nil? %>
+		<li id="evaluations"><%= link_to "View general study students and evaluations for #{@quarter.title}", 
+						faculty_general_study_path(:action => 'students', :quarter_abbrev => @quarter) %>
+			<small class="light">&raquo; <%= pluralize @faculty_students.size, "student" %></small>
+			<br>See where your students are volunteering and view evaluations from site supervisors.
+
+		</li>				
+	<% end -%>
+	
+</ul>

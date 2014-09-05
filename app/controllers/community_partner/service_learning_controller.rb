@@ -7,12 +7,13 @@ class CommunityPartner::ServiceLearningController < CommunityPartnerController
   before_filter :fetch_quarter
   # before_filter :fetch_organization_quarter
   before_filter :fetch_organization_quarters
+  before_filter :fetch_general_study
   
   
   def index
     @allow_evals = @organization_quarters.collect(&:allow_evals?).include?(true)
     @students = @organization_quarters.collect(&:students).flatten
-    @positions = @organization_quarters.collect(&:positions).flatten
+    @positions = @organization_quarters.collect(&:positions).flatten.reject{|p|p.general_study? && !p.approved}
   end
 
 
@@ -72,6 +73,11 @@ class CommunityPartner::ServiceLearningController < CommunityPartnerController
     if @unit && @unit.abbreviation == "pipeline"
       @use_pipeline_links = true
     end
+  end
+  
+  def fetch_general_study
+    @general_study_positions = @quarter.service_learning_self_placements.select{|s|s.organization_id == "#{@organization.id}"}
+    @general_study_positions = @general_study_positions.select{|s| s.general_study==true && !s.admin_approved? && (s.submitted? || s.supervisor_approved?) }
   end
   
   private

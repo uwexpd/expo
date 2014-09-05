@@ -1,0 +1,14 @@
+<h2>General Study Description</h2>
+
+<%= f.text_area :learning_goals, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<%= f.text_area :academic_topics, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<%= f.text_area :sources, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<%= f.text_area :description, :rows => 10, :style => "width: 99%", :class => 'mceEditor' %>
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Basic Info", :basic_info, :link_only => true, :link_class => "button" %>
+	<%= link_to_tab_pane "&#x2190; Next: General Study Details", :general_study, :link_only => true, :link_class => "button" %>	
+</div>

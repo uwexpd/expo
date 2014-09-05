@@ -1,0 +1,44 @@
+<% admin ||= false %>
+
+<dl class="inline-definitions">
+	
+	<dt>learning goals</dt>
+	<dd><%= service_learning_position.learning_goals %></dd>
+	
+	<dt>academic topics</dt>
+	<dd><%= service_learning_position.academic_topics %></dd>
+	
+	<dt>sources</dt>
+	<dd><%= service_learning_position.sources %></dd>
+	
+	<h4>Faculty information</h4>	
+	<dt>faculty name</dt>
+	<dd><%= service_learning_position.selfplacement.faculty_firstname %><%= service_learning_position.selfplacement.faculty_lastname %></dd>
+	
+	<dt>faculty email</dt>
+	<dd><%= service_learning_position.selfplacement.faculty_email %></dd>
+	
+	<dt>faculty department</dt>
+	<dd><%= service_learning_position.selfplacement.faculty_dept %></dd>
+
+	<dt>faculty phone</dt>
+	<dd><%= service_learning_position.selfplacement.faculty_phone %></dd>
+	
+	<h4>Other information</h4>	
+	<dt>public service</dt>
+	<dd><%= service_learning_position.public_service? ? "Yes" : "No" %></dd>
+	
+	<dt>total hours</dt>
+	<dd><%= service_learning_position.total_hours %></dd>
+
+	<dt>credit</dt>
+	<dd><%= service_learning_position.credit %></dd>
+
+	<dt>volunteer</dt>
+	<dd><%= service_learning_position.volunteer == 1 ? "volunteer" : "Paid" %></dd>
+
+	<dt>compensation</dt>
+	<dd><%= service_learning_position.compensation %></dd>
+	
+	
+</dl>

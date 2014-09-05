@@ -1,0 +1,48 @@
+<h1>General Study Faculties
+	<span class="light">&raquo; <%= @service_learning_course.quarter.title %></span></h1>
+<h3>Listing <%= @service_learning_course.instructors.count %> faculties</h3>
+
+<%= form_tag admin_communicate_write_email_url, :id => 'general_study_faculties_form' %>
+	<%= hidden_field_tag :recipient_variant %>
+	<%= hidden_field_tag :group_variant %>
+
+<table>
+
+	<tr class="small left">
+		<th><%= select_all_check_box %></th>
+		<th>Name</th>
+		<th>Code</th>
+		<th>Employee ID</th>
+		<th>Students</th>
+	</tr>	
+			
+	<% @service_learning_course.instructors.each do |faculty| %>	
+	
+	<% placements = @general_study_placements[faculty.person_id] if @general_study_placements %>	
+	
+		<tr id="faculty_<%= faculty.person_id %>">
+			<td><%= select_check_box(faculty) %></td>
+			<td>
+				<%= link_to faculty.person.fullname, admin_person_path(faculty.person), :target => "_blank" rescue faculty.person.fullname %>
+				<br><small><%= link_to_expo_email faculty, faculty.person.email rescue "#email error" %></small>
+			</td>
+			<td><%= faculty.faculty_code %></td>
+			<td><%= faculty.employee_id %></td>
+			<td>
+				<% placements.each do |placement| %>
+					<%= link_to placement.person.fullname, 
+								service_learning_organization_position_path(@unit, @quarter, placement.position.organization, placement.position) rescue "error" %>
+					<br>
+				<% end unless placements.nil? %>
+
+			</td>
+		</tr>
+		
+	<% end %>
+	
+</table>
+
+<% sidebar :with_selected_faculties %>
+
+</form>
+

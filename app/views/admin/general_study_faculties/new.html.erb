@@ -1,0 +1,13 @@
+<h1>New General Study Faculty</h1>
+
+<% form_for :general_study_faculty, @general_study_faculty, :url => general_study_faculties_path do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', general_study_faculties_path, :class => 'cancel button' %>
+
+<% end %>

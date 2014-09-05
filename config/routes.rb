@@ -66,7 +66,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.student_photo 'students/:reg_id/photo/:size.:format', :controller => 'students', :action => 'photo'
     admin.resources :students, {  :member => { :note => [:post, :put] }, 
                                   :collection => { :search => :any, :auto_complete_for_student_anything => :any } }
-    admin.resources :people, { :member => { :note => [:post, :put] } }
+    admin.resources :people, { :collection => { :search => :get }, :member => { :note => [:post, :put] } }
     admin.session_history 'session_history/:id', 
                           :controller => 'users', :action => 'session_history', :name_prefix => '', :path_prefix => 'admin'
     admin.resources :users, { :name_prefix => '', :collection => {:history => :get, :search => :any, :admin => :get,
@@ -111,7 +111,9 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :event_types, :controller => 'event_types', :name_prefix => ''
     
     admin.resources :academic_departments, :controller => 'academic_departments', :name_prefix => ''
-
+    
+    admin.resources :general_study_faculties, :controller => 'general_study_faculties', :name_prefix => '', :collection => { :search => :get }
+    
     admin.resources :events, :name_prefix => '', :collection => { :all => :get }, :member => { :attendees => :get, :sync_with_offering => [:get, :post], :clone => :put } do |events|  
       events.resources :times, :controller => 'events/times', :member => { :background_checks => :get } do |times|
         times.resources :sub_times, :controller => 'events/times/sub_times', 
@@ -254,7 +256,9 @@ ActionController::Routing::Routes.draw do |map|
                                           :controller => 'service_learning', :action => 'self_placement_approval', :name_prefix => ''
     admin.service_learning_self_placement_update 'service_learning/:unit/:quarter_abbrev/self_placement_update/:id',
                                           :controller => 'service_learning', :action => 'self_placement_update', :name_prefix => ''                                          
-                
+    admin.service_learning_general_study 'service_learning/:unit/:quarter_abbrev/general_study',
+                                          :controller => 'service_learning', :action => 'general_study', :name_prefix => ''
+                    
     admin.service_learning_pipeline_students 'service_learning/pipeline/:quarter_abbrev/students', 
                                               :controller => 'pipeline', :action => 'students', :name_prefix => ''
     admin.service_learning_pipeline_placements 'service_learning/pipeline/:quarter_abbrev/placements', 
@@ -293,7 +297,8 @@ ActionController::Routing::Routes.draw do |map|
                                                                               :toggle_use_filters => :post,
                                                                               :update_filters => :post,
                                                                               :get_pipeline_positions => :get,
-                                                                              :place_pipeline_position => :post }
+                                                                              :place_pipeline_position => :post,
+                                                                              :faculties => :get }
       } do |courses|
         # courses.evaluation          'evaluation/:id',           :controller => 'courses', :action => 'evaluation'
         courses.resources           :extra_enrollees      
@@ -369,6 +374,9 @@ ActionController::Routing::Routes.draw do |map|
       faculty.service_learning_home 'service_learning', :controller => 'ServiceLearning'
       faculty.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
       faculty.service_learning 'service_learning/:quarter_abbrev/:action/:id', :controller => 'ServiceLearning'
+      faculty.general_study_home 'general_study', :controller => 'GeneralStudy'
+      faculty.general_study_home 'general_study/:quarter_abbrev', :controller => 'GeneralStudy'
+      faculty.general_study 'general_study/:quarter_abbrev/:action/:id', :controller => 'GeneralStudy'      
   end
 
   # Community Partners
@@ -391,7 +399,8 @@ ActionController::Routing::Routes.draw do |map|
                                                     :path_prefix => 'community_partner/service_learning/:quarter_abbrev'
       service_learning.resources 'positions',       :controller => 'Positions',
                                                     :path_prefix => 'community_partner/service_learning/:quarter_abbrev',
-                                                    :collection => { :copy_from_previous => :any }
+                                                    :collection => { :copy_from_previous => :any }  
+      service_learning.general_study 'service_learning/:quarter_abbrev/general_study/:action/:id', :controller => 'GeneralStudy', :path_prefix => ''
     end
   end
 

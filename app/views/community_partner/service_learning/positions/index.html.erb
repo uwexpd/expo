@@ -45,7 +45,7 @@
 	
 	
 	    <td><%= link_to 'View', community_partner_service_learning_position_path(@quarter, position, :unit => @unit.id) %>
-			<% if position.organization_quarter.allow_position_edits? %>
+			<% if position.organization_quarter.allow_position_edits? && !position.general_study? %>
 			    | 	<%= link_to 'Edit', edit_community_partner_service_learning_position_path(@quarter, position, :unit => @unit.id) %>
 			    |	<%= link_to 'Delete', community_partner_service_learning_position_path(@quarter, position, :unit => @unit.id), 
 										   :confirm => 'Are you sure?', :method => :delete %></td>

@@ -9,7 +9,7 @@ class ServiceLearningCourseInstructor < ActiveRecord::Base
   validates_associated :person
   
   delegate :fullname, :contact_histories, :to => :person
-
+    
   PLACEHOLDER_CODES = %w(type_of_instructor)
   PLACEHOLDER_ASSOCIATIONS = %w(person service_learning_course)
 
@@ -42,5 +42,19 @@ class ServiceLearningCourseInstructor < ActiveRecord::Base
   def type_of_instructor
     ta? ? "TA" : "instructor"
   end
+  
+  def faculty_code
+    general_study_faculty.try(:code)
+  end
+  
+  def employee_id
+    general_study_faculty.try(:employee_id)
+  end
+  
+  protected
+  
+  def general_study_faculty
+    GeneralStudyFaculty.find_by_uw_netid(person.email.match(/^(\w+)(@.+)?$/).try(:[], 1))
+  end    
   
 end

@@ -5,6 +5,8 @@ config/certs
 config/database.yml
 config/uwca.crt
 
+config/environments/development.rb
+
 /files
 /javascripts
 /stylesheets
@@ -16,3 +18,11 @@ tmp/
 .svn/
 
 .bundle\n
+
+# for dislayed job and performance testing
+config/initializers/delayed_job_config.rb
+db/migrate/20131014235316_create_delayed_jobs.rb
+script/delayed_job
+vendor/plugins/delayed_job/
+config/trample.rb
+

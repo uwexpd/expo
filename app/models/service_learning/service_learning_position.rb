@@ -111,7 +111,8 @@ class ServiceLearningPosition < ActiveRecord::Base
       find(:all, :conditions  => ["(service_learning_course_id <=> 0 OR service_learning_course_id IS NULL) AND (person_id <=> 0 OR person_id IS NULL)"]) rescue []
     end
   end
-  has_many :self_placements, :class_name => "ServiceLearningSelfPlacement", :dependent => :destroy
+  has_one :selfplacement, :class_name => "ServiceLearningSelfPlacement", :dependent => :destroy
+  
   has_many :placement_courses, :through => :placements, :source => :course
   
   named_scope :pending, :conditions => "approved IS NULL OR approved = 0"
@@ -120,7 +121,7 @@ class ServiceLearningPosition < ActiveRecord::Base
   has_and_belongs_to_many :skill_types
   has_and_belongs_to_many :social_issue_types
   
-  attr_accessor :require_ideal_number_of_slots, :require_validations
+  attr_accessor :require_ideal_number_of_slots, :require_validations, :require_general_study_validations
   
   # By default, return true, unless we've specifically been told not to require this.
   def require_ideal_number_of_slots?
@@ -132,6 +133,10 @@ class ServiceLearningPosition < ActiveRecord::Base
     require_validations.nil? ? true : require_validations
   end
   
+  def require_general_study_validations?
+    require_general_study_validations.nil? ? false : require_general_study_validations
+  end
+  
   validates_presence_of :organization_quarter_id, :message => "is invalid. You must choose the UW unit that you're working with.", :if => :require_validations?
   validates_presence_of :supervisor_person_id, :message => "must be identified.", :if => :require_validations?
   validates_presence_of :ideal_number_of_slots, :if => :require_ideal_number_of_slots?, :if => :require_validations?
@@ -139,6 +144,20 @@ class ServiceLearningPosition < ActiveRecord::Base
   def title_is_not_blank
     errors.add(:title, "cannot be blank") if read_attribute(:title).blank?
   end
+  validates_presence_of :description, :if => :require_general_study_validations?
+  validates_presence_of :learning_goals, :if => :require_general_study_validations?
+  validates_presence_of :academic_topics, :if => :require_general_study_validations?
+  validates_presence_of :sources, :if => :require_general_study_validations?  
+  validates_presence_of :total_hours, :if => :require_general_study_validations?
+  validates_presence_of :credit, :if => :require_general_study_validations?
+  validate :credit_is_valid, :if => :require_general_study_validations?
+  def credit_is_valid     
+     if (credit == 1 && total_hours < 30) || (credit == 2 && total_hours < 60) || (credit == 3 && total_hours < 90) || (credit == 4 && total_hours < 120) || (credit == 5 && total_hours < 150) || (credit == 6 && total_hours < 180)                   
+       errors.add(:credit, "need to have enough required total hours.")
+     end    
+  end
+  validates_presence_of :volunteer, :if => :require_general_study_validations?
+  validates_format_of   :compensation, :with => /\A\d+(?:\.\d{0,2})?\z/, :allow_blank => true, :if => :require_general_study_validations?  
   
   belongs_to :unit, :class_name => "Unit"
   
@@ -172,13 +191,15 @@ class ServiceLearningPosition < ActiveRecord::Base
     read_attribute :title
   end
   
-  def title(show_self_placement = true, show_pending = true, html = true, require_validation = true)
+  def title(show_self_placement = true, show_pending = true, html = true, require_validation = true, show_general_study = true)
     t = read_attribute :title
     pending_tag = html ? "<span class='pending tag'>pending</span>" : "[PENDING]"
     pending_tag = html ? "<span class='in_progress tag'>in progress</span>" : "[IN PROGRESS]" if in_progress
     invalid_tag = html ? "<span class='invalid tag'>invalid</span>" : "[INVALID]"
     self_placement_tag = html ? "<span class='self_placement tag'>self-placement</span>" : "(self-placement)"
+    general_study_tag = html ? "<span class='general_study tag'>general-study</span>" : "(general-study)"
     t = "#{t} #{self_placement_tag}" if show_self_placement && self_placement?
+    t = "#{t} #{general_study_tag}" if show_general_study && general_study?
     t = "#{t} #{pending_tag}" if show_pending && !approved?
     t = "#{t} #{invalid_tag}" if require_validation && !valid?
     t

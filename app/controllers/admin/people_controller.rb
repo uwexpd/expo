@@ -69,6 +69,18 @@ class Admin::PeopleController < Admin::BaseController
     end    
   end
 
+  def search
+    session[:breadcrumbs].add "Search"
+    @people = Person.find(:all, :conditions => ['email = ?', params[:search][:email]]) unless params[:search][:email].blank?
+    
+    if @people.empty?
+      flash[:error] = "Can not find the person with your search input."
+      redirect_to :action => "index" and return
+    end
+    @people = @people.paginate(:page => params[:page], :per_page => 25)
+    render :action => "index"    
+  end
+
   protected
   
   def add_to_breadcrumbs

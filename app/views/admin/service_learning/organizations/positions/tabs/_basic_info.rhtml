@@ -36,6 +36,10 @@
 
 <% unless skip_nav %>
 <div class="progress_nav_buttons">
-	<%= link_to_tab_pane "Next: Description &#x2192;", :description, :link_only => true, :link_class => "strong button" %>
+	<% if service_learning_position.general_study? %>
+		<%= link_to_tab_pane "Next: General Study Description &#x2192;", :general_study_description, :link_only => true, :link_class => "strong button" %>
+	<% else %>
+		<%= link_to_tab_pane "Next: Description &#x2192;", :description, :link_only => true, :link_class => "strong button" %>
+	<% end %>
 </div>
 <% end -%>

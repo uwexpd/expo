@@ -1,0 +1,38 @@
+<h1>General Study Faculties
+	<span class="light right"><%= link_to "Add new faculty", new_general_study_faculty_path, :class => 'add button' %></span></h1>
+
+<% paginated_section @general_study_faculties do %>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>UW NetID</th>
+		<th>Code</th>
+		<th>Employee ID</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for faculty in @general_study_faculties %>
+	<tr id="general_study_faculties_<%= faculty.id %>">
+		<td><%= faculty.firstname %> <%= faculty.lastname %></td>
+		<td><%= faculty.uw_netid %></td>
+		<td><%= faculty.code %></td>
+		<td><%= faculty.employee_id %></td>
+		<td><%= link_to "Show", general_study_faculty_path(faculty) %></td>
+		<td><%= link_to "Edit", edit_general_study_faculty_path(faculty) %></td>
+		<td><%= link_to_remote "Destroy",
+						:url => general_study_faculty_path(faculty),
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @general_study_faculties.empty? %>
+	<tr class="empty">
+		<td colspan=10>No general study faculty exist. <%= link_to "Create one.", new_general_study_faculty_path %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+<% end %>
+
+<% sidebar :quick_links, :search %>

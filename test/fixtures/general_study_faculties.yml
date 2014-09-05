@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  firstname: 
+  lastname: MyString
+  uw_netid: MyString
+  department_name: MyString
+  phone: MyString
+
+two:
+  firstname: 
+  lastname: MyString
+  uw_netid: MyString
+  department_name: MyString
+  phone: MyString

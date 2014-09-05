@@ -1,0 +1,41 @@
+<h1>General Study</h1>
+  
+<table class="sortable groupable" id="invitees_table">
+	<tr>
+		<th>Student</th>
+		<th>Position</th>
+		<th>Organization</th>
+		<th>Function</th>
+	</tr>
+  
+	<% if @general_study_positions.blank? %>
+		<tr class="highlight">
+			<td colspan=5>No general study position request.</td>
+		</tr>
+	<% else -%>
+	 
+ 		<% @general_study_positions.each do |general_study| %>
+		    <tr>     
+		     	<td>
+		     	    <%= general_study.person.fullname rescue "#error" %>
+					<br><span class="smaller"><%= auto_link general_study.person.email %></span>
+		     	</td>      	
+     	     	
+		     	<td>
+		     	  	<%= general_study.position.name rescue "#error" %>
+		     	</td>
+	
+		     	<td>
+		     	    <%= general_study.organization_name rescue "#error" %>
+		   		</td>
+
+				<td>
+				<%= link_to general_study.supervisor_approved? ? '<span>Pending</span>' : '<span>Approve</span>' , 
+							community_partner_service_learning_general_study_path(@quarter, :action => 'approve', :id => general_study.id),
+							:class => general_study.supervisor_approved? ? '' : 'button' %>	 
+			    <td/>     	
+		    </tr>
+ 		<% end %>
+ 	<% end %>
+</table>
+

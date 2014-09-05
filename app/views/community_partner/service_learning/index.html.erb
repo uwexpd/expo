@@ -33,6 +33,12 @@
 		<br>You can now create, edit, and delete positions for <%= organization_quarter.quarter.title %>.</li>
 	<% end -%>
 	
+	<% unless @general_study_positions.empty? %>
+		<li id="evaluations">
+			<%= link_to "Approve general study position requests", community_partner_service_learning_general_study_path(@quarter, :action => 'students') %><br>
+			<span class="admin tag">New</span> You currently have <b><%= pluralize @general_study_positions.size, "request" %></b> for general study position.</b>
+		</li>
+	<% end %>
 </ul>
 
 <% sidebar :organization_info, :organization_contacts %>

@@ -2,8 +2,12 @@
 	<small class="light">&raquo; <%= @quarter.title %></small></h1>
 
 <ul id="service-learning-welcome-links" class="extra-padding">
-	
+		
 	<% unless @courses_for_quarter.empty? %>
+	<li id="potential-organizations"><%= link_to "View potential organization matches for #{@quarter.title}", 
+					faculty_service_learning_path(:action => 'potential_organizations', :quarter_abbrev => @quarter) %>
+		<br>See which potential organizations have been matched with your courses and leave your comments if wants.</li>
+		
 	<li id="positions"><%= link_to "View service-learning position matches for #{@quarter.title}", 
 					faculty_service_learning_path(:action => 'positions', :quarter_abbrev => @quarter) %>
 		<br>See which positions have been matched with your courses.</li>
@@ -11,7 +15,7 @@
 	<li id="evaluations"><%= link_to "View service-learning students and evaluations for #{@quarter.title}", 
 					faculty_service_learning_path(:action => 'students', :quarter_abbrev => @quarter) %>
 		<br>See where your students are volunteering and view evaluations from community partners.
-		<br><span class='admin tag'>NEW</span>Approve your students self placement positions
+		<br><span class='admin tag'>NEW</span>Approve your students self placement
 	</li>		
 		
 	<% end -%>

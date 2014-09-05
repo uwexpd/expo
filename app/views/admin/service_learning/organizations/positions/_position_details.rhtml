@@ -9,7 +9,7 @@
 	<% if admin %>
 	<dt>organization</dt>
 	<dd><%= link_to service_learning_position.organization.name, service_learning_organization_path(@unit, @quarter, service_learning_position.organization ) %></dd>
-	
+
 		<% if service_learning_position.previous %>
 		<dt>copied from</dt>
 		<dd><%= link_to "#{service_learning_position.previous.title} (#{service_learning_position.previous.quarter.title})",
@@ -20,7 +20,7 @@
 		<% end -%>
 
 	<% end -%>
-	
+
 	<% if student_view %>
 	<dt>organization</dt>
 	<dd><%= service_learning_position.organization.name %>
@@ -59,7 +59,7 @@
 	<dd><%= service_learning_position.location.title rescue "None" %>
 		<br><%= address_block(service_learning_position.location) %>
 		</dd>
-	
+
 	<% if service_learning_position.location; location = service_learning_position.location %>
 		<% unless location.driving_directions.blank? %>
 			<dt>driving notes</dt>
@@ -76,7 +76,7 @@
 			<dd><%= auto_link(simple_format(location.notes)) %></dd>
 		<% end -%>
 	<% end -%>
-	
+
 	<% unless service_learning_position.alternate_transportation.blank? %>
 		<dt>alt. transportation</dt>
 		<dd><%= service_learning_position.alternate_transportation %></dd>

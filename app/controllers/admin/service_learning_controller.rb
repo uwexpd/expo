@@ -60,83 +60,128 @@ class Admin::ServiceLearningController < Admin::BaseController
   end
   
   def self_placements
-    @self_placements = @quarter.service_learning_self_placements
+    @self_placements = @quarter.service_learning_self_placements.reject{|s| s.general_study==true}
     session[:breadcrumbs].add "Self Placements"
   end
-
+  
+  def general_study
+    @self_placements = @quarter.service_learning_self_placements.select{|s| s.general_study==true}
+    session[:breadcrumbs].add "General Study"
+  end
+  
+  
   # After admin approved, automatically activate organization quarter, update position quarter, create contact person, and create a placement. 
   # Then place the student into the placement
   def self_placement_approval
     @self_placement = ServiceLearningSelfPlacement.find params[:id]
-    
-    session[:breadcrumbs].add "Self Placements", service_learning_self_placements_path(@unit, @quarter)
-    session[:breadcrumbs].add "Self Placement Approval"
-    
-    if request.put?
-        if @self_placement.update_attribute(:admin_approved, true)
-            if @self_placement.existing_organization?
-               organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)             
-            else
-               organization = Organization.create(:name => @self_placement.organization_name,
-                                                  :mailing_line_1 => @self_placement.organization_mailing_line_1,
-                                                  :mailing_line_2 => @self_placement.organization_mailing_line_2,
-                                                  :mailing_city => @self_placement.organization_mailing_city,
-                                                  :mailing_state => @self_placement.organization_mailing_state,
-                                                  :mailing_zip => @self_placement.organization_mailing_zip,
-                                                  :website_url => @self_placement.organization_website_url,
-                                                  :mission_statement => @self_placement.organization_mission_statement,
-                                                  :approved => true
-                                                 )
-          
-               organization_quarter = organization.activate_for(@quarter, true)               
-
-               contact = organization.contacts.create
-               contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
-                                                   :lastname => @self_placement.organization_contact_person.split.second,
-                                                   :email => @self_placement.organization_contact_email,
-                                                   :phone => @self_placement.organization_contact_phone,
-                                                   :title => @self_placement.organization_contact_title
-                                                  )
-               organization.save;contact.save
-               @self_placement.update_attribute(:organization_id, organization) # mark as existing org
-               @self_placement.position.update_attribute(:supervisor_person_id, contact.id)
-            end
-
-          organization_quarter.statuses.create :organization_quarter_status_type_id => OrganizationQuarterStatusType.find_by_title("Ready").id
-          
-          @self_placement.position.update_attributes(:organization_quarter_id => organization_quarter.id,
-                                                     :unit_id =>  @unit.id,
-                                                     :self_placement => true,
-                                                     :in_progress => false,
-                                                     :approved => true,
-                                                     :ideal_number_of_slots => 1,
-                                                     :require_validations => false
-                                                    )
+    @type_of_self_placement = @self_placement.general_study? ? "General Study" : "Self Placement"
+    @is_new_contact = !@self_placement.organization_contact_person.blank? && @self_placement.position.supervisor.nil?
         
+    if request.put?
+      if @self_placement.general_study? && !@is_new_contact
+          if params[:service_learning_self_placement][:confirm_registered] == "0"
+             return @self_placement.errors.add_to_base "Please check the box below to confirm you have completed registering the student."
+          end
+      end
+      
+      @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact      
+              
+      if @self_placement.existing_organization?
+         organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)
+         organization = organization_quarter.organization
+      else
+         organization = Organization.create(:name => @self_placement.organization_name,
+                                            :mailing_line_1 => @self_placement.organization_mailing_line_1,
+                                            :mailing_line_2 => @self_placement.organization_mailing_line_2,
+                                            :mailing_city => @self_placement.organization_mailing_city,
+                                            :mailing_state => @self_placement.organization_mailing_state,
+                                            :mailing_zip => @self_placement.organization_mailing_zip,
+                                            :website_url => @self_placement.organization_website_url,
+                                            :mission_statement => @self_placement.organization_mission_statement,
+                                            :approved => true
+                                           )
+      
+         organization_quarter = organization.activate_for(@quarter, true)               
+      end
+      
+      if @is_new_contact
+         contact = organization.contacts.create
+         contact_people = Person.find_all_by_email(@self_placement.organization_contact_email)
+         if contact_people.size == 1
+            contact_person = contact_people.first 
+         else
+            return flash[:error] = "There are more than one person record found with the contact email. Please add the contact manually in expo."
+         end
+
+         if contact_person
+           contact.update_attribute(:person_id, contact_person.id)
+         else 
+           contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
+                                 :lastname => @self_placement.organization_contact_person.split.second,
+                                 :email => @self_placement.organization_contact_email,
+                                 :phone => @self_placement.organization_contact_phone,
+                                 :title => @self_placement.organization_contact_title
+                                )
+         end
+         
+         organization.save;contact.save
+         @self_placement.update_attribute(:organization_id, organization) unless @self_placement.existing_organization? # mark as existing org
+         @self_placement.position.update_attribute(:supervisor_person_id, contact.id) if @self_placement.position.supervisor.blank?
+
+         if @self_placement.general_study?
+             supervisor_template = EmailTemplate.find_by_name("general study position supervisor approval request")
+             TemplateMailer.deliver(supervisor_template.create_email_to(@self_placement, contact.login_url,
+                                                             @self_placement.position.supervisor.person.email)
+                                   ) if supervisor_template
+         end
+      end
+      
+      organization_quarter.statuses.find_or_create_by_organization_quarter_status_type_id(OrganizationQuarterStatusType.find_by_title("Ready").id)
+            
+      if @self_placement.general_study? && @is_new_contact
+          flash[:notice] = "You have successfully activated the organization and created the new contact, #{@self_placement.position.supervisor.person.fullname}."
+      else
+          @self_placement.position.update_attributes(:organization_quarter_id => organization_quarter.id,
+                                                       :unit_id =>  @unit.id,
+                                                       :self_placement => !@self_placement.general_study?,
+                                                       :general_study => @self_placement.general_study?,
+                                                       :in_progress => false,
+                                                       :approved => true,
+                                                       :ideal_number_of_slots => 1,
+                                                       :require_validations => false
+                                                      )
+          
           ServiceLearningPlacement.transaction do  
               placement = ServiceLearningPlacement.create(:service_learning_position_id => @self_placement.service_learning_position_id,
                                                           :service_learning_course_id => @self_placement.service_learning_course_id,
-                                                          :created_at => Time.now,
+                                                          :created_at => Time.now, 
                                                           :unit_id => @unit.id
                                                          )        
-
-              if @self_placement.person.place_into(@self_placement.position, @self_placement.course)
+    
+              if @self_placement.person.place_into(@self_placement.position, @self_placement.course, @unit, false, !@self_placement.general_study?, @self_placement.general_study?)
                 @self_placement.update_attribute(:service_learning_placement_id, placement.id) if placement
-                flash[:notice] = "You successfully approved the position and place #{@self_placement.person.fullname} into a self placement."
+                flash[:notice] = "You successfully approved the position and place #{@self_placement.person.fullname} into a #{@type_of_self_placement.downcase}."
               else
-                flash[:error] = "You have activated the organization but something went wrong when placing the student into self placement"
+                flash[:error] = "You have activated the organization but something went wrong when placing the student into #{@type_of_self_placement.downcase}"
                 raise ActiveRecord::Rollback
-              end        
-          end
-              
-        end # update admin_approved
-        redirect_to :action => 'self_placements'      
+              end                
+          end # end transaction
+            
+            @self_placement.update_attributes(:registered_at => Time.now, :register_person_id => @current_user.person) if @self_placement.general_study?        
+        end
+                        
+        redirect_to :action => @self_placement.general_study? ? "general_study" : "self_placements"
     end # end of request.put?
+    
+    session[:breadcrumbs].add @type_of_self_placement, @self_placement.general_study? ? service_learning_general_study_path(@unit, @quarter) : service_learning_self_placements_path(@unit, @quarter)
+    session[:breadcrumbs].add "#{@type_of_self_placement} Approval"
+    
   end  
   
   
   def self_placement_update
     @self_placement = ServiceLearningSelfPlacement.find params[:id]
+    @type_of_self_placement = @self_placement.general_study? ? "General Study" : "Self Placement"
     @student = @self_placement.person
     @service_learning_course = @self_placement.course
     @position = @self_placement.position    
@@ -156,7 +201,24 @@ class Admin::ServiceLearningController < Admin::BaseController
 
           if @self_placement.update_attributes(params[:self_placement_attributes])
             @self_placement.update_attribute(:organization_id, params[:organization_id]) if params[:self_placement_attributes][:new_organization] != "1"
-            flash[:notice] = "You have saved the self placement position sucessfully."
+            
+            if @self_placement.general_study?
+              faculty_netid = @self_placement.faculty_email.match(/^(\w+)(@.+)?$/).try(:[], 1)
+              faculty = GeneralStudyFaculty.find_by_uw_netid(faculty_netid)
+              unless faculty.nil?
+                faculty_user = User.find_by_login_and_identity_type(faculty_netid, nil)
+                if faculty_user.nil?
+                  faculty_user = PubcookieUser.authenticate faculty_netid
+                  faculty_user.person.update_attribute :firstname, faculty.firstname
+                  faculty_user.person.update_attribute :lastname, faculty.lastname
+                  faculty_user.person.update_attribute :email, @self_placement.faculty_email
+                end                
+                @self_placement.update_attribute :faculty_person_id, faculty_user.person
+                ServiceLearningCourseInstructor.find_or_create_by_service_learning_course_id_and_person_id(@self_placement.course.id, faculty_user.person.id)
+              end
+            end
+             
+            flash[:notice] = "You have saved the #{@type_of_self_placement.downcase} position sucessfully."
             redirect_to :action => "self_placement_approval", :id => @self_placement.id and return
           end
       else
@@ -169,10 +231,11 @@ class Admin::ServiceLearningController < Admin::BaseController
     if params[:update_contact_options] && params[:organization_id]      
       @display_contact = true
       @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
-    end          
+    end
+    @new_contact = @position.supervisor_person_id.nil? if @self_placement.general_study?
         
-    session[:breadcrumbs].add "Self Placement Approval", service_learning_self_placement_approval_path(@unit, @quarter, params[:id])
-    session[:breadcrumbs].add "Self Placement Edit"
+    session[:breadcrumbs].add "#{@type_of_self_placement} Approval", service_learning_self_placement_approval_path(@unit, @quarter, params[:id])
+    session[:breadcrumbs].add "#{@type_of_self_placement} Edit"
     
     respond_to do |format|
        format.html
