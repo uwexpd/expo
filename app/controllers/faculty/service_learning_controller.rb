@@ -26,28 +26,28 @@ class Faculty::ServiceLearningController < FacultyController
     session[:breadcrumbs].add "Organization"
   end
   
-  def potential_organizations    
-    session[:breadcrumbs].add "Potential Organizations"
-    
-    if request.post? || request.put?
-      params[:instructor_comments].each do |course_id, quarter_ids|
-          instructor = ServiceLearningCourseInstructor.find_by_service_learning_course_id_and_person_id(course_id, @person.id)
-          
-          quarter_ids.each do |quarter_id, comment|
-             if quarter_id.casecmp("overall_comment").zero?
-               instructor.update_attribute(:comment, comment) unless comment.blank?
-             else
-                unless comment.blank?
-                  potential_organization_comment =  PotentialCourseOrganizationMatchInstructorComments.find_or_create_by_service_learning_course_instructor_id_and_organization_quarter_id(instructor.id, quarter_id)              
-                  potential_organization_comment.update_attribute(:comment, params[:instructor_comments]["#{course_id}"]["#{quarter_id}"])
-                end
-             end
-          end         
-      end
-      
-    end 
-    
-  end
+  # def potential_organizations    
+  #   session[:breadcrumbs].add "Potential Organizations"
+  #   
+  #   if request.post? || request.put?
+  #     params[:instructor_comments].each do |course_id, quarter_ids|
+  #         instructor = ServiceLearningCourseInstructor.find_by_service_learning_course_id_and_person_id(course_id, @person.id)
+  #         
+  #         quarter_ids.each do |quarter_id, comment|
+  #            if quarter_id.casecmp("overall_comment").zero?
+  #              instructor.update_attribute(:comment, comment) unless comment.blank?
+  #            else
+  #               unless comment.blank?
+  #                 potential_organization_comment =  PotentialCourseOrganizationMatchInstructorComments.find_or_create_by_service_learning_course_instructor_id_and_organization_quarter_id(instructor.id, quarter_id)              
+  #                 potential_organization_comment.update_attribute(:comment, params[:instructor_comments]["#{course_id}"]["#{quarter_id}"])
+  #               end
+  #            end
+  #         end         
+  #     end
+  #     
+  #   end 
+  #   
+  # end
   
   def edit
     @course = @person.service_learning_courses.find(params[:id])

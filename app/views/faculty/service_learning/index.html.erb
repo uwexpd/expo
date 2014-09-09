@@ -4,9 +4,9 @@
 <ul id="service-learning-welcome-links" class="extra-padding">
 		
 	<% unless @courses_for_quarter.empty? %>
-	<li id="potential-organizations"><%= link_to "View potential organization matches for #{@quarter.title}", 
+	<!-- <li id="potential-organizations"><%= link_to "View potential organization matches for #{@quarter.title}", 
 					faculty_service_learning_path(:action => 'potential_organizations', :quarter_abbrev => @quarter) %>
-		<br>See which potential organizations have been matched with your courses and leave your comments if wants.</li>
+		<br>See which potential organizations have been matched with your courses and leave your comments if wants.</li> -->
 		
 	<li id="positions"><%= link_to "View service-learning position matches for #{@quarter.title}", 
 					faculty_service_learning_path(:action => 'positions', :quarter_abbrev => @quarter) %>
