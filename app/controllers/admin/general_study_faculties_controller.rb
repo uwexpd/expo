@@ -36,7 +36,7 @@ class Admin::GeneralStudyFacultiesController < Admin::BaseController
 
     respond_to do |format|
       if @general_study_faculty.save
-        flash[:notice] = "Successfully created academic department."
+        flash[:notice] = "Successfully created a faculty for general study."
         format.html { redirect_to general_study_faculty_path(@general_study_faculty) }
         format.xml  { render :xml => @general_study_faculty, :status => :created, 
                              :location => general_study_faculty_path(@general_study_faculty) }
@@ -58,7 +58,7 @@ class Admin::GeneralStudyFacultiesController < Admin::BaseController
 
     respond_to do |format|
       if @general_study_faculty.update_attributes(params[:general_study_faculty])
-        flash[:notice] = "Successfully updated academic department."
+        flash[:notice] = "Successfully updated this general study faculty."
         format.html { redirect_to general_study_faculty_path(@general_study_faculty) }
         format.xml  { head :ok }
       else
@@ -71,7 +71,7 @@ class Admin::GeneralStudyFacultiesController < Admin::BaseController
   def destroy
     @general_study_faculty = GeneralStudyFaculty.find(params[:id])
     @general_study_faculty.destroy
-    flash[:notice] = "Successfully destroyed academic department."
+    flash[:notice] = "Successfully deleted this general study faculty."
     respond_to do |format|
       format.html { redirect_to general_study_faculties_path }
       format.xml  { head :ok }
@@ -81,7 +81,7 @@ class Admin::GeneralStudyFacultiesController < Admin::BaseController
   
   def search
     session[:breadcrumbs].add "Search"
-    @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ['code = ?', params[:search][:code]]) unless params[:search][:code].blank?
+    @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ["lastname LIKE ?", "%#{params[:search][:lastname]}%"]) unless params[:search][:lastname].blank?
     @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ['uw_netid = ?', params[:search][:uw_netid]]) unless params[:search][:uw_netid].blank?
     
     if @general_study_faculties.empty?

@@ -2,11 +2,11 @@
 
 <% form_tag url_for(:action => 'search'), :method => :get do %>
 
-	<label for="search_code">Search by Code:</label>
-	<%= text_field_tag 'search[code]' %>
-	<br>OR<br>
-	<label for="search_uw_netid">Search by UW NetID:</label>
+	<label for="search_uw_netid">Search by uw netID:</label>
 	<%= text_field_tag 'search[uw_netid]' %>
+	<br>OR<br>
+	<label for="search_name">Search by lastname:</label>
+	<%= text_field_tag 'search[lastname]' %>
 	
 	<%= submit_tag "Search" %>
 	
