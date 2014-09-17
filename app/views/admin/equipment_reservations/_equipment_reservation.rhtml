@@ -3,7 +3,7 @@
 	<td><%= link_to_if equipment_reservation.person.is_a?(Student),
 	 				equipment_reservation.person.lastname_first, 
 					admin_student_url(equipment_reservation.person),
-					:popup => true %></td>
+					:popup => true rescue nil %></td>
 	<td><% if equipment_reservation.same_day_checkout? %>
 			<%=h relative_timestamp(equipment_reservation.start_date, :date_only => true) %>
 		<% else %>

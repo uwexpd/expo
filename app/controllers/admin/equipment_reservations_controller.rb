@@ -13,8 +13,10 @@ class Admin::EquipmentReservationsController < Admin::BaseController
     conditions.merge!({ :unit_id => @unit.id }) if @unit
     
     EquipmentReservation.find(:all, :conditions => conditions).each do |r|
-      @equipment_reservations[r.status] ||= []
-      @equipment_reservations[r.status] << r
+      unless r.status == :approved && r.start_date < Time.now.midnight
+        @equipment_reservations[r.status] ||= []
+        @equipment_reservations[r.status] << r 
+      end
     end
     
     session[:breadcrumbs].add "#{@unit.title}" if @unit
