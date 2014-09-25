@@ -1,0 +1,13 @@
+<h1>New Research Opportunity</h1>
+
+<% form_for :research_opportunity, @research_opportunity, :url => research_opportunities_path do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', general_study_faculties_path, :class => 'cancel button' %>
+
+<% end %>

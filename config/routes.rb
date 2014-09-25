@@ -114,6 +114,10 @@ ActionController::Routing::Routes.draw do |map|
     
     admin.resources :general_study_faculties, :controller => 'general_study_faculties', :name_prefix => '', :collection => { :search => :get }
     
+    admin.resources :research_opportunities, :controller => 'research_opportunities', :name_prefix => '', 
+                                             :collection => { :search => :get, :toggle_active => :post, :toggle_removed => :post },
+                                             :member => { :active => :post, :removed => :post}
+    
     admin.resources :events, :name_prefix => '', :collection => { :all => :get }, :member => { :attendees => :get, :sync_with_offering => [:get, :post], :clone => :put } do |events|  
       events.resources :times, :controller => 'events/times', :member => { :background_checks => :get } do |times|
         times.resources :sub_times, :controller => 'events/times/sub_times', 
@@ -518,7 +522,12 @@ ActionController::Routing::Routes.draw do |map|
   map.location_fields 'location_fields/:id', :controller => 'application', :action => 'location_fields'
   
   # Public page
-  map.public_page 'public/offering/:id', :controller => 'public' ,:action => 'scholarslist'
+  map.public_page 'public/offering/:id', :controller => 'public', :action => 'scholarslist'
+  
+  # Research Opportunity
+  map.research_opportunity 'research_opportunity', :controller => 'research_opportunity', :action => 'search'
+  #map.research_opportunities 'research_opportunities/:action', :controller => 'research_opportunities'
+  map.research_opportunity 'research_opportunity/:action/:id', :controller => 'research_opportunity'
 
   # Accountability
   map.resources :authorizations, 

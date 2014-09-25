@@ -1,0 +1,13 @@
+<h1>UW Faculty/Mentor Research Opportunity Submission Form </h1><h3 class="grey">&raquo; for Undergraduate Research Program at UW</h3>
+
+<%= HelpText.caption :research_oppourtunity_form, ResearchOpportunity %>
+
+<% form_for @research_opportunity, :url => {:action => "form"} do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "/admin/research_opportunities/fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Next", :disable_with => 'Continuing...' %>
+	
+<% end %>

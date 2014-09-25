@@ -1,0 +1,34 @@
+<h1><%= link_to "Current Undergraduate Research Opportunities", research_opportunity_path %></h1>
+<h3 class="grey">&raquo; for Undergraduate Research Program at UW</h3>
+
+<br>
+
+<% paginated_section @research_opportunities do %>
+
+<table width=65%>
+	<tr>
+		<th>Title</th>
+		<th width=75px>Submit Date</th>
+	</tr>
+	
+	<% for opportunity in @research_opportunities %>
+		<tr id="research_opportunities_<%= opportunity.id %>">
+			<td><%= link_to opportunity.title, :action => "details", :id => opportunity.id %></td>
+			<td><%= opportunity.created_at.to_date rescue nil %></td>
+		</tr>
+	<% end %>
+
+	<% if @research_opportunities.empty? %>
+	<tr class="empty">
+		<td colspan=2>Can not find research opportunities that match your search</td>
+	</tr>
+	<% end %>
+
+</table>
+
+<% end %>
+
+<% content_for :right_sidebar do %>
+	<%= render :partial => 'quick_links' %>
+	<%= render :partial => 'lookup_form' %>
+<% end %>

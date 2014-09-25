@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140722184714) do
+ActiveRecord::Schema.define(:version => 20140909214157) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -976,6 +976,7 @@ ActiveRecord::Schema.define(:version => 20140722184714) do
     t.boolean  "no_filters"
     t.integer  "pipeline_student_type_id"
     t.boolean  "required"
+    t.boolean  "general_study"
   end
 
   create_table "deleted_service_learning_orientations", :force => true do |t|
@@ -1205,6 +1206,7 @@ ActiveRecord::Schema.define(:version => 20140722184714) do
     t.integer  "sequence"
     t.boolean  "required"
     t.integer  "unit_id"
+    t.boolean  "general_study"
   end
 
   create_table "evaluation_responses", :force => true do |t|
@@ -2384,6 +2386,31 @@ ActiveRecord::Schema.define(:version => 20140722184714) do
     t.datetime "updated_at"
   end
 
+  create_table "research_areas", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "research_opportunities", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "department"
+    t.string   "title"
+    t.text     "description"
+    t.text     "requirements"
+    t.integer  "research_area1"
+    t.integer  "research_area2"
+    t.integer  "research_area3"
+    t.integer  "research_area4"
+    t.date     "end_date"
+    t.boolean  "active"
+    t.boolean  "removed"
+    t.boolean  "submitted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "rights", :force => true do |t|
     t.string  "name"
     t.string  "controller"
@@ -2671,7 +2698,7 @@ ActiveRecord::Schema.define(:version => 20140722184714) do
     t.string   "faculty_email"
     t.string   "faculty_dept"
     t.string   "faculty_phone"
-    t.boolean  "general_study"
+    t.boolean  "general_study", null: false, default: false
     t.boolean  "supervisor_approved"
     t.text     "supervisor_feedback"
     t.datetime "general_study_risk_date"

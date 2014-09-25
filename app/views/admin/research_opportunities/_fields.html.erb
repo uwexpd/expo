@@ -1,0 +1,42 @@
+<dl class="inline-definitions">
+	
+	<dt>Contact <%= f.label :name %><%= required %></dt>
+	<dd><%= f.text_field :name %></dd>
+
+	<dt>Contact <%= f.label :email %><%= required %></dt>
+	<dd><%= f.text_field :email %></dd>
+	
+	<dt><%= f.label :department %><%= required %></dt>
+	<dd><%= f.text_field :department, :size => 75 %></dd>
+
+	<dt>Posting Title<%= required %></dt>
+	<dd><%= f.text_field :title, :size => 75 %></dd>
+
+	<dt><%= f.label :description %><%= required %></dt>
+	<dd>
+		<span class="grey">Insert your research project description or indicate your willingness to develop a project with interested students in your field</span><br>
+		<%= f.text_area :description, :cols => 75, :rows => 10 %>
+	</dd>
+	
+	<dt>Minimum<br> <%= f.label :requirements %><%= required %></dt>
+	<dd><%= f.text_area :requirements, :cols => 75, :rows => 10 %></dd>
+
+	<dt>Auto-remove date <br>(optional)</dt>
+	<dd>
+		<%= f.date_select :end_date, :include_blank => true, :start_year => Time.now.year %>
+		<br><span class="caption">Leave blank for no end date (Post will remain active unless otherwise requested)</span>
+	</dd>
+	
+	<dt>Research Area 1<%= required %></dt>
+	<dd><%= f.select :research_area1, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+	
+	<dt>Research Area 2</dt>
+	<dd><%= f.select :research_area2, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+
+	<dt>Research Area 3</dt>
+	<dd><%= f.select :research_area3, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+
+	<dt>Research Area 4</dt>
+	<dd><%= f.select :research_area4, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+		
+</dl>

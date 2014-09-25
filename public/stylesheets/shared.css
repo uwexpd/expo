@@ -3764,6 +3764,33 @@ ul.sortable ul {
 
 /* @end */
 
+
+/* @group Research Opportunity */
+
+.research_opportunity #left_sidebar {
+	float: left;
+	width: 100%;
+	background: #fff;
+	border-right: 1px solid #ddd;
+}
+
+.research_opportunity #right_sidebar {
+	width: 300px;
+	border: none;
+	margin-top: 0;
+	overflow: hidden;
+	background: none;
+	padding-right: 0;
+}
+
+.research_opportunity a{
+	text-decoration: none;
+}
+
+/* @end */
+
+
+
 /* @end */
 
 

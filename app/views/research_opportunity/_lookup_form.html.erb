@@ -1,0 +1,32 @@
+
+<div class="big-border box">
+	
+<h4 class="icon-left search">Find Opportunities</h4>
+
+	<span class="error-message" id="opportunities_lookup_error"></span>
+
+	<p>Enter a research area, keyword, or faculty contact below to see the current opportunities in that area.</p>
+
+	<% form_tag url_for(:action => 'search'), :method => :get do %>
+		<%= select_tag :research_area, options_for_select( ["",""] + ResearchArea.find(:all, :order => "name" ).collect{|r|[r.name, r.id]}, params[:research_area].to_i), 
+						{ :style => "width: 20em" } %>
+		<%= submit_tag "Discipline Lookup",
+		 		:onClick => "return validateNotBlank(research_area, opportunities_lookup_error, 'Please choose an discipline to lookup.')" %>
+	<% end -%>
+	
+	<br>
+	<% form_tag url_for(:action => 'search'), :method => :get do %>
+		<%= text_field_tag :keyword, params[:keyword] %><br>
+		<%= submit_tag "Keyword Search",
+				:onClick => "return validateNotBlank(keyword, opportunities_lookup_error, 'Please enter a keyword.')" %>
+	<% end -%>
+	<br>
+
+	<% form_tag url_for(:action => 'search'), :method => :get do %>
+		<%= text_field_tag :contact_person, params[:contact_person] %>
+		<%= submit_tag "Research Mentor/Contact Search",
+				:onClick => "return validateNotBlank(contact, opportunities_lookup_error, 'Please enter a contact information.')" %>
+	<% end -%>
+	<br>
+	
+</div>

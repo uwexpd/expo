@@ -1,0 +1,40 @@
+		
+<dl class="inline-definitions">
+	
+<h2>Contact Information</h2>
+	<dt>Contact name</dt>
+	<dd><%= @research_opportunity.name %> </dd>
+
+	<dt>Department/<br>Other Affiliation</dt>
+	<dd><%= @research_opportunity.department %></dd>
+	
+	<dt>Contact email</dt>
+	<dd><%= @research_opportunity.email %></dd>	
+
+<h2>Project Information</h2>
+	<dt>Project Title</dt>
+	<dd><%= @research_opportunity.title %></dd>
+		
+	<dt>Project Description</dt>
+	<dd style="width:50%"><%= @research_opportunity.description %></dd>
+
+	<dt>Minimum <br>Requirements</dt>
+	<dd style="width:50%"><%= @research_opportunity.requirements %></dd>
+
+	<dt>Deactivation date</dt>
+	<dd><%= @research_opportunity.end_date %></dd>
+	
+<h2>Research Area</h2>
+	<dt>Research area 1</dt>
+	<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area1) %></dd>
+
+	<dt>Research area 2</dt>
+	<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area2) %></dd>
+
+	<dt>Research area 3</dt>
+	<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area3) %></dd>
+
+	<dt>Research area 4</dt>
+	<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area4) %></dd>
+
+</dl>

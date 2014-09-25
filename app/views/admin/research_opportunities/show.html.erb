@@ -1,0 +1,66 @@
+<% make_main_content_blocked %>
+
+<div class="content-block">
+	
+	<h1><%= @research_opportunity.title %>
+		<span class="light right"><%= link_to "Edit", edit_research_opportunity_path(@research_opportunity), :class => 'edit button' %></span>		
+	</h1>
+	<p class="object_timestamp"><%= object_timestamp_details(@research_opportunity) %><%= content_tag 'span', indicator_image + 'Loading...', indicator_options %></p>
+
+	<table class="borderless paddingless marginless highlightless">
+		<tr>
+			<td>Active:</td>
+			<td width><%= link_to_remote "<span>#{@research_opportunity.active? ? "On" : "Off"}</span>",
+	 								{ :url => active_research_opportunity_path(@research_opportunity, :return_to => request.request_uri),
+	 								  :indicator => true },
+									{ :class => "#{@research_opportunity.active? ? "on" : "off"} switch",
+									  :id => "active_button_#{@research_opportunity.id}" }
+									 %></td>
+			<td>Mark as Removed:</td>
+			<td width><%= link_to_remote "<span>#{@research_opportunity.removed? ? "On" : "Off"}</span>",
+	 								{ :url => removed_research_opportunity_path(@research_opportunity, :return_to => request.request_uri),
+	 								  :indicator => true },
+									{ :class => "#{@research_opportunity.removed? ? "on" : "off"} switch",
+									  :id => "removed_button_#{@research_opportunity.id}" }
+									 %></td>
+		</tr>
+		
+	</table>	
+</div>
+
+<div class="content-block">	
+		
+	<dl class="inline-definitions">
+
+		<dt>Contact name</dt>
+		<dd><%= @research_opportunity.name %> </dd>
+
+		<dt>Contact email</dt>
+		<dd><%= @research_opportunity.email %></dd>
+
+		<dt>Department/<br>Other Affiliation</dt>
+		<dd><%= @research_opportunity.department %></dd>
+
+		<dt>Description</dt>
+		<dd><%= @research_opportunity.description %></dd>
+
+		<dt>Minimum <br>Requirements</dt>
+		<dd><%= @research_opportunity.requirements %></dd>
+
+		<dt>Auto-remove date</dt>
+		<dd><%= @research_opportunity.end_date %></dd>
+
+		<dt>Research area 1</dt>
+		<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area1) %></dd>
+
+		<dt>Research area 2</dt>
+		<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area2) %></dd>
+
+		<dt>Research area 3</dt>
+		<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area3) %></dd>
+
+		<dt>Research area 4</dt>
+		<dd><%= @research_opportunity.get_area_name(@research_opportunity.research_area4) %></dd>
+
+	</dl>
+</div>

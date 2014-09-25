@@ -1,0 +1,15 @@
+<h1>Edit Research Opportunity</h1>
+
+<% form_for :research_opportunity, @research_opportunity, 
+			:url => research_opportunity_path(@research_opportunity), 
+			:html => { :method => :put } do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Save", :disable_with => 'Saving...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', research_opportunity_path(@research_opportunity), :class => 'cancel button' %>
+
+<% end %>

@@ -1,0 +1,13 @@
+<h3>Search</h3>
+
+<% form_tag url_for(:action => 'search'), :method => :get do %>
+
+	<label for="search_uw_netid">Search by email:</label>
+	<%= text_field_tag 'search[email]' %>
+	<br>OR<br>	
+	<label for="search_">Search by title:</label>
+	<%= text_field_tag 'search[title]]' %>	
+	
+	<%= submit_tag "Search" %>
+	
+<% end -%>

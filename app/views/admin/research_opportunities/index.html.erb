@@ -1,0 +1,43 @@
+<h1>Research Opportunities
+	<span class="light right"><%= link_to "Add new opportunity", new_research_opportunity_path, :class => 'add button' %></span></h1>
+
+<% paginated_section @research_opportunities do %>
+
+<table>
+	<tr>
+		<th>Title</th>
+		<th>Name</th>
+		<!-- <th>Email</th> -->
+		<th>Submit Date</th>
+		<th>Active</th>
+		<th>Removed</th>
+		<th colspan=4>Functions</th>
+	</tr>
+	<% for opportunity in @research_opportunities %>
+	<tr id="research_opportunities_<%= opportunity.id %>">
+		<td><%= opportunity.title %></td>
+		<td><%= opportunity.name %></td>
+		<!-- <td><%#= opportunity.email %></td> -->
+		<td><%= opportunity.created_at.to_date %></td>
+		<td><%= opportunity.active %></td>
+		<td><%= opportunity.removed %></td>
+		
+		<td><%= link_to "Show", research_opportunity_path(opportunity) %></td>
+		<td><%= link_to "Edit", edit_research_opportunity_path(opportunity) %></td>
+		<td><%= link_to_remote "Destroy",
+						:url => research_opportunity_path(opportunity),
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @research_opportunities.empty? %>
+	<tr class="empty">
+		<td colspan=10>No research opportunities exist. <%= link_to "Create one.", new_research_opportunity_path %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+<% end %>
+
+<% sidebar :quick_links, :search %>

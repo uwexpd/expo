@@ -1,0 +1,10 @@
+<h1><%= link_to "Current Undergraduate Research Opportunities", research_opportunity_path %></h1>
+<h3 class="grey">&raquo; for Undergraduate Research Program at UW</h3>
+
+
+<%= render :partial => "fields" %>
+
+<% content_for :right_sidebar do %>
+	<%= render :partial => 'quick_links' %>
+	<%= render :partial => 'lookup_form' %>
+<% end %>

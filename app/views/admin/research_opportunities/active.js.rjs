@@ -1,0 +1,4 @@
+dom_id = "active_button_#{@research_opportunity.id}"
+page << "$('#{dom_id}').removeClassName('on')"
+page << "$('#{dom_id}').removeClassName('off')"
+page << "$('#{dom_id}').addClassName('#{@research_opportunity.active? ? "on" : "off"}')"

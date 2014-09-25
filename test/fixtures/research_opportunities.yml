@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  email: MyString
+  department: MyString
+  title: MyString
+  description: MyText
+  requirements: MyText
+  research_area1: 1
+  research_area2: 1
+  research_area3: 1
+  research_area4: 1
+  end_date: 2014-09-08
+  active: false
+  removed: false
+
+two:
+  name: MyString
+  email: MyString
+  department: MyString
+  title: MyString
+  description: MyText
+  requirements: MyText
+  research_area1: 1
+  research_area2: 1
+  research_area3: 1
+  research_area4: 1
+  end_date: 2014-09-08
+  active: false
+  removed: false
