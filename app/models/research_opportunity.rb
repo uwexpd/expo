@@ -12,5 +12,24 @@ class ResearchOpportunity < ActiveRecord::Base
   def get_area_name(area_id)
     ResearchArea.find(area_id).name rescue nil
   end
+
+  def self.find_by_research_area(lookup_area)
+    all( :conditions => [ "active = ? and (research_area1 = ? OR research_area2 = ? OR research_area3 = ? OR research_area4 = ?)", true, lookup_area, lookup_area, lookup_area, lookup_area] )    
+  end
+
+  def self.find_by_keyword(keyword)
+    keyword = keyword.downcase.strip.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+    find :all,                                
+         :conditions => "active = true AND (title LIKE '%#{keyword}%' OR department LIKE '%#{keyword}%' OR description LIKE '%#{keyword}%')",
+         :order => "created_at DESC, title ASC"
+  end
+
+  def self.find_by_contact(contact_info)
+    contact_info = contact_info.downcase.strip.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+    find :all,                        
+         :conditions => "active = true AND (name LIKE '%#{contact_info}%' OR email LIKE '%#{contact_info}%' OR description LIKE '%#{contact_info}%')",
+         :order => "created_at DESC, title ASC"
+  end
+  
   
 end

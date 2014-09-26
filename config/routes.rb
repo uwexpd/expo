@@ -525,9 +525,8 @@ ActionController::Routing::Routes.draw do |map|
   map.public_page 'public/offering/:id', :controller => 'public', :action => 'scholarslist'
   
   # Research Opportunity
-  map.research_opportunity 'research_opportunity', :controller => 'research_opportunity', :action => 'search'
-  #map.research_opportunities 'research_opportunities/:action', :controller => 'research_opportunities'
-  map.research_opportunity 'research_opportunity/:action/:id', :controller => 'research_opportunity'
+  map.opportunities 'opportunities', :controller => 'opportunities', :action => 'search'
+  map.opportunities 'opportunities/:action/:id', :controller => 'opportunities'
 
   # Accountability
   map.resources :authorizations, 

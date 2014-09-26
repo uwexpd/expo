@@ -1,13 +1,35 @@
 <h3>Search</h3>
 
-<% form_tag url_for(:action => 'search'), :method => :get do %>
+<span class="error-message" id="opportunities_lookup_error"></span>
 
-	<label for="search_uw_netid">Search by email:</label>
+<% form_tag url_for(:action => 'search'), :method => :get do %>
+	<%= select_tag :research_area, options_for_select( ["",""] + ResearchArea.find(:all, :order => "name" ).collect{|r|[r.name, r.id]}, params[:research_area].to_i), 
+					{ :style => "width: 20em" } %>
+	<%= submit_tag "Discipline Lookup",
+	 		:onClick => "return validateNotBlank(research_area, opportunities_lookup_error, 'Please choose an discipline to lookup.')" %>
+<% end -%>
+
+<br>
+<% form_tag url_for(:action => 'search'), :method => :get do %>
+	<%= text_field_tag :keyword, params[:keyword] %><br>
+	<%= submit_tag "Keyword Search",
+			:onClick => "return validateNotBlank(keyword, opportunities_lookup_error, 'Please enter a keyword.')" %>
+<% end -%>
+<br>
+
+<% form_tag url_for(:action => 'search'), :method => :get do %>
+	<%= text_field_tag :contact_person, params[:contact_person] %>
+	<%= submit_tag "Research Mentor/Contact Search",
+			:onClick => "return validateNotBlank(contact, opportunities_lookup_error, 'Please enter a contact information.')" %>
+<% end -%>
+<br>
+
+<%# form_tag url_for(:action => 'search'), :method => :get do %>
+	<!-- <label for="search_uw_netid">Search by email:</label>
 	<%= text_field_tag 'search[email]' %>
 	<br>OR<br>	
 	<label for="search_">Search by title:</label>
-	<%= text_field_tag 'search[title]]' %>	
+	<%= text_field_tag 'search[title]]' %>	 -->
 	
-	<%= submit_tag "Search" %>
-	
-<% end -%>
+	<!-- <%= submit_tag "Search" %> -->	
+ <%# end -%>

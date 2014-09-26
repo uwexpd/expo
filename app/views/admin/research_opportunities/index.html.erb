@@ -2,21 +2,21 @@
 	<span class="light right"><%= link_to "Add new opportunity", new_research_opportunity_path, :class => 'add button' %></span></h1>
 
 <% paginated_section @research_opportunities do %>
-
+<h3> <%= "&raquo; Found #{pluralize(@total_found, 'opportunity')}" if @total_found %></h3>
 <table>
 	<tr>
 		<th>Title</th>
-		<th>Name</th>
+		<!-- <th>Name</th> -->
 		<!-- <th>Email</th> -->
-		<th>Submit Date</th>
+		<th width=100px>Submit Date</th>
 		<th>Active</th>
 		<th>Removed</th>
 		<th colspan=4>Functions</th>
 	</tr>
 	<% for opportunity in @research_opportunities %>
 	<tr id="research_opportunities_<%= opportunity.id %>">
-		<td><%= opportunity.title %></td>
-		<td><%= opportunity.name %></td>
+		<td><%= link_to opportunity.title, research_opportunity_path(opportunity) %></td>
+		<!-- <td><%= opportunity.name %></td> -->
 		<!-- <td><%#= opportunity.email %></td> -->
 		<td><%= opportunity.created_at.to_date %></td>
 		<td><%= opportunity.active %></td>

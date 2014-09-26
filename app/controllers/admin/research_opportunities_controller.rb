@@ -81,16 +81,16 @@ class Admin::ResearchOpportunitiesController < Admin::BaseController
 
    def search
      session[:breadcrumbs].add "Search"
-     @research_opportunities = ResearchOpportunity.find(:all, :conditions => ['email = ?', params[:search][:email]]) unless params[:search][:email].blank?
-     # conditions = params[:search] ? ["login LIKE ?", "%#{params[:search][:login]}%"] : nil
-     # @users = User.paginate :all, :order => 'identity_type DESC, login ASC', 
-     #                         :conditions => conditions, 
-     #                         :page => params[:page], :include => [:person, :latest_login]
+     @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area]) unless params[:research_area].blank?
+     @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword]) unless params[:keyword].blank?
+     @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person]) unless params[:contact_person].blank?
+     @total_found = @research_opportunities.size
      
-     @research_opportunities = ResearchOpportunity.find(:all, :conditions => ["title LIKE ?", "%#{params[:search][:title]}%"])unless params[:search][:title].blank?
+     # @research_opportunities = ResearchOpportunity.find(:all, :conditions => ['email = ?', params[:search][:email]]) unless params[:search][:email].blank?     
+     # @research_opportunities = ResearchOpportunity.find(:all, :conditions => ["title LIKE ?", "%#{params[:search][:title]}%"])unless params[:search][:title].blank?
 
      if @research_opportunities.empty?
-       flash[:error] = "Can not find the research opportunity with your search input."
+       flash[:error] = "Can not find any research opportunities with your search input."
        redirect_to :action => "index" and return
      end
      @research_opportunities = @research_opportunities.paginate(:page => params[:page], :per_page => 25)
@@ -119,7 +119,6 @@ class Admin::ResearchOpportunitiesController < Admin::BaseController
 
    def add_research_opportunities_breadcrumbs
      session[:breadcrumbs].add "Research Opportunities", research_opportunities_path
-   end
-
+   end     
   
 end

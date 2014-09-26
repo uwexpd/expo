@@ -1,4 +1,4 @@
-class ResearchOpportunityController < ApplicationController
+class OpportunitiesController < ApplicationController
   skip_before_filter :login_required
         
   def form    
@@ -42,9 +42,10 @@ class ResearchOpportunityController < ApplicationController
   
   def search
     if params[:research_area] || params[:keyword] || params[:contact_person]
-      @research_opportunities = find_by_research_area(params[:research_area]).paginate unless params[:research_area].blank?
-      @research_opportunities = find_by_keyword(params[:keyword]).paginate unless params[:keyword].blank?
-      @research_opportunities = find_by_contact(params[:contact_person]).paginate unless params[:contact_person].blank?      
+      @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area]).paginate unless params[:research_area].blank?
+      @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword]).paginate unless params[:keyword].blank?
+      @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person]).paginate unless params[:contact_person].blank?
+      @total_found = @research_opportunities.size
     else
       @research_opportunities = ResearchOpportunity.paginate :order => 'created_at DESC, title ASC', :conditions => { :active => true }, :page => params[:page]
     end
@@ -58,29 +59,7 @@ class ResearchOpportunityController < ApplicationController
       redirect_to :back
     end
   end
-  
-   
-  protected
-  
-  def find_by_research_area(lookup_area)
-      ResearchOpportunity.all( :conditions => [ "active = ? and (research_area1 = ? OR research_area2 = ? OR research_area3 = ? OR research_area4 = ?)", true, lookup_area, lookup_area, lookup_area, lookup_area] )
-  end
-  
-  def find_by_keyword(keyword)
-    keyword = keyword.downcase.strip.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
-    ResearchOpportunity.find :all,                                
-                             :conditions => "active = true AND (title LIKE '%#{keyword}%' OR department LIKE '%#{keyword}%' OR description LIKE '%#{keyword}%')",
-                             :order => "created_at DESC, title ASC"
-  end
-    
-  def find_by_contact(contact_info)
-    contact_info = contact_info.downcase.strip.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
-    ResearchOpportunity.find :all,                        
-                             :conditions => "active = true AND (name LIKE '%#{contact_info}%' OR email LIKE '%#{contact_info}%' OR description LIKE '%#{contact_info}%')",
-                             :order => "created_at DESC, title ASC"
-  end
-    
-    
+         
 end
 
 
