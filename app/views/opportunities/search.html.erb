@@ -5,16 +5,14 @@
 <% paginated_section @research_opportunities do %>
 
 <h2> <%= "Found #{pluralize(@total_found, 'opportunity')}" if @total_found %></h2>
-<table width=65%>
+<table width=60%>
 	<tr>
 		<th>Title</th>
-		<th width=75px>Submit Date</th>
 	</tr>
 	
 	<% for opportunity in @research_opportunities %>
 		<tr id="research_opportunities_<%= opportunity.id %>">
 			<td><%= link_to opportunity.title, :action => "details", :id => opportunity.id %></td>
-			<td><%= opportunity.created_at.to_date rescue nil %></td>
 		</tr>
 	<% end %>
 

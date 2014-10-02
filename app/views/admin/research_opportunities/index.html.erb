@@ -6,21 +6,16 @@
 <table>
 	<tr>
 		<th>Title</th>
-		<!-- <th>Name</th> -->
-		<!-- <th>Email</th> -->
 		<th width=100px>Submit Date</th>
 		<th>Active</th>
-		<th>Removed</th>
 		<th colspan=4>Functions</th>
 	</tr>
 	<% for opportunity in @research_opportunities %>
 	<tr id="research_opportunities_<%= opportunity.id %>">
 		<td><%= link_to opportunity.title, research_opportunity_path(opportunity) %></td>
-		<!-- <td><%= opportunity.name %></td> -->
-		<!-- <td><%#= opportunity.email %></td> -->
-		<td><%= opportunity.created_at.to_date %></td>
+		<td><%= opportunity.created_at.to_date if opportunity.submitted? %></td>
 		<td><%= opportunity.active %></td>
-		<td><%= opportunity.removed %></td>
+
 		
 		<td><%= link_to "Show", research_opportunity_path(opportunity) %></td>
 		<td><%= link_to "Edit", edit_research_opportunity_path(opportunity) %></td>

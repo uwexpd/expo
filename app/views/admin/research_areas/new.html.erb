@@ -1,0 +1,13 @@
+<h1>New Research Area</h1>
+
+<% form_for :research_area, @research_area, :url => research_areas_path do |f| %>
+
+	<%= f.error_messages %>
+
+	<%= render :partial => "fields", :locals => { :f => f } %>
+	
+	<%= f.submit "Create", :disable_with => 'Creating...' %>
+	<%= separator "or" %>
+	<%= link_to 'Cancel', research_areas_path, :class => 'cancel button' %>
+
+<% end %>

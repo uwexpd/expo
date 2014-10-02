@@ -114,6 +114,8 @@ ActionController::Routing::Routes.draw do |map|
     
     admin.resources :general_study_faculties, :controller => 'general_study_faculties', :name_prefix => '', :collection => { :search => :get }
     
+    admin.resources :research_areas, :controller => 'research_areas', :name_prefix => ''
+    
     admin.resources :research_opportunities, :controller => 'research_opportunities', :name_prefix => '', 
                                              :collection => { :search => :get, :toggle_active => :post, :toggle_removed => :post },
                                              :member => { :active => :post, :removed => :post}

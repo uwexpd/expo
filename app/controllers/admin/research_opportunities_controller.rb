@@ -86,9 +86,6 @@ class Admin::ResearchOpportunitiesController < Admin::BaseController
      @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person]) unless params[:contact_person].blank?
      @total_found = @research_opportunities.size
      
-     # @research_opportunities = ResearchOpportunity.find(:all, :conditions => ['email = ?', params[:search][:email]]) unless params[:search][:email].blank?     
-     # @research_opportunities = ResearchOpportunity.find(:all, :conditions => ["title LIKE ?", "%#{params[:search][:title]}%"])unless params[:search][:title].blank?
-
      if @research_opportunities.empty?
        flash[:error] = "Can not find any research opportunities with your search input."
        redirect_to :action => "index" and return
@@ -100,6 +97,12 @@ class Admin::ResearchOpportunitiesController < Admin::BaseController
    def active
      @research_opportunity = ResearchOpportunity.find(params[:id])
      @research_opportunity.update_attribute :active, !@research_opportunity.active?
+     
+     faculty_template = EmailTemplate.find_by_name("research oppourtunity activate and deactivate notification")
+     link = @research_opportunity.active? ? "https://#{CONSTANTS[:base_url_host]}/opportunities/details/#{@research_opportunity.id}" : "https://#{CONSTANTS[:base_url_host]}/opportunities/submit/#{@research_opportunity.id}"
+     TemplateMailer.deliver(faculty_template.create_email_to(@research_opportunity, link, @research_opportunity.email)
+                           ) if faculty_template     
+     
      respond_to do |format|
        format.html { redirect_to redirect_to_path || {:action => "show"} }
        format.js

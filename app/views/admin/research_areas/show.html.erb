@@ -1,0 +1,11 @@
+<h1><%=h @research_area.name %>
+	<span class="light right"><%= link_to "Edit", edit_research_area_path(@research_area), :class => 'edit button' %></span></h1>
+
+<p class="object_timestamp"><%= object_timestamp_details(@research_area) %></p>
+
+<dl class="inline-definitions">
+
+	<dt>Name</dt>
+	<dd><%=h @research_area.name %></dd>
+
+</dl>

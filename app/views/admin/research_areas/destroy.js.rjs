@@ -1,0 +1,1 @@
+page.visual_effect :fade, "research_areas_#{@research_area.id}"
