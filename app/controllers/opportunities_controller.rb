@@ -12,14 +12,12 @@ class OpportunitiesController < ApplicationController
     if params[:research_opportunity]      
       if @research_opportunity.update_attributes(params[:research_opportunity])
          redirect_to :action => "submit", :id => @research_opportunity.id
-      else
-         flash[:error] = "Something went wrong. Unable to create a new research opportunity. Please try again."
       end
     end    
   end
   
   def submit
-    redirect_to :action => :research_opportunity_form, :id => params[:id] if params[:commit] == "Back to edit"
+    redirect_to :action => "form", :id => params[:id] if params[:commit] == "Back to edit"
     
     @research_opportunity ||= ResearchOpportunity.find(params[:id]) if params[:id]
     
@@ -54,6 +52,10 @@ class OpportunitiesController < ApplicationController
   def details
     if params[:id]
       @research_opportunity = ResearchOpportunity.find params[:id]
+      unless @research_opportunity.active?
+        flash[:error] = "The opportunity, #{@research_opportunity.title}, is inactive. You are not able to see the details."
+        redirect_to :action => "search"
+      end
     else
       flash[:error] = "Cannot find research opportunity id"
       redirect_to :back

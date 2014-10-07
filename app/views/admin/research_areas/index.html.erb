@@ -1,0 +1,28 @@
+<h1>Research Areas
+	<span class="light right"><%= link_to "Add new research area", new_research_area_path, :class => 'add button' %></span></h1>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th colspan=3>Functions</th>
+	</tr>
+	<% for area in @research_areas %>
+	<tr id="research_areas_<%= area.id %>">
+		<td><%=h area.name %></td>
+		<td><%= link_to "Show", research_area_path(area) %></td>
+		<td><%= link_to "Edit", edit_research_area_path(area) %></td>
+		<td><%= link_to_remote "Destroy",
+						:url => research_area_path(area),
+						:confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	<% end %>
+
+	<% if @research_areas.empty? %>
+	<tr class="empty">
+		<td colspan=10>No research areas exist. <%= link_to "Create one.", new_research_area_path %></td>
+	</tr>
+	<% end %>
+
+</table>
+
+</form>

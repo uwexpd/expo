@@ -1,4 +1,5 @@
-		
+<% faculty = faculty || false %>
+
 <dl class="inline-definitions">
 	
 <h2>Contact Information</h2>
@@ -20,9 +21,11 @@
 
 	<dt>Minimum <br>Requirements</dt>
 	<dd style="width:50%"><%= @research_opportunity.requirements %></dd>
-
-	<dt>Deactivation date</dt>
-	<dd><%= @research_opportunity.end_date %></dd>
+	
+	<% if faculty %>
+		<dt>Deactivation date</dt>
+		<dd><%= @research_opportunity.end_date %></dd>
+	<% end %>
 	
 <h2>Research Area</h2>
 	<dt>Research area 1</dt>
