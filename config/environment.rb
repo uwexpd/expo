@@ -108,7 +108,7 @@ RemoteIndicator.enable_all = false
 # Load other custom libraries
 require 'array_math'
 require 'uw_calendar'
-require 'string'
+require 'string_helper'
 
 # Deep Clone capability
 require 'deep_clone'

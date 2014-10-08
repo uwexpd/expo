@@ -494,6 +494,13 @@ class PipelineController < ApplicationController
             :css_class => "in progress",
             :button => :change
           }
+        else
+          @progress_statuses[:orientation] = {
+            :text => "Your might be due an orientation! You attended an orientation on #{@student.pipeline_orientation.to_s(:date_with_day_of_week) rescue nil }.
+                     Students are required to attend an orientation every 2 years for Pipeline project.",
+            :css_class => "action required",
+            :button => :signup     
+          }             
         end
       else
         @progress_statuses[:orientation] = {
