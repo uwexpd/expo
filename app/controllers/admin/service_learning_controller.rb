@@ -84,7 +84,7 @@ class Admin::ServiceLearningController < Admin::BaseController
           end
       end
       
-      @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact      
+      @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact
               
       if @self_placement.existing_organization?
          organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)
@@ -107,26 +107,26 @@ class Admin::ServiceLearningController < Admin::BaseController
       if @is_new_contact
          contact = organization.contacts.create
          contact_people = Person.find_all_by_email(@self_placement.organization_contact_email)
-         if contact_people.size == 1
-            contact_person = contact_people.first 
-         else
+         
+         if contact_people.size == 1 # if find existing person record, then create organization contact with the person record
+            contact.update_attribute(:person_id, contact_people.first.id)
+         elsif contact_people.size > 1
             return flash[:error] = "There are more than one person record found with the contact email. Please add the contact manually in expo."
-         end
-
-         if contact_person
-           contact.update_attribute(:person_id, contact_person.id)
-         else 
-           contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
-                                 :lastname => @self_placement.organization_contact_person.split.second,
-                                 :email => @self_placement.organization_contact_email,
-                                 :phone => @self_placement.organization_contact_phone,
-                                 :title => @self_placement.organization_contact_title
-                                )
+         else
+           logger.debug("Debug => create contact")
+            contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
+                                  :lastname => @self_placement.organization_contact_person.split.second,
+                                  :email => @self_placement.organization_contact_email,
+                                  :phone => @self_placement.organization_contact_phone,
+                                  :title => @self_placement.organization_contact_title
+                                 )           
          end
          
          organization.save;contact.save
+         logger.debug("Debug => organization = #{organization.inspect}")
+         logger.debug("Debug => contact = #{contact.inspect}")
          @self_placement.update_attribute(:organization_id, organization) unless @self_placement.existing_organization? # mark as existing org
-         @self_placement.position.update_attribute(:supervisor_person_id, contact.id) if @self_placement.position.supervisor.blank?
+         @self_placement.position.update_attribute(:supervisor_person_id, contact.person_id) if @self_placement.position.supervisor.blank?
 
          if @self_placement.general_study?
              supervisor_template = EmailTemplate.find_by_name("general study position supervisor approval request")

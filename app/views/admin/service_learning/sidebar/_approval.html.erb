@@ -15,7 +15,7 @@
 			<p style='font-size: 100%'><%= f.check_box :confirm_registered %>Check to confirm that you have completed registering the student.</p>
 		<% end %><br>
 
-		<center><%= f.submit "Approve this Position", :class => 'green' %></center>
+		<center><%= f.submit "Approve this Position", :disable_with => 'Approving the position...', :class => 'green' %></center>
 		
 	<% end -%>	
 <% end %>

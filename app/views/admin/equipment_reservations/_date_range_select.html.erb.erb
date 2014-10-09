@@ -12,10 +12,12 @@
 								"date.getDay() != 6"
 								]
 
-		for holiday in UwCalendar.holidays.keys
-			holiday_check = "!(date.getFullYear() == '#{holiday.strftime("%Y")}' && date.getMonth() == '#{holiday.strftime("%m").to_i-1}' && date.getDate() == '#{holiday.strftime("%d").to_i}')"
-			valid_date_checks << holiday_check
-		end %>
+		# for holiday in UwCalendar.holidays.keys
+		# 	holiday_check = "!(date.getFullYear() == '#{holiday.strftime("%Y")}' && date.getMonth() == '#{holiday.strftime("%m").to_i-1}' && date.getDate() == '#{holiday.strftime("%d").to_i}')"
+		# 	valid_date_checks << holiday_check
+		# end 
+		%>
+
 		<td>			
 			<%= calendar_date_select :reservation, 
 			 						 :start_date,
