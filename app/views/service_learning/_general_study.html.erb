@@ -15,6 +15,8 @@
 				<%= @service_learning_course.title %>
 				<%= s.hidden_field :service_learning_course_id, :value => @service_learning_course.id %>
 			</dd>
+			<%= s.hidden_field :person_id, :value => @student.id %>
+			<%= s.hidden_field :quarter_id, :value => @quarter.id %>			
 		</dl>	
 			
 	<h2>Organization Information</h2>
@@ -25,7 +27,7 @@
 			
 			<dt>New organization? <%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd>
-			 	<%= s.check_box :new_organization, :checked => @new_organization || (@new_organization.nil? && @self_placement.new_organization) %> 
+			 	<%= s.check_box :new_organization %> 
 			    Check to create a new organization. Uncheck if you want to 
 				<span class="small">
 					<%= link_to_function "select from existing one.", "Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);" %>

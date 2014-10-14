@@ -12,12 +12,14 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
   
   acts_as_strip :organization_contact_person, :organization_contact_phone, :organization_contact_email, :organization_contact_title, :organization_id, :organization_mailing_line_1, :organization_mailing_line_2, :organization_mailing_city, :organization_mailing_state, :organization_mailing_zip, :organization_website_url
   
+  validate :organization_id_cannot_be_blank
   validates_presence_of :organization_contact_person, :if => :require_validations?
   validates_presence_of :organization_contact_phone, :if => :require_validations?
   validates_presence_of :organization_contact_email, :if => :require_validations?
   validates_format_of   :organization_contact_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :if => :require_validations?
+
   validates_presence_of :hope_to_learn, :if => :self_placement_validations?
-  
+    
   validates_presence_of :faculty_firstname, :if => :general_study_validations?
   validates_presence_of :faculty_lastname, :if => :general_study_validations?
   validates_presence_of :faculty_phone, :if => :general_study_validations?
@@ -37,7 +39,11 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
   end
   
   def existing_organization?
-    organization_id.try(:is_numeric?)
+    unless organization_id.blank?
+      organization_id.try(:is_numeric?)
+    else
+      !new_organization?
+    end
   end
   
   def existing_organization
@@ -78,5 +84,15 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
     else
       "in progress"
     end
-  end  
+  end
+  
+  protected
+  
+  def organization_id_cannot_be_blank    
+    if new_organization?
+        errors.add_to_base "New organization name cannot be blank." if organization_id.blank?
+    else
+        errors.add_to_base "Please select an organization" if organization_id.blank?
+    end    
+  end
 end

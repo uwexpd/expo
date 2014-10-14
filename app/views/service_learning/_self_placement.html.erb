@@ -18,6 +18,8 @@
 					<%= link_to "(Switch to another course)", :action => 'which', :type => 'self_placement' if @enrolled_service_learning_courses && @enrolled_service_learning_courses.size > 1 %>
 				</span>
 			</dd>
+			<%= s.hidden_field :person_id, :value => @student.id %>
+			<%= s.hidden_field :quarter_id, :value => @quarter.id %>
 		</dl>
 		
 	<h2>Organization Information</h2>
@@ -28,7 +30,7 @@
 			
 			<dt>New organization?</dt>
 			<dd>
-			 	<%= s.check_box :new_organization, :checked => @new_organization || (@new_organization.nil? && @self_placement.new_organization) %> 
+			 	<%= s.check_box :new_organization %> 
 			    Check to create a new organization. Uncheck if you want to 
 				<span class="small">
 					<%= link_to_function "select from existing one.", "Element.toggle(create_organization);Element.toggle(select_organization);" %>

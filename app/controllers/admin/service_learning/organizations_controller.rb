@@ -238,7 +238,7 @@ class Admin::ServiceLearning::OrganizationsController < Admin::ServiceLearningCo
             course_param = placement.course.courses.first.abbrev
             
             # Find pipeline course and placement
-            pipeline_course = ServiceLearningCourseCourse.find_by_abbrev_and_quarter(course_param, @quarter, Unit.find_by_abbreviation("pipeline")).service_learning_course
+            pipeline_course = ServiceLearningCourseCourse.find_by_abbrev_and_quarter(course_param, @quarter, Unit.find_by_abbreviation("pipeline")).try(:service_learning_course)
             
             if pipeline_course
               pipeline_placement = ServiceLearningPlacement.find_by_person_id_and_service_learning_course_id(student.id, pipeline_course.id)

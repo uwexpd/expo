@@ -133,34 +133,40 @@ class ServiceLearningController < ApplicationController
       redirect_to :action => "self_placement_submit", :id => @self_placement.id and return
     end
         
-    if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)        
-        self_placement_form_validation
-        return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
-            
-        @position.title = params[:service_learning_position][:title]
+    if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)                
+
+        @self_placement.update_attributes(params[:self_placement_attributes])
+
+        if params[:service_learning_position][:title].blank?
+            return @position.errors.add :title, "cannot be blank." 
+        else
+            @position.title = params[:service_learning_position][:title]
+        end
+                
         @position.approved = false
         @position.in_progress = true
         @position.require_validations = false
-
-        if @position.save && @position.update_attributes(params[:service_learning_position])            
-            @self_placement.update_attributes(params[:self_placement_attributes])
-            @self_placement.person_id = @student.id
-            @self_placement.service_learning_position_id = @position.id        
-            @self_placement.quarter_id = @quarter.id
+        
+        if @position.save && @position.update_attributes(params[:service_learning_position])
+                                  
+            @self_placement.update_attribute :service_learning_position_id, @position.id
+            
+            [:context_description, :description, :impact_description].each do |field|
+                return @position.errors.add(field, "cannot be blank.") if params[:service_learning_position][field].blank?
+            end                    
+            if @position.times.empty? && (params[:service_learning_position][:new_times].blank? || params[:service_learning_position][:new_times] == "clear")
+              return @position.errors.add_to_base "Please select a time for service learning schedule." 
+            end            
+                        
             if params[:self_placement_attributes][:new_organization] == "1"
               @self_placement.require_validations = true 
             else 
               @self_placement.organization_id = params[:organization_id] 
             end
             @self_placement.self_placement_validations = true
-                      
-            if @self_placement.save              
-              [:context_description, :description, :impact_description].each do |field|
-                 return @position.errors.add(field, "cannot be blank.") if params[:service_learning_position][field].blank?
-              end
-              #return @position.errors.add_to_base "Service learning schedule cannot not be blank." if params[:service_learning_position][:new_times].blank?
-                            
-              flash[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
+                                              
+            if @self_placement.save
+              flash.now[:notice] = "Your self placement position form sucessfully saved." if params[:commit] == "Save"     
               redirect_to :action => "self_placement_submit", :id => @self_placement.id and return if params[:commit] == "Review and Submit"
             end            
          else
@@ -179,7 +185,6 @@ class ServiceLearningController < ApplicationController
   end
 
   def self_placement_submit
-    #self_placement_update(:self_placement, params[:id], params[:commit])
     @self_placement ||= ServiceLearningSelfPlacement.find(params[:id]) if params[:id]
        if @self_placement.nil?
          flash[:error] = "Can not find your self placements."        
@@ -226,7 +231,9 @@ class ServiceLearningController < ApplicationController
     end
         
     if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)
-        self_placement_form_validation
+        
+        @self_placement.update_attributes(params[:self_placement_attributes])
+        
         return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
                 
         @position.title = params[:service_learning_position][:title]
@@ -235,17 +242,14 @@ class ServiceLearningController < ApplicationController
         @position.require_validations = false        
 
         if @position.save && @position.update_attributes(params[:service_learning_position])            
-            @self_placement.update_attributes(params[:self_placement_attributes])
-            @self_placement.person_id = @student.id
-            @self_placement.service_learning_position_id = @position.id        
-            @self_placement.quarter_id = @quarter.id            
+                       
+            @self_placement.update_attribute :service_learning_position_id, @position.id                   
             
             if params[:self_placement_attributes][:new_organization] == "1"
               @self_placement.require_validations = true 
             else 
               @self_placement.organization_id = params[:organization_id] 
-            end
-                                                                          
+            end                                                                          
             @position.require_general_study_validations = true
                                               
             if @self_placement.save && @position.save
@@ -448,7 +452,7 @@ class ServiceLearningController < ApplicationController
     @self_placement = (ServiceLearningSelfPlacement.find(params[:id]) if params[:id]) || ServiceLearningSelfPlacement.find_by_person_id_and_quarter_id_and_service_learning_course_id_and_general_study(@student, @quarter, @service_learning_course, general_study_action) || ServiceLearningSelfPlacement.new                          
     
     @position = @self_placement.position || ServiceLearningPosition.new
-    @position.times.build unless general_study_action
+    #@position.times.build if @position.times.empty? || !general_study_action 
     @organization = (params[:organization_id].blank?) ? Organization.find(@self_placement.try(:organization_id)) : Organization.find(params[:organization_id]) rescue nil
     @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")
   end
@@ -475,20 +479,11 @@ class ServiceLearningController < ApplicationController
       flash[:error] = "You already have a placement for #{@service_learning_course.title}. Please contact Carlson Center staff for self placement request."
       redirect_to :action => 'index'
     end
-  end
-  
-  def self_placement_form_validation
-    if params[:self_placement_attributes][:new_organization] == "1"
-        return @self_placement.errors.add_to_base "New organization name cannot be blank." if params[:self_placement_attributes][:organization_id].blank?
-    else
-        return @self_placement.errors.add_to_base "Please select an organization" if params[:organization_id].blank?
-    end        
-  end      
+  end  
   
   def update_contact_options
     if params[:update_contact_options] && params[:organization_id]      
       @display_contact = true
-      @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
     end          
     @new_contact = @position.supervisor_person_id.nil?
   end
