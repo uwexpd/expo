@@ -135,14 +135,21 @@ class ServiceLearningController < ApplicationController
         
     if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)                
 
-        @self_placement.update_attributes(params[:self_placement_attributes])
+        if params[:self_placement_attributes][:new_organization] == "1"
+          @self_placement.require_validations = true
+        else 
+          params[:self_placement_attributes][:organization_id] = params[:organization_id]
+        end
+        
+        @self_placement.update_attributes(params[:self_placement_attributes])        
 
         if params[:service_learning_position][:title].blank?
             return @position.errors.add :title, "cannot be blank." 
         else
             @position.title = params[:service_learning_position][:title]
         end
-                
+        
+        @self_placement                
         @position.approved = false
         @position.in_progress = true
         @position.require_validations = false
@@ -158,11 +165,6 @@ class ServiceLearningController < ApplicationController
               return @position.errors.add_to_base "Please select a time for service learning schedule." 
             end            
                         
-            if params[:self_placement_attributes][:new_organization] == "1"
-              @self_placement.require_validations = true 
-            else 
-              @self_placement.organization_id = params[:organization_id] 
-            end
             @self_placement.self_placement_validations = true
                                               
             if @self_placement.save
@@ -232,6 +234,12 @@ class ServiceLearningController < ApplicationController
         
     if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)
         
+        if params[:self_placement_attributes][:new_organization] == "1"
+          @self_placement.require_validations = true
+        else 
+          params[:self_placement_attributes][:organization_id] = params[:organization_id]
+        end
+        
         @self_placement.update_attributes(params[:self_placement_attributes])
         
         return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
@@ -245,11 +253,6 @@ class ServiceLearningController < ApplicationController
                        
             @self_placement.update_attribute :service_learning_position_id, @position.id                   
             
-            if params[:self_placement_attributes][:new_organization] == "1"
-              @self_placement.require_validations = true 
-            else 
-              @self_placement.organization_id = params[:organization_id] 
-            end                                                                          
             @position.require_general_study_validations = true
                                               
             if @self_placement.save && @position.save
