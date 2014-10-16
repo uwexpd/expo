@@ -285,10 +285,10 @@ class EquipmentReservation < ActiveRecord::Base
       if i == 0
         title += " (Same Day Return)"
       elsif d.strftime("%w") == "0" || d.strftime("%w") == "6" # weekend
-        disabled << d
-      elsif d.to_date.is_holiday?
-        title += " (Holiday)"
-        disabled << d
+        disabled << d  
+      # elsif d.to_date.is_holiday?
+      #   title += " (Holiday)"
+      #   disabled << d
       else
         title += " (#{pluralize(i, "day")})"
       end

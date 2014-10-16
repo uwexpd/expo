@@ -52,7 +52,7 @@ class ServiceLearningController < ApplicationController
   end
 
   def my_position
-    @placements ||= @student.service_learning_placements.for(@quarter)
+    @placements ||= @student.service_learning_placements.for(@quarter).reject{|p|p.position.general_study?}
     redirect_to :action => "index" if @placements.empty?
   end
 
@@ -106,7 +106,8 @@ class ServiceLearningController < ApplicationController
   end
 
   def complete
-    @placements ||= @student.service_learning_placements.for(@quarter, nil) # by specifying nil here, we get placements from all units except pipeline
+    # by specifying nil here, we get placements from all units except pipeline
+    @placements ||= @student.service_learning_placements.for(@quarter, nil).reject{|p|p.position.general_study?}
     if !@placements.empty? && @placements.first.position.unit.abbreviation == 'bothell'
       return render :template => 'service_learning/complete_bothell'
     end
@@ -237,7 +238,7 @@ class ServiceLearningController < ApplicationController
     if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)
                 
         params[:self_placement_attributes][:organization_id] = params[:organization_id] unless params[:self_placement_attributes][:new_organization] == "1"
-                
+        @self_placement.general_study_validations = true
         @self_placement.update_attributes(params[:self_placement_attributes])
         
         # validate new organization contact fields
@@ -465,7 +466,7 @@ class ServiceLearningController < ApplicationController
   end
 
   def check_if_already_registered
-    @placements ||= @student.service_learning_placements.for(@quarter)
+    @placements ||= @student.service_learning_placements.for(@quarter).reject{|p|p.position.general_study?}
     @current_position = @placements.first.position unless @placements.empty?
     redirect_to :action => "complete" if !@service_learning_course.open? && !@placements.empty?
   end

@@ -158,9 +158,9 @@ class Admin::ServiceLearningController < Admin::BaseController
                                                           :unit_id => @unit.id
                                                          )        
     
-              if @self_placement.person.place_into(@self_placement.position, @self_placement.course, @unit, false, !@self_placement.general_study?, @self_placement.general_study?)
-                @self_placement.update_attribute(:service_learning_placement_id, placement.id) if placement
-                flash[:notice] = "You successfully approved the position and place #{@self_placement.person.fullname} into a #{@type_of_self_placement.downcase}."
+              if @self_placement.person.place_into(@self_placement.position, @self_placement.course)
+                 @self_placement.update_attribute(:service_learning_placement_id, placement.id) if placement
+                 flash[:notice] = "You successfully approved the position and place #{@self_placement.person.fullname} into a #{@type_of_self_placement.downcase}."
               else
                 flash[:error] = "You have activated the organization but something went wrong when placing the student into #{@type_of_self_placement.downcase}"
                 raise ActiveRecord::Rollback
@@ -195,31 +195,32 @@ class Admin::ServiceLearningController < Admin::BaseController
                               
       return @position.errors.add :title, "cannot be blank." if params[:service_learning_position][:title].blank?
       
-      @position.require_validations = false    
+      @position.require_validations = false
       if @position.update_attributes(params[:service_learning_position])
+          
           @self_placement.require_validations = true if params[:self_placement_attributes][:new_organization] == "1"
-
-          if @self_placement.update_attributes(params[:self_placement_attributes])
-            @self_placement.update_attribute(:organization_id, params[:organization_id]) if params[:self_placement_attributes][:new_organization] != "1"
-            
-            if @self_placement.general_study?
-              faculty_netid = @self_placement.faculty_email.match(/^(\w+)(@.+)?$/).try(:[], 1)
-              faculty = GeneralStudyFaculty.find_by_uw_netid(faculty_netid)
-              unless faculty.nil?
-                faculty_user = User.find_by_login_and_identity_type(faculty_netid, nil)
-                if faculty_user.nil?
-                  faculty_user = PubcookieUser.authenticate faculty_netid
-                  faculty_user.person.update_attribute :firstname, faculty.firstname
-                  faculty_user.person.update_attribute :lastname, faculty.lastname
-                  faculty_user.person.update_attribute :email, @self_placement.faculty_email
-                end                
-                @self_placement.update_attribute :faculty_person_id, faculty_user.person
-                ServiceLearningCourseInstructor.find_or_create_by_service_learning_course_id_and_person_id(@self_placement.course.id, faculty_user.person.id)
+          @self_placement.general_study_validations = true if @self_placement.general_study?
+          params[:self_placement_attributes][:organization_id] = params[:organization_id] unless params[:self_placement_attributes][:new_organization] == "1"          
+          
+          if @self_placement.update_attributes(params[:self_placement_attributes])                        
+              if @self_placement.general_study?
+                faculty_netid = @self_placement.faculty_email.match(/^(\w+)(@.+)?$/).try(:[], 1)
+                faculty = GeneralStudyFaculty.find_by_uw_netid(faculty_netid)
+                unless faculty.nil?
+                  faculty_user = User.find_by_login_and_identity_type(faculty_netid, nil)
+                  if faculty_user.nil?
+                    faculty_user = PubcookieUser.authenticate faculty_netid
+                    faculty_user.person.update_attribute :firstname, faculty.firstname
+                    faculty_user.person.update_attribute :lastname, faculty.lastname
+                    faculty_user.person.update_attribute :email, @self_placement.faculty_email
+                  end                
+                  @self_placement.update_attribute :faculty_person_id, faculty_user.person
+                  ServiceLearningCourseInstructor.find_or_create_by_service_learning_course_id_and_person_id(@self_placement.course.id, faculty_user.person.id)
+                end
               end
-            end
              
-            flash[:notice] = "You have saved the #{@type_of_self_placement.downcase} position sucessfully."
-            redirect_to :action => "self_placement_approval", :id => @self_placement.id and return
+              flash[:notice] = "You have saved the #{@type_of_self_placement.downcase} position sucessfully."
+              redirect_to :action => "self_placement_approval", :id => @self_placement.id and return
           end
       else
         flash[:error] = "Something went wrong when saving the self placement information"

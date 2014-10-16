@@ -22,6 +22,7 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
     
   validates_presence_of :faculty_firstname, :if => :general_study_validations?
   validates_presence_of :faculty_lastname, :if => :general_study_validations?
+  validates_presence_of :faculty_dept,  :if => :general_study_validations?
   validates_presence_of :faculty_phone, :if => :general_study_validations?
   validates_presence_of :faculty_email, :if => :general_study_validations?
   validates_format_of   :faculty_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :if => :general_study_validations?
@@ -51,7 +52,7 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
   end
   
   def organization_name
-    existing_organization? ? existing_organization.title : organization_id
+    existing_organization? ? existing_organization.title : organization_id rescue "#error"
   end
     
   # def create_contact?
