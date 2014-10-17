@@ -41,11 +41,12 @@ namespace :deploy do
 end
 
 namespace :deploy do     
-  desc "[internal] Link database.yml and certs file to deployed release."
+  desc "[internal] Link database.yml, security certs, files, and shared images to deployed release."
   task :config_symlink, :except => { :no_release => true } do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/certs #{release_path}/config/certs"
     run "ln -nfs #{shared_path}/files #{release_path}/files"
+    run "ln -nfs #{shared_path}/shared/images #{release_path}/public/images/shared"
     run "ln -nfs #{current_release}/public #{current_release}/public/expo"    
   end  
 end
