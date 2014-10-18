@@ -51,7 +51,7 @@ namespace :deploy do
   end  
 end
 
-after "deploy:config_symlink"
+after "deploy:finalize_update", "deploy:config_symlink"
 
 # Using hoptoad_notifier
 Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
