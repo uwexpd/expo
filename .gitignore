@@ -10,6 +10,7 @@ config/environments/development.rb
 /files
 /javascripts
 /stylesheets
+/public/images/shared/
 
 log/
 

@@ -90,10 +90,15 @@ class Admin::Communicate::EmailController < Admin::BaseController
                         end
         end
         unless params[:recipient_variant].blank?
-           if params[:recipient_variant] == "required_mentors"           
+           if params[:recipient_variant] == "required_mentors"
              recipients.to_a.each{ |r| @recipients << r.mentors.reject(&:approved?).select{|m| m.primary || m.meets_minimum_qualification?} }
            else
-             recipients.to_a.each{ |r| @recipients << r.instance_eval(params[:recipient_variant]) }
+             if recipients.empty? && obj_type == "ServiceLearningCourse"
+                 # deal with whe no instructors for service learning course
+                 @recipients << obj.instance_eval((params[:recipient_variant].split(".").second))
+             else
+               recipients.to_a.each{ |r| @recipients << r.instance_eval(params[:recipient_variant]) }
+             end
            end
         else
           @recipients << recipients

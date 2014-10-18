@@ -47,11 +47,11 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/certs #{release_path}/config/certs"
     run "ln -nfs #{shared_path}/files #{release_path}/files"
     run "ln -nfs #{shared_path}/shared/images #{release_path}/public/images/shared"
-    run "ln -nfs #{current_release}/public #{current_release}/public/expo"    
+    run "ln -nfs #{current_release}/public #{current_release}/public/expo"  
   end  
 end
 
-after "deploy:finalize_update", "deploy:config_symlink"
+after "deploy:config_symlink"
 
 # Using hoptoad_notifier
 Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
