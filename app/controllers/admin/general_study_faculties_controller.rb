@@ -81,8 +81,8 @@ class Admin::GeneralStudyFacultiesController < Admin::BaseController
   
   def search
     session[:breadcrumbs].add "Search"
-    @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ["lastname LIKE ?", "%#{params[:search][:lastname]}%"]) unless params[:search][:lastname].blank?
-    @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ['uw_netid = ?', params[:search][:uw_netid]]) unless params[:search][:uw_netid].blank?
+    @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ["lastname LIKE ?", "%#{params[:search][:lastname].strip}%"]) unless params[:search][:lastname].blank?
+    @general_study_faculties = GeneralStudyFaculty.find(:all, :conditions => ['uw_netid = ?', params[:search][:uw_netid].strip]) unless params[:search][:uw_netid].blank?
     
     if @general_study_faculties.empty?
       flash[:error] = "Can not find the faculty with your search input."

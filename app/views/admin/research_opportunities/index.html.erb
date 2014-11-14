@@ -13,7 +13,7 @@
 	<% for opportunity in @research_opportunities %>
 	<tr id="research_opportunities_<%= opportunity.id %>">
 		<td><%= link_to opportunity.title, research_opportunity_path(opportunity) %></td>
-		<td><%= opportunity.created_at.to_date if opportunity.submitted? %></td>
+		<td><%= opportunity.created_at.to_date if opportunity.submitted? rescue nil%></td>
 		<td><%= opportunity.active %></td>
 
 		

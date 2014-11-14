@@ -305,7 +305,7 @@ class ServiceLearningController < ApplicationController
                   # send notification to admin for adding faculty code
                   template = EmailTemplate.find_by_name("general study notification for carlson center admin staff")
                   TemplateMailer.deliver(template.create_email_to(@self_placement,                                                                  "http://#{CONSTANTS[:base_url_host]}/admin/service_learning/carlson/#{@quarter.abbrev}/courses/#{@service_learning_course.id}/instructors",
-                                                                  Unit.find_by_abbreviation("carlson").email)
+                                                                  "genst350@uw.edu")
                                         ) if template                                                               
                   #no_faculty_match_message = "Carlson Center Staff will work on the faculty you entered."
                else
@@ -324,22 +324,26 @@ class ServiceLearningController < ApplicationController
                    
                   unless @self_placement.faculty_approved?
                       faculty_template = EmailTemplate.find_by_name("general study position faculty approval request")
-                      TemplateMailer.deliver(faculty_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/faculty/general_study/#{@quarter.abbrev}/general_study_approval/#{@self_placement.id}",
+                      EmailContact.log(faculty_user.person.id, 
+                                       TemplateMailer.deliver(faculty_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/faculty/general_study/#{@quarter.abbrev}/general_study_approval/#{@self_placement.id}",
                                                                               @self_placement.faculty_email)
-                                            ) if faculty_template
+                                                             )
+                                      )if faculty_template
                   end
 
                   unless @self_placement.supervisor_approved?
                     if @self_placement.position.supervisor.nil?
                       admin_template = EmailTemplate.find_by_name("general study admin notification for new contact or organization")
                       TemplateMailer.deliver(admin_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/admin/service_learning/carlson/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
-                                                                  Unit.find_by_abbreviation("carlson").email)
+                                                                  "genst350@uw.edu")
                                             ) if admin_template
                     else
                       supervisor_template = EmailTemplate.find_by_name("general study position supervisor approval request")
-                      TemplateMailer.deliver(supervisor_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/service_learning/#{@quarter.abbrev}/general_study/approve/#{@self_placement.id}",
+                      EmailContact.log(@self_placement.position.supervisor.person.id, 
+                                       TemplateMailer.deliver(supervisor_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/service_learning/#{@quarter.abbrev}/general_study/approve/#{@self_placement.id}",
                                                                       @self_placement.position.supervisor.person.email)
-                                            ) if supervisor_template
+                                                             )
+                                      ) if supervisor_template
                     end
                   end                                      
                                       
