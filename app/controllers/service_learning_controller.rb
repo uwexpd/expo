@@ -332,7 +332,8 @@ class ServiceLearningController < ApplicationController
                   end
 
                   unless @self_placement.supervisor_approved?
-                    if @self_placement.position.supervisor.nil?
+                    # TODO find a better way to check if new contact
+                    if @self_placement.position.supervisor.nil? || !@self_placement.organization_contact_person.blank? 
                       admin_template = EmailTemplate.find_by_name("general study admin notification for new contact or organization")
                       TemplateMailer.deliver(admin_template.create_email_to(@self_placement, "https://#{CONSTANTS[:base_url_host]}/admin/service_learning/carlson/#{@quarter.abbrev}/self_placements/#{@self_placement.id}",
                                                                   "genst350@uw.edu")

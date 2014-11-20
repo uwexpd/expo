@@ -75,8 +75,9 @@ class Admin::ServiceLearningController < Admin::BaseController
   def self_placement_approval
     @self_placement = ServiceLearningSelfPlacement.find params[:id]
     @type_of_self_placement = @self_placement.general_study? ? "General Study" : "Self Placement"
-    @is_new_contact = !@self_placement.organization_contact_person.blank? && @self_placement.position.supervisor.nil?
-        
+    # TODO: find a better way to check if new contact 
+    @is_new_contact = !@self_placement.organization_contact_person.blank? # && @self_placement.position.supervisor.nil? (take this away because student can still input position existing contact while check creating new contact)
+
     if request.put?
       if @self_placement.general_study? && !@is_new_contact
           if params[:service_learning_self_placement][:confirm_registered] == "0"
@@ -85,7 +86,8 @@ class Admin::ServiceLearningController < Admin::BaseController
       end
       
       @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact
-              
+      
+      # Activate organization
       if @self_placement.existing_organization?
          organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)
          organization = organization_quarter.organization
@@ -104,7 +106,8 @@ class Admin::ServiceLearningController < Admin::BaseController
          organization_quarter = organization.activate_for(@quarter, true)               
       end
       
-      if @is_new_contact
+      # Activate new contact
+      if @is_new_contact || !@self_placement.existing_organization?
          contact = organization.contacts.create
          contact_people = Person.find_all_by_email(@self_placement.organization_contact_email)
          
@@ -113,7 +116,6 @@ class Admin::ServiceLearningController < Admin::BaseController
          elsif contact_people.size > 1
             return flash[:error] = "There are more than one person record found with the contact email. Please add the contact manually in expo."
          else
-           logger.debug("Debug => create contact")
             contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
                                   :lastname => @self_placement.organization_contact_person.split.second,
                                   :email => @self_placement.organization_contact_email,
@@ -123,10 +125,8 @@ class Admin::ServiceLearningController < Admin::BaseController
          end
          
          organization.save;contact.save
-         logger.debug("Debug => organization = #{organization.inspect}")
-         logger.debug("Debug => contact = #{contact.inspect}")
          @self_placement.update_attribute(:organization_id, organization) unless @self_placement.existing_organization? # mark as existing org
-         @self_placement.position.update_attribute(:supervisor_person_id, contact.person_id) if @self_placement.position.supervisor.blank?
+         @self_placement.position.update_attribute(:supervisor_person_id, contact.id)
 
          if @self_placement.general_study?
              supervisor_template = EmailTemplate.find_by_name("general study position supervisor approval request")

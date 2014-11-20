@@ -30,17 +30,21 @@
  				service_learning_course_path(@unit, @quarter, self_placement.course)) %>
       	</td>
       	
-      	<td value="<%= self_placement.position.name %>">
-      	  	<%= link_to_if self_placement.position.organization_quarter && self_placement.admin_approved, self_placement.position.title(true,false,true,false),
-              	service_learning_organization_position_path(@unit, @quarter, self_placement.existing_organization, self_placement.position) rescue self_placement.position.title(true,false,true,false) %>
-      	</td>
+      	<% if self_placement.position %>
+			<td value="<%= self_placement.position.name %>">
+	      	  	<%= link_to_if self_placement.position.organization_quarter && self_placement.admin_approved, self_placement.position.title(true,false,true,false),
+	              	service_learning_organization_position_path(@unit, @quarter, self_placement.existing_organization, self_placement.position) rescue self_placement.position.title(true,false,true,false) %>
+	      	</td>
+		<% else %>
+			<td>[Not input yet]</td>
+		<% end %>
 		
       	<td value="<%= self_placement.organization_name %>">
       	  <%= link_to_if self_placement.position.organization_quarter && self_placement.admin_approved, self_placement.organization_name,
 						 service_learning_organization_path(@unit, @quarter, self_placement.existing_organization) rescue self_placement.organization_name %>
 	   	</td>
 	
-		<td value="<%= self_placement.position.name %>">
+		<td>
 			<%= self_placement.general_study ? self_placement.general_study_status : self_placement.status %>
 		</td>		
 	
