@@ -8,9 +8,7 @@
 				<%= link_to_tab_pane "General Study", :general_study %>
 			<% else %>
 				<%= link_to_tab_pane "Description", :description %>			
-				<% unless @use_pipeline_links %>
 				<%= link_to_tab_pane "Requirements", :requirements %>
-				<% end %>
 				<%= link_to_tab_pane "Scheduling", :scheduling %>
 				<%= link_to_tab_pane "Location", :location %>
 				<% unless @use_pipeline_links %>

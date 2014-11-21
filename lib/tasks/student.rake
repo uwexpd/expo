@@ -217,8 +217,8 @@ task :general_study_faculty => :environment do
       # uw_netid     = row[3].blank? ? row[3] : row[3].strip
       
       unless fullname.blank?
-        firstname = fullname.split(",").first.try(:strip).try(:capitalize)
-        lastname  = fullname.split(",").second.try(:strip).try(:capitalize)
+        lastname  = fullname.split(",").first.try(:strip).try(:capitalize)
+        firstname = fullname.split(",").second.try(:strip).try(:capitalize)
       end          
 
       faculty = GeneralStudyFaculty.find_or_create_by_code(code)

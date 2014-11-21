@@ -45,6 +45,9 @@
 				 			{:controller => "pipeline", :action => "download_background_check"},
 							:class => 'icon-left pdf button' %>
 			</div>
+			<% if @student.age.nil? || @student.age < 18 %>
+				<p class="red small">If you are under 18, the signature of your parent or guardian is required on your background check form.</p>
+			<% end %>
 		<% end -%>
 
 	</li>

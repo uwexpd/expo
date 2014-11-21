@@ -18,14 +18,14 @@
 												<div class=\"arrow\"></div>",
 											 :description, :link_only => true %>
 					</td>
-					<% unless @use_pipeline_links %>
+				
 					<td id="tab_pane_link_requirements">
 						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
 												<div class=\"name\">Requirements</div>
 												<div class=\"arrow\"></div>",
 											 :requirements, :link_only => true %>
 					</td>
-					<% end %>
+				
 					<td id="tab_pane_link_scheduling">
 						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
 												<div class=\"name\">Scheduling</div>
@@ -86,12 +86,12 @@
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/description",
 			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
 		<% end -%>
-<% unless @use_pipeline_links %>
+
 		<% tab_pane :requirements do %>
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/requirements",
 			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
 		<% end -%>
-<% end %>
+
 		<% tab_pane :scheduling do %>
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/scheduling",
 			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>

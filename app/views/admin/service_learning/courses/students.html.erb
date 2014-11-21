@@ -54,7 +54,7 @@
 	<% unless @course_droppers.empty? %>
 		<tr class="rowset-header">
 			<td><%= select_all_check_box(@service_learning_course.id) %></td>
-			<td colspan=4>Course Droppers
+			<td colspan=6>Course Droppers
 				<font class="lighter grey">&raquo; <%= pluralize @course_droppers.size, "student" %></font></td>
 		</tr>		
 		<%= render :partial => "dropper", 

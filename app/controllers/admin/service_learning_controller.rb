@@ -184,7 +184,7 @@ class Admin::ServiceLearningController < Admin::BaseController
     @type_of_self_placement = @self_placement.general_study? ? "General Study" : "Self Placement"
     @student = @self_placement.person
     @service_learning_course = @self_placement.course
-    @position = @self_placement.position    
+    @position = @self_placement.position || ServiceLearningPosition.new  
     @organization_options ||= Organization.all.sort_by(&:name).collect{|og| [og.name, og.id]}.insert(0, "")
     @organization = (params[:organization_id].blank?) ? Organization.find(@self_placement.try(:organization_id)) : Organization.find(params[:organization_id]) rescue nil
         
