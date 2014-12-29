@@ -1,6 +1,8 @@
 =begin rdoc
 This is the parent class for result objects that come from the UW Web services (Student web service, idCard service, etc.). It requires that you define a primary_key to be used to fetch records from the web services, and then caches the resulting xhtml document for use later. Then you can access attributes just like a normal ActiveResource object. (Note that we aren't using ActiveResource here because UW web services only provide xhtml formatted data and ActiveResource can't properly parse it.)
 
+Update: Changed to receive XML formatted data from SWS at 12-23-2014 since SWS v5 is no longer support xhtml.
+
 == Class Attributes
 These class attributes should be defined in sub-classes.
 
@@ -77,8 +79,10 @@ class WebServiceResult
     matching_aliases = self.class::ATTRIBUTE_ALIASES.collect{|k,v| k unless v.select{|a| a.to_s == attribute.to_s}.empty?}.compact
     aliases = ([attribute] + matching_aliases).flatten.compact
     element = []
+    
     for a in aliases
-      element = document.xpath("//div/span[@class='#{a.to_s}']")
+      element = document.css("Person #{a}") # For SWS V4 -> element = document.xpath("//div/span[@class='#{a.to_s}']")
+      
       break unless element.empty? || element.size > 1
     end
     return nil if element.empty?
@@ -181,9 +185,9 @@ class WebServiceResult
       config_file_path = "#{RAILS_ROOT}/config/web_services.yml"
       @config_options ||= YAML::load(ERB.new((IO.read(config_file_path))).result)[(RAILS_ENV)].symbolize_keys
     end
-  
+    
     def headers
-      { "x-uw-act-as" => 'expo', "Accept" => "application/xhtml" }
+      { "x-uw-act-as" => 'expo', "Accept" => "application/xml" }
     end
   
   end
@@ -201,9 +205,10 @@ class WebServiceResult
     RAILS_DEFAULT_LOGGER.info message
   end
 
-  # Encapsulates the raw data from the service into a Nokogiri::HTML object. Override in subclasses to do something else.
+  # Encapsulates the raw data from the service into a Nokogiri::HTML object. Override in subclasses to do something else. 
+  # Update: Changed to parse XML
   def self.encapsulate_data(raw_data)
-    Nokogiri::HTML(raw_data)
+    Nokogiri::XML(raw_data)
   end
 
   # Raises an error if the cert, key, or CA file does not exist.

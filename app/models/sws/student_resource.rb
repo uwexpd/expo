@@ -1,14 +1,16 @@
 class StudentResource < WebServiceResult
   
-  SWS_VERSION = "v4"
+  SWS_VERSION = "v5"
 
   self.element_path = "student/#{SWS_VERSION}/person"  
   self.cache_lifetime = 1.hour
 
   ATTRIBUTE_ALIASES = {
-    :student_name    => [:fullname],
-    :student_number  => [:student_no],
-    :net_id          => [:uw_netid]
+    :StudentName      => [:fullname],
+    :StudentNumber    => [:student_no],
+    :UWNetID          => [:uw_netid],
+    :FirstName        => [:firstname],
+    :LastName         => [:lastname]    
   }
   
   def self.method_missing(method, *args)
@@ -31,7 +33,8 @@ class StudentResource < WebServiceResult
   # parameter and you'll just get the reg_id for the student.
   def self.find_by_attribute(attribute, search_term, fetch_record = true)
     result = self.encapsulate_data(connection.get("#{self.element_path}?#{attribute.to_s}=#{search_term.to_s}"))
-    result_elements = result.xpath("//a[@rel='search_result']/span[@class='reg_id']")
+    result_elements = result.css("Person RegID") # For SWS v4 -> result_elements = result.xpath("//a[@rel='search_result']/span[@class='reg_id']") 
+
     return nil if result_elements.empty?
     fetch_record ? self.find(result_elements.first.content) : result_elements.first.content
   end
@@ -41,15 +44,16 @@ class StudentResource < WebServiceResult
   end
   
   def fullname
-    student_name.strip.gsub(',', ', ')
-  end
-
-  def lastname
-    fullname.split(',')[0]
+    self.StudentName.strip.gsub(',', ', ')
   end
   
-  def firstname
-    fullname.split(',')[1].split(' ')[0]
-  end
+  # Only for sws v4 xhtml data formatted
+  # def lastname
+  #   fullname.split(',')[0]
+  # end
+  # 
+  # def firstname
+  #   fullname.split(',')[1].split(' ')[0]
+  # end
 
 end

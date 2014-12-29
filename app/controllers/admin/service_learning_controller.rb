@@ -106,8 +106,8 @@ class Admin::ServiceLearningController < Admin::BaseController
          organization_quarter = organization.activate_for(@quarter, true)               
       end
       
-      # Activate new contact
-      if @is_new_contact || !@self_placement.existing_organization?
+      # Activate new contact: 1. existing org and add new contact (only for general study now) 2. new org and new contact
+      if (@self_placement.general_study? && @is_new_contact) || !@self_placement.existing_organization?
          contact = organization.contacts.create
          contact_people = Person.find_all_by_email(@self_placement.organization_contact_email)
          

@@ -95,7 +95,7 @@ class Student < Person
   end
   
   def gender
-	self.sdb_update(:gender)
+	  self.sdb_update(:gender)
     read_attribute(:gender)
   end
   

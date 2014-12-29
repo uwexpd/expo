@@ -41,7 +41,7 @@ class EventTime < ActiveRecord::Base
     if capacity.to_i.zero? # unlimited cap for this timeslot; check if there is an event-wide cap
       return event.capacity.to_i.zero? ? false : event.attendees.size >= event.capacity
     else # there is a timeslot cap; check both timeslot count and event-wide count
-      return attendees.size >= capacity ? true : event.attendees.size >= (event.capacity.to_i.zero? ? 1e5 : 0)
+      return attendees.size >= capacity ? true : event.attendees.size >= (event.capacity.to_i.zero? ? 1e5 : event.capacity)
     end
   end
   
