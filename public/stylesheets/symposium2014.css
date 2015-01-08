@@ -1,7 +1,3 @@
-/* @override 
-	https://expo.uw.edu/expo/stylesheets/symposium2010.css?1294275202
-	https://expo.uw.edu/expo/stylesheets/symposium2011.css?1294716996
-*/
 
 html {
 	margin: 0;
@@ -20,7 +16,7 @@ body {
 }
 
 #header {
-	background: #2e3192 url(../images/symposium/2013/header.png);
+	background: #2e3192 url(../images/symposium/2014/header.png);
 	height: 149px;
 	border-bottom: 1px solid #b2b2b2;
 }
@@ -57,11 +53,10 @@ h1.page_title {
 	position: absolute;
 	top: 0px;
 	left: 50px;
-/*	background: url(../images/symposium/2012/header-title-2012.png) no-repeat;*/
 }
 
 .proceedings h1.page_title {
-	background-image: url(../images/symposium/2013/header.png);
+	background-image: url(../images/symposium/2014/header.png);
 }
 
 h5.unit_name {
