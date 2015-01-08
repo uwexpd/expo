@@ -25,7 +25,7 @@
 	<% form_tag url_for(:action => 'search'), :method => :get do %>
 		<%= text_field_tag :contact_person, params[:contact_person] %>
 		<%= submit_tag "Research Mentor/Contact Search",
-				:onClick => "return validateNotBlank(contact, opportunities_lookup_error, 'Please enter a contact information.')" %>
+				:onClick => "return validateNotBlank(contact_person, opportunities_lookup_error, 'Please enter a contact information.')" %>
 	<% end -%>
 	<br>
 	

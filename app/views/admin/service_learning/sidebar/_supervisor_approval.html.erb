@@ -1,0 +1,15 @@
+<h3>Supervisor Approval Information</h3>
+<strong>
+<% if @self_placement.supervisor_approved.nil? %> 
+	<span>Not Yet Approve</span>
+<% elsif @self_placement.supervisor_approved? %>
+	<span class='green'>Supervisor Approved</span>
+<% else %>
+	<span class='red'>Supervisor Declined</span>	
+<% end %>
+</strong>
+<% if @self_placement.supervisor_feedback %>
+	<br><br><strong>Feedback:</strong><br><%= @self_placement.supervisor_feedback %>
+<% end %>
+
+

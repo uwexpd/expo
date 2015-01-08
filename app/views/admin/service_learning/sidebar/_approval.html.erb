@@ -4,7 +4,7 @@
 	<p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and create a new contact.</p>
 	<p>It will also send a login url for the new contact you create.</p>
 	<% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>	
-	<center><%= f.submit "Approve new contact", :class => 'green' %></center>
+		<center><%= f.submit "Approve new contact", :class => 'green' %></center>
 	<% end %>
 <% else %>
 <p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and place this student into <%= @type_of_self_placement.downcase %> position.</p>
@@ -16,6 +16,10 @@
 		<% end %><br>
 
 		<center><%= f.submit "Approve this Position", :disable_with => 'Approving the position...', :class => 'green' %></center>
+		
+		<% if @self_placement.general_study? && @self_placement.admin_approved.nil? %>
+			<br><center><%= f.submit "Decline", :class => 'red', :confirm => "Are you sure?" %></center>
+		<% end %>
 		
 	<% end -%>	
 <% end %>

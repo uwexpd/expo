@@ -68,8 +68,7 @@ class Admin::ServiceLearningController < Admin::BaseController
     @self_placements = @quarter.service_learning_self_placements.select{|s| s.general_study==true}
     session[:breadcrumbs].add "General Study"
   end
-  
-  
+    
   # After admin approved, automatically activate organization quarter, update position quarter, create contact person, and create a placement. 
   # Then place the student into the placement
   def self_placement_approval
@@ -77,8 +76,14 @@ class Admin::ServiceLearningController < Admin::BaseController
     @type_of_self_placement = @self_placement.general_study? ? "General Study" : "Self Placement"
     # TODO: find a better way to check if new contact 
     @is_new_contact = !@self_placement.organization_contact_person.blank? # && @self_placement.position.supervisor.nil? (take this away because student can still input position existing contact while check creating new contact)
-
+      
     if request.put?
+      if @self_placement.general_study? && params[:commit] == "Decline"
+        @self_placement.update_attribute(:admin_approved, false)
+        flash[:notice] = "You successfully declined the position request."
+        redirect_to :action => "general_study"      
+      end
+      
       if @self_placement.general_study? && !@is_new_contact
           if params[:service_learning_self_placement][:confirm_registered] == "0"
              return @self_placement.errors.add_to_base "Please check the box below to confirm you have completed registering the student."
@@ -244,6 +249,27 @@ class Admin::ServiceLearningController < Admin::BaseController
     end
     
   end
+  
+  # def self_placement_faculty_approval
+  #   @self_placement = ServiceLearningSelfPlacement.find(params[:id])
+  #   @position_type = @self_placement.general_study ? "general study" : "self placement"      
+  #   
+  #   if request.put?
+  #     if @self_placement.save && @self_placement.update_attributes(params[:service_learning_self_placement])
+  #         if @self_placement.faculty_approved?
+  #             flash[:notice] = "On behalf of the faculty, you successfully approved #{@self_placement.position.name} for #{@self_placement.person.fullname} . Thank you."
+  #         else
+  #             template = EmailTemplate.find_by_name("#{@position_type} request decline by facutly")
+  #             TemplateMailer.deliver(template.create_email_to(@self_placement, 
+  #                                                             "http://#{CONSTANTS[:base_url_host]}/service_learning/#{@position_type.tr(' ', '_')}",
+  #                                                             @self_placement.person.email)
+  #                                   ) if template            
+  #             flash[:notice] = "You declined the #{@position_type} position request for #{@self_placement.person.fullname}. A email with your feedback sent to the student."
+  #         end
+  #     end      
+  #     redirect_to :action => @self_placement.general_study? ? "general_study" : "self_placements"
+  #   end
+  # end
   
   protected
 

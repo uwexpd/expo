@@ -59,31 +59,35 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
   #   !organization_contact_person.blank? && position.supervisor.nil?
   # end
     
-  def status
-    if faculty_approved? && !admin_approved
-         "<span class='highlight'>faculty approved</span>"
-    elsif admin_approved
-         "<span class='green-check'>admin approved</span>"
+  def status(tag = false)
+    if faculty_approved? && !admin_approved?
+         tag ? "<span class='tag'>faculty approved</span>" : "<span class='highlight'>faculty approved</span>"
+    elsif admin_approved?
+         tag ? "<span class='tag green'>admin approved</span>" : "<span class='green-check'>admin approved</span>"
+    elsif faculty_approved==false && !submitted? 
+         tag ? "<span class='tag'>faculty declined</span>" : "<span class='red'>faculty declined</span>"
     elsif submitted?
-         "submitted"
+         tag ? "<span class='tag'>submitted</span>" : "submitted"
     else
-         "in progress"
+         tag ? "<span class='tag'>in progress</span>" : "in progress"
     end   
   end
     
-  def general_study_status
-    if faculty_approved? && !supervisor_approved? && !admin_approved
-      "<span class='highlight'>only faculty approved</span>"
-    elsif supervisor_approved? && !faculty_approved? && !admin_approved
-      "<span class='highlight'>only supervisor approved </span>"
-    elsif supervisor_approved? && faculty_approved? && !admin_approved
-      "<span class='highlight'>both faculty and supervisor approved</span>"  
+  def general_study_status(tag = false)
+    if faculty_approved? && !supervisor_approved? && admin_approved.nil?
+      tag ? "<span class='tag'>only faculty approved</span>" : "<span class='highlight'>only faculty approved</span>"
+    elsif supervisor_approved? && !faculty_approved? && admin_approved.nil?
+      tag ? "<span class='tag'>only supervisor approved</span>" : "<span class='highlight'>only supervisor approved</span>"
+    elsif supervisor_approved? && faculty_approved? && admin_approved.nil?
+      tag ? "<span class='tag'>both faculty and supervisor approved</span>" : "<span class='highlight'>both faculty and supervisor approved</span>"
     elsif admin_approved
-      "<span class='green-check'>admin approved</span>"
+      tag ? "<span class='tag green'>admin approved</span>" : "<span class='green-check'>admin approved</span>"
+    elsif admin_approved == false
+      tag ? "<span class='tag red'>admin declined</span>" : "<span class='red'>admin declined</span>"
     elsif submitted?
-      "submitted"
+      tag ? "<span class='tag'>submitted</span>" : "submitted"
     else
-      "in progress"
+      tag ? "<span class='tag'>submitted</span>" : "in progress"
     end
   end
   

@@ -1,0 +1,15 @@
+<h3>Faculty Approval Information</h3>
+<strong>
+<% if @self_placement.faculty_approved.nil? %> 
+	<span>Not Yet Approve</span>
+<% elsif @self_placement.faculty_approved? %>
+	<span class='green'>Faculty Approved</span>
+<% else %>
+	<span class='red'>Faculty Declined</span>	
+<% end %>
+</strong>
+<% if @self_placement.faculty_feedback %>
+	<br><br><strong>Feedback:</strong><br><%= @self_placement.faculty_feedback %>
+<% end %>
+
+

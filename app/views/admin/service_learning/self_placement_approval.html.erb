@@ -1,12 +1,18 @@
-
-<% unless @self_placement.admin_approved && !@self_placement.general_study? %>
-	<div>
-		<h1> <%= @type_of_self_placement %> Approval
+<div>
+	<h1> <%= @type_of_self_placement %> Approval <span><%= @self_placement.general_study? ? @self_placement.general_study_status(true) : @self_placement.status(true) %></span>
+		
+		<% unless @self_placement.admin_approved? %>
 			<span class="right"><%= link_to "Edit", service_learning_self_placement_update_path(@unit, @quarter, @self_placement.id), :class => "edit button" %></span>
-		</h1>
-	</div>
-<% end %>
+		<% end %>
+		
+	</h1>
+</div>
 
 <%= render :partial => "service_learning/self_placement_fields", :local => { :admin => true }  %>
 
-<% sidebar :approval unless @self_placement.admin_approved %>
+<% sidebar :approval unless @self_placement.admin_approved? %>
+
+<% sidebar :faculty_approval %>
+
+<% sidebar :supervisor_approval if @self_placement.general_study? %>
+
