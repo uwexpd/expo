@@ -147,8 +147,8 @@ class Faculty::ServiceLearningController < FacultyController
   end
   
   def fetch_courses
-    @courses = @person.service_learning_courses
-    @courses_for_quarter = @person.service_learning_courses.for(@quarter)
+    @courses = @person.service_learning_courses.reject{|c|c.general_study?}
+    @courses_for_quarter = @person.service_learning_courses.for(@quarter).reject{|c|c.general_study?}
     if @courses.empty?
       raise ExpoException.new("You are not listed as an instructor for any service-learning courses.",
             "Our system does not list you as an instructor for any courses in our database. If you believe this to be an
