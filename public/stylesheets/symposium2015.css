@@ -53,6 +53,7 @@ h1.page_title {
 	position: absolute;
 	top: 0px;
 	left: 50px;
+	background: url(../images/symposium/2015/header-title.png) no-repeat;
 }
 
 .proceedings h1.page_title {
