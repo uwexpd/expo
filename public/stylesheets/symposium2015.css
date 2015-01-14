@@ -16,7 +16,7 @@ body {
 }
 
 #header {
-	background: #2e3192 url(../images/symposium/2015/header.png);
+	background: #fff url(../images/symposium/2015/header.png) ;
 	height: 149px;
 	border-bottom: 1px solid #b2b2b2;
 }
