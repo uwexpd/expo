@@ -8,9 +8,7 @@ class StudentResource < WebServiceResult
   ATTRIBUTE_ALIASES = {
     :StudentName      => [:fullname],
     :StudentNumber    => [:student_no],
-    :UWNetID          => [:uw_netid],
-    :FirstName        => [:firstname],
-    :LastName         => [:lastname]    
+    :UWNetID          => [:uw_netid]
   }
   
   def self.method_missing(method, *args)
@@ -47,13 +45,12 @@ class StudentResource < WebServiceResult
     self.StudentName.strip.gsub(',', ', ')
   end
   
-  # Only for sws v4 xhtml data formatted
-  # def lastname
-  #   fullname.split(',')[0]
-  # end
-  # 
-  # def firstname
-  #   fullname.split(',')[1].split(' ')[0]
-  # end
+  def lastname
+    fullname.split(',')[0]
+  end
+  
+  def firstname
+    fullname.split(',')[1].split(' ')[0]
+  end
 
 end
