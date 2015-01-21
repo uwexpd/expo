@@ -78,6 +78,8 @@ class Admin::ServiceLearningController < Admin::BaseController
     @is_new_contact = !@self_placement.organization_contact_person.blank? # && @self_placement.position.supervisor.nil? (take this away because student can still input position existing contact while check creating new contact)
       
     if request.put?
+      
+      # For General Study decline and confirm registered
       if @self_placement.general_study? && params[:commit] == "Decline"
         @self_placement.update_attribute(:admin_approved, false)
         flash[:notice] = "You successfully declined the position request."
@@ -88,15 +90,18 @@ class Admin::ServiceLearningController < Admin::BaseController
           if params[:service_learning_self_placement][:confirm_registered] == "0"
              return @self_placement.errors.add_to_base "Please check the box below to confirm you have completed registering the student."
           end
-      end
-      
-      @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact
+      end            
       
       # Activate organization
       if @self_placement.existing_organization?
          organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)
          organization = organization_quarter.organization
       else
+         # check if the organization name already exists
+         unless Organization.find_by_name(@self_placement.organization_name).blank?
+           return @self_placement.errors.add_to_base "The #{@self_placement.organization_name} already exists. Please select with the existing organization."
+         end
+         
          organization = Organization.create(:name => @self_placement.organization_name,
                                             :mailing_line_1 => @self_placement.organization_mailing_line_1,
                                             :mailing_line_2 => @self_placement.organization_mailing_line_2,
@@ -110,6 +115,9 @@ class Admin::ServiceLearningController < Admin::BaseController
       
          organization_quarter = organization.activate_for(@quarter, true)               
       end
+      
+      # update status to admin approved after activate organization
+      @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact
       
       # Activate new contact: 1. existing org and add new contact (only for general study now) 2. new org and new contact
       if (@self_placement.general_study? && @is_new_contact) || !@self_placement.existing_organization?

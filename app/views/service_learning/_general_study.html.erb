@@ -27,11 +27,10 @@
 			
 			<dt>New organization? <%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd>
-			 	<%= s.check_box :new_organization %> 
-			    Check to create a new organization. Uncheck if you want to 
-				<span class="small">
-					<%= link_to_function "select from existing one.", "Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);" %>
-				</span>
+			 	<%= s.check_box :new_organization, 
+								:onchange => "if(!$('self_placement_attributes_new_organization').checked){Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);}" %>
+			    Check to create a new organization. Uncheck if you want to select from existing one.				
+			 	
 			</dd>
 						
 			<dt>New Organization <br>Name <%= content_tag('em', '*', :class => 'required') %></dt>
@@ -63,7 +62,7 @@
 			<dd><%= select_tag :organization_id, options_for_select(@organization_options, @organization.try(:id) || @self_placement.try(:organization_id).to_i),
 			 			   	   :class => "chosen-single"  %>
 				<span class="small"><%= "Can't find your organization?" unless admin %>
-					<%= link_to_function "Create a new one.", "Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);" %>
+					<%= link_to_function "Create a new one.", "Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);$('self_placement_attributes_new_organization').checked = true;" %>
 				</span>
 				<% javascript_tag do -%>					  
 					  new Chosen($("organization_id"),{
