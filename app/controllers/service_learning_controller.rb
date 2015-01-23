@@ -151,8 +151,7 @@ class ServiceLearningController < ApplicationController
         else
             @position.title = params[:service_learning_position][:title]
         end
-        
-        @self_placement                
+              
         @position.approved = false
         @position.in_progress = true
         @position.require_validations = false
@@ -497,6 +496,8 @@ class ServiceLearningController < ApplicationController
   def update_contact_options
     if params[:update_contact_options] && params[:organization_id]      
       @display_contact = true
+      # Make sure the new organization checkbox is still unchecked when select existing organization name
+      @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
     end          
     @new_contact = @position.supervisor_person_id.nil?
   end

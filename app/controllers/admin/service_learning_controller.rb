@@ -244,6 +244,7 @@ class Admin::ServiceLearningController < Admin::BaseController
     # update contact person options
     if params[:update_contact_options] && params[:organization_id]      
       @display_contact = true
+      ## Make sure the new organization checkbox is still unchecked when select existing organization name
       @new_organization = params[:self_placement_attributes][:new_organization] == "1" ? true : false
     end
     @new_contact = @position.supervisor_person_id.nil? if @self_placement.general_study?

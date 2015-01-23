@@ -24,14 +24,17 @@
 		
 	<h2>Organization Information</h2>
 	<%= s.error_messages %>
+	
 	<dl class="inline-definitions">
 
 		<div id = "create_organization" <%= "style='display:none'" if @display_contact || @self_placement.new_record? || @self_placement.existing_organization? %>>
 			
 			<dt>New organization?</dt>
 			<dd>
+				<%= javascript_tag("$('self_placement_attributes_new_organization').value = 0;") if !@new_organization.nil? && @new_organization == false %>
+				
 			 	<%= s.check_box :new_organization, 
-								:onchange => "if(!$('self_placement_attributes_new_organization').checked){Element.toggle(create_organization);Element.toggle(select_organization);}" %>
+								:onchange => "if(!$('self_placement_attributes_new_organization').checked){Element.toggle(create_organization);Element.toggle(select_organization);$('self_placement_attributes_new_organization').value = 0;}" %>
 			    Check to create a new organization. Uncheck if you want to select from existing one.				
 			</dd>
 						

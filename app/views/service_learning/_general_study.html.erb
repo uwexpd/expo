@@ -27,8 +27,9 @@
 			
 			<dt>New organization? <%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd>
+				<%= javascript_tag("$('self_placement_attributes_new_organization').value = 0;") if !@new_organization.nil? && @new_organization == false %>
 			 	<%= s.check_box :new_organization, 
-								:onchange => "if(!$('self_placement_attributes_new_organization').checked){Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);}" %>
+								:onchange => "if(!$('self_placement_attributes_new_organization').checked){Element.toggle(create_organization);Element.toggle(select_organization);Element.toggle(create_contact_person);Element.toggle(select_contact_person);$('self_placement_attributes_new_organization').value = 0;}" %>
 			    Check to create a new organization. Uncheck if you want to select from existing one.				
 			 	
 			</dd>
