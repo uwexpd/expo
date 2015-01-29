@@ -1,11 +1,13 @@
 <% if @use_pipeline_links %>
-
+<div class="yellow box">
 <%= check_box_tag "require_slots", "true", @service_learning_course.no_filters, 
       :onchange => "$('toggle_filters_indicator').show();"+remote_function(
             :url => toggle_use_filters_service_learning_course_path(@unit,@quarter,@service_learning_course), 
             :with => "'checked='+$('require_slots').checked") %>
 <label for="require_slots">Do not use filters for the Course, use slot based placement.</label>
 <%= content_tag 'span', indicator_image + 'Saving...', indicator_options(:id => 'toggle_filters_indicator') %>
+</div>
+<br>
 
 <div id="filter_match_block">
   <% unless @service_learning_course.no_filters %>
