@@ -6,7 +6,8 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
   # GET /service_learning_courses
   # GET /service_learning_courses.xml
   def index
-    @service_learning_courses = @quarter.service_learning_courses.for_unit(@unit)
+    @check_if_general_study = (params[:general_study] && params[:general_study]=="true") ? true : false    
+    @service_learning_courses = @quarter.service_learning_courses.for_unit(@unit).select{|c| c.general_study == @check_if_general_study }
 
     @new_service_learning_course = ServiceLearningCourse.new
     @new_service_learning_course.quarter_id = @quarter.id

@@ -160,6 +160,16 @@ class Student < Person
     end
     false
   end
+  
+  # Check if this student has a valid general study risk waiver digitally, similar to service learning risk waiver.
+  def valid_general_study_waiver?
+    valid_lifetime = ((eval(CONSTANTS[:service_learning_risk_lifetime]) rescue nil) || 3.months)
+    return false if general_study_risk_date.nil?
+    unless general_study_risk_date.nil?
+      return true if Time.now - general_study_risk_date < valid_lifetime
+    end
+    false
+  end
 
   # Checks to see if this Student is enrolled in the specified Course.
   def enrolled_in?(course)

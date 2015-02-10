@@ -4,11 +4,11 @@
 
 <% unless @self_placement.submitted? %>
 
-<% form_for @self_placement, :url => { :action => "general_study_submit" } do |f| -%>
+<% form_for @student, :url => { :action => "general_study_submit", :id => @self_placement } do |f| -%>
 
 	<h2>Acknowledgement of Risk</h2>
 	
-	<%= error_messages_for :self_placement %>
+	<%= error_messages_for :student %>
 	
 	<p class="intro"><%= HelpText.caption(:general_study_student, ServiceLearningSelfPlacement) %></p>
 

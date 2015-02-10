@@ -53,6 +53,7 @@
 		<li class="committees"><%= link_to "Committees", admin_committees_url %></li>
 		<li class="templates"><%= link_to "Templates", admin_communicate_templates_url %></li>
 		<%= render :partial => 'service_learning_link' %>
+		<li class="reports"><%= link_to "General Study", service_learning_general_study_url(Unit.find_by_abbreviation('carlson'), Quarter.current_quarter) %></li>
 		<li class="queries"><%= link_to "Queries", populations_url %></li>
 		<li class="student_query"><%= link_to "Student Query", admin_stats_query_url %></li>
 	</ul>

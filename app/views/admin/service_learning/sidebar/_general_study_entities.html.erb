@@ -1,0 +1,52 @@
+<h3>Quick Links</h3>
+
+<ul class="link-list">
+						
+	<li><%= link_to "Jump to <strong>#{@quarter.next.title}</strong>", 
+					service_learning_general_study_path(@unit, @quarter.next), 
+					:class => "icon-left go-next" %>
+					
+		<%= link_to_function "<span>Other Quarter<span style='font-size:0.8em'>▼</span></span>", "toggle_menu('sidebar_position_quarter_select');", :class => "sidebar_small_link" %>
+
+    <div class="sidebar_dropdown_link">
+      <div class="sidebar_panel" id="sidebar_position_quarter_select" style="display:none">
+      	<ul>
+      		<li><%= link_to @quarter.prev.prev.prev.prev.prev.title, 
+      		    service_learning_general_study_path(@unit, @quarter.prev.prev.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.prev.prev.title, 
+      		    service_learning_general_study_path(@unit, @quarter.prev.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.prev.title, 
+      		    service_learning_general_study_path(@unit, @quarter.prev.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.prev.title, 
+      		    service_learning_general_study_path(@unit, @quarter.prev.prev) %></li>
+      		<li><%= link_to @quarter.prev.title, 
+      		    service_learning_general_study_path(@unit, @quarter.prev) %></li>
+      		<li><%= @quarter.title %></li>
+      		<li><%= link_to @quarter.next.title, 
+      		    service_learning_general_study_path(@unit, @quarter.next) %></li>
+      		<li><%= link_to @quarter.next.next.title, 
+      		    service_learning_general_study_path(@unit, @quarter.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.title, 
+      		    service_learning_general_study_path(@unit, @quarter.next.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.next.title, 
+      		    service_learning_general_study_path(@unit, @quarter.next.next.next.next) %></li>
+      		<li><%= link_to @quarter.next.next.next.next.next.title, 
+      		    service_learning_general_study_path(@unit, @quarter.next.next.next.next.next) %></li>
+      	</ul>
+      </div>
+    </div>
+	</li>
+	
+	<li><%= link_to "Organizations <span>(#{@quarter.organization_quarters.find_all_by_unit_id(@unit.id).size})</span>", 
+					service_learning_organizations_path(@unit, @quarter), 
+					:class => "icon-left organizations" %></li>
+									
+	<li><%= link_to "Positions <span>(#{@quarter.service_learning_positions.for_unit(@unit).select{|p|p.general_study?}.size})</span>", 
+					service_learning_positions_path(@unit, @quarter, :general_study => true),
+					:class => "icon-left positions" %></li>			
+					
+	<li><%= link_to "Course",
+					service_learning_courses_path(@unit, @quarter, :general_study => true),
+					:class => "icon-left courses" %></li>
+	
+</ul>	

@@ -288,12 +288,12 @@ class ServiceLearningController < ApplicationController
    redirect_to :action => :general_study if params[:commit] == "Back to edit"
 
        if params[:commit] == "Submit"
-         if params[:service_learning_self_placement][:general_study_risk_signature].blank?
+         if params[:student][:general_study_risk_signature].blank?
            flash[:error] = "Electronic signature cannot be blank."
-           @self_placement.errors.add :general_study_risk_signature, "cannot be blank."
+           @student.errors.add :general_study_risk_signature, "cannot be blank."
          else
-           @self_placement.update_attribute :general_study_risk_signature, params[:service_learning_self_placement][:general_study_risk_signature]
-           @self_placement.update_attribute :general_study_risk_date, Time.now
+           @student.update_attribute :general_study_risk_signature, params[:student][:general_study_risk_signature]
+           @student.update_attribute :general_study_risk_date, Time.now
 
            @self_placement.submitted = true
            if @self_placement.save
@@ -486,7 +486,7 @@ class ServiceLearningController < ApplicationController
   end
   
   def check_if_registered_with_same_course
-    # Stop this method if find student has a service learning placement that is already confirmed for same course
+    # Display error message if find student has a service learning placement that is already confirmed for same course
     if @student.service_learning_placements.select{|p| p.course == @service_learning_course && p.position.quarter == @quarter }.size > 0
       flash[:error] = "You already have a placement for #{@service_learning_course.title}. Please contact Carlson Center staff for self placement request."
       redirect_to :action => 'index'

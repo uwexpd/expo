@@ -6,10 +6,11 @@ class Admin::ServiceLearning::PositionsController < Admin::ServiceLearningContro
   def index
     #@service_learning_positions = @quarter.service_learning_positions.for_unit(@unit)
     #@service_learning_positions.sort!{|x,y| x.organization.name <=> y.organization.name}
+    @check_if_general_study = (params[:general_study] && params[:general_study]=="true") ? true : false
     
     @service_learning_positions = ServiceLearningPosition.find(:all, 
         :include => [{:organization_quarter => :organization}],
-        :conditions => {:organization_quarters => {:quarter_id => @quarter.id, :unit_id => @unit.id}},
+        :conditions => {:organization_quarters => {:quarter_id => @quarter.id, :unit_id => @unit.id}, :general_study => @check_if_general_study},
         :order => "organizations.name"
         )
       

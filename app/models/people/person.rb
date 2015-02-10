@@ -44,6 +44,7 @@ class Person < ActiveRecord::Base
     end
   end
   belongs_to :service_learning_risk_placement, :class_name => "ServiceLearningPlacement", :foreign_key => "service_learning_risk_placement_id"
+  belongs_to :general_study_risk_placement, :class_name => "ServiceLearningPlacement", :foreign_key => "general_study_risk_placement_id"
 
   has_many :notes, :as => :notable, :dependent => :nullify
   has_many :event_invites, :class_name => "EventInvitee", :as => :invitable, :dependent => :destroy
@@ -325,7 +326,9 @@ class Person < ActiveRecord::Base
       if placement
         placement.update_attribute :person_id, self.id
         placement.update_attribute :unit_id, unit.nil? ? position.unit_id : unit.id
-        unless position.general_study?
+        if position.general_study?
+          update_attribute :general_study_risk_placement_id, placement.id
+        else
           update_attribute :service_learning_risk_placement_id, placement.id 
           update_attribute :service_learning_risk_paper_date, Time.now if update_service_learning_risk_paper_date == "1"
           

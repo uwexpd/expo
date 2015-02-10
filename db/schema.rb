@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140909214157) do
+ActiveRecord::Schema.define(:version => 20150129203628) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2202,6 +2202,9 @@ ActiveRecord::Schema.define(:version => 20140909214157) do
     t.string   "institution_name"
     t.boolean  "pipeline_inactive"
     t.string   "reg_id"
+    t.datetime "general_study_risk_date"
+    t.string   "general_study_risk_signature"
+    t.integer  "general_study_risk_placement_id"
   end
 
   add_index "people", ["email"], :name => "index_people_on_email"
@@ -2698,11 +2701,9 @@ ActiveRecord::Schema.define(:version => 20140909214157) do
     t.string   "faculty_email"
     t.string   "faculty_dept"
     t.string   "faculty_phone"
-    t.boolean  "general_study", null: false, default: false
+    t.boolean  "general_study",                  :default => false, :null => false
     t.boolean  "supervisor_approved"
     t.text     "supervisor_feedback"
-    t.datetime "general_study_risk_date"
-    t.string   "general_study_risk_signature"
     t.integer  "register_person_id"
     t.datetime "registered_at"
   end
