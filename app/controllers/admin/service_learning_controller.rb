@@ -180,7 +180,7 @@ class Admin::ServiceLearningController < Admin::BaseController
               end                
           end # end transaction
             
-            @self_placement.update_attributes(:registered_at => Time.now, :register_person_id => @current_user.person) if @self_placement.general_study?        
+            @self_placement.update_attributes(:registered_at => Time.now, :register_person_id => @current_user.person.id) if @self_placement.general_study?        
         end
                         
         redirect_to :action => @self_placement.general_study? ? "general_study" : "self_placements"
