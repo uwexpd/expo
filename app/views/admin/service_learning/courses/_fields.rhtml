@@ -57,6 +57,12 @@
 		<dd><%= f.collection_select(:pipeline_student_type_id, PipelineStudentType.all, :id, :name, :prompt => true) %>
 			<p class="caption">Select specific pipeline student type will the students that enroll this course as a type 
 				of inner pipeline, service learning, or alternative spring break, which calculates for pipeline statistic</p>
+		</dd>
+		<dt>Position matches <br> method</dt>
+		<dd>
+			<%= f.check_box :no_filters, :checked => true %>Slot based placement?
+			<p class="caption">By checking this, you use slot based placement. Uncheck if you want to use filters for the Course.</p>
+
 		</dd>		
 	<% end -%>
 </dl>

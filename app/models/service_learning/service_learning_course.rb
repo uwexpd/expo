@@ -6,7 +6,6 @@
 class ServiceLearningCourse < ActiveRecord::Base
   stampable
   after_update :save_courses
-  after_create :update_pipeline_no_filters
   attr_accessor :new_extra_enrollee
   acts_as_soft_deletable
   
@@ -213,10 +212,5 @@ class ServiceLearningCourse < ActiveRecord::Base
   def course_titles(delimiter = ', ')
     courses.collect{|c| c.short_title}.join(delimiter)
   end
-  
-  # Make slot based placement(set no_filters = true) as default for pipeline
-  def update_pipeline_no_filters
-    self.update_attributes(:no_filters => true) if self.unit.abbreviation == "pipeline"
-  end
-
+ 
 end
