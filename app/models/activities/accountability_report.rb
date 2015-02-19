@@ -154,7 +154,11 @@ class AccountabilityReport < ActiveRecord::Base
   
   # Returns the possible years for all reports that have been created.
   def self.years
-    Activity.find_by_sql("SELECT DISTINCT year FROM accountability_reports ORDER BY year").collect(&:year).collect(&:to_i)
+    self.find_by_sql("SELECT DISTINCT year FROM accountability_reports ORDER BY year").collect(&:year).collect(&:to_i)
+  end
+  
+  def self.years_with_finalized
+    self.find_by_sql("SELECT DISTINCT year FROM accountability_reports WHERE finalized = 1 ORDER BY year").collect(&:year).collect(&:to_i)
   end
   
   def title

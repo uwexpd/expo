@@ -20,7 +20,7 @@ class AccountabilityController < ApplicationController
 
   def index    
     
-    @years = AccountabilityReport.years
+    @years = AccountabilityReport.years_with_finalized
     session[:breadcrumbs].add "Accountability"
     
     @students_data = []
