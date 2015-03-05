@@ -35,12 +35,13 @@ gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
 
 group :production do  
   gem "omniauth-shibboleth"
-  gem "mysql"
+  gem "mysql2"
 end
 
 group :development do
   gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
+  gem 'rvm-capistrano'
   gem "thin"
   gem "pry", "~> 0.9.12.2"
   gem "request-log-analyzer"

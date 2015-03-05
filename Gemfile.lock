@@ -81,7 +81,7 @@ GEM
     mongrel_cluster (1.0.5)
       gem_plugin (>= 0.2.3)
       mongrel (>= 1.0.2)
-    mysql (2.9.0)
+    mysql2 (0.3.18)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9)
     net-scp (1.0.4)
@@ -129,6 +129,8 @@ GEM
     ruby-ole (1.2.11.2)
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
+    rvm-capistrano (1.4.1)
+      capistrano (>= 2.0.0)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
     slop (3.4.6)
@@ -180,7 +182,7 @@ DEPENDENCIES
   json
   mongrel
   mongrel_cluster
-  mysql
+  mysql2
   nokogiri
   omniauth-shibboleth
   pdf-writer
@@ -194,6 +196,7 @@ DEPENDENCIES
   rspec-rails (~> 1.2.7.1)
   rtex
   ruby-odbc
+  rvm-capistrano
   sanitize
   spreadsheet
   thin
