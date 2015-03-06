@@ -35,7 +35,7 @@ gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
 
 group :production do  
   gem "omniauth-shibboleth"
-  gem "mysql2"
+  gem 'mysql2', '< 0.3'
 end
 
 group :development do
