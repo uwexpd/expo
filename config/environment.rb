@@ -119,13 +119,14 @@ require "#{RAILS_ROOT}/lib/upload_column/uploaded_file.rb"
 require "#{RAILS_ROOT}/lib/upload_column/active_record_extension.rb"
 
 # Set MySQL to use ANSI mode -- this allows normal quotes in queries
-class ActiveRecord::ConnectionAdapters::MysqlAdapter
+class ActiveRecord::ConnectionAdapters::Mysql2Adapter
   alias :connect_no_sql_mode :connect
   def connect
     connect_no_sql_mode
     execute("SET sql_mode = 'ANSI'")
   end
 end
+ActiveRecord::Base.connection.reconnect! # add this to ensure it takes effect right away.
 
 # Include your application configuration below
 require 'composite_primary_keys'
