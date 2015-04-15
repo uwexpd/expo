@@ -12,6 +12,7 @@ gem "RedCloth"
 gem "htmldoc"
 gem "rcov"
 gem "hoptoad_notifier"
+#gem 'airbrake', :require => 'airbrake/rails' # update to airbrake instead of using old version: gem "hoptoad_notifier"
 gem "spreadsheet"
 gem "nokogiri"
 gem "addressable","~> 2.1.0"
@@ -36,12 +37,13 @@ gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
 group :production do  
   gem "omniauth-shibboleth"
   gem 'mysql2', '< 0.3'
+  #gem 'mysql'
 end
 
 group :development do
   gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', :require => false
   gem "thin"
   gem "pry", "~> 0.9.12.2"
   gem "request-log-analyzer"
