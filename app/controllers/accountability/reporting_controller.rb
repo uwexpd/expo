@@ -33,6 +33,35 @@ class Accountability::ReportingController < AccountabilityController
     end
   end
   
+  
+  # Confirm data has been entered by department. This will send email notification to department's all accountability coordinators and acctblty admin.
+  def submit
+    if params[:commit] == "Submit"
+        template = EmailTemplate.find_by_name("accountability department data submit notification")
+        admin_template = EmailTemplate.find_by_name("accountability department data submit notification for admin")
+        @reportor_info = { :submitted_person => @my.person, :department => @department }
+        
+        dept_coordinators = @department.accountability_coordinator_authorizations.collect(&:user).reject{|u| u.login =="acctblty" || u.login=="jdecosmo"}.uniq        
+
+        dept_coordinators.each do |dept_coordinator|                    
+          unless dept_coordinator.person.email.blank?
+             @reportor_info[:dept_coordinator] = dept_coordinator.person
+             
+             EmailContact.log(dept_coordinator.person,
+                              TemplateMailer.deliver(template.create_email_to(@reportor_info,
+                                                     "http://#{CONSTANTS[:base_url_host]}/accountability/reporting/#{@year}",
+                                                     dept_coordinator.person.email))
+             ) if template
+          end
+        end              
+        TemplateMailer.deliver(admin_template.create_email_to(@reportor_info, "", "acctblty@uw.edu")) if admin_template
+        flash[:notice] = "You've successfully submit the data. An email notification will be sent to all coordinators and our accountability administrator."
+    else
+      flash[:notice] = "You've saved the data. Please submit for your department after all accountability data has been entered."
+    end    
+    redirect_to :action => "index"    
+  end
+  
   protected
   
   def check_department_authorizations
