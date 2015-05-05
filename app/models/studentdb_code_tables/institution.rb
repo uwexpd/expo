@@ -55,8 +55,10 @@ class Institution < StudentInfo
       "BEMIDJI ST UNIV"       => "Bemidji State University",
       "KENT STATE UNIV"       => "Kent State University",
       "QUEENS COLL NY"        => "Queens College of New York",
-      "Loyola Univ Chicago"   => "Loyola University Chicago"
-       
+      "Loyola Univ Chicago"   => "Loyola University Chicago",
+      "California St Univ: Fullerton" => "California State University Fullerton",
+      "Cal St U Sacramento"   => "California State University, Sacramento",
+      "Bloomfield Coll"       => "Bloomfield College"       
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end
