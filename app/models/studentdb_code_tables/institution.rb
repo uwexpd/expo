@@ -54,7 +54,8 @@ class Institution < StudentInfo
       "UNIV NEVADA LAS VEGA"  => "University of Nevada Las Vegas",
       "BEMIDJI ST UNIV"       => "Bemidji State University",
       "KENT STATE UNIV"       => "Kent State University",
-      "QUEENS COLL NY"        => "Queens College of New York"
+      "QUEENS COLL NY"        => "Queens College of New York",
+      "Loyola Univ Chicago"   => "Loyola University Chicago"
        
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
