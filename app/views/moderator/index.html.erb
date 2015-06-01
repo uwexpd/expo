@@ -34,7 +34,7 @@
 					<small>(drag to re-order)</small>
 					<%= indicator %></th>
 				<th>Presentation Title</th>
-				<th><%= @change_moderator_process ? "Review Decision" : "Response" %></th>
+				<th><%#= @change_moderator_process ? "Review Decision" : "Response" %></th>
 				<th><%= @change_moderator_process ? "Abstract" : "Review" %></th>
 			</tr>
 		</thead>
@@ -47,7 +47,7 @@
 					<td><%=h app.fullname %></td>
 					<td width=50%><%= sanitize app.project_title, :tags => %w(em i font sub sup) %></td>
 					<% review_decision =  @change_moderator_process ? app.application_review_decision_type.title : app.application_moderator_decision_type.title rescue "Not yet reviewed" %>
-					<td><%= "<span class='yellow highlight'>#{review_decision}</span>" %></td>
+					<td><%#= "<span class='yellow highlight'>#{review_decision}</span>" %></td>
 					<td><%= link_to "View &#x2192;", :action => 'show', :id => app %></td>
 				</tr>
 			<% end -%>
@@ -59,9 +59,9 @@
 	<%= sortable_element "session_apps", :url => {:action => 'sort_session_apps'}, :handle => 'sort-handle', :tag => 'tr', :indicator => true %>
 
 
-	<p><strong>Additional Comments or Suggestions:</strong>
-		<br><%= f.text_area :moderator_comments, :style => "width: 99%", :rows => 5 %></p>
-	
+	<!-- <p><strong>Comments/Questions:</strong>
+			<br><%#= f.text_area :moderator_comments, :style => "width: 99%", :rows => 5 %></p>
+		 -->
 	<p>
 		<%= f.submit "Save my changes" %>
 		<%= f.submit "Submit my session response", :name => 'finalize' %>

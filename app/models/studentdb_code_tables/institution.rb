@@ -58,7 +58,8 @@ class Institution < StudentInfo
       "LOYOLA UNIV CHICAGO"   => "Loyola University Chicago",
       "CALIFORNIA ST UNIV: FULLERTON" => "California State University Fullerton",
       "CAL ST U SACRAMENTO"   => "California State University, Sacramento",
-      "BLOOMFIELD COLL"       => "Bloomfield College"       
+      "BLOOMFIELD COLL"       => "Bloomfield College",
+      "SHORELINE COMM COLL"   => "Shoreline Community College"
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end

@@ -1770,7 +1770,7 @@ table.application_review li {
 	margin: 0;
 	padding-bottom: 3px;
 	padding-left: 20px;
-	color: #999;
+	color: #444;
 	list-style-type: none;
 }
 
@@ -1779,7 +1779,7 @@ table.application_review tr.incomplete li.errors {
 }
 
 table.application_review .question_review_title {
-	color: #888;
+	color: #333;
 	font-weight: bold;
 }
 

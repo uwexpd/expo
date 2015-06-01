@@ -24,7 +24,7 @@
 			</div>
 
 			<div id="custom_result_variant_container" style="<%= "display:none" unless @population.custom_result_variant? %>">
-				<%= text_field :population, :custom_result_variant %>
+				<%= text_area :population, :custom_result_variant, :rows => 15, :cols => 40  %>
 			
 				<%= separator %>
 				<%= link_to_function "Choose from list", 

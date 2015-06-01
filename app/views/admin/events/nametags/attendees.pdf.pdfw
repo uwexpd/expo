@@ -16,25 +16,27 @@ while !@attendees.empty?
   # ---------------------------------------------
   # For each of these attendees in this block, print the fronts...
   @this_block.each_with_index do |attendee, i|
+    
+    long_name = attendee.invitable.firstname_first.size > 20 ? true : false rescue false
+    long_major = attendee.person.majors_list(true).size >= 65 ? true : false rescue false
+    space_size = (long_name || long_major) ? 10 : 20
+        
     pdf.start_new_page if row == 3
     pdf.pointer = pdf.margin_height - (nametag_height * (row % 3)) + pdf.bottom_margin
-    pdf.move_pointer 20
+    pdf.move_pointer space_size
 
-    pdf.select_font "Times-Roman"
-    
-    if_long_time = attendee.invitable.firstname_first.size > 20 ? true : false rescue false
+    pdf.select_font "Times-Roman"    
     
     # Event title
     pdf.text @event.title, :justification => :center, :font_size => 12
-    pdf.move_pointer (if_long_time==true ? 15 : 20)
+    pdf.move_pointer space_size
     
-    # Name and title
-    
+    # Name and title    
     pdf.text "<b>#{attendee.invitable.firstname_first.strip}</b>", :justification => :center, :font_size => 24 rescue "First Name Error"
     pdf.text "<i>#{attendee.person.majors_list(true)}</i>", :justification => :center, :font_size => 13 if attendee.person
     
     # "Presenter"
-    pdf.move_pointer (if_long_time==true ? 10 : 20)
+    pdf.move_pointer space_size
     pdf.text "PRESENTER", :justification => :center, :font_size => 18
     
     # Unit logo

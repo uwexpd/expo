@@ -136,7 +136,7 @@ class ProceedingsReport
       @pdf.add_text @x-18, @pdf.y, app.id, 6
       @pdf.select_font DEFAULT_FONT
     end
-    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>"  #+ " (#{app.id})" # add app.id for proof reading and should take away later.
+    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>"# + " (#{app.id})" # add app.id for proof reading and should take away later.
     keep_together(title, @size, 0, @@abstract_keep_height)
     parse_and_add_text title
     move_to_newline
@@ -191,10 +191,10 @@ class ProceedingsReport
     # @pdf.text "</em>"
     parse_and_add_text "</em></i>"    
     
-    # print "esel number, "
-    print "E"
-    unless app.easel_number.blank?
-      parse_and_add_text "Easel: ##{app.easel_number}"
+    # print "esel number and location"
+    print "EL"
+    unless app.easel_number.blank? || app.location_section.blank?
+      parse_and_add_text "Easel: ##{app.easel_number}, #{app.location_section.title}"
       move_to_newline
     end    
         
@@ -301,10 +301,16 @@ class ProceedingsReport
     move_to_newline
        
     if session.location.include?("JHN")
-            parse_and_add_text "<i>Johnson Hall is just west of Mary Gates Hall; please see map and further details on page 113.</i>"
+            parse_and_add_text "<i>Johnson Hall is just west of Mary Gates Hall (MGH). Follow signs leading from the west entrance of MGH; please see map in the back of the program</i>"
             move_to_newline
             move_to_newline
-    end    
+    end
+        
+    if session.location.include?("Meany Studio Theatre")
+            parse_and_add_text "<i>Meany Studio Theatre is a five-minute walk northwest from the main entrance of MGH and across Red Square. Follow signs from the north entrance of MGH; please see map in the back of the program.</i>"
+            move_to_newline
+            move_to_newline
+    end        
     
     parse_and_add_text "* Note: Titles in order of presentation."
     @size = DEFAULT_SIZE

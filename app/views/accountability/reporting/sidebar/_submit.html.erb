@@ -3,8 +3,8 @@
 <center>
 <% form_tag({ :action => "submit" }) do %>
 	<%= submit_tag "Save and Continue" %><br>
-	<p>By clicking "Submit" button, I confirm all of available data has been entered for department <%= @department.name %>.</p>
-	<%= submit_tag "Submit", :class => "green" %><br>
-	<p class="caption">An notification email will be send to other coordinators and our accountability administrator.</p>
+	<p>By clicking "Submit" button, I confirm all of available data has been entered for <%= @department.name %>.</p>
+	<%= submit_tag "Submit", :class => "green", :confirm => "Are you sure?" %><br>
+	<p class="caption">A notification email will be send to other coordinators and our accountability administrator.</p>
 <% end -%>
 </center>

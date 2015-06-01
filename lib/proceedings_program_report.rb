@@ -61,8 +61,7 @@ class ProceedingsProgramReport < ProceedingsReport
     # Oral Session 1
     puts "\nOral Session 1"
          change_divider_tab
-         start_new_page(true)
-         start_new_page(true)
+         start_new_page(true)         
          change_divider_tab("Presentation 1", 3)
          start_new_page(true)
          add_session @offering.sessions.for_type_in_group(oral_type, 1).sort_by(&:identifier)
@@ -99,7 +98,7 @@ class ProceedingsProgramReport < ProceedingsReport
         start_new_page(true)
         change_divider_tab("Visual Arts & Design", 4)
         start_new_page(true)
-        add_session @offering.sessions.for_type_in_group(visual_type, 1), :include_heading => false
+        add_session @offering.sessions.for_type_in_group(visual_type, 3), :include_heading => false
         
     # Oral Session 2
     puts "\nOral Session 2"
