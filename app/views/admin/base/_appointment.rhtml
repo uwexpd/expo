@@ -1,6 +1,6 @@
 <tr id="appointment_<%= appointment.id %>">
 	<td><small class="light"><%= appointment.start_time.to_s(:time12) %></small></td>
-	<td><%= appointment.student.fullname %>
+	<td><%= appointment.student.fullname rescue "error" %>
 		<%= "<span class='green'>(Checked-in)</span>" if appointment.checked_in? %>
 		<%= "<br><small class='light'>#{appointment.front_desk_notes}</small>" unless appointment.front_desk_notes.blank? %>
 		</td>
