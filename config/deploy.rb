@@ -14,7 +14,7 @@ default_run_options[:pty] = true # Must be set for the password prompt from git 
 
 set :repository,  "git@github.com:uwexpd/expo.git"
 set :scm, "git"
-set :branch, 'master'
+set :branch, 'server_migration'
 set :deploy_via, :remote_cache
 
 set :rvm_ruby_string, "1.8.7" # set up which rvm ruby to use in server

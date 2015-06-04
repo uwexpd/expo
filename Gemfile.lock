@@ -182,7 +182,7 @@ DEPENDENCIES
   json
   mongrel
   mongrel_cluster
-  mysql2 (< 0.3)
+  mysql2 (~> 0.2.6)
   nokogiri
   omniauth-shibboleth
   pdf-writer
