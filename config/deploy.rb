@@ -1,25 +1,25 @@
-require 'mongrel_cluster/recipes'
+#require 'mongrel_cluster/recipes' 
 require 'bundler/capistrano'
-
-# $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
-# set :rvm_type, :user
-# require "rvm/capistrano"
+require "rvm/capistrano"
 
 set :application, "expo"
+set :deploy_to, "/usr/local/apps/#{application}"
+set :user, "joshlin"
+#set :runner, "root"
+set :use_sudo, true
+
+ssh_options[:forward_agent] = true # Tell cap your own private keys for git and use agent forwarding with this command.
+
+default_run_options[:pty] = true # Must be set for the password prompt from git to work
+
 set :repository,  "git@github.com:uwexpd/expo.git"
-
-set :scm, :git
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
-
-default_run_options[:pty] = true
+set :scm, "git"
+set :branch, 'master'
 set :deploy_via, :remote_cache
 
-set :user, "joshlin"
-set :runner, "root"
-set :use_sudo, true
-set :deploy_to, "/usr/local/apps/#{application}"
+set :rvm_ruby_string, "1.8.7" # set up which rvm ruby to use in server
 
-server "expo.uaa.washington.edu", :app, :web, :db, :primary => true
+server "expd.uaa.washington.edu", :app, :web, :db, :primary => true
 #role :web, "expo.uaa.washington.edu"                          # Your HTTP server, Apache/etc
 #role :app, "expo.uaa.washington.edu"                          # This may be the same as your `Web` server
 #role :db,  "expo.uaa.washington.edu", :primary => true        # This is where Rails migrations will run
@@ -54,8 +54,8 @@ end
 after "deploy:finalize_update", "deploy:config_symlink"
 
 # Using hoptoad_notifier
-Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
-  $: << File.join(vendored_notifier, 'lib')
-end
-
-require 'hoptoad_notifier/capistrano'
+# Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
+#   $: << File.join(vendored_notifier, 'lib')
+# end
+# 
+# require 'hoptoad_notifier/capistrano'

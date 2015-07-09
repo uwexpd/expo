@@ -129,12 +129,12 @@
 						<%= link_to "Evaluation", 
 									service_learning_student_evaluation_path(@unit, @quarter, @service_learning_course, placement.id) %>
 					<%- else -%>
-						<div class="has-menu" style="display:block">
-							<%= link_to "Evaluation", 
+						<!-- <div class="has-menu" style="display:block"> -->
+							<%= link_to "Submit", 
 										service_learning_submit_student_evaluation_path(@unit, @quarter, @service_learning_course, placement.id),
 										:class => "menu" %>
-							<br><small>&nbsp;</small>
-						</div>
+							<!-- <br><small>&nbsp;</small> -->
+						<!-- </div> -->
 					<% end -%>
 				
 				<% end -%>

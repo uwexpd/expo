@@ -137,8 +137,8 @@ class ServiceLearningController < ApplicationController
     if params[:self_placement_attributes] && params[:service_learning_position] && (request.put? || request.post?)                
 
         params[:self_placement_attributes][:organization_id] = params[:organization_id] unless params[:self_placement_attributes][:new_organization] == "1"
-        
-        @self_placement.update_attributes(params[:self_placement_attributes])        
+         
+        @self_placement.update_attributes(params[:self_placement_attributes])
 
         # validate new organization contact fields
         if params[:self_placement_attributes][:new_organization] == "1"

@@ -255,7 +255,7 @@ class OfferingQuestion < ActiveRecord::Base
         page.errors.add_to_base "You must enter a valid e-mail address for your mentor."
       end
 #      if !mentor.no_email && (mentor.email_confirmation.blank? || mentor.email != mentor.email_confirmation )
-      if !mentor.person && mentor.email != mentor.email_confirmation
+      if !mentor.no_email && !mentor.person && mentor.email != mentor.email_confirmation
         page.errors.add_to_base "The two e-mail addresses you type must match."
       end
     end
