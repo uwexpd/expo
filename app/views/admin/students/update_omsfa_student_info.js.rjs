@@ -1,0 +1,15 @@
+page.replace_html "omsfa_student_info",
+                  "<dl class='inline-definitions'>
+                  	<dt>alt email</dt>
+                  	<dd>#{@student.omsfa_student_info.alt_email}</dd>
+                  	<dt>current address</dt>
+                  	<dd>#{@student.omsfa_student_info.current_address}, #{@student.omsfa_student_info.current_city} #{@student.omsfa_student_info.current_state} #{@student.omsfa_student_info.current_zip}</dd>
+                  	<dt>current phone</dt>
+                  	<dd>#{@student.omsfa_student_info.current_phone}</dd>
+                  	<dt>permanent address</dt>
+                  	<dd>#{@student.omsfa_student_info.permanent_address}, #{@student.omsfa_student_info.permanent_state} #{@student.omsfa_student_info.permanent_city} #{@student.omsfa_student_info.permanent_zip}</dd>
+                  	<dt>parent name</dt>
+                  	<dd>#{@student.omsfa_student_info.parent_firstname} #{@student.omsfa_student_info.parent_lastname}, #{@student.omsfa_student_info.parent_email}</dd>
+                  	<dt>parent name</dt>
+                  	<dd>#{@student.omsfa_student_info.parent2_firstname} #{@student.omsfa_student_info.parent2_lastname}, #{@student.omsfa_student_info.parent2_email}</dd>	
+                  </dl>"

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140909214157) do
+ActiveRecord::Schema.define(:version => 20150806225914) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2017,6 +2017,28 @@ ActiveRecord::Schema.define(:version => 20140909214157) do
     t.boolean  "disable_signature"
   end
 
+  create_table "omsfa_student_info", :force => true do |t|
+    t.integer  "person_id"
+    t.string   "alt_email"
+    t.string   "current_address"
+    t.string   "current_city"
+    t.string   "current_state"
+    t.string   "current_zip"
+    t.string   "current_phone"
+    t.string   "permanent_address"
+    t.string   "permanent_city"
+    t.string   "permanent_state"
+    t.string   "permanent_zip"
+    t.string   "parent_firstname"
+    t.string   "parent_lastname"
+    t.string   "parent_email"
+    t.string   "parent2_firstname"
+    t.string   "parent2_lastname"
+    t.string   "parent2_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "open_id_authentication_associations", :force => true do |t|
     t.integer "issued"
     t.integer "lifetime"
@@ -2644,6 +2666,17 @@ ActiveRecord::Schema.define(:version => 20140909214157) do
     t.integer  "credit"
     t.integer  "volunteer"
     t.decimal  "compensation",                          :precision => 8, :scale => 2
+    t.boolean  "flu_vaccination_required"
+    t.boolean  "food_permit_required"
+    t.boolean  "other_health_required"
+    t.string   "other_health_requirement"
+    t.boolean  "legal_name_required"
+    t.boolean  "birthdate_required"
+    t.boolean  "ssn_required"
+    t.boolean  "fingerprint_required"
+    t.boolean  "other_background_check_required"
+    t.string   "other_background_check_requirement"
+    t.boolean  "non_intl_student_required"
   end
 
   add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"
@@ -2698,7 +2731,7 @@ ActiveRecord::Schema.define(:version => 20140909214157) do
     t.string   "faculty_email"
     t.string   "faculty_dept"
     t.string   "faculty_phone"
-    t.boolean  "general_study", null: false, default: false
+    t.boolean  "general_study",                  :default => false, :null => false
     t.boolean  "supervisor_approved"
     t.text     "supervisor_feedback"
     t.datetime "general_study_risk_date"

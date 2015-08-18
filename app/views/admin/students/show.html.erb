@@ -40,8 +40,12 @@
 						"service_learning", { :id => @student, :tab => "service_learning" }, "tabview_content") 
 						# {@student.enrolled_service_learning_courses(Quarter.all).size} 
 						%>
-    <%= link_to_tab("Pipeline", 
+        <%= link_to_tab("Pipeline", 
 						"pipeline", { :id => @student, :tab => "pipeline" }, "tabview_content") %>
+		<%= link_to_tab("Omsfa", 
+						"omsfa", { :id => @student, :tab => "omsfa" }, "tabview_content") %>
+		<%= link_to_tab("Events (<span id='events_count'>#{@student.event_invites.size}</span>)", 
+						"events", { :id => @student, :tab => "events" }, "tabview_content") %>				
 		<%= link_to_tab("Equipment (#{@student.equipment_reservations.size})", 
 						"equipment_reservations", { :id => @student, :tab => "equipment_reservations" }, "tabview_content") %>
 		<%= link_to_tab("Notes (<span id='notes_count'>#{@student.notes.size}</span>)", 

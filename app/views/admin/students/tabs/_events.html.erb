@@ -1,0 +1,29 @@
+<h2>Events</h2>
+
+<table>
+
+	<tr class="small left">
+		<th>Event</th>
+		<th>Type</th>
+		<th>Unit</th>
+		<th>Event time</th>
+	</tr>
+	
+	<% if @student.event_invites.empty? %>
+		<tr class="empty">
+			<td colspan=4>No attend events history.</td>
+		</tr>
+	<% else %>
+		
+		<% for event_invite in @student.event_invites.reverse! %>
+		<tr>
+			<td><%= link_to event_invite.event.title, event_path(event_invite.event), :popup => true  %></td>
+			<td><%= event_invite.event.event_type.title rescue "No event type found"  %></td>
+			<td><%= event_invite.event.unit.abbreviation rescue "No unit found" %></td>
+			<td><%= link_to event_invite.event_time.time_detail, event_time_path(event_invite.event, event_invite.event_time), :popup => true %></td>
+		</tr>
+		<% end -%>		
+		
+	<% end -%>
+
+</table>

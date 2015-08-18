@@ -25,11 +25,27 @@
 		<% end -%>
 	</p>
 	
-	<%= f.check_box :background_check_required, :after => " Yes, a background check is required for this position." %>
+	<div>
+	<label>This position requires the following health screenings and certifications</label>
+		<%= f.check_box :tb_test_required, :default => true %> TB test is required for this position <br />
+		<%= f.check_box :flu_vaccination_required, :default => true %> Flu vaccination <br />
+		<%= f.check_box :food_permit_required, :default => true %> Valid food handler’s permit required <br />
+		<%= f.check_box :other_health_required, :default => true %> Other health screenings or certifications required:
+		<%= f.text_field :other_health_requirement, :default => true, :size => 50 %>
+	</div>
+	
+	<%= f.check_box :background_check_required, :after => "Yes, this position requires a background check", :onClick => "Element.toggle('background_check_detail')" %>
+	<div id="background_check_detail" <%= "style=\"display:none\"" unless f.object.background_check_required? %> >
+		<h4>The following items are required for the background check at this site: </h4>
+		<%= f.check_box :legal_name_required, :default => true %> Full legal name <br />
+		<%= f.check_box :birthdate_required, :default => true %> Birthdate <br />
+		<%= f.check_box :ssn_required, :default => true %> Social security number <br />
+		<%= f.check_box :fingerprint_required, :default => true %> Fingerprinting  <br />
+		<%= f.check_box :other_background_check_required, :default => true %> Other: <%= f.text_field :other_background_check_requirement, :default => true, :size => 50 %><br />
+		<%= f.check_box :non_intl_student_required, :default => true %> This site is not able to accommodate international students, due to the length of time required to complete international background checks.  <br />
+	</div>
 
-	<%= f.check_box :tb_test_required, :after => " Yes, a TB test is required for this position." %> 
-
-	<%= f.text_field :paperwork_requirement %>
+	<%= f.text_field :paperwork_requirement, :size => 100 %>
 	
 	<%= f.label_with_caption :duration_requirement %>
 	<p>

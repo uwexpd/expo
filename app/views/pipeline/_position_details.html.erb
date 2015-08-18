@@ -182,13 +182,19 @@ end
 								<%= render :partial => "confirm_position_sidebar", :locals => {:pipeline_position => pipeline_position} %>
 
 							<% else %>
-							    <% 
-									message = registration_open ? "The opening for this position is full"  : "Not open for registration yet"
-									icon = registration_open ? "ok"  : "restrictions"
+							    <%  
+									if !registration_open
+									   message = "Not open for registration yet"
+									elsif !@student.show_pipeline_position_contact?
+		   							   message = "You have not yet completed your background check"
+									else
+									   message = "The opening for this position is full"
+									end												
+									#icon = registration_open ? "ok"  : "restrictions"
 							    %> 							    
 								<%= tooltip "Confirm Position with Pipeline", 
 										    "You can not confirm this position right now. #{message}",
-											:class => "icon-left #{icon} light "%>	
+											:class => "icon-left restrictions light" %>	
 							<% end %>
 							<%= indicator("favorite_indicator_#{pipeline_position.id}") %>
 						</li>

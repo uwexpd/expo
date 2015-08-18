@@ -88,12 +88,28 @@
 	<% end -%>
 
 	<dt>requirements</dt>
-	<dd><%= "Must be #{service_learning_position.age_requirement} years old<br>" unless service_learning_position.age_requirement.blank? %>
-		<%= "Must commit for #{service_learning_position.duration_requirement}<br>" unless service_learning_position.duration_requirement.blank? %>
-		<%= "Background check required<br>" if service_learning_position.background_check_required? %>
+	<dd><%= "Must be #{service_learning_position.age_requirement} #{'('+service_learning_position.other_age_requirement+')' if service_learning_position.has_other_age_requirement? && service_learning_position.other_age_requirement} years old<br>" unless service_learning_position.age_requirement.blank? %>
+		<%= "Must commit for #{service_learning_position.duration_requirement}<br>" unless service_learning_position.duration_requirement.blank? %>						
 		<%= "TB test required<br>" if service_learning_position.tb_test_required? %>
+		<%= "Flu vaccination required<br>" if service_learning_position.flu_vaccination_required? %>
+		<%= "Valid food handler’s permit required<br>" if service_learning_position.food_permit_required? %>
+		<%= "Other health screenings or certifications required: #{service_learning_position.other_health_requirement if service_learning_position.other_health_requirement} <br>" if service_learning_position.other_health_required? %>
+		
 		<%= "Other paperwork: #{service_learning_position.paperwork_requirement}<br>" unless service_learning_position.paperwork_requirement.blank? %>
-		</dd>
+		
+		<% if service_learning_position.background_check_required? %>
+			<%= "<strong>Background check required</strong><br>" %>
+			<div style="margin-left: 10px;">
+			<%= "Full legal name required<br>" if service_learning_position.legal_name_required? %>
+			<%= "Birthdate required<br>" if service_learning_position.birthdate_required? %>
+			<%= "Social security number required<br>" if service_learning_position.ssn_required? %>
+			<%= "Fingerprinting  required<br>" if service_learning_position.fingerprint_required? %>
+			<%= "Other background required: #{service_learning_position.other_background_check_requirement if service_learning_position.other_background_check_requirement}<br>" if service_learning_position.other_background_check_required? %>
+			<%= "No international students required<br>" if service_learning_position.non_intl_student_required? %>
+			</div>
+		<% end %>
+			
+	</dd>
 
 	<% unless service_learning_position.skills_requirement.blank? %>
 		<dt>skills needed</dt>

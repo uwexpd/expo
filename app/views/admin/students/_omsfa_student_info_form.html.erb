@@ -1,0 +1,47 @@
+<% remote_form_for(:omsfa_student_info, :url => { :action => "update_omsfa_student_info"}) do |f| -%>
+
+<dl class="inline-definitions">
+	
+  <dt><label for="omsfa_student_info_alt_email">alt email</dt>
+  <dd><%= f.text_field(:alt_email) %></dd>
+
+  <dt>current address</dt>
+  <dd>
+    <label for="omsfa_student_info_current_address"> Street: </label><%= f.text_field :current_address %><br /><br />
+    <label for="omsfa_student_info_current_city"> City: </label><%= f.text_field :current_city %><br /><br />
+    <label for="omsfa_student_info_current_state"> State: </label><%= f.text_field :current_state, :size => 15 %>
+	<label for="omsfa_student_info_current_zip"> Zip: </label><%= f.text_field :current_zip, :size => 15 %>
+  </dd>
+
+  <dt><label for="omsfa_student_info_current_phone">current phone</dt>
+  <dd><%= f.text_field(:current_phone) %></dd>
+
+  <dt>permanent address</dt>
+  <dd>
+    <label for="omsfa_student_info_permanent_address"> Street: </label><%= f.text_field :permanent_address %><br /><br />
+    <label for="omsfa_student_info_permanent_city"> City: </label><%= f.text_field :permanent_city %><br /><br />
+    <label for="omsfa_student_info_permanent_state"> State: </label><%= f.text_field :permanent_state, :size => 15 %>
+	<label for="omsfa_student_info_permanent_zip"> Zip: </label><%= f.text_field :permanent_zip, :size => 15 %>
+  </dd>
+
+  <dt>parent name</dt>
+  <dd>
+	 <label for="omsfa_student_info_parent_firstname">first name: <%= f.text_field(:parent_firstname) %>  
+ 	 <label for="omsfa_student_info_parent_lastname">last name: <%= f.text_field(:parent_lastname) %><br /><br />
+	 <label for="omsfa_student_info_parent_email">email: <%= f.text_field(:parent_email) %>
+  </dd>
+  
+  <dt>parent name</dt>
+  <dd>
+	 <label for="omsfa_student_info_parent2_firstname">first name: <%= f.text_field(:parent2_firstname) %>  
+ 	 <label for="omsfa_student_info_parent2_lastname">last name: <%= f.text_field(:parent2_lastname) %><br /><br />
+	 <label for="omsfa_student_info_parent2_email">email: <%= f.text_field(:parent2_email) %>
+  </dd>
+
+<%= hidden_field_tag("person_id", @student.id) %>
+
+<%= submit_tag "Update", :disable_with => "Please wait..." %>
+
+</dl>
+
+<% end %>

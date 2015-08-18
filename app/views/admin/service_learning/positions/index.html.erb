@@ -49,6 +49,7 @@
 
 <% current_organization = nil %>
 <% total_placements_count = 0; total_placements_filled_count = 0; total_unallocated_slots_count = 0; %>
+
 <% for service_learning_position in @service_learning_positions %>
 
 	<% if current_organization != service_learning_position.organization %>
@@ -72,9 +73,9 @@
 	<% total_placements_count += placements_count %>
 	<% total_placements_filled_count += placements_filled_count %>
 	<% total_unallocated_slots_count += unallocated_slots_count %>
-
+	
 	<tr <%= "class='filled'" if placements_count == placements_filled_count %>>
-
+			
 		<td>
 		  <%= link_to service_learning_position.title, 
 				  service_learning_organization_position_path(@unit, 
@@ -89,8 +90,7 @@
     <% else %>
       <td><%= service_learning_position.use_slots == true ? "<span class='green'>Yes</span>" : "No" %></td>
     <% end %>
-		
-		
+				
 		<td>
 		  <%= link_to 'Show', 
 						service_learning_organization_position_path(@unit, 
@@ -143,3 +143,4 @@
 <% end %>
 
 <% sidebar "admin/service_learning/positions/sidebar/search" %>
+<% sidebar :search_by %>

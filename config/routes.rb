@@ -112,7 +112,7 @@ ActionController::Routing::Routes.draw do |map|
     
     admin.resources :academic_departments, :controller => 'academic_departments', :name_prefix => ''
     
-    admin.resources :general_study_faculties, :controller => 'general_study_faculties', :name_prefix => '', :collection => { :search => :get }
+    admin.resources :general_study_faculties, :controller => 'general_study_faculties', :name_prefix => '', :collection => { :search => :get }  
     
     admin.resources :research_areas, :controller => 'research_areas', :name_prefix => ''
     
@@ -228,7 +228,7 @@ ActionController::Routing::Routes.draw do |map|
       pipeline.orientation_participants 'orientation_participants', :controller => "Pipeline",
                             :path_prefix => 'admin/pipeline/:quarter_abbrev', :action => 'orientation_participants'
       pipeline.resources :positions, :controller => "Pipeline::Positions", :path_prefix => 'admin/pipeline/:quarter_abbrev', 
-                                           :collection => { :migrate_to_current_quarter => :post }
+                                           :collection => { :migrate_to_current_quarter => :post, :search_by => :get }
       
       pipeline.resources :organizations, :controller => "Pipeline::Organizations", :path_prefix => 'admin/pipeline/:quarter_abbrev',
                                            :member => { :add_note => :post, :new_position => :get,
@@ -277,7 +277,7 @@ ActionController::Routing::Routes.draw do |map|
       service_learning.auto_complete ':unit/:quarter_abbrev/auto_complete/:action', :controller => 'search'
             
       service_learning.resources    :positions,                 :path_prefix => 'admin/service_learning/:unit/:quarter_abbrev',
-                                                                :collection => { :migrate_to_current_quarter => :post }
+                                                                :collection => { :migrate_to_current_quarter => :post, :search_by => :get }
       service_learning.resources    :courses,                 { :path_prefix => 'admin/service_learning/:unit/:quarter_abbrev',
                                                                 :collection => { :course_numbers => :any, 
                                                                                   :section_ids => :any,
@@ -391,7 +391,9 @@ ActionController::Routing::Routes.draw do |map|
   map.community_partner_map 'community_partner_map', :controller => 'community_partner', :action => 'map'
   map.community_partner_profile 'community_partner_profile', :controller => 'community_partner', :action => 'profile'
   map.namespace :community_partner, :controller => 'CommunityPartner' do |community_partner|
+    community_partner.service_learning_home 'service_learning', :controller => 'ServiceLearning'
     community_partner.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
+    
     community_partner.namespace :service_learning,  :path_prefix => 'community_partner/service_learning/:quarter_abbrev',
                                                     :controller => 'ServiceLearning' do |service_learning|
       service_learning.resource 'organization',     :controller => 'Organization',

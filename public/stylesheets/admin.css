@@ -2979,7 +2979,7 @@ body.assign_reviewers #background-filler {
 .tabview #frame {
 	background: #fff;
 	display: block;
-	min-height: 400px;
+	min-height: 450px;
 	padding: 10px;
 	border: 1px solid #ddd;
 	margin-right: 150px;

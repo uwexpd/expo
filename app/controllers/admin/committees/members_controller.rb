@@ -46,7 +46,7 @@ class Admin::Committees::MembersController < Admin::CommitteesController
   end
 
   def new
-    @member = @committee.members.new
+    @member = @committee.members.build
     session[:breadcrumbs].add "New"
 
     respond_to do |format|

@@ -1,0 +1,1 @@
+page.replace_html "omsfa_student_info", :partial => 'omsfa_student_info_form', :locals => {:student => @student}

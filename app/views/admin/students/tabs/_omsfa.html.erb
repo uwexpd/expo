@@ -1,0 +1,45 @@
+<h2>Omsfa Scholar Contact Info <%= link_to_remote "<small>(edit)</small>", :url => {:action => "edit_omsfa_student_info",
+                                            :person_id => @student.id },
+                                   :loading => "$('edit_omsfa_student_info').show()",
+                                   :complete => "$('edit_omsfa_student_info').hide()" %>
+<%= indicator("edit_omsfa_student_info") %>
+</h2>
+
+<div id="omsfa_student_info">
+	
+<% unless @student.omsfa_student_info.nil? %>
+<dl class="inline-definitions">
+	
+	<dt>alt email</dt>
+	<dd><%= @student.omsfa_student_info.alt_email %></dd>
+	
+	<dt>current address</dt>
+	<dd><%= @student.omsfa_student_info.current_address %>, <%= @student.omsfa_student_info.current_city %> <%= @student.omsfa_student_info.current_state %> <%= @student.omsfa_student_info.current_zip %></dd>
+	
+	<dt>current phone</dt>
+	<dd><%= @student.omsfa_student_info.current_phone %></dd>
+		
+	<dt>permanent address</dt>
+	<dd><%= @student.omsfa_student_info.permanent_address %>, <%= @student.omsfa_student_info.permanent_state %> <%= @student.omsfa_student_info.permanent_city %> <%= @student.omsfa_student_info.permanent_zip %></dd>
+		
+	<dt>parent name</dt>
+	<dd><%= @student.omsfa_student_info.parent_firstname %> <%= @student.omsfa_student_info.parent_lastname %>, <%= @student.omsfa_student_info.parent_email %></dd>
+		
+	<dt>parent name</dt>
+	<dd><%= @student.omsfa_student_info.parent2_firstname %> <%= @student.omsfa_student_info.parent2_lastname %>, <%= @student.omsfa_student_info.parent2_email %></dd>	
+
+</dl>
+<% else %>
+	<table>
+		<tr class="empty">
+			<td>Omsfa student information cannot be found. 
+				<%= link_to_remote "Click here to add information.", :url => {:action => "edit_omsfa_student_info",
+				                                            :person_id => @student.id },
+				                                   :loading => "$('edit_omsfa_student_info').show()",
+				                                   :complete => "$('edit_omsfa_student_info').hide()" %>
+			</td>
+		</tr>
+	</table>	
+<% end %>
+
+</div>

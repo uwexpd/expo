@@ -76,6 +76,7 @@ class Person < ActiveRecord::Base
   end
   
   has_one :pipeline_student_info
+  has_one :omsfa_student_info
 
   acts_as_strip :firstname, :lastname, :nickname, :email, :phone, :address1, :address2, :address3, :city, :zip, :organization, :title
   

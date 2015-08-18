@@ -2,9 +2,9 @@
 	<%= qf.label(question.attribute_to_update, "#{question.question} #{(content_tag('em', '*', :class => 'required') if question.required?)}") %>
 	<% id = "#{question.id}_editor" %>
 	
-	<div class="question_block">
+	<!-- <div class="question_block"> -->
 		<%= qf.text_area question.attribute_to_update, :cols => question.width, :rows => question.height, :id => id %>
-	</div>
+	<!-- </div> -->
 	
 	<% if question.use_mce_editor? %>
 		<script type="text/javascript">

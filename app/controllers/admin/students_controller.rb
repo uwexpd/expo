@@ -93,6 +93,33 @@ class Admin::StudentsController < Admin::BaseController
     end 
   end
   
+  def edit_omsfa_student_info
+    @student = Person.find(params[:person_id])
+    
+    @omsfa_student_info = @student.omsfa_student_info
+    if @omsfa_student_info.nil?
+      @omsfa_student_info = OmsfaStudentInfo.new(:person => @student)
+    end
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+    
+  def update_omsfa_student_info
+    @student = Person.find(params[:person_id])
+    
+    if @student.omsfa_student_info.nil?
+      @student.omsfa_student_info = OmsfaStudentInfo.new
+    end
+    
+    @student.omsfa_student_info.update_attributes(params[:omsfa_student_info])
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+  
   protected
   
   def add_to_breadcrumbs

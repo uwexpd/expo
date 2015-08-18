@@ -1,0 +1,19 @@
+<h3>Search by Requirements <small><%= link_to "show all positions", service_learning_positions_path(@unit, @quarter) %></small></h3>
+
+<% form_tag url_for(:action => 'search_by'), :method => :get do  %>
+<ul class='bulletless'>
+	<li><%= check_box_tag 'requirements[]', 'tb_test_required', @selected_requirements.include?('tb_test_required') %> TB test</li>
+	<li><%= check_box_tag 'requirements[]', 'flu_vaccination_required', @selected_requirements.include?('flu_vaccination_required') %> Flu vaccination</li>
+	<li><%= check_box_tag 'requirements[]', 'food_permit_required', @selected_requirements.include?('food_permit_required')  %> Valid food handler’s permit</li>
+	<li><%= check_box_tag 'requirements[]', 'other_health_required', @selected_requirements.include?('other_health_required')  %> Other health screenings/certifications</li>
+	<li><%= check_box_tag 'requirements[]', 'legal_name_required', @selected_requirements.include?('legal_name_required')  %> Full legal name</li>
+	<li><%= check_box_tag 'requirements[]', 'birthdate_required', @selected_requirements.include?('birthdate_required')  %> Birthdate</li>
+	<li><%= check_box_tag 'requirements[]', 'ssn_required', @selected_requirements.include?('ssn_required') %> Social security number</li>	
+	<li><%= check_box_tag 'requirements[]', 'fingerprint_required', @selected_requirements.include?('fingerprint_required') %> Fingerprinting</li>
+	<li><%= check_box_tag 'requirements[]', 'other_background_check_required', @selected_requirements.include?('other_background_check_required') %> Other background check</li>
+	<li><%= check_box_tag 'requirements[]', 'non_intl_student_required', @selected_requirements.include?('non_intl_student_required') %> No international students</li>
+</ul>	
+	
+<center><%= submit_tag "Search" %></center>
+
+<% end -%>

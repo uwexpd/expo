@@ -1,19 +1,12 @@
 class Admin::ServiceLearning::PositionsController < Admin::ServiceLearningController
   before_filter :service_learning_positions_breadcrumbs
+  before_filter :fetch_service_learning_positions, :only => [:index, :search_by]
   
   # GET /service_learning_positions
   # GET /service_learning_positions.xml
   def index
     #@service_learning_positions = @quarter.service_learning_positions.for_unit(@unit)
-    #@service_learning_positions.sort!{|x,y| x.organization.name <=> y.organization.name}
-    
-    @service_learning_positions = ServiceLearningPosition.find(:all, 
-        :include => [{:organization_quarter => :organization}],
-        :conditions => {:organization_quarters => {:quarter_id => @quarter.id, :unit_id => @unit.id}},
-        :order => "organizations.name"
-        )
-      
-    @show_quarter_select_dropdown = true
+    #@service_learning_positions.sort!{|x,y| x.organization.name <=> y.organization.name}          
     
     # changes the display to have checkboxes that are used to migrate positions
     if params[:quarter_from]
@@ -136,9 +129,36 @@ class Admin::ServiceLearning::PositionsController < Admin::ServiceLearningContro
   #   end
   # end
   
+  def search_by
+    @filter_service_learning_positions = [];
+    if params[:requirements]
+      @selected_requirements = params[:requirements]
+      @selected_requirements.each do |requirement|
+        if ['legal_name_required','birthdate_required','ssn_required', 'fingerprint_required', 'other_background_check_required', 'non_intl_student_required'].include?(requirement)          
+          @filter_service_learning_positions << @service_learning_positions.select{|p| p.background_check_required? && p.send(requirement) == true  }
+        else          
+          @filter_service_learning_positions << @service_learning_positions.select{|p| p.send(requirement) == true }
+        end        
+      end
+      @service_learning_positions = @filter_service_learning_positions.flatten.uniq unless @filter_service_learning_positions.empty?
+    end        
+    render :action => "index"
+  end
+  
   private
   
   def service_learning_positions_breadcrumbs
     session[:breadcrumbs].add "Positions", service_learning_positions_path
   end
+  
+  def fetch_service_learning_positions
+    @selected_requirements = []
+    @show_quarter_select_dropdown = true 
+    @service_learning_positions = ServiceLearningPosition.find(:all, 
+        :include => [{:organization_quarter => :organization}],
+        :conditions => {:organization_quarters => {:quarter_id => @quarter.id, :unit_id => @unit.id}},
+        :order => "organizations.name"
+        )
+  end
+  
 end
