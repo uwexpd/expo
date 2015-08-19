@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150806225914) do
+ActiveRecord::Schema.define(:version => 20150819172518) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1077,6 +1077,17 @@ ActiveRecord::Schema.define(:version => 20150806225914) do
     t.integer  "credit"
     t.integer  "volunteer"
     t.decimal  "compensation",                          :precision => 8, :scale => 2
+    t.boolean  "flu_vaccination_required"
+    t.boolean  "food_permit_required"
+    t.boolean  "other_health_required"
+    t.string   "other_health_requirement"
+    t.boolean  "legal_name_required"
+    t.boolean  "birthdate_required"
+    t.boolean  "ssn_required"
+    t.boolean  "fingerprint_required"
+    t.boolean  "other_background_check_required"
+    t.string   "other_background_check_requirement"
+    t.boolean  "non_intl_student_required"
   end
 
   create_table "department_extras", :force => true do |t|
