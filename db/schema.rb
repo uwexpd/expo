@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150819172518) do
+ActiveRecord::Schema.define(:version => 20150819214342) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2235,6 +2235,7 @@ ActiveRecord::Schema.define(:version => 20150819172518) do
     t.string   "institution_name"
     t.boolean  "pipeline_inactive"
     t.string   "reg_id"
+    t.boolean  "service_learning_risk_date_extention"
   end
 
   add_index "people", ["email"], :name => "index_people_on_email"

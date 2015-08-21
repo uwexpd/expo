@@ -59,7 +59,7 @@
 
 	<li><strong>Electronic AOR:</strong>
 		<%= @student.service_learning_risk_date.to_date.to_s(:long) rescue "<span class=light>None on file</span>" %> 
-		(<%=h @student.service_learning_risk_signature %>)</li>
+		(<%=h @student.service_learning_risk_signature %>) <%= ", extends to " + @student.extention_valid_date.to_date.to_s(:long) if @student.service_learning_risk_date_extention?  %></li>
 
 	<li><strong>Paper AOR on file:</strong>
 		<%= @student.service_learning_risk_paper_date.to_date.to_s(:long) rescue "<span class=light>None on file</span>" %></li>

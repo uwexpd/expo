@@ -154,11 +154,23 @@ class Student < Person
     return false if service_learning_risk_date.nil? and service_learning_risk_paper_date.nil?
     unless service_learning_risk_date.nil?
       return true if Time.now - service_learning_risk_date < valid_lifetime
+      return true if extention_valid_date && service_learning_risk_date < extention_valid_date
     end
     unless service_learning_risk_paper_date.nil?
       return true if Time.now - service_learning_risk_paper_date < valid_lifetime
     end
     false
+  end
+  
+  # Extend risk date to September 1st at the end of each academic year for carlson positions        
+  def extention_valid_date
+    if service_learning_risk_date_extention?
+      if service_learning_risk_date > DateTime.new(service_learning_risk_date.year, 9, 1) 
+        DateTime.new(service_learning_risk_date.year.next, 9, 1)
+      else  
+        DateTime.new(service_learning_risk_date.year, 9, 1)
+      end
+    end
   end
 
   # Checks to see if this Student is enrolled in the specified Course.

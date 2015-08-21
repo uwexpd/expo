@@ -97,6 +97,7 @@ class ServiceLearningController < ApplicationController
       else
         @student.update_attribute :service_learning_risk_signature, params[:student][:electronic_signature]
         @student.update_attribute :service_learning_risk_date, Time.now
+        @student.update_attribute :service_learning_risk_date_extention, true if @position.unit.abbreviation == 'carlson'
         # TODO: change place_into to the place_into(position, course, unit) format when the student side it set up to use units
         @student.place_into(@position, @service_learning_course)
         flash[:notice] = "Service-learning registration complete."
