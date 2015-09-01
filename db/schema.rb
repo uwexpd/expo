@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150819214342) do
+ActiveRecord::Schema.define(:version => 20150827223650) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1088,6 +1088,9 @@ ActiveRecord::Schema.define(:version => 20150819214342) do
     t.boolean  "other_background_check_required"
     t.string   "other_background_check_requirement"
     t.boolean  "non_intl_student_required"
+    t.date     "volunteer_since"
+    t.boolean  "paid"
+    t.boolean  "religious"
   end
 
   create_table "department_extras", :force => true do |t|
@@ -2689,6 +2692,9 @@ ActiveRecord::Schema.define(:version => 20150819214342) do
     t.boolean  "other_background_check_required"
     t.string   "other_background_check_requirement"
     t.boolean  "non_intl_student_required"
+    t.date     "volunteer_since"
+    t.boolean  "paid"
+    t.boolean  "religious"
   end
 
   add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"
@@ -2750,6 +2756,7 @@ ActiveRecord::Schema.define(:version => 20150819214342) do
     t.string   "general_study_risk_signature"
     t.integer  "register_person_id"
     t.datetime "registered_at"
+    t.text     "admin_feedback"
   end
 
   create_table "session_histories", :force => true do |t|

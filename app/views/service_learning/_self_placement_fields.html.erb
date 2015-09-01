@@ -59,6 +59,15 @@
 		<dt>Position Title</dt>
 		<dd><%= @self_placement.position.try(:name) %></dd>
 		
+		<dt>Volunteer since</dt>
+		<dd><%= @self_placement.position.try(:volunteer_since).strftime("%B %Y") if @self_placement.position.volunteer_since %></dd>
+		
+		<dt>Paid</dt>
+		<dd><%= @self_placement.position.try(:paid) %></dd>
+			
+		<dt>Are you engaging in religious instruction?</dt>
+		<dd>&nbsp;&nbsp;<%= @self_placement.position.try(:religious) %></dd>		
+		
 		<% if @self_placement.general_study? %>
 			
 			<dt>Learning Goals: What do you want to learn as a result of this internship experience?  How will these goals relate to your academic work at the University?  Be specific.</dt><br>
@@ -74,10 +83,13 @@
 			<dd><%= @self_placement.position.try(:description) %></dd>
 			
 		<% else %>
-			<dt>Please set a the context for how this service-learning position contributes to the mission of your organization.</dt><br>
+			
+			<dt>Please describe how this position contributes to the mission of your organization.</dt><br>
 			<dd><%= @self_placement.position.try(:context_description) %></dd>
 		
-			<dt>Describe the work of the position-what will their work with your organization look like day to day? What might students learn working in this role? What is the work environment like?</dt>
+			
+		
+			<dt>Describe the work of the position. What does your service with the organization look like day-to-day? What is the work environment like? What have you already learned through your volunteer efforts there?</dt>
 			<dd><%= @self_placement.position.try(:description) %></dd>
 		
 			<dt>How will this service-learning position make an impact on your organization and/or the people you serve?</dt><br>

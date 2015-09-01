@@ -90,7 +90,7 @@
 					<% end -%>
 										
 					
-					<% if @quarter.current_quarter? && !student.valid_service_learning_waiver? %>
+					<% if @quarter.current_quarter? && !student.valid_service_learning_waiver?(@unit) %>
 						<div id="missing_risk_warning_<%= student.id %>">
 							<%= render :partial => "admin/service_learning/courses/missing_risk_warning", :locals => { :student => student } %>
 						</div>

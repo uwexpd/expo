@@ -60,7 +60,7 @@ class Admin::ServiceLearningController < Admin::BaseController
   end
   
   def self_placements
-    @self_placements = @quarter.service_learning_self_placements.reject{|s| s.general_study==true}
+    @self_placements = @quarter.service_learning_self_placements.reject{|s| s.general_study==true || s.course.unit != @unit}
     session[:breadcrumbs].add "Self Placements"
   end
   
@@ -76,16 +76,21 @@ class Admin::ServiceLearningController < Admin::BaseController
     @type_of_self_placement = @self_placement.general_study? ? "General Study" : "Self Placement"
     # TODO: find a better way to check if new contact 
     @is_new_contact = !@self_placement.organization_contact_person.blank? # && @self_placement.position.supervisor.nil? (take this away because student can still input position existing contact while check creating new contact)
-      
+    
+    session[:breadcrumbs].add @type_of_self_placement, @self_placement.general_study? ? service_learning_general_study_path(@unit, @quarter) : service_learning_self_placements_path(@unit, @quarter)
+    session[:breadcrumbs].add "#{@type_of_self_placement} Approval"
+        
     if request.put?
-      
-      # For General Study decline and confirm registered
-      if @self_placement.general_study? && params[:commit] == "Decline"
+            
+      if params[:commit] == "Decline"
         @self_placement.update_attribute(:admin_approved, false)
-        flash[:notice] = "You successfully declined the position request."
-        redirect_to :action => "general_study"      
+        @self_placement.update_attribute(:submitted, false)
+        @self_placement.update_attribute(:admin_feedback, params[:service_learning_self_placement][:admin_feedback])
+        flash[:notice] = "You successfully declined the position request. The status is back to in progress."
+        redirect_to :back and return
       end
       
+      # For General Study - confirm registered
       if @self_placement.general_study? && !@is_new_contact
           if params[:service_learning_self_placement][:confirm_registered] == "0"
              return @self_placement.errors.add_to_base "Please check the box below to confirm you have completed registering the student."
@@ -119,15 +124,15 @@ class Admin::ServiceLearningController < Admin::BaseController
       # update status to admin approved after activate organization
       @self_placement.update_attribute(:admin_approved, true) unless @self_placement.general_study? && @is_new_contact
       
-      # Activate new contact: 1. existing org and add new contact (only for general study now) 2. new org and new contact
-      if (@self_placement.general_study? && @is_new_contact) || !@self_placement.existing_organization?
+      # Activate new contact: 1. existing org and add new contact (only for general study now) 2. new org and new contact      
+      if (@self_placement.general_study? && @is_new_contact) || !@self_placement.existing_organization?         
          contact = organization.contacts.create
          contact_people = Person.find_all_by_email(@self_placement.organization_contact_email)
          
          if contact_people.size == 1 # if find existing person record, then create organization contact with the person record
             contact.update_attribute(:person_id, contact_people.first.id)
          elsif contact_people.size > 1
-            return flash[:error] = "There are more than one person record found with the contact email. Please add the contact manually in expo."
+            flash[:error] = "Cannot add organization contact.There are more than one person record found with the contact email. Please add the contact manually for #{@self_placement.organization_name}."
          else
             contact.create_person(:firstname => @self_placement.organization_contact_person.split.first,
                                   :lastname => @self_placement.organization_contact_person.split.second,
@@ -184,10 +189,7 @@ class Admin::ServiceLearningController < Admin::BaseController
         end
                         
         redirect_to :action => @self_placement.general_study? ? "general_study" : "self_placements"
-    end # end of request.put?
-    
-    session[:breadcrumbs].add @type_of_self_placement, @self_placement.general_study? ? service_learning_general_study_path(@unit, @quarter) : service_learning_self_placements_path(@unit, @quarter)
-    session[:breadcrumbs].add "#{@type_of_self_placement} Approval"
+    end # end of request.put?       
     
   end  
   

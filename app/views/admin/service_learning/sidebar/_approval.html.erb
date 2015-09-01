@@ -7,18 +7,28 @@
 		<center><%= f.submit "Approve new contact", :class => 'green' %></center>
 	<% end %>
 <% else %>
-<p style='font-size: 100%'>This will activate the organization for <%= @quarter.title %> and place this student into <%= @type_of_self_placement.downcase %> position.</p>
+<p style='font-size: 100%'>By approving the position, it activates the organization for <%= @quarter.title %> and place this student into <%= @type_of_self_placement.downcase %> position.</p>
 
 	<% form_for @self_placement, :url => { :action => "self_placement_approval" } do |f| %>
 	<%= f.error_messages %>
 		<% if @self_placement.general_study? %>
 			<p style='font-size: 100%'><%= f.check_box :confirm_registered %>Check to confirm that you have completed registering the student.</p>
-		<% end %><br>
+		<% end %>
 
-		<center><%= f.submit "Approve this Position", :disable_with => 'Approving the position...', :class => 'green' %></center>
+		<!-- <%= f.radio_button :admin_approved, true %> <span class='green'>Approve this position</span><br>
+		<%= f.radio_button :admin_approved, false %> Decline. Leave a feedback to student so student can resubmit.<br><br>
+		Feedback:<br>
+		<%= f.text_area :admin_feedback, :rows => 4 %>
+		<span class='caption'>An auto-email will send this feedback to student.</span><br><br>
+		<center><%= f.submit "Submit" %></center> -->
 		
-		<% if @self_placement.general_study? && @self_placement.admin_approved.nil? %>
-			<br><center><%= f.submit "Decline", :class => 'red', :confirm => "Are you sure?" %></center>
+		<center><%= f.submit "Approve this Position", :disable_with => 'Approving the position...', :class => 'green' %></center>
+				
+		<% unless @self_placement.admin_approved? %>
+			<br><p style="border-top:2px dotted #DDD">Decline and leave a feedback to student so student can resubmit.</p>
+			<p><%= f.text_area :admin_feedback, :rows => 4 %></p>
+			<!-- <span class='caption'>An auto-email will send this feedback to student.</span> -->
+			<center><%= f.submit "Decline", :class => 'red', :confirm => "Are you sure?" %></center><br>
 		<% end %>
 		
 	<% end -%>	

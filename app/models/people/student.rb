@@ -148,13 +148,13 @@ class Student < Person
   # Checks if this student has a valid service learning risk waiver at all, either on paper or digitally. If the student is under
   # age 18, they must have a valid paper waiver on file. If not, check if the +service_learning_risk_date+ is within the lifetime
   # for service-learning risk waivers as defined by the +service_learning_risk_lifetime+ EXPo constant.
-  def valid_service_learning_waiver?
+  def valid_service_learning_waiver?(unit = nil)
     valid_lifetime = ((eval(CONSTANTS[:service_learning_risk_lifetime]) rescue nil) || 3.months)
     return valid_service_learning_waiver_on_file? if sdb.age < 18
     return false if service_learning_risk_date.nil? and service_learning_risk_paper_date.nil?
     unless service_learning_risk_date.nil?
       return true if Time.now - service_learning_risk_date < valid_lifetime
-      return true if extention_valid_date && service_learning_risk_date < extention_valid_date
+      return true if unit && unit.abbreviation == 'carlson' && extention_valid_date && service_learning_risk_date < extention_valid_date
     end
     unless service_learning_risk_paper_date.nil?
       return true if Time.now - service_learning_risk_paper_date < valid_lifetime

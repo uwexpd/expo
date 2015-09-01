@@ -111,11 +111,23 @@
 			<dt>Position Title	<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_field :title, :size => 70 %></dd>
 			
-			<dt>Please set a the context for how this service-learning position contributes to the mission of your organization. 
+			<dt>Volunteer since	<%= content_tag('em', '*', :class => 'required') %></dt>
+			<dd><%= p.date_select :volunteer_since, :order => [:day, :month, :year], :discard_day => true,
+								  :start_year => Time.now.year-5, :end_year => Time.now.year, :prompt => true %> </dd>
+			
+			<dt>Paid or Unpaid <%= content_tag('em', '*', :class => 'required') %></dt>
+			<dd><%= p.check_box :paid %>Check if Paid</dd>
+			
+			<p style="padding-left: 15px;">
+			<strong style="color:#999">If serving with a religious institution, are you engaging in religious instruction?</strong>
+			<%= content_tag('em', '*', :class => 'required') %>
+			<%= p.check_box :religious %>Check if Yes</p><br>
+			
+			<dt>Please describe how this position contributes to the mission of your organization.
 				<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :context_description, :style => "width:70%", :rows => 6  %></dd>
 			
-			<dt>Describe the work of the position-what will their work with your organization look like day to day? What might students learn working in this role? What is the work environment like? <%= content_tag('em', '*', :class => 'required') %></dt>
+			<dt>Describe the work of the position. What does your service with the organization look like day-to-day? What is the work environment like? What have you already learned through your volunteer efforts there? <%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :description, :style => "width:70%", :rows => 6 %></dd>
 			
 			<dt>How will this service-learning position make an impact on your organization and/or the people you serve? 
@@ -123,7 +135,8 @@
 			<dd><%= p.text_area :impact_description, :style => "width:70%", :rows => 6 %></dd>		
 		</dl>
 		
-	<h2>Service Learning Schedule <%= content_tag('em', '*', :class => 'required') %></h2><br>
+	<h2>Service Learning Schedule <%= content_tag('em', '*', :class => 'required') %></h2>
+	<p>Please use this schedule to indicate the days and times you serve at this organization in a given week.</p><br>
 	<% content_for :head do %>
 		<%= javascript_include_tag "scheduling_tools" %>
 	<% end %>
@@ -152,6 +165,7 @@
 
 <dl class="inline-definitions">
 	<h2>Through service-learning, I hope to learn <%= content_tag('em', '*', :class => 'required') %></h2>
+	<p>How do the themes explored in this course relate to your role at your service site? What new things do you hope to explore through this integration of academic learning and service?</p>
 	<dt></dt><dd><%= s.text_area :hope_to_learn, :style => "width:85%", :rows => 5 %></dd>
 </dl>
 

@@ -97,7 +97,7 @@ class ServiceLearningController < ApplicationController
       else
         @student.update_attribute :service_learning_risk_signature, params[:student][:electronic_signature]
         @student.update_attribute :service_learning_risk_date, Time.now
-        @student.update_attribute :service_learning_risk_date_extention, true if @position.unit.abbreviation == 'carlson'
+        @student.update_attribute :service_learning_risk_date_extention, true if @service_learning_course.unit.abbreviation == 'carlson'
         # TODO: change place_into to the place_into(position, course, unit) format when the student side it set up to use units
         @student.place_into(@position, @service_learning_course)
         flash[:notice] = "Service-learning registration complete."
@@ -161,6 +161,9 @@ class ServiceLearningController < ApplicationController
                                   
             @self_placement.update_attribute :service_learning_position_id, @position.id                        
             
+            unless @position.volunteer_since
+              return @position.errors.add(:volunteer_since, "Please select a date for volunteer since.")
+            end            
             [:context_description, :description, :impact_description].each do |field|
                 return @position.errors.add(field, "cannot be blank.") if params[:service_learning_position][field].blank?
             end                    
@@ -205,6 +208,7 @@ class ServiceLearningController < ApplicationController
          else
            @student.update_attribute :service_learning_risk_signature, params[:student][:electronic_signature]
            @student.update_attribute :service_learning_risk_date, Time.now
+           @student.update_attribute :service_learning_risk_date_extention, true if @service_learning_course.unit.abbreviation == 'carlson'
 
            @self_placement.submitted = true
            if @self_placement.save
