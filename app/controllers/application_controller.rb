@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
       options[:rails_env] ||= RAILS_ENV
       log_file ||= "rake"
       args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
-      system "/usr/bin/rake #{task} #{args.join(' ')} --trace 2>&1 >> #{RAILS_ROOT}/log/#{log_file}.log"
+      system "rake #{task} #{args.join(' ')} --trace 2>&1 >> #{RAILS_ROOT}/log/#{log_file}.log"
       exit! 127
   end
 

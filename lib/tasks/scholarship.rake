@@ -7,8 +7,8 @@ task :import_omsfa_scholarships => :environment do
   lineno = 0
   
   print "Parsing CSV file...."
-  file_path = "tmp/Scholarships_upload_6_15_15_test.csv" #$stdin.gets.strip
-  puts "(file path: #{file_path})\n\n"    
+  file_path = "tmp/2014-15-OMSFA-upload-data.csv" #$stdin.gets.strip
+  puts "(file path: #{file_path})\n\n"
   
   scholarship_file = CSV.open(file_path, 'r', ?,, ?\r)
   #puts "scholarship_file : #{scholarship_file.inspect}"
@@ -21,30 +21,45 @@ task :import_omsfa_scholarships => :environment do
 
     offering_name     = row[0].strip unless row[0].blank?
     year_offered      = row[1].strip unless row[1].blank?
-    status_types      = row[2].strip.split(",") unless row[2].blank?
-    student_no        = row[3].strip unless row[3].blank? # it could be uw netid
-    alt_email         = row[4].try(:strip)
-    current_address   = row[5].try(:strip)
-    current_city      = row[6].try(:strip)
-    current_state     = row[7].try(:strip)
-    current_zip       = row[8].try(:strip)
-    current_phone     = row[9].try(:strip)
-    permanent_address = row[10].try(:strip)
-    permanent_city    = row[11].try(:strip)
-    permanent_state   = row[12].try(:strip)
-    permanent_zip     = row[13].try(:strip)
-    parent_firstname  = row[14].try(:strip)
-    parent_lastname   = row[15].try(:strip)
-    parent_email      = row[16].try(:strip)
-    parent2_firstname = row[17].try(:strip)
-    parent2_lastname  = row[18].try(:strip)
-    parent2_email     = row[19].try(:strip)
+    quarter_offered   = row[2].strip.downcase unless row[2].blank?
+    status_types      = row[3].strip.split(",") unless row[3].blank?
+    student_no        = row[4].strip unless row[3].blank? # it could be uw netid
+    alt_email         = row[5].try(:strip)
+    current_address   = row[6].try(:strip)
+    current_city      = row[7].try(:strip)
+    current_state     = row[8].try(:strip)
+    current_zip       = row[9].try(:strip)
+    current_phone     = row[10].try(:strip)
+    permanent_address = row[11].try(:strip)
+    permanent_city    = row[12].try(:strip)
+    permanent_state   = row[13].try(:strip)
+    permanent_zip     = row[14].try(:strip)
+    permanent_phone   = row[15].try(:strip)
+    parent_firstname  = row[16].try(:strip)
+    parent_lastname   = row[17].try(:strip)
+    parent_email      = row[18].try(:strip)
+    parent2_firstname = row[19].try(:strip)
+    parent2_lastname  = row[20].try(:strip)
+    parent2_email     = row[21].try(:strip)
                                 
     unless offering_name
       puts "No offering info: row #{lineno}"
-    else      
+    else
+      puts "-------------------------------------------------------------------------------------------------------------"      
       print "Fetching or creating offerings..."
-      offering = Offering.find_or_create_by_name_and_unit_id_and_year_offered(offering_name, UNIT_ID, year_offered)
+      # convert quarter code
+      quarter_offered_id = nil
+      unless quarter_offered.blank?
+        quarter_code_id = case quarter_offered
+          when 'winter' then 1
+          when 'spring' then 2
+          when 'summer' then 3
+          when 'fall'   then 4
+        end
+        quarter_offered_id = Quarter.find_easily(quarter_code_id, year_offered).id
+      end
+            
+      offering = Offering.find_or_create_by_name_and_unit_id_and_year_offered_and_quarter_offered_id(offering_name, UNIT_ID, year_offered, quarter_offered_id)
       offering.ask_for_mentor_title = true; offering.save; offering.reload  
                    
       print "=> #{offering.title}, #{offering.id}\n"
@@ -66,6 +81,7 @@ task :import_omsfa_scholarships => :environment do
                               :permanent_city => permanent_city,
                               :permanent_state => permanent_state,
                               :permanent_zip => permanent_zip,
+                              :permanent_phone => permanent_phone,
                               :parent_firstname => parent_firstname,
                               :parent_lastname => parent_lastname,
                               :parent_email => parent_email,
@@ -98,9 +114,9 @@ task :import_omsfa_scholarships => :environment do
       
       puts "Adding mentors information..."
       
-      # check if includes mentors (3~8 mentors in most of cases), mentor info starts from 20th column
-      (1..8).map{|r| r*5+15 }.each do |mentor_email_row|
-      puts "#{row[mentor_email_row]}"
+      # check if includes mentors (3~8 mentors in most of cases), mentor info starts from 22th column
+      (1..8).map{|r| r*5+17 }.each do |mentor_email_row|
+      #puts "#{row[mentor_email_row]}"
         if row[mentor_email_row] && row[mentor_email_row].include?('@')
            is_uw_mentor = ["uw.edu","u.washington.edu"].include?(row[mentor_email_row].strip.split("@").second)
            expo_person  = Person.find_by_best_guess(:email => row[mentor_email_row].strip)
@@ -134,7 +150,7 @@ task :import_omsfa_scholarships => :environment do
                                       :title     => row[mentor_email_row + 3].strip + ", " +row[mentor_email_row + 4].try(:strip))
           end
           
-          print "=> (#{mentor.info_detail_line}, #{mentor.id}) \n"
+          print "=> (#{mentor.info_detail_line}, #{mentor.id}) \n" if mentor
         end
                 
       end                  
@@ -142,5 +158,5 @@ task :import_omsfa_scholarships => :environment do
     end #end if offering_name.blank?
 
   end
-  puts "\nDone."      
+  puts "\n ---------- Done! ------------ \n"      
 end

@@ -12,6 +12,7 @@ class CreateOmsfaStudentInfo < ActiveRecord::Migration
       t.string :permanent_city
       t.string :permanent_state
       t.string :permanent_zip
+      t.string :permanent_phone
       t.string :parent_firstname
       t.string :parent_lastname
       t.string :parent_email
