@@ -1,5 +1,6 @@
 class OpportunitiesController < ApplicationController
-  skip_before_filter :login_required
+  before_filter :login_required, :only => ['search', 'details']
+  before_filter :check_if_uwnetid, :only => ['search', 'details']
         
   def form    
     @research_opportunity = (ResearchOpportunity.find(params[:id]) if params[:id]) || ResearchOpportunity.new
@@ -59,6 +60,15 @@ class OpportunitiesController < ApplicationController
     else
       flash[:error] = "Cannot find research opportunity id"
       redirect_to :back
+    end
+  end
+
+  protected
+  
+  def check_if_uwnetid
+    unless @current_user.class.name == "PubcookieUser"
+      raise ExpoException.new("You need to have UW netid to access this page.",
+          "Please make sure you click on reb button 'Sign in' in the login page to log in with your UW NetID. If you have any questions for accessing this page, please contact urp@uw.edu.")
     end
   end
          
