@@ -15,7 +15,8 @@ class ResearchOpportunity < ActiveRecord::Base
   end
 
   def self.find_by_research_area(lookup_area)
-    all( :conditions => [ "active = ? and (research_area1 = ? OR research_area2 = ? OR research_area3 = ? OR research_area4 = ?)", true, lookup_area, lookup_area, lookup_area, lookup_area] )    
+    all( :conditions => [ "active = ? and (research_area1 = ? OR research_area2 = ? OR research_area3 = ? OR research_area4 = ?)", true, lookup_area, lookup_area, lookup_area, lookup_area],
+         :order => "created_at DESC, title ASC" )
   end
 
   def self.find_by_keyword(keyword)
