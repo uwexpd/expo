@@ -118,7 +118,7 @@ class Admin::ServiceLearningController < Admin::BaseController
                                             :approved => true
                                            )
       
-         organization_quarter = organization.activate_for(@quarter, true)               
+         organization_quarter = organization.activate_for(@quarter, true, @unit)               
       end
       
       # update status to admin approved after activate organization

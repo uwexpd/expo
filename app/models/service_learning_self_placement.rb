@@ -60,7 +60,9 @@ class ServiceLearningSelfPlacement < ActiveRecord::Base
   # end
     
   def status(tag = false)
-    if faculty_approved? && !admin_approved?
+    if admin_approved==false
+         tag ? "<span class='tag'>admin declined</span>" : "<span class='red'>admin declined</span>"
+    elsif faculty_approved? && !admin_approved?
          tag ? "<span class='tag'>faculty approved</span>" : "<span class='highlight'>faculty approved</span>"
     elsif admin_approved?
          tag ? "<span class='tag green'>admin approved</span>" : "<span class='green-check'>admin approved</span>"
