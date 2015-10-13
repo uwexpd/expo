@@ -302,7 +302,7 @@ class EquipmentReservation < ActiveRecord::Base
     if start_date != new_start_date
       old_length = length
       self.write_attribute(:start_date, new_start_date)
-      self.write_attribute(:end_date, (end_date_choices[:dates][old_length] rescue nil || end_date_choices[:dates][1])[1]) if end_date && end_date_choices
+      #self.write_attribute(:end_date, (end_date_choices[:dates][old_length] || end_date_choices[:dates][1])[1]) if end_date && end_date_choices
     end
   end
 

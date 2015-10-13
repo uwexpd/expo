@@ -26,10 +26,10 @@ class MentorController < ApplicationController
       @mentee_application_record.require_validations = true
       if @mentee_application_record.update_attributes(params[:mentor])
         if @mentee_application.submitted?
-          if @offering.require_all_mentor_letters_before_complete? && @mentee_application.all_mentor_letters_received?
-            @mentee_application.set_status "complete"
-          elsif @mentee_application_record.letter_received?
-            @mentee_application.set_status "complete"
+          if @offering.require_all_mentor_letters_before_complete?
+            @mentee_application.set_status "complete" if @mentee_application.all_mentor_letters_received?
+          else 
+            @mentee_application.set_status "complete" if @mentee_application_record.letter_received?
           end
         else
           @mentee_application.set_status "in_progress"

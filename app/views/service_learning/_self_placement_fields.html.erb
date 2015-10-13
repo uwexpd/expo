@@ -57,43 +57,43 @@
 <h3>Basic Position Information</h3>
 	<dl class="inline-definitions">
 		<dt>Position Title</dt>
-		<dd><%= @self_placement.position.try(:name) %></dd>
+		<dd><%= @self_placement.position.try(:name) if @self_placement.position %></dd>
 		
 		<dt>Volunteer since</dt>
-		<dd><%= @self_placement.position.try(:volunteer_since).strftime("%B %Y") if @self_placement.position.volunteer_since %></dd>
+		<dd><%= @self_placement.position.try(:volunteer_since).strftime("%B %Y") if @self_placement.position && @self_placement.position.volunteer_since %></dd>
 		
 		<dt>Paid</dt>
-		<dd><%= @self_placement.position.try(:paid) %></dd>
+		<dd><%= @self_placement.position.try(:paid) if @self_placement.position %></dd>
 			
 		<dt>Are you engaging in religious instruction?</dt>
-		<dd>&nbsp;&nbsp;<%= @self_placement.position.try(:religious) %></dd>		
+		<dd>&nbsp;&nbsp;<%= @self_placement.position.try(:religious) if @self_placement.position %></dd>		
 		
 		<% if @self_placement.general_study? %>
 			
 			<dt>Learning Goals: What do you want to learn as a result of this internship experience?  How will these goals relate to your academic work at the University?  Be specific.</dt><br>
-			<dd><%= @self_placement.position.try(:learning_goals) %></dd>
+			<dd><%= @self_placement.position.try(:learning_goals) if @self_placement.position %></dd>
 			
 			<dt>Academic: Based on your learning goals, list two or three possible topics for your final paper or project that will be handed in for academic credit. You must agree with your academic sponsor on an appropriate topic. This paper or project MUST integrate your fieldwork with analytic, conceptual, critical, and/or theoretical knowledge from your classroom experiences. It may NOT be simply a log or record of your internship experience.</dt><br>
-			<dd><%= @self_placement.position.try(:academic_topics) %></dd>
+			<dd><%= @self_placement.position.try(:academic_topics) if @self_placement.position %></dd>
 			
 			<dt>Sources: You are agreeing to complete research outside of the time spent at your internship to integrate your experience with your academic work.  List at least 3 sources that you will use, INCLUDING TITLE AND AUTHOR’S NAME. Be specific, (NOT simply “internet” or “library”).</dt><br>
-			<dd><%= @self_placement.position.try(:sources) %></dd>		
+			<dd><%= @self_placement.position.try(:sources) if @self_placement.position %></dd>		
 
 			<dt>Job Description</dt><br>
-			<dd><%= @self_placement.position.try(:description) %></dd>
+			<dd><%= @self_placement.position.try(:description) if @self_placement.position %></dd>
 			
 		<% else %>
 			
 			<dt>Please describe how this position contributes to the mission of your organization.</dt><br>
-			<dd><%= @self_placement.position.try(:context_description) %></dd>
+			<dd><%= @self_placement.position.try(:context_description) if @self_placement.position %></dd>
 		
 			
 		
 			<dt>Describe the work of the position. What does your service with the organization look like day-to-day? What is the work environment like? What have you already learned through your volunteer efforts there?</dt>
-			<dd><%= @self_placement.position.try(:description) %></dd>
+			<dd><%= @self_placement.position.try(:description) if @self_placement.position %></dd>
 		
 			<dt>How will this service-learning position make an impact on your organization and/or the people you serve?</dt><br>
-			<dd><%= @self_placement.position.try(:impact_description) %></dd>		
+			<dd><%= @self_placement.position.try(:impact_description) if @self_placement.position %></dd>		
 		
 			<dt>Schedule Times</dt>
 			<dd>

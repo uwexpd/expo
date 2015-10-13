@@ -1,4 +1,4 @@
-<% title "Mentor Review", @person.fullname %>
+<% title @offering.nil? ? "Mentor Review" : "#{@offering.mentor_title.pluralize} Review", @person.fullname %>
 
 <h1>Your Contact Information
 	<span class="heading_inline"><%= link_to "Edit your contact information", :action => "update" %></span>
