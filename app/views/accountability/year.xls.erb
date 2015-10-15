@@ -1,22 +1,41 @@
 <%= render :file => 'accountability/_table_header.html.erb' %>
 
 <% for college_name, data in @colleges.sort_by{|k,v| k == "Other" ? "ZZZZ" : k} %>
+<% college_total_students={}; college_total_quarter={}; college_total_hours={} %>
+<% 
+   for activity_type in @activity_types
+	 college_total_students[activity_type]= 0; college_total_quarter[activity_type]=0; college_total_hours[activity_type]=0 
+   end
+ %>
 <% college_name_shown = false %>
 	<% for department_name, results in data[:department].sort_by{|k,v| k == "Unknown" ? "ZZZZ" : k} %>
 	<tr>
 		<% unless college_name_shown %>
-			<td class="" rowspan="<%= data[:department].size %>"><%= college_name %></td>
+			<td class="" rowspan="<%= data[:department].size + 1 %>"><%= college_name %></td>
 			<% college_name_shown = true %>
 		<% end -%>
 		<td class="light-right-border light-left-border"><%= department_name %></td>
 		
-		<% for activity_type in @activity_types %>
+		<% for activity_type in @activity_types %>		    
 			<td align=right><%= number_with_delimiter(results[activity_type][:total][:students].uniq.size) rescue "" %></td>
 			<td align=right><%= number_with_delimiter(results[activity_type][:quarters].collect{|quarter_abbrev, val| val[:number_of_students]}.sum) rescue "" %></td>
 			<td align=right class="light-right-border"><%= number_with_precision(results[activity_type][:quarters].collect{|quarter_abbrev, val| val[:number_of_hours]}.sum, :precision => 0, :delimiter => ",") rescue "" %></td>
+			<% # sum the total for each college								
+				college_total_students[activity_type] += (results[activity_type][:total][:students].uniq.size rescue 0)
+				college_total_quarter[activity_type] += (results[activity_type][:quarters].collect{|quarter_abbrev, val| val[:number_of_students]}.sum rescue 0)
+				college_total_hours[activity_type] += (results[activity_type][:quarters].collect{|quarter_abbrev, val| val[:number_of_hours]}.sum rescue 0)
+			%>
+		<% end -%>		
+	</tr>	
+	<% end -%>
+	<tr>
+		<td class="light-right-border light-left-border"><strong>SubTotal:</strong></td>
+		<% for activity_type in @activity_types %>			
+			<td align=right><strong><%= number_with_delimiter(college_total_students[activity_type]) rescue "" %></strong></td>
+			<td align=right><strong><%= number_with_delimiter(college_total_quarter[activity_type]) rescue "" %></strong></td>
+			<td align=right class="light-right-border"><strong><%= number_with_precision(college_total_hours[activity_type], :precision => 0, :delimiter => ",") rescue "" %></strong></td>			
 		<% end -%>
 	</tr>
-	<% end -%>
 <% end -%>
 
 <tr class="empty">
