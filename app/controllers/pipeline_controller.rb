@@ -2,7 +2,6 @@ class PipelineController < ApplicationController
   skip_before_filter :login_required
   before_filter :student_login_required, :except => [:stop_email, :download_background_check]
   before_filter :check_if_student, :fetch_student, :except => [:stop_email, :download_background_check]
-  
   before_filter :initialize_breadcrumbs
 
   before_filter :fetch_unit #, :only => [:update_placement_quarter, :index, :confirm_position] -- I changed this to always happen because I don't know why we wouldn't *always* want to define the unit as Pipeline. [mharris2 1/4/11]
@@ -363,9 +362,11 @@ class PipelineController < ApplicationController
   end
   
   def check_if_student
-    unless @current_user.person.is_a? Student
-      raise ServiceLearningException.new("You aren't a student.", "In order to search and view pipeline positions, you must
-                                                                      be a registered student at the University of Washington.")
+    unless @current_user.class.name == "PubcookieUser" && @current_user.has_role?(:student_viewer)
+      unless @current_user.person.is_a? Student
+        raise ServiceLearningException.new("You aren't a student.", "In order to search and view pipeline positions, you must
+                                                                  be a registered student at the University of Washington.")
+      end
     end
   end
   

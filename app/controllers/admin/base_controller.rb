@@ -82,7 +82,7 @@ class Admin::BaseController < ApplicationController
   protected
   
   def check_ferpa_reminder_date
-    if @current_user.ferpa_reminder_date.nil? || @current_user.ferpa_reminder_date < 3.months.ago
+    if session[:vicarious_user].blank? && (@current_user.ferpa_reminder_date.nil? || @current_user.ferpa_reminder_date < 3.months.ago)
       redirect_to admin_ferpa_reminder_url(:return_to => request.request_uri) and return
     end
   end

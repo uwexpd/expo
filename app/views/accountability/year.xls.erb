@@ -1,8 +1,8 @@
 <%= render :file => 'accountability/_table_header.html.erb' %>
 
 <% for college_name, data in @colleges.sort_by{|k,v| k == "Other" ? "ZZZZ" : k} %>
-<% college_total_students={}; college_total_quarter={}; college_total_hours={} %>
 <% 
+   college_total_students={}; college_total_quarter={}; college_total_hours={}
    for activity_type in @activity_types
 	 college_total_students[activity_type]= 0; college_total_quarter[activity_type]=0; college_total_hours[activity_type]=0 
    end
