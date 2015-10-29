@@ -1,8 +1,8 @@
 class PipelineController < ApplicationController
   skip_before_filter :login_required
   before_filter :student_login_required, :except => [:stop_email, :download_background_check]
-  before_filter :check_if_student, :fetch_student, :except => [:stop_email, :download_background_check]
-  before_filter :check_if_student, :except => [:search]
+  before_filter :check_if_student, :except => [:search, :stop_email, :download_background_check]
+  before_filter :fetch_student, :except => [:stop_email, :download_background_check]
   before_filter :check_if_student_viewer, :only => [:search]
   before_filter :initialize_breadcrumbs
 

@@ -1,7 +1,7 @@
 <h1>New Committee Member
 	<span class="light">&raquo; <%= @committee.name %></span></h1>
 	
-<% form_for [:admin, @member] do |f| %>
+<% form_for :member, @member, :url => admin_committee_members_path(@committee) do |f| %>
 	<%= f.error_messages %>
 	
 	<dl class="inline-definitions">

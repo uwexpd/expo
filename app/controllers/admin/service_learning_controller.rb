@@ -99,7 +99,7 @@ class Admin::ServiceLearningController < Admin::BaseController
       
       # Activate organization
       if @self_placement.existing_organization?
-         organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true)
+         organization_quarter =  @self_placement.existing_organization.activate_for(@quarter, true, @unit)
          organization = organization_quarter.organization
       else
          # check if the organization name already exists
@@ -118,7 +118,7 @@ class Admin::ServiceLearningController < Admin::BaseController
                                             :approved => true
                                            )
       
-         organization_quarter = organization.activate_for(@quarter, true, @unit)               
+         organization_quarter = organization.activate_for(@quarter, true, @unit)   
       end
       
       # update status to admin approved after activate organization

@@ -229,7 +229,7 @@ class CommitteeMember < ActiveRecord::Base
     if new_person_attributes[:id] == "-1"
       build_person(new_person_attributes.reject{|k,v| k == :id})
     elsif person
-      person.update_attributes(new_person_attributes.reject{|k,v| k == :id})
+      person.update_attributes(new_person_attributes.reject{|k,v| k == :id}) if person_is_valid
     elsif person = (Person.find(new_person_attributes[:id]) rescue nil)
       person.update_attributes(new_person_attributes.reject{|k,v| k == :id})
     end
