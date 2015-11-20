@@ -18,9 +18,9 @@
 </div>
 
 <div id="assign_reviewers">
-
-	<div id="applicants">
-		<%= render :partial => "applicants" %>
+	<% @applicants = @offering.application_for_offerings.with_status("approved").first(10).sort %>
+	<div id="applicants">		
+		<%= render :partial => "applicants", :locals => { :applicants => @applicants } %>
 	</div>
 
 	<div id="reviewers_container">

@@ -335,6 +335,13 @@ class Admin::ApplyController < Admin::BaseController
       end
     end
   end
+  
+  def reload_applicants
+    @applicants = @offering.application_for_offerings.with_status("approved").first 10
+    @applicants.sort!{|x,y| x.mentor_department <=> y.mentor_department rescue -1 } if params[:sort] == 'department'
+    @applicants.sort!{|y,x| x.mentor_department <=> y.mentor_department rescue -1 } if params[:sort] == 'department_reverse' rescue false
+    render :partial => "applicants", :locals => { :applicants => @applicants }
+  end
 
   def reload_reviewers
     member_type = CommitteeMemberType.find(params[:member_type_id])

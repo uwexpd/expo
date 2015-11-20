@@ -1,6 +1,18 @@
-<h4>Approved Applicants</h4>
+<h4>Approved Applicants (<%= @applicants.size %>)
+	<br><span class="light">
+		Sort:
+		<%= link_to_remote "mentor department ASC",
+							:url => { :action => 'reload_applicants', :sort => 'department' },
+							:update => "applicants",
+							:indicator => 'sorting' %> |
+		<%= link_to_remote "mentor department DESC",
+							:url => { :action => 'reload_applicants', :sort => 'department_reverse' },
+							:update => "applicants",
+						    :indicator => 'sorting' %>
+	</span>
+</h4>
 <div class="scrollable">
-	<%= render :partial => "applicant", :collection => @offering.application_for_offerings.with_status("approved").sort %>
+	<%= render :partial => "applicant", :collection => @applicants %>
 </div>
 
 <%= drop_receiving_element 'applicants', 

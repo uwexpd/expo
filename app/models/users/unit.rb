@@ -1,5 +1,5 @@
 class Unit < ActiveRecord::Base
-  has_many :user_unit_roles, :order => :login do
+  has_many :user_unit_roles do
     def for_user(user); find(:all, :conditions => { :user_id => user.id }); end
   end
   has_many :users, :through => :user_unit_roles, :order => :login
