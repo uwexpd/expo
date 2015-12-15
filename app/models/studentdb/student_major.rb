@@ -23,4 +23,17 @@ class StudentMajor < StudentInfo
     full_name
   end
 
+  # Campus code: 0 => Seattle, 1 => Bothell, 2 => Tacoma
+   def major_branch_name
+     if branch == 0
+       "Seattle Campus"
+     elsif branch == 1
+       "Bothell Campus"
+     elsif branch == 2
+       "Tacoma Campus"
+     else
+       "Unkown"
+     end
+   end
+   
 end

@@ -344,6 +344,11 @@ class Student < Person
     return false if sdb_update_at.nil?
     t < sdb_update_at
   end
+    
+  def major_branch_list(join_string = ", ")
+    sdb.majors.collect(&:major_branch_name).join(join_string)
+  end
+    
   
   protected
   

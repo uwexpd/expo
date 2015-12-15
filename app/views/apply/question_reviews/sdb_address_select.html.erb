@@ -1,2 +1,2 @@
 <% type = eval "@user_application.#{question.full_attribute_name}" %>
-<%= eval("@user_application.person.sdb.address.full_#{type}_address('text', ', ')") unless type.nil? %>
+<%= eval("@user_application.person.sdb.address.full_#{type}_address('text', ', ')") unless type.nil? rescue "#Error" %>
