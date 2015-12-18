@@ -1,7 +1,7 @@
 <% placement = @course_positions.collect{|pp| pp if pp.service_learning_position_id == pipeline_position.id}.compact %>
 <% if placement.empty? %>
 	<div id="pipeline_confirm_button_<%= pipeline_position.id %>">
-	  <%= link_to_function "Confirm this Position<br><small>(I am actively volunteering in this position)</small>", nil, :class => "icon-left ok" do |page| 
+	  <%= link_to_function "Confirm this Position<br><small>(I have emailed this site and intend to tutor here)</small>", nil, :class => "icon-left ok" do |page| 
 	        page << "details_temp = $('pipeline_position_details_#{pipeline_position.id}'); $('pipeline_position_confirm_check_#{pipeline_position.id}').setStyle({top:details_temp.cumulativeOffset()[1]+'px', left:(details_temp.cumulativeOffset()[0]+20)+'px', width:(details_temp.getWidth()-80)+'px'});" 
 	        page.call "toggle_menu", "pipeline_position_confirm_check_#{pipeline_position.id}", "true", 0.25
 	      end %>
