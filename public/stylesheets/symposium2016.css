@@ -16,7 +16,7 @@ body {
 }
 
 #header {
-	background: #fff url(../images/symposium/2015/header.png) ;
+	background: #fff url(../images/symposium/2016/header.png) ;
 	height: 149px;
 	border-bottom: 1px solid #b2b2b2;
 }
@@ -53,11 +53,11 @@ h1.page_title {
 	position: absolute;
 	top: 0px;
 	left: 50px;
-	background: url(../images/symposium/2015/header-title.png) no-repeat;
+	background: url(../images/symposium/2016/header-title.png) no-repeat;
 }
 
 .proceedings h1.page_title {
-	background-image: url(../images/symposium/2015/proceedings-title.png);
+	background-image: url(../images/symposium/2016/proceedings-title.png);
 }
 
 h5.unit_name {
@@ -294,3 +294,4 @@ table#mentees h3 {
 	padding-top: 100px;
 	background: url(../images/symposium/mgh_crowds.jpg) repeat-x;
 }
+2016
