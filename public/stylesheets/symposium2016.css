@@ -16,7 +16,7 @@ body {
 }
 
 #header {
-	background: #fff url(../images/symposium/2016/header.png) ;
+	background: #694092 url(../images/symposium/2016/header.png) no-repeat;
 	height: 149px;
 	border-bottom: 1px solid #b2b2b2;
 }
@@ -52,7 +52,7 @@ h1.page_title {
 	width: 750px;
 	position: absolute;
 	top: 0px;
-	left: 50px;
+/*	left: 50px;*/
 	background: url(../images/symposium/2016/header-title.png) no-repeat;
 }
 
