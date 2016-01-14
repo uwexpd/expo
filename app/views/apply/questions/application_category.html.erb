@@ -1,3 +1,4 @@
+<% other_category_title = false %>
 <li>
 	<fieldset>
 		<legend>
@@ -11,9 +12,7 @@
 			</div>
 		<% end -%>
 
-
-		<% for application_type in @offering.application_types %>
-
+		<% for application_type in @offering.application_types %>			
 			<div id="application_type_<%= application_type.id %>_categories" class="application_categories" <%= "style='display:none'" unless qf.object.application_type == application_type %>>
 
 				<% for application_category in application_type.offering_application_categories.sort %>
@@ -21,15 +20,17 @@
 						<%= qf.radio_button :application_category_id, application_category.id %>
 						<%= application_category.title %><%= ": <small>#{application_category.description}</small>" if application_category.description %>
 						
-						<% if application_category.other_option? %>
-							<%= qf.text_field :other_category_title %>
-						<% end -%>
+						<% other_category_title = true if application_category.other_option? %>						   
 					</label>
-				<% end -%>
+				<% end -%>				
 
 			</div>
 
 		<% end -%>
+
+		<label style="margin-left:227px"><%= qf.text_field :other_category_title if other_category_title == true %>
+			<small class="caption">Please enter your category</small> 
+		</label>
 
 	</fieldset>
 		
