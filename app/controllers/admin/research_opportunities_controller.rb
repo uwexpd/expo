@@ -81,9 +81,9 @@ class Admin::ResearchOpportunitiesController < Admin::BaseController
 
    def search
      session[:breadcrumbs].add "Search"
-     @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area]) unless params[:research_area].blank?
-     @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword].strip) unless params[:keyword].blank?
-     @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person].strip) unless params[:contact_person].blank?
+     @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area], false) unless params[:research_area].blank?
+     @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword].strip, false) unless params[:keyword].blank?
+     @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person].strip, false) unless params[:contact_person].blank?
      @total_found = @research_opportunities.size
      
      if @research_opportunities.empty?

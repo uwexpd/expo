@@ -14,22 +14,33 @@ class ResearchOpportunity < ActiveRecord::Base
     ResearchArea.find(area_id).name rescue nil
   end
 
-  def self.find_by_research_area(lookup_area)
-    all( :conditions => [ "active = ? and (research_area1 = ? OR research_area2 = ? OR research_area3 = ? OR research_area4 = ?)", true, lookup_area, lookup_area, lookup_area, lookup_area],
+  def self.find_by_research_area(lookup_area, active = true)
+    conditions = [ "(research_area1 = ? OR research_area2 = ? OR research_area3 = ? OR research_area4 = ?)", lookup_area, lookup_area, lookup_area, lookup_area ]
+    
+    if active
+      conditions[0] += " and active = ?"
+      conditions.push true
+    end
+      
+    all( :conditions => conditions,
          :order => "created_at DESC, title ASC" )
   end
 
-  def self.find_by_keyword(keyword)
+  def self.find_by_keyword(keyword, active = true)    
     keyword = keyword.downcase.strip.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+    conditions = "(title LIKE '%#{keyword}%' OR department LIKE '%#{keyword}%' OR description LIKE '%#{keyword}%')"
+    conditions += " and active = true" if active    
     find :all,                                
-         :conditions => "active = true AND (title LIKE '%#{keyword}%' OR department LIKE '%#{keyword}%' OR description LIKE '%#{keyword}%')",
+         :conditions => conditions,
          :order => "created_at DESC, title ASC"
   end
 
-  def self.find_by_contact(contact_info)
+  def self.find_by_contact(contact_info, active = true)    
     contact_info = contact_info.downcase.strip.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+    conditions = "(name LIKE '%#{contact_info}%' OR email LIKE '%#{contact_info}%' OR description LIKE '%#{contact_info}%')"
+    conditions += " and active = true"if active
     find :all,                        
-         :conditions => "active = true AND (name LIKE '%#{contact_info}%' OR email LIKE '%#{contact_info}%' OR description LIKE '%#{contact_info}%')",
+         :conditions => conditions,
          :order => "created_at DESC, title ASC"
   end
 

@@ -11,7 +11,7 @@
 	<li><%= check_box_tag 'requirements[]', 'ssn_required', @selected_requirements.include?('ssn_required') %> Social security number</li>	
 	<li><%= check_box_tag 'requirements[]', 'fingerprint_required', @selected_requirements.include?('fingerprint_required') %> Fingerprinting</li>
 	<li><%= check_box_tag 'requirements[]', 'other_background_check_required', @selected_requirements.include?('other_background_check_required') %> Other background check</li>
-	<li><%= check_box_tag 'requirements[]', 'non_intl_student_required', @selected_requirements.include?('non_intl_student_required') %> No international students</li>
+	<li><%= check_box_tag 'requirements[]', 'non_intl_student_required', @selected_requirements.include?('non_intl_student_required') %> No international students <br><div class="small" style="margin-left:20px">(This site is not able to accommodate international students, due to the length of time and cost required to complete international background checks)</div></li>
 </ul>	
 	
 <center><%= submit_tag "Search" %></center>
