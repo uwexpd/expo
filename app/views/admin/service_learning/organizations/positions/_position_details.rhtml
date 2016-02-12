@@ -105,7 +105,7 @@
 			<%= "Social security number required<br>" if service_learning_position.ssn_required? %>
 			<%= "Fingerprinting  required<br>" if service_learning_position.fingerprint_required? %>
 			<%= "Other background required: #{service_learning_position.other_background_check_requirement if service_learning_position.other_background_check_requirement}<br>" if service_learning_position.other_background_check_required? %>
-			<%= "No international students required<br>" if service_learning_position.non_intl_student_required? %>
+			<%= "This site is not able to accommodate international students, due to the length of time and cost required to complete international background checks<br>" if service_learning_position.non_intl_student_required? %>
 			</div>
 		<% end %>
 			
