@@ -389,9 +389,11 @@ ActionController::Routing::Routes.draw do |map|
   map.community_partner_home 'community_partner_home', :controller => 'community_partner', :action => 'index'
   map.community_partner_wrong_person 'community_partner/wrong_person', :controller => 'community_partner', :action => 'wrong_person'
   map.community_partner_map 'community_partner_map', :controller => 'community_partner', :action => 'map'
-  map.community_partner_profile 'community_partner_profile', :controller => 'community_partner', :action => 'profile'
+  map.community_partner_profile 'community_partner_profile', :controller => 'community_partner', :action => 'profile'  
   map.namespace :community_partner, :controller => 'CommunityPartner' do |community_partner|
     community_partner.service_learning_home 'service_learning', :controller => 'ServiceLearning'
+    community_partner.service_learning_moa_reminder 'service_learning/moa_reminder', :controller => 'ServiceLearning', :action => 'moa_reminder'
+    community_partner.service_learning_download_moa_pdf 'service_learning/download_moa_pdf', :controller => 'ServiceLearning', :action => "download_moa_pdf"    
     community_partner.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
     
     community_partner.namespace :service_learning,  :path_prefix => 'community_partner/service_learning/:quarter_abbrev',

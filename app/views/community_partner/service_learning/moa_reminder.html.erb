@@ -1,0 +1,81 @@
+<h1>University of Washington Service-Learning Partnership </h1>
+
+<p class="intro">Thank you for your interest in partnering with the University of Washington Carlson Center! The following Memorandum of Agreement summarizes our vision for service learning and the roles and responsibilities of the Carlson Center and our host sites.  Please read it carefully. By posting service learning positions with the Carlson Center, you agree to the expectations laid out in this Memorandum of Agreement.</p>
+
+<p><strong class="green">This agreement will come up once a year for your review.</strong></p>
+<p><strong>By clicking the button in the bottom of page, you acknowledge that you understand and agree to the following:</strong></p>
+
+<div class="box">
+
+  <center><h1>MEMORANDUM OF AGREEMENT</h1></center>
+  <i>
+	The Carlson Leadership & Public Service Center develops partnerships with non-profit, community-based and public organizations serving the greater Seattle area to provide service-learning opportunities for University of Washington undergraduate students and volunteer support for those community organizations. Our goal is to build and sustain reciprocal relationships that simultaneously meet community-defined needs while advancing the learning goals of University of Washington students and their instructors. 
+  </i>
+
+  <p>
+	Recognizing that community partners have the capacity to provide powerful learning and service experiences to University of Washington students, and that the Carlson Center has systems in place to facilitate the process of connecting UW service-learning students to community partners to help address their needs/interests, the purpose of this document is to lay out the roles and responsibilities that support that mutually beneficial relationship. 
+  </p>
+  
+  <p><strong>The Carlson Center’s commitment to each community partner is to...  </strong></p>
+  <ul>
+	<li>Endeavor to understand the needs of the community partner and make suggestions about how UW service-learners might fit into that work.</li>
+	<li>Provide guidance to the community partner on how to structure and design volunteer placements which are a good fit for their organization and the university service-learning program.</li>
+	<li>Provide direction to the community partner on how and when to submit detailed service-learning position descriptions in the University of Washington EXPO (service-learning database) system before the start of each academic quarter.</li>
+	<li>Review and approve service-learning positions that are submitted by community partners -- to ensure that position descriptions fully articulate the responsibilities, logistics and requirements for service-learning students, and that proposed placements are appropriate to service-learning student skill level and supervision needs.</li>
+	<li>Match service-learning positions to UW courses, as possible. Carlson Center staff will use their best judgement, based on the unique mix of courses being offered and the scope of organizations requesting service-learners each quarter, to create slots for each position and match those slots to thematically related classes, enabling students from respective courses to review and register for relevant positions.  Please note: Carlson Center staff may not be able to match proposed positions to a UW course, and community partners may not always receive the number of students that they have requested.</li>
+	<li>Facilitate all communication with UW faculty about the service-learning program.</li>
+	<li>Coordinate the registration of UW students in the service-learning program, conducted in EXPO.</li>
+	<li>Convene optional pre-service-learning workshops to help students prepare for the experience and expectations of service-learning, through structured reflection about reciprocal relationships and professionalism, and discussion about logistical considerations and relevant situational scenarios.</li>
+	<li>Remain available to the community partner, as needed, to troubleshoot and help to facilitate solutions in case of problems that arise during the service-learning placement. Stay in contact with the community partner, throughout the academic quarter, about how the process and experience of hosting service-learning students is going.</li>
+	<li>Provide reminder to the community partner about the deadline for end of quarter student evaluations.</li>
+  </ul>
+
+<p><strong>We ask our community partners (service-learning host sites) to...  </strong></p>
+<ul>
+	<li>Identify possible roles and activities for service-learning volunteers at their site--considering community and organization needs, the organization’s capacity for training, orienting and supporting students and the timing of the academic quarter. Service-learning positions should be designed for students to serve 3 to 5 hours per week from week 3 through week 9 of the academic quarter, after attending an orientation with their host organization during week 2 of the term.</li>
+	<li>Submit detailed, written position descriptions for all proposed UW service-learning positions in the EXPO system, as guided by the Carlson Center, before the start of the academic quarter and by the appropriate due date.</li>
+	<li>Designate and identify one staff person at the site who will be responsible for serving as the students “site supervisor”, getting service-learning students connected to the right people in the host organization and monitoring how service-learning is going overall, throughout the quarter. That person should be listed in the position description as “site supervisor”.</li>
+	<li>Hold and reserve volunteer opportunities articulated in the position descriptions posted, until at least the end of the second week of the academic quarter.</li>
+	<li>Provide an orientation to UW service-learning students at the start of their service-learning placement. This orientation should be provided during week 2 of the academic quarter and the partner should keep a record that the student has completed this orientation (name of student and date completed). Orientations should include:
+		<ul>
+			<li>An overview of the partner organization’s mission, history and programs;</li>
+			<li>How the activities of the service-learning student fit into that work;</li>
+			<li>Information about the clients and community that the service-learning student will engage with; </li>
+			<li>Expectations of the service-learning student at this placement; and</li>
+			<li>Any policies governing all volunteers at this host site (such as: Washington State laws and policies governing mandatory reporting of suspected abuse or neglect of minors and vulnerable adults).</li>			
+		</ul>	
+	</li>
+	<li>Provide training and supervision to the service-learning student, throughout the academic quarter during the student’s service shifts, as needed, to help the student meet community needs in their service.</li>
+	<li>Be responsive to student questions and concerns throughout the academic quarter.</li>
+	<li>Maintain the confidentiality of student information that is provided through EXPO.</li>
+	<li>Submit an electronic evaluation on each student’s performance at the end of the academic quarter in EXPO, as prompted by the Carlson Center.</li>
+	<li>Notify the Carlson Center if there are any concerns about the conduct of a student while they are engaged in service-learning with the partner.</li>
+	<li>Provide feedback to the Carlson Center about its efforts to coordinate and support service-learning, when requested, to help the Carlson better serve the needs of the community, and students.</li>
+</ul>
+	
+
+</div>
+
+<p><em>If you have any questions, please contact Carlson Center staff at <%= @unit.phone %> or <%= link_to @unit.email %>.</em></p>
+
+<%= link_to "Download PDF Copy", {:action => "download_moa_pdf"}, :class => 'icon-left pdf button' %>
+
+<div class="blue box electronic_signature">
+
+	<% form_tag do %>
+	
+		<center>
+		I, <%= @current_user.fullname %>, have read the information above and agree to the expectations laid out in this Memorandum of Understanding.<br>
+		<%= submit_tag "I agree" %>
+		<br>
+		<small>
+			<strong>Username:</strong> <%= @current_user.login %>
+			&mdash;
+			<strong>Date:</strong> <%= Time.now.to_s(:date_with_full_month) %>
+		</small>
+		</center>
+
+	<% end -%>
+
+</div>
+

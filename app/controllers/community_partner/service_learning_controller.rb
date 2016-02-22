@@ -1,7 +1,8 @@
 class CommunityPartner::ServiceLearningController < CommunityPartnerController
   
-  before_filter :fetch_unit
+  before_filter :fetch_unit  
   before_filter :add_service_learning_breadcrumbs
+  before_filter :check_moa_date_expiration, :except => [ 'moa_reminder', 'download_moa_pdf' ]
   
   before_filter :use_pipeline_links
   before_filter :fetch_quarter
@@ -16,7 +17,20 @@ class CommunityPartner::ServiceLearningController < CommunityPartnerController
     @positions = @organization_quarters.collect(&:positions).flatten.reject{|p|p.general_study? && !p.approved}
   end
 
-
+  # Check Memorandum of Agreement (moa) for community partners
+  def moa_reminder
+    session[:breadcrumbs].add "Memorandum of Agreement"
+    
+    if request.post? && params[:commit]
+          @current_user.person.update_attribute(:service_learning_moa_date, Time.now)
+          redirect_to redirect_to_path and return
+    end
+  end
+  
+  def download_moa_pdf
+    send_file 'files/uw_memorandum_of_agreement.pdf', :type=>"application/pdf"
+  end
+  
 
   protected
   
@@ -79,12 +93,21 @@ class CommunityPartner::ServiceLearningController < CommunityPartnerController
     @general_study_positions = @quarter.service_learning_self_placements.select{|s|s.organization_id == "#{@organization.id}"}
     @general_study_positions = @general_study_positions.select{|s| s.general_study==true && !s.admin_approved? && (s.submitted? || s.supervisor_approved?) }
   end
+    
+  # An expiration date of August 1st each year for the academic year
+  def check_moa_date_expiration #session[:vicarious_user].blank? &&
+    if  @unit && @unit.abbreviation == "carlson" && (@current_user.person.service_learning_moa_date.nil? || @current_user.person.moa_expiration_date < Time.now )
+      redirect_to community_partner_service_learning_moa_reminder_url(:return_to => request.request_uri) and return
+    end
+  end
   
+    
   private
 
   def add_service_learning_breadcrumbs
    session[:breadcrumbs].add "Service-Learning", community_partner_service_learning_home_url(@quarter, :unit => @unit.id)
    @header_subtitle = "&raquo; Service-Learning Web Interface"
   end
+    
   
 end

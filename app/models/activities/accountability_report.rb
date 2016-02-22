@@ -719,11 +719,11 @@ class AccountabilityReport < ActiveRecord::Base
             # print "."
           elsif a.is_a?(ServiceLearningPlacement)
               if a.course && !a.course.courses.blank?
-                for c in a.course.courses
-                   if c.course.enrolls?(Person.find(a.person_id))
+                for c in a.course.courses                  
+                   if c.course.enrolls?(Person.find(a.person_id)) # TODO new ruby version 1.8.7 head causes the SQL statement error on this query. Work around to rescue false. Neet to find a way for this.
                       department_identifier = "#{c.course.department.dept_code.to_s}_#{c.course.department.try(:name)}"
-                      course_identifier = "#{c.course.short_title}"                     
-                   end
+                      course_identifier = "#{c.course.short_title}"
+                   end rescue false
                 end                                                
               else
                 department_identifier = "No registered course, Volunteer"

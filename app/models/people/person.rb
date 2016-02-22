@@ -539,5 +539,13 @@ class Person < ActiveRecord::Base
     equipment_reservation_non_student_override_until && equipment_reservation_non_student_override_until > Time.now
   end
 
+  def moa_expiration_date
+    if service_learning_moa_date < DateTime.new(service_learning_moa_date.year, 8, 1)
+      DateTime.new(service_learning_moa_date.year, 8, 1)
+    else
+      DateTime.new(service_learning_moa_date.year.next, 8, 1)
+    end
+  end
+    
 end
 
