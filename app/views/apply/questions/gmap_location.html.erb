@@ -1,0 +1,22 @@
+<li>
+	<%= qf.label(question.attribute_to_update, question.question) %>
+	<%= content_tag('em', '*', :class => 'required') if question.required? %>
+	<div id="map-container">
+	    <!-- A text box and two buttons for geocoding and mapping an address -->
+	    <div id="geocode-panel">
+	        <input id="address" type="text" placeholder="Enter Address" size=60>
+	        <input id="geocode-submit" type="button" value="Map it!">
+	        <input id="geocode-clear" type="button" value="Clear">
+			<br><span class="caption">After adding your location makers, please make sure to click on "Confirm and Submit Your Locations" button below</span>
+	    </div><br>
+	    <!-- The div that becomes the map itself -->
+	    <div id="map" style="height: 400px; width: 800px;"></div><br>
+	    <!-- The final submit button -->
+	    <div id="map-submit-container">
+	        <input id="map-submit" type="button" value="Confirm and Submit Your Locations">
+	    </div><br>	
+		<%= qf.hidden_field question.attribute_to_update, :id => 'hidden-json-container' %>
+	</div>
+</li>
+<%= javascript_include_tag 'gmap-location-grabber' %>
+<%= javascript_include_tag('https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbKJJA95NmykzS3HHSllLxeVlGTcB7c&libraries=drawing&callback=initMap', :async => true, :defer => true).sub('.js', '') %>

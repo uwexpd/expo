@@ -546,6 +546,5 @@ class Person < ActiveRecord::Base
       DateTime.new(service_learning_moa_date.year.next, 8, 1)
     end
   end
-    
-end
 
+end
