@@ -29,8 +29,12 @@
 		<% end -%>
 		<%= "<br><small class=light>#{@offering.theme_response2_word_limit.to_s} word limit</small>" if @offering.theme_response2_word_limit.to_i > 0 %>
 	</p>
-	<% end -%>
-
+		
+	<strong>For the purpose of these questions, do you give the University of Washington permission to publish your name, major, and academic year along with your responses?</strong><br> 
+	<%= f.radio_button :theme_response3, "1" %> <%= f.label :theme_response3, "Yes, I give permission." %>  <%= f.radio_button :theme_response3, "0" %> <%= f.label :theme_response3, "No, please keep my responses anonymous." %><br /><br />
+	
+<% end -%>
+	
 	<p>
 		<%= f.submit "Submit", :disable_with => "Submitting..." %>
 	</p>

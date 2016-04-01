@@ -1087,16 +1087,20 @@ class Admin::ApplyController < Admin::BaseController
     end
   end
 
-  # find application answers from offering project preference question_id from +option_column = 5+
+  # find application answers from offering project preference question_id from +option_column = 5+; If there is no checkbox question, then get answers directly from first, second, third choice questions.
   def amgen_project_preference
     session[:breadcrumbs].add @offering.name   
     admin_decision_statuses = %w(admin_decision_yes+ admin_decision_yes admin_decision_maybe+ admin_decision_maybe)
     
     app_answers = ApplicationAnswer.find_all_by_offering_question_id(@offering.questions.find_all_by_display_as_and_option_column('checkbox_options',5)).select{|a| a.answer != "false" && admin_decision_statuses.include?(a.application_for_offering.current_status_name)}   
-        
+    
+    if app_answers.blank?
+      app_answers = ApplicationAnswer.find_all_by_offering_question_id(@offering.questions.find_all_by_display_as_and_option_column('dropdown',5)).select{|a| !a.answer.blank? && admin_decision_statuses.include?(a.application_for_offering.current_status_name)}
+    end 
+                
     @preferences_dropdown = app_answers.collect(&:answer).flatten.compact.uniq.sort
     @lab_query = params[:lab_query].blank? ? @preferences_dropdown.first : params[:lab_query]
-    @project_answers = app_answers.select{|a| a.answer == "#{@lab_query}"}          
+    @project_answers = app_answers.select{|a| a.answer == "#{@lab_query}"}
   end    
 
 

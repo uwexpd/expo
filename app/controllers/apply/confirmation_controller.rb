@@ -66,7 +66,7 @@ class Apply::ConfirmationController < ApplyController
   def theme
     if params[:theme]
       @confirmer.validate_theme_responses = true
-      allowable_fields = %w( theme_response theme_response2 )
+      allowable_fields = %w( theme_response theme_response2 theme_response3)
       theme_attribtues = params[:theme].delete_if{|key,v| !allowable_fields.include?(key)}
       if @confirmer.update_attributes(params[:theme])
         flash[:notice] = "Thank you for your response!" unless params[:theme][:theme_response].blank?

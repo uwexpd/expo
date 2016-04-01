@@ -10,6 +10,16 @@
 	</td>
 	
 	<td>
-		<%= textilize_without_paragraph h theme_responder[theme_attribute] %>
+		<%= textilize_without_paragraph h theme_responder[theme_attribute] %><br>
+		<small class="light">Give permission to publish? 
+		<%= 
+		    if theme_responder["theme_response3"]==1
+				"Yes"  
+			elsif theme_responder["theme_response3"]==0
+				"No"
+			else
+				"Not input yet"
+			end 
+		%></small>
 	</td>
 </tr>
