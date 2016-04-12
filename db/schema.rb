@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160329215314) do
+ActiveRecord::Schema.define(:version => 20160405195354) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -258,6 +258,7 @@ ActiveRecord::Schema.define(:version => 20160329215314) do
     t.text     "theme_response2"
     t.boolean  "requests_printed_program"
     t.text     "task_completion_status_cache"
+    t.integer  "theme_response3"
   end
 
   create_table "application_guests", :force => true do |t|
@@ -843,6 +844,7 @@ ActiveRecord::Schema.define(:version => 20160329215314) do
     t.text     "acceptance_response2"
     t.text     "special_requests"
     t.text     "task_completion_status_cache"
+    t.integer  "theme_response3"
   end
 
   create_table "deleted_application_mentors", :force => true do |t|

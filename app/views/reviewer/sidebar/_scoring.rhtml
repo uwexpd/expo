@@ -32,7 +32,7 @@
 
 		<table class="highlightless borderless paddingless scoring" style="font-size: 105%">
 			<%= render 	:partial => "reviewer/score", 
-						:collection => @application_reviewer.scores,
+						:collection => @application_reviewer.scores.sort_by{|s|s.offering_review_criterion.sequence},
 						:locals => { :f => f } %>
 	
 			<tr class="rowset-header">
