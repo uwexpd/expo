@@ -59,7 +59,11 @@ class Institution < StudentInfo
       "CALIFORNIA ST UNIV: FULLERTON" => "California State University Fullerton",
       "CAL ST U SACRAMENTO"   => "California State University, Sacramento",
       "BLOOMFIELD COLL"       => "Bloomfield College",
-      "SHORELINE COMM COLL"   => "Shoreline Community College"
+      "SHORELINE COMM COLL"   => "Shoreline Community College",
+      "UNIV OF UTAH"          => "University of Utah",
+      "NORTH DAKOTA ST UNIV"  => "North Dakota State University",
+      "UNIV OF VICTORIA"      => "University of Victoria"
+                   
       }
     college_names[institution_name.strip] || institution_name.strip.titleize
   end

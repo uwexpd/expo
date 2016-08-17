@@ -1,4 +1,4 @@
-<li>
+<li <%= "id='associate_question_#{question.id}'" if OfferingQuestionOption.find_by_associate_question_id(question.id) %>>
 	<%= qf.label(question.attribute_to_update, question.question) %>
 	<%= qf.text_field question.attribute_to_update, :size => question.width %>
 	<%= content_tag('em', '*', :class => 'required') if question.required? %>

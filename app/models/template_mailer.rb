@@ -9,7 +9,7 @@ class TemplateMailer < ActionMailer::Base
   end
 
   def html_message(obj, from_text = "", subject_text = "", text = "", link = "", alternate_recipients = nil)
-    @subject    = eval_subject_text(subject_text)
+    @subject    = eval_subject_text(subject_text, obj)
     @recipients = alternate_recipients || (obj.respond_to?("email") ? obj.email : obj.person.email)
     @from       = from_text
     @sent_on    = Time.now

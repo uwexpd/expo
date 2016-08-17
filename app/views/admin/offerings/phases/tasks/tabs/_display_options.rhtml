@@ -9,7 +9,7 @@
 	
 	<dt>sequence</dt>
 	<dd><%= link_to_function "&nbsp;", "subtract_from('task_sequence', 0);", :class => 'subtract-button' %>
-		<%= f.text_field :sequence, :size => 2, :style => "border:none; text-align: center;" %>
+		<%= f.text_field :sequence, :size => 10, :style => "border:none; text-align: center;" %>
 		<%= link_to_function "&nbsp;", "add_to('task_sequence', 50)", :class => 'add-button' %>
 		</dd>
 

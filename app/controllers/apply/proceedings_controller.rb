@@ -18,6 +18,7 @@ class Apply::ProceedingsController < ApplyController
       @sessions[s.session_group][s.application_type.title] ||= []
       @sessions[s.session_group][s.application_type.title] << s
     end
+    @sessions = Hash[@sessions.sort.reverse]
       
     respond_to do |format|
       format.html

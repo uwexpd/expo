@@ -3,7 +3,6 @@
 <%= HelpText.caption :reporting_interface_report_individual_upload_map, AccountabilityReport %>
 
 <% form_tag({:action => 'upload_create'}, :method => :put) do %>
-
 	<table>
 		<tr>
 			<th>Our Field Name</th>
@@ -48,7 +47,7 @@
 
 	<br />
 	<center>
-		<%= submit_tag "Continue", :disable_with => "Importing records... please be patient." %>
+		<%= submit_tag "Upload", :disable_with => "Importing records... please be patient." %>
 	</center>
 
 	<%= hidden_field_tag :filename, @file.filename %>

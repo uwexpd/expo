@@ -136,7 +136,7 @@ class ProceedingsReport
       @pdf.add_text @x-18, @pdf.y, app.id, 6
       @pdf.select_font DEFAULT_FONT
     end
-    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>"# + " (#{app.id})" # add app.id for proof reading and should take away later.
+    title = "<b>" + sanitize(app.project_title, :tags => %w(em i font sub sup)).strip + "</b>" #+ " (#{app.id})" # add app.id for proof reading and should comment out when run final version.
     keep_together(title, @size, 0, @@abstract_keep_height)
     parse_and_add_text title
     move_to_newline
@@ -147,7 +147,7 @@ class ProceedingsReport
     reference_quarter ||= @reference_quarter || Quarter.find_by_date(@offering.deadline)
     presenter << "#{app.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}"
     presenter << ", #{app.person.majors_list(true, ", ", reference_quarter).strip rescue nil}" unless app.person.majors_list(true, ", ", reference_quarter).blank?
-    presenter << ", #{app.person.institution_name rescue nil}" unless app.person.is_a?(Student)
+    presenter << ", #{app.person.institution_name rescue nil}" unless app.person.is_a?(Student) || app.person.institution_name = "University of Washington"
     # @pdf.text presenter
     parse_and_add_text presenter
     move_to_newline

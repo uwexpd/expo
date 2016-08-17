@@ -126,7 +126,6 @@ class ProceedingsProgramReport < ProceedingsReport
        start_new_page(true)
        start_new_page(true)
        start_new_page(true)
-       start_new_page(true)
        add_index(:people)
     
     print_skipped_applications

@@ -1,4 +1,4 @@
-<li>
+<li <%= "id='associate_question_#{question.id}'" if OfferingQuestionOption.find_by_associate_question_id(question.id) %>>
 	<% question_file = @user_application.files.find_by_offering_question_id(question.id) %>
 	<% fields_for "user_application[file_attributes][]", question_file do |af| %>
 

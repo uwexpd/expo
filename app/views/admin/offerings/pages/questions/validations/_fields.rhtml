@@ -5,7 +5,8 @@
 								MustAnswerYesValidation
 								MustBeValidPhoneNumberValidation
 								MustBeValidEmailAddressValidation
-								MustBeNumberValidation).sort,
+								MustBeNumberValidation
+								MustBeValidNetidValidation).sort,
 								{:prompt => true},
 								:disabled => (!f.object.new_record?) %>
 		<p class="caption">Choose the type of validation to perform.</p></dd>

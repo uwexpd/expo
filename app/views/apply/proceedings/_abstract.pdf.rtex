@@ -5,8 +5,7 @@ reference_quarter ||= @reference_quarter || Quarter.find_by_date(abstract.offeri
 puts "Rendering application #{abstract.id.to_s}"
 @content = ""
 
-# @content << "\n\n" + '\begin{minipage}{\columnwidth}' + "\n" + '\begin{flushleft}\textbf{' + latex_clean(abstract.project_title) + '}' + "\n\n"
-@content << "\n" + '\begin{minipage}{\columnwidth}' + "\n" + '\begin{flushleft}\textbf{' + latex_clean(abstract.stripped_project_title).strip + '}' + "\n\n"
+@content << "\n\n" + '\begin{minipage}{\columnwidth}' + "\n" + '\begin{flushleft}\textbf{' + latex_clean(abstract.project_title) + '}' + "\n\n"
 
 presenter = "#{abstract.person.firstname_first rescue "(Name Error)"}, "
 presenter << "#{abstract.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}, "
