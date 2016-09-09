@@ -120,6 +120,30 @@ class ApplyController < ApplicationController
       redirect_to :action => "abstract", :format => :pdf and return
     end
     
+    # send notification to input netid    
+    if params[:send_to_netid_question]
+        sent_student_emails = []
+        params[:send_to_netid_question].keys.each do |question_id|
+          input_netid = @user_application.get_answer(question_id)
+          if input_netid
+            uwnetid = input_netid.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1)
+            student = Student.find_by_uw_netid(uwnetid)
+            unless student.nil?
+                template = EmailTemplate.find_by_name("Husky 100: Notfication for Nominated Sutdent")
+                if template
+                    EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student)), @user_application.current_status
+                    sent_student_emails << student.email                    
+                else
+                    flash[:error] = "Can not find the template to send: Husky 100: Notfication for Nominated Sutdent."
+                end 
+            end        
+          end
+        end
+        flash[:notice] = "A notification email sent to #{sent_student_emails.join(', ')}."
+        redirect_to :action => 'page', :page => page and return
+    end
+
+    
     unless @user_application.skip_validations
     
       # check if the page passes validation

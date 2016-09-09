@@ -1,0 +1,8 @@
+unless @language_spoken.nil?
+  page.insert_html( :bottom, 'pipeline_position_language_spokens_list', 
+                  "<li>
+                    <input id='pipeline_positions_language_spoken_ids' type='checkbox' value='#{@language_spoken.id}' 
+                           name='service_learning_position[pipeline_positions_language_spoken_ids][]' default='true' checked='checked'/>
+                        #{@language_spoken.name}
+                  </li>" )
+end

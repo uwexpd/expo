@@ -46,11 +46,11 @@ class StudentResource < WebServiceResult
   end
   
   def lastname
-    fullname.split(',')[0]
+    fullname.split(',')[0] rescue self.LastName
   end
   
   def firstname
-    fullname.split(',')[1].split(' ')[0]
+    fullname.split(',')[1].split(' ')[0] rescue self.FirstName
   end
 
 end

@@ -1,6 +1,7 @@
 class MustBeValidNetidValidation < OfferingQuestionValidation
   
   def allows?(application_for_offering)
+    return true if get_answer(application_for_offering).blank?
     MustBeValidNetidValidation.valid_uwnetid(get_answer(application_for_offering))
   end
 

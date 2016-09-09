@@ -239,7 +239,8 @@ ActionController::Routing::Routes.draw do |map|
                                                             :toggle_evals => :any, :remove_organization_quarter => :delete } do |organizations|
           organizations.resources   :positions, :controller => 'Pipeline::Organizations::Positions',
                                                                 :collection => { :copy_from_previous => :any, 
-                                                                                 :remote_add_subject => :post },
+                                                                                 :remote_add_subject => :post,
+                                                                                 :remote_add_language_spoken => :post },
                                                                 :member => { :update_course_slots => :post }
         end
     end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160405195354) do
+ActiveRecord::Schema.define(:version => 20160822231123) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,21 @@ ActiveRecord::Schema.define(:version => 20160405195354) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "active_admin_comments", :force => true do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   :null => false
+    t.string   "resource_type", :null => false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
+  add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
+  add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_active_admin_comments_on_resource_type_and_resource_id"
 
   create_table "activities", :force => true do |t|
     t.datetime "created_at"
@@ -2269,6 +2284,20 @@ ActiveRecord::Schema.define(:version => 20160405195354) do
   create_table "pipeline_positions_grade_levels_links", :force => true do |t|
     t.integer "pipeline_position_id"
     t.integer "pipeline_positions_grade_level_id"
+  end
+
+  create_table "pipeline_positions_language_spokens", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pipeline_positions_language_spokens_links", :force => true do |t|
+    t.integer  "pipeline_position_id"
+    t.integer  "pipeline_positions_language_spoken_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "pipeline_positions_subjects", :force => true do |t|

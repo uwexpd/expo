@@ -12,11 +12,12 @@
 				<%= link_to_tab_pane "Scheduling", :scheduling %>
 				<%= link_to_tab_pane "Location", :location %>
 				<% unless @use_pipeline_links %>
-				<%= link_to_tab_pane "Orientation", :orientation %>
-				<% else %>
+					<%= link_to_tab_pane "Orientation", :orientation %>
+				<% else %>				
 				<%= link_to_tab_pane "Subjects", :subjects %>
 				<%= link_to_tab_pane "Grade Levels", :grade_levels %>
 				<%= link_to_tab_pane "Tutoring Formats", :tutoring_formats %>
+				<%= link_to_tab_pane "Languages Spoken", :language_spokens %>
 				<% end %>
 			<% end %>
 		</ul>
@@ -69,8 +70,8 @@
   			<%= render :partial => "admin/service_learning/organizations/positions/tabs/orientation",
   			 			:locals => { :f => f, :admin => true, :service_learning_position => service_learning_position } %>
   		<% end -%>
-		<% else %>
-		  <% tab_pane :subjects do %>
+	<% else %>
+		<% tab_pane :subjects do %>
   			<%= render :partial => "admin/pipeline/organizations/positions/tabs/subjects",
   			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
   		<% end -%>
@@ -82,7 +83,12 @@
   			<%= render :partial => "admin/pipeline/organizations/positions/tabs/tutoring_formats",
   			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
   		<% end -%>
-		<% end %>
+  		<% tab_pane :language_spokens do %>
+  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/language_spokens",
+  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
+  		<% end -%>
+
+	<% end %>
 
 	<% end %>
 

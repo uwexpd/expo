@@ -64,6 +64,12 @@
 													<div class=\"arrow\"></div>",
 												 :tutoring_formats, :link_only => true %>
 						</td>
+						<td id="tab_pane_link_language_spokens">
+							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+													<div class=\"name\">Languages Spoken</div>
+													<div class=\"arrow\"></div>",
+												 :language_spokens, :link_only => true %>
+						</td>
 	    			<% end %>
 					<td id="tab_pane_link_finish">
 						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
@@ -105,7 +111,7 @@
 		<% tab_pane :orientation do %>
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/orientation",
 			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
-		<% end -%>
+		<% end -%>		
 <% else %>
 		<% tab_pane :subjects do %>
 			<%= render :partial => "admin/pipeline/organizations/positions/tabs/subjects",
@@ -121,6 +127,11 @@
 			<%= render :partial => "admin/pipeline/organizations/positions/tabs/tutoring_formats",
 			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
 		<% end -%>
+		<% tab_pane :language_spokens do %>
+			<%= render :partial => "admin/pipeline/organizations/positions/tabs/language_spokens",
+			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
+		<% end -%>
+		
 <% end %>
 		<% tab_pane :finish do %>
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/finish",

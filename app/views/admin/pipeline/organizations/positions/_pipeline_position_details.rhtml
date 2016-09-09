@@ -23,6 +23,14 @@
 	  <%= tutoring_type.name %><br />
 	  <% end %>
 	</dd>
+
+	<dt>languages spoken</dt>
+	<dd>
+	  <% for language_spoken in pipeline_position.pipeline_positions_language_spokens %>
+	  <%= language_spoken.name %><br />
+	  <% end %>
+	</dd>
+	
 	
 	<dt>uses slots</dt>
 	<dd>

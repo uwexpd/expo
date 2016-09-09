@@ -2,7 +2,7 @@ class CommunityPartner::ServiceLearningController < CommunityPartnerController
   
   before_filter :fetch_unit  
   before_filter :add_service_learning_breadcrumbs
-  before_filter :check_moa_date_expiration, :except => [ 'moa_reminder', 'download_moa_pdf' ]
+  # before_filter :check_moa_date_expiration, :except => [ 'moa_reminder', 'download_moa_pdf' ]
   
   before_filter :use_pipeline_links
   before_filter :fetch_quarter

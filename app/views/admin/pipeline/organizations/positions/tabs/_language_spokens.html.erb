@@ -1,0 +1,29 @@
+<h2>Languages Spoken Among Students At The School</h2>
+
+<div>
+  <label for="pipeline_positions_language_spoken_ids">Languages Spoken</label>
+  <ul id="pipeline_position_language_spokens_list">
+  <% PipelinePositionsLanguageSpoken.find(:all, :order => "name").each do |language| %>
+    <li>
+      <%= check_box_tag("service_learning_position[pipeline_positions_language_spoken_ids][]", language.id, 
+                        pipeline_position.pipeline_positions_language_spoken_ids.include?(language.id), {:default => true}) %>
+      <%= language.name %> 
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="pipeline_position_add_subject_container">
+<%= text_field_tag 'new_language_spoken', '', {:id => "pipeline_position_add_language_spoken"} %>
+<%= link_to_remote "Add Language Spoken", {:with => "'language_spoken[name]=' + $('pipeline_position_add_language_spoken').value",
+                                  :url => remote_add_language_spoken_admin_pipeline_organization_positions_path(@quarter,@organization), 
+                                  :loading  => "$('language_spoken_add_indicator').show()",
+                                  :complete => "$('language_spoken_add_indicator').hide()"}, {:class => "button"} %>
+<%= indicator("language_spoken_add_indicator") %>
+</div>
+
+<div class="progress_nav_buttons">
+	<%= link_to_tab_pane "&#x2190; Previous: Tutoring Formats", :location, :link_only => true, :link_class => "button" %>
+	<%= link_to_tab_pane "Next: Finish &#x2192;", :finish, :link_only => true, :link_class => "strong button" %>
+	
+</div>
+

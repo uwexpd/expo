@@ -168,9 +168,11 @@ class ServiceLearningPosition < ActiveRecord::Base
   has_many :pipeline_positions_subjects_links, :foreign_key => "pipeline_position_id"
   has_many :pipeline_positions_tutoring_types_links, :foreign_key => "pipeline_position_id"
   has_many :pipeline_positions_grade_levels_links, :foreign_key => "pipeline_position_id"
+  has_many :pipeline_positions_language_spokens_links, :foreign_key => "pipeline_position_id"
   has_many :pipeline_positions_subjects, :through => :pipeline_positions_subjects_links
   has_many :pipeline_positions_tutoring_types, :through => :pipeline_positions_tutoring_types_links
   has_many :pipeline_positions_grade_levels, :through => :pipeline_positions_grade_levels_links
+  has_many :pipeline_positions_language_spokens, :through => :pipeline_positions_language_spokens_links
   has_many :pipeline_positions_favorites, :foreign_key => "pipeline_position_id"
   has_many :pipeline_favorites, :through => :pipeline_positions_favorites, :source => :person
   
@@ -509,6 +511,7 @@ class ServiceLearningPosition < ActiveRecord::Base
       p.pipeline_positions_subject_ids = pipeline_positions_subject_ids
       p.pipeline_positions_grade_level_ids = pipeline_positions_grade_level_ids
       p.pipeline_positions_tutoring_type_ids = pipeline_positions_tutoring_type_ids
+      p.pipeline_positions_language_spoken_ids = pipeline_positions_language_spoken_ids
       p.use_slots = use_slots
     end
     

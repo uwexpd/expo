@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  pipeline_position_id: 1
+  pipeline_position_language_spoken_id: 1
+
+two:
+  pipeline_position_id: 1
+  pipeline_position_language_spoken_id: 1

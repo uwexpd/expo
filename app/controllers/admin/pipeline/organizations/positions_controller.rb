@@ -38,6 +38,18 @@ class Admin::Pipeline::Organizations::PositionsController < Admin::PipelineContr
     end
   end
   
+  def remote_add_language_spoken
+    
+    @language_spoken = nil
+    unless params[:language_spoken][:name].empty?
+      @language_spoken = PipelinePositionsLanguageSpoken.create(params[:language_spoken])
+    end
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+  
   def update_course_slots
     unless params[:update_course_slots][:course_id].empty?
       @service_learning_position = ServiceLearningPosition.find params[:id]
