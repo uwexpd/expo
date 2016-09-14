@@ -514,7 +514,7 @@ class PipelineController < ApplicationController
         end
       else
         @progress_statuses[:orientation] = {
-          :text => "You need to attend an orientation, but there are no orientations at this time.",
+          :text => "You need to attend an orientation, but there are no orientations at this time. <br><br> *If you are enrolled in EDUC 401 or Soc 292, your orientation will be the first day of class. You do not need to sign up for orientation here.",
           :css_class => "action required", 
           :button => false
         }

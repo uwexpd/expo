@@ -46,7 +46,8 @@ group :development do
   gem "thin"
   gem "pry", "~> 0.9.12.2"
   gem "request-log-analyzer"
-  gem "tourbus", "~> 0.1.5"
+  gem "sevenwire-rest-client"
+  gem "log4r"
 end
 
 group :test do

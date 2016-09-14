@@ -26,8 +26,8 @@
 			registration_open = @service_learning_course.nil? || !@service_learning_course.registration_open_time.nil?
 			
 			if (@available_slots.nil? || @available_slots > 0) && 
-              ((@quarter == @current_quarter) && 
-              @student.show_pipeline_position_contact? && registration_open)
+              ((@quarter == @current_quarter) && registration_open)
+              #@student.show_pipeline_position_contact? && registration_open)
  		%>
               
           	<%= render :partial => "confirm_position_sidebar", :locals => {:pipeline_position => @pipeline_position} %>
@@ -36,8 +36,10 @@
 		  <%
 				if !registration_open
 				   message = "Not open for registration yet"
-				elsif !@student.show_pipeline_position_contact?
-				   message = "You have not yet completed your background check"
+				elsif @quarter != @current_quarter
+				   message = "You can only confirm positions for #{@current_quarter.title}"
+				#elsif !@student.show_pipeline_position_contact?
+				   #message = "You have not yet completed your background check"
 				else
 				   message = "The opening for this position is full"
 				end												

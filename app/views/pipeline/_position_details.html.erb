@@ -176,8 +176,8 @@ end
 
 						<li>
 							
-							<% if (available_slots.nil? || available_slots > 0) && 
-								  (@student.show_pipeline_position_contact? && registration_open) 
+							<% if (available_slots.nil? || available_slots > 0) && registration_open
+								  #(@student.show_pipeline_position_contact? && registration_open) 
 							%>									
 								<%= render :partial => "confirm_position_sidebar", :locals => {:pipeline_position => pipeline_position} %>
 
@@ -185,8 +185,8 @@ end
 							    <%  
 									if !registration_open
 									   message = "Not open for registration yet"
-									elsif !@student.show_pipeline_position_contact?
-		   							   message = "You have not yet completed your background check"
+									#elsif !@student.show_pipeline_position_contact?
+		   							   #message = "You have not yet completed your background check"
 									else
 									   message = "The opening for this position is full"
 									end												
