@@ -498,9 +498,7 @@ class PipelineController < ApplicationController
         elsif @student_rsvp.checkin_time.nil?
           @progress_statuses[:orientation] = {
             :text => "You're scheduled to attend an orientation on #{@student_rsvp.event_time.start_time.to_s(:date_at_time12)}.
-                      Please arrive on time, as late attendees will be asked to attend another orientation.  Also, please bring 
-                      a photo ID (driver's license or Husky Card) to the orientation, as a Washington State Patrol Background 
-                      Check will be completed for all prospective tutors.",
+                      Please arrive on time, as late attendees will be asked to attend another orientation.",
             :css_class => "in progress",
             :button => :change
           }
@@ -514,7 +512,7 @@ class PipelineController < ApplicationController
         end
       else
         @progress_statuses[:orientation] = {
-          :text => "You need to attend an orientation, but there are no orientations at this time. <br><br> *If you are enrolled in EDUC 401 or Soc 292, your orientation will be the first day of class. You do not need to sign up for orientation here.",
+          :text => "You need to attend an orientation, but there are no orientations at this time.",
           :css_class => "action required", 
           :button => false
         }

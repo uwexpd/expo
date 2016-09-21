@@ -131,7 +131,7 @@ class ApplyController < ApplicationController
             unless student.nil?
                 template = EmailTemplate.find_by_name("Husky 100: Notfication for Nominated Sutdent")
                 if template
-                    EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student)), @user_application.current_status
+                    EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.fullname}")), @user_application.current_status
                     sent_student_emails << student.email                    
                 else
                     flash[:error] = "Can not find the template to send: Husky 100: Notfication for Nominated Sutdent."
