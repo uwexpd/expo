@@ -28,15 +28,16 @@
 	</dd>
 	
 	<dt>Research Area 1<%= required %></dt>
-	<dd><%= f.select :research_area1, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+	<% research_area = ResearchArea.all.collect{|a|[ a.name, a.id ]}.sort %>
+	<dd><%= f.select :research_area1, research_area, :include_blank => true  %></dd>
 	
 	<dt>Research Area 2</dt>
-	<dd><%= f.select :research_area2, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+	<dd><%= f.select :research_area2, research_area, :include_blank => true  %></dd>
 
 	<dt>Research Area 3</dt>
-	<dd><%= f.select :research_area3, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+	<dd><%= f.select :research_area3, research_area, :include_blank => true  %></dd>
 
 	<dt>Research Area 4</dt>
-	<dd><%= f.select :research_area4, ResearchArea.all.collect{|a|[ a.name, a.id ]}, :include_blank => true  %></dd>
+	<dd><%= f.select :research_area4, research_area, :include_blank => true  %></dd>
 		
 </dl>

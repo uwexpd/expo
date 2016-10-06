@@ -7,7 +7,7 @@
 						{:action => 'update', :page => @page.ordering, :send_to_netid_question => question.id },
 						:confirm => "Are you sure you want to send the notification to this nominated student?", :class => "button" unless @user_application.submitted? %>
 	<%# end %>
-	<%= hidden_field_tag "send_to_netid_question[#{question.id}]" %>
+	<%#= hidden_field_tag "send_to_netid_question[#{question.id}]" %>
 	<%= content_tag('p', "#{question.character_limit} character limit", :class => 'question_caption') if question.character_limit? %>
 	<%= display_computed_caption(question.caption) if question.caption? %>
 </li>

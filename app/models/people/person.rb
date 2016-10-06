@@ -503,12 +503,13 @@ class Person < ActiveRecord::Base
   end
   
   # returns if they have been to an orientation in the past 2 years and
-  # if they have had a background check
+  # if they have had a background check => REMOVE background check requirement in AUT 2016 
   def show_pipeline_position_contact?
-    if attended_pipeline_orientation? == true && pipeline_background_check.nil? == false
-      return (pipeline_background_check >= Time.now-PIPELINE_ORIENTATION_EXPIRATION && pipeline_orientation >= Time.now-PIPELINE_ORIENTATION_EXPIRATION)
-    end
-    return false
+    # if attended_pipeline_orientation? == true && pipeline_background_check.nil? == false
+    #       return (pipeline_background_check >= Time.now-PIPELINE_ORIENTATION_EXPIRATION && pipeline_orientation >= Time.now-PIPELINE_ORIENTATION_EXPIRATION)
+    #     end
+    #return false
+    pipeline_orientation_valid?
   end
   
   # returns if a person's pipeline orientation is still valid
