@@ -40,6 +40,7 @@ group :production do
 end
 
 group :development do
+  gem "awesome_print", "~> 1.2.0"
   gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
   gem 'rvm-capistrano', :require => false

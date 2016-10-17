@@ -1,10 +1,10 @@
 class PipelineController < ApplicationController
+  before_filter :initialize_breadcrumbs
   skip_before_filter :login_required
   before_filter :student_login_required, :except => [:stop_email, :download_background_check]
   before_filter :check_if_student, :except => [:search, :stop_email, :download_background_check]
   before_filter :fetch_student, :except => [:stop_email, :download_background_check]
-  before_filter :check_if_student_viewer, :only => [:search]
-  before_filter :initialize_breadcrumbs
+  before_filter :check_if_student_viewer, :only => [:search]  
 
   before_filter :fetch_unit #, :only => [:update_placement_quarter, :index, :confirm_position] -- I changed this to always happen because I don't know why we wouldn't *always* want to define the unit as Pipeline. [mharris2 1/4/11]
   before_filter :fetch_quarter, :except => [:checkin, :email_remove_confirmation, :find_bus_routes, :download_background_check]
@@ -21,13 +21,12 @@ class PipelineController < ApplicationController
   before_filter :fetch_confirmed_positions, :only => [:index, :show, :search, :favorites]
   before_filter :get_progress_statuses, :only => [:index, :favorites]
 
-  layout 'admin'
-
-
   helper_method :get_breadcrumbs
   def get_breadcrumbs
     breadcrumbs
   end
+  
+    layout 'admin'
 
   def initialize_breadcrumbs
     session[:breadcrumbs] = BreadcrumbTrail.new

@@ -22,8 +22,11 @@ class UsersController < ApplicationController
   end
 
   def profile
-    @user = self.current_user
-    @user.valid?
+    @user = self.current_user    
+    if @user == :false
+      return redirect_back_or_default(root_url)
+    end
+    @user.valid? 
   end
 
   def create

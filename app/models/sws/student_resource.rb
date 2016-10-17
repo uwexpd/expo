@@ -46,11 +46,13 @@ class StudentResource < WebServiceResult
   end
   
   def lastname
-    fullname.split(',')[0] rescue self.LastName
+    #fullname.split(',')[0] rescue self.LastName
+    self.LastName.try(:titleize)
   end
   
   def firstname
-    fullname.split(',')[1].split(' ')[0] rescue self.FirstName
+    #fullname.split(',')[1].split(' ')[0] rescue self.FirstName
+    self.FirstName.try(:titleize)
   end
 
 end
