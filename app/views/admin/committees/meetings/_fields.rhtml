@@ -1,4 +1,4 @@
-<dt>title</dt>
+<dt>title<%= required %></dt>
 <dd><%= f.text_field :title %></dd>
 
 <dt>description</dt>
@@ -7,7 +7,7 @@
 <dt>location</dt>
 <dd><%= f.text_field :location %></dd>
 
-<dt>start date</dt>
+<dt>start date<%= required %></dt>
 <dd><%= f.datetime_select :start_date, :minute_step => 15, :include_blank => true, :twelve_hour => true %></dd>
 
 <dt>end date</dt>

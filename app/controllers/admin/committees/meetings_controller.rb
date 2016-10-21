@@ -39,7 +39,7 @@ class Admin::Committees::MeetingsController < Admin::CommitteesController
   end
 
   def create
-    @meeting = @committee.meetings.new(params[:committee_meeting])
+    @meeting = @committee.meetings.build(params[:meeting])
 
     respond_to do |format|
       if @meeting.save
