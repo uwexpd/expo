@@ -101,7 +101,7 @@ class Apply::ProceedingsController < ApplyController
 
     name_conditions = []; group_name_conditions = []
     query.split.each do |name_part|
-      name_part = name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
+      name_part = name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''").delete(",").delete(".").delete("%")
       name_conditions << "LOWER(people.firstname) LIKE '%#{name_part}%'"
       name_conditions << "LOWER(people.lastname) LIKE '%#{name_part}%'"
       group_name_conditions << "LOWER(application_group_members.firstname) LIKE '%#{name_part}%'"
@@ -131,8 +131,8 @@ class Apply::ProceedingsController < ApplyController
     name_conditions = []
     # name_vars = []
     query.split.each do |name_part|
-      name_part = name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''").chomp(",").chomp(".").chomp("%")
-      name_conditions << "LOWER(people.firstname) LIKE '%#{name_part}%'"
+      name_part = name_part.downcase.gsub(/\\/, '\&\&').gsub(/'/, "''").delete(",").delete(".").delete("%")
+      name_conditions << "LOWER(people.firstname) LIKE '%#{name_part}%'" 
       name_conditions << "LOWER(people.lastname) LIKE '%#{name_part}%'"
       # name_conditions << "LOWER(people.firstname) LIKE ?"
       # name_conditions << "LOWER(people.lastname) LIKE ?"

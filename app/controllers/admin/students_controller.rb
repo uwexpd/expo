@@ -18,7 +18,7 @@ class Admin::StudentsController < Admin::BaseController
     system_key = params[:student][:system_key] if params[:student]
     system_key = params[:id] if params[:lookup_by_system_key]
     @student = case
-    when !system_key.nil? && !system_key.blank? && system_key.to_i != 0
+    when !system_key.nil? && !system_key.blank? && ![0,1].include?(system_key.to_i)
       Student.find_or_create_by_system_key(system_key)
     when !system_key.nil? && system_key != "0"
       StudentRecord.find_by_anything(system_key, 100)
