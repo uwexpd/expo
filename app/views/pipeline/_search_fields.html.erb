@@ -68,6 +68,35 @@
 	        </label>
 	      <% end %>
 	    </ul>
+		<h2>Languages Spoken</h2>
+		<ul class="<%= (@filters["language_ids"] && !display_for_admin rescue false) ? 'disabled' : '' %>">
+	      <label for="pipeline_language_check">
+	      <li>
+	        Any Language 
+	        <span class="pipeline_filter_check">
+	          <%= check_box_tag 'pipeline_language_check', 'all', (!@filters["language_ids"] rescue true), 
+	                    {:onclick => 'handleCheckBoxes("pipeline_language_check",true);', 
+	                     :disabled => (@filters["language_ids"] && !display_for_admin rescue false)} %>
+	        </span>
+	      </li>
+	      </label>
+	      <% mid_point = (@languages.size/2) %>
+	      <% count = 0 %>
+	      <% @languages.each do |language| %>
+	        <label for="pipeline_language_check_<%= language.id %>">
+	        <li>
+	          <%= language.name %> 
+	          <span class="pipeline_filter_check">
+	            <%= check_box_tag 'search[language_ids][]', language.id, (@filters["subject_ids"].include?(language.id.to_s) rescue false), 
+	                      {:class => "pipeline_language_check", 
+	                       :onclick => 'handleCheckBoxes("pipeline_language_check",false);',
+  	                     :disabled => (@filters["language_ids"] && !display_for_admin rescue false),
+  	                     :id => "pipeline_language_check_#{language.id}"} %>
+	          </span>
+	        </li>
+	        </label>
+	      <% end %>
+	    </ul>
 	  </div>
     <div id="pipeline_grade_filters" class="pipeline_filter">
 	    <h2>Grades</h2>

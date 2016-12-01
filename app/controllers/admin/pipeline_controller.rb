@@ -210,6 +210,19 @@ class Admin::PipelineController < Admin::BaseController
     end
   end
   
+  # Sets a students pipeline orientation check to nil, used on the student tab in the student info page
+  def remove_pipeline_orientation
+    @student = Person.find(params[:person_id])
+    
+    @student.pipeline_orientation = nil
+    
+    @student.save
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+  
   # Grabs the students pipeline survey infomation or creates a new one, used on the student tab in the student info page
   def edit_pipeline_survey
     @student = Person.find(params[:person_id])

@@ -1,3 +1,7 @@
+<%= javascript_include_tag 'chosen.proto' %>
+<%= javascript_include_tag 'prototype.1.7' %>
+<%= stylesheet_link_tag 'chosen' %>
+
 <dl class="inline-definitions">
 
 	<dt>Title<%= required %></dt>
@@ -30,14 +34,19 @@
 		<p class="caption">Optionally link this event to an offering.</p></dd>
 
 	<dt>Conf. email</dt>
-	<dd><%= f.collection_select :confirmation_email_template_id, EmailTemplate.all.sort, :id, :title, :include_blank => true %>
+	<dd><%= f.collection_select :confirmation_email_template_id, EmailTemplate.all.sort, :id, :title, {:include_blank => "None"}, {:class => "chzn-select", :style => "width:500px"} %>
 		<p class="caption">If you select an e-mail template here, an email will be sent to users when they RSVP that they
 			are going to attend this event.</p></dd>
 
+	<dt>Reminder email</dt>
+	<dd><%= f.collection_select :reminder_email_template_id, EmailTemplate.all.sort, :id, :title, {:include_blank => "None"}, {:class => "chzn-select", :style => "width:500px"} %>
+		<p class="caption">If you select an e-mail template here, an reminder email will be sent to attending users a day before.</p></dd>
+
 	<dt>Staff email</dt>
-	<dd><%= f.collection_select :staff_signup_email_template_id, EmailTemplate.all.sort, :id, :title, :include_blank => true %>
+	<dd><%= f.collection_select :staff_signup_email_template_id, EmailTemplate.all.sort, :id, :title, {:include_blank => "None"}, {:class => "chzn-select", :style => "width:500px"} %>
 		<p class="caption">If you select an e-mail template here, an email will be sent to staff volunteers when they select
 			a position and shift time to volunteer.</p></dd>
+
 
 
 	<dt>Restrictions</dt>

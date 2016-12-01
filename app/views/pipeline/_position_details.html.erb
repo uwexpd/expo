@@ -91,6 +91,15 @@ end
 				</div>
 
 				<div class="pipeline_result">
+					<div class="pipeline_info_header">Languages</div>
+					<ul>
+						<% for language in pipeline_position.languages %>
+						<li><%= language.name %></li>
+						<% end %>
+					</ul>
+				</div>
+				
+				<div class="pipeline_result">
 					<div class="pipeline_info_header">Times</div>
 					<ul>
 						<% for time in pipeline_position.times %>

@@ -239,7 +239,7 @@ class ApplyController < ApplicationController
       else
         @user_application.set_status "submitted"
       end
-      # Send eamil notification for husky 100 process. TODO: Remove this in the future and use application mentor to store the nominated students
+      # Send eamil notification for husky 100 process. TODO: Refactory this in the future and use application mentor to store the nominated students
       unless @offering.questions.find_all_by_display_as('husky100_netid').blank?
           sent_student_emails = []
           @offering.questions.find_all_by_display_as('husky100_netid').each do |question_id|
@@ -248,12 +248,12 @@ class ApplyController < ApplicationController
               uwnetid = input_netid.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1)
               student = Student.find_by_uw_netid(uwnetid)
               unless student.nil?
-                  template = EmailTemplate.find_by_name("Husky 100: Notfication for Nominated Sutdent")
+                  template = EmailTemplate.find_by_name("Husky 100: Notification for Nominated Sutdent")
                   if template
                       EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.fullname}")), @user_application.current_status
                       sent_student_emails << student.email
                   else
-                      flash[:error] = "Can not find the template to send: Husky 100: Notfication for Nominated Sutdent."
+                      flash[:error] = "Can not find the template to send: Husky 100: Notification for Nominated Sutdent."
                   end
               end
             end

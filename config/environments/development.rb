@@ -22,3 +22,5 @@ config.action_mailer.raise_delivery_errors = false
 
 #require 'active_ldap'  ## disabled after upgrade to rails 2.3.4
 
+# show logs for console and rake tasks
+# config.logger = Logger.new(STDOUT)

@@ -1,0 +1,1 @@
+page.replace_html "pipeline_orientation_item_#{@student.id}", "#{@student.pipeline_orientation}"

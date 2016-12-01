@@ -64,9 +64,18 @@
 <div>
   <h3>Pipeline Info <%= @student.pipeline_inactive ? "<span id='pipeline_inactive_#{@student.id}' class='tag'>inactive</span>" : "<span id='pipeline_inactive_#{@student.id}'></span>" %></h3>
   <ul>
-  	<li><strong>Orientation date:</strong> 
-	  <%= @student.pipeline_orientation %></li>
-	  <li><strong>Background check date:</strong> 
+  	<li><strong>Orientation date:</strong>
+	  <span id="pipeline_orientation_item_<%= @student.id %>">
+	  <%= @student.pipeline_orientation %>
+	  <% unless @student.pipeline_orientation.nil? %>
+	    <%= link_to_remote "(remove)", :url => {:controller => "pipeline",
+	                                            :action => "remove_pipeline_orientation",
+	                                            :person_id => @student.id },
+	                                   :loading => "$('pipeline_orientation_#{@student.id}').show()" %>
+	  <% end %>
+	  <%= indicator("pipeline_orientation_#{@student.id}") %>
+	</li>
+	<li><strong>Background check date:</strong> 
 	  <span id="bg_check_item_<%= @student.id %>">
 	  <% if @student.pipeline_background_check.nil? %>
 	    None
@@ -86,10 +95,10 @@
  
 	  </span>
 	  <%= indicator("bg_check_#{@student.id}") %>
-	  </li>
-	  <li><strong>Current pipeline enrolled courses: </strong>
+	</li>
+	<li><strong>Current pipeline enrolled courses: </strong>
 		  <%= @student.enrolled_service_learning_courses(Quarter.current_quarter, Unit.find_by_abbreviation("pipeline")).collect(&:title).join(", ") %>
-	  </li>	  
+	</li>	  
   </ul>
 </div>
 

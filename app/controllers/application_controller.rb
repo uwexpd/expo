@@ -200,6 +200,14 @@ class ApplicationController < ActionController::Base
       search_params = search_params.merge({ :subject_ids => params["search"]["subject_ids"] })
     end
     
+    if !@filters["language_ids"].nil?
+      search_query += " AND pipeline_positions_language_spokens.id IN (:filter_language_ids) "
+      search_params = search_params.merge({ :filter_language_ids => @filters["language_ids"] })
+    elsif !params["search"]["language_ids"].nil? || !params["all_languages"] == 'all'
+      search_query += " AND pipeline_positions_language_spokens.id IN (:language_ids) "
+      search_params = search_params.merge({ :language_ids => params["search"]["language_ids"] })
+    end
+    
     params["search"]["time_frame"] = @filters["time_frame"] unless (@filters["time_frame"].nil? || @filters["time_frame"].empty?)
     if (!params["search"]["time_frame"].empty? rescue false)
       # after school
@@ -221,7 +229,7 @@ class ApplicationController < ActionController::Base
     
     return ServiceLearningPosition.find(:all, :include=>[{:organization_quarter=>{:organization=>:locations}},
                                                  :pipeline_positions_subjects,:pipeline_positions_grade_levels,
-                                                 :pipeline_positions_tutoring_types, :times], 
+                                                 :pipeline_positions_tutoring_types, :pipeline_positions_language_spokens, :times], 
                                                  :conditions=>[search_query,search_params],
                                                  :order => "organizations.name")
   end

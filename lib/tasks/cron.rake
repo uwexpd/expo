@@ -48,4 +48,13 @@ namespace :cron do
     end
   end
   
+  namespace :events do
+    desc "Send reminder to users who RSVP the events"
+    task :send_reminders => :environment do
+      puts "Sending reminders to users..."
+      Event.send_reminders.each{|e|e.send_attendee_reminder!}
+    end    
+  end
+  
+  
 end

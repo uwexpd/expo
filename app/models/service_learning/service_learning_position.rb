@@ -558,6 +558,7 @@ class ServiceLearningPosition < ActiveRecord::Base
   def subjects; pipeline_positions_subjects; end
   def tutoring_types; pipeline_positions_tutoring_types; end
   def grade_levels; pipeline_positions_grade_levels; end
+  def languages; pipeline_positions_language_spokens; end
   
   def add_filled_slot
   end

@@ -79,6 +79,16 @@
 					Unknown
 				<% end %>
 			</dd>
+			
+			<dt>Languages Spoken</dt>
+			<dd>
+				<% for language in @pipeline_position.languages %>
+					<%= language.name %><br />
+				<% end %>
+				<% if @pipeline_position.languages.empty? %>
+					Unknown
+				<% end %>
+			</dd>
 
 		</dl>
 	</div>

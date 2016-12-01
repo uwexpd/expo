@@ -5,7 +5,11 @@ class Event < ActiveRecord::Base
     def future; find(:all, :conditions => "start_time > NOW()"); end
   end
   has_many :invitees, :class_name => "EventInvitee", :through => :times
-  has_many :attendees, :class_name => "EventInvitee", :through => :times, :conditions => { :attending => true }
+  has_many :attendees, :class_name => "EventInvitee", :through => :times, :conditions => { :attending => true } do
+    def tomorrow_reminder
+        find(:all, :conditions => "TO_DAYS(start_time) = TO_DAYS(adddate(curdate(),1))")
+    end
+  end  
   has_many :attended, :class_name => "EventInvitee", :through => :times, :conditions => "checkin_time IS NOT NULL"
   has_many :staff_positions, :class_name => "EventStaffPosition", :dependent => :destroy
   has_many :staff_position_shifts, :class_name => "EventStaffPositionShift", :through => :staff_positions, :source => :shifts
@@ -13,6 +17,7 @@ class Event < ActiveRecord::Base
   belongs_to :offering
   belongs_to :confirmation_email_template, :class_name => "EmailTemplate", :foreign_key => "confirmation_email_template_id"
   belongs_to :staff_signup_email_template, :class_name => "EmailTemplate", :foreign_key => "staff_signup_email_template_id"
+  belongs_to :reminder_email_template,     :class_name => "EmailTemplate", :foreign_key => "reminder_email_template_id"
   belongs_to :unit
   belongs_to :event_type, :class_name => "EventType", :foreign_key => "event_type_id"
   
@@ -22,6 +27,7 @@ class Event < ActiveRecord::Base
   PLACEHOLDER_ASSOCIATIONS = %w( offering unit )
   
   named_scope :public, :conditions => { :public => true }
+  named_scope :send_reminders, :conditions => "reminder_email_template_id is not null"
   
   def <=>(o)
     title <=> o.title rescue 0
@@ -101,6 +107,20 @@ class Event < ActiveRecord::Base
     copy = self.clone(opts) 
     copy.update_attribute(:title, copy.title.to_s + " Copy")
     copy
+  end
+  
+  # Send a reminder to user, a day before event time
+  def send_attendee_reminder!
+    template = EmailTemplate.find(reminder_email_template_id)
+    return false if template.nil?
+    attendees.tomorrow_reminder.each do |attendee|
+        EmailContact.log(
+          attendee.invitable_id, 
+          TemplateMailer.deliver(template.create_email_to(attendee)),
+          nil, nil,
+          attendee
+        )
+    end
   end
   
 end

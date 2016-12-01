@@ -142,7 +142,7 @@ class PipelineController < ApplicationController
       @results = generate_pipeline_search
       @pipeline_positions = ServiceLearningPosition.find(:all, :include=>[{:organization_quarter=>{:organization=>:locations}},
                                                          :pipeline_positions_subjects,:pipeline_positions_grade_levels,
-                                                         :pipeline_positions_tutoring_types, :times], 
+                                                         :pipeline_positions_tutoring_types, :pipeline_positions_language_spokens, :times], 
                                                          :conditions=>{:id=>@results.collect{|r|r.id}},
                                                          :order => "organizations.name")
     end
@@ -400,6 +400,7 @@ class PipelineController < ApplicationController
     @subjects = PipelinePositionsSubject.find(:all,:order=>"name")
     @grades = PipelinePositionsGradeLevel.all
     @formats = PipelinePositionsTutoringType.find(:all,:order=>"name")
+    @languages = PipelinePositionsLanguageSpoken.find(:all,:order=>"name")
     
     @schools = School.find(:all,:order => "organizations.name")
     

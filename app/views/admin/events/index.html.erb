@@ -1,7 +1,7 @@
 <% make_main_content_full_width %>
 
 <div class="light right" style="margin-top: 10px">
-	Filter: <%= text_field_tag :q, nil, :autocomplete => "off", :type => "search", :placeholder => "Filter" %>
+	Filter: <%= text_field_tag :q, nil, :autocomplete => "off", :type => "search", :placeholder => "Filter", :style => "width: 250px" %>
 	<%= observe_field 'q', 
 					:frequency => 0.7, 
 					:url => { :action => 'auto_complete' },

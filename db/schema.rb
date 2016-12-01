@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160822231123) do
+ActiveRecord::Schema.define(:version => 20161108203555) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1368,6 +1368,7 @@ ActiveRecord::Schema.define(:version => 20160822231123) do
     t.integer  "event_type_id"
     t.integer  "activity_type_id"
     t.integer  "pull_accountability_hours_from_application"
+    t.integer  "reminder_email_template_id"
   end
 
   create_table "favorite_pages", :force => true do |t|
