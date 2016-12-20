@@ -27,11 +27,11 @@
 			</div>
 
 		<% end -%>
-
-		<label style="margin-left:227px"><%= qf.text_field :other_category_title if other_category_title == true %>
-			<small class="caption">Please enter your category</small> 
-		</label>
-
+		<div id="other_category_title" <%= "style='display:none'" unless !qf.object.other_category_title.blank? %>>
+			<label style="margin-left:227px"><%= qf.text_field :other_category_title if other_category_title == true %>
+				<small class="caption">Please enter your category</small> 
+			</label>
+		</div>
 	</fieldset>
 		
 </li>

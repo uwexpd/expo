@@ -180,6 +180,7 @@ div#left_sidebar {
 	width: 180px;
 	background: #fff;
 	border-right: 1px solid #ddd;
+	height:700px;
 }
 
 div#right_sidebar {

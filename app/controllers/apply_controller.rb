@@ -248,12 +248,12 @@ class ApplyController < ApplicationController
               uwnetid = input_netid.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1)
               student = Student.find_by_uw_netid(uwnetid)
               unless student.nil?
-                  template = EmailTemplate.find_by_name("Husky 100: Notification for Nominated Sutdent")
+                  template = EmailTemplate.find_by_name("Husky 100: Notification for Nominated Student")
                   if template
                       EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.fullname}")), @user_application.current_status
                       sent_student_emails << student.email
                   else
-                      flash[:error] = "Can not find the template to send: Husky 100: Notification for Nominated Sutdent."
+                      flash[:error] = "Can not find the template to send: Husky 100: Notification for Nominated Student."
                   end
               end
             end

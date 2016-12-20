@@ -14,7 +14,7 @@
 		<h3>Review Committee Decision</h3>
 			<ul>
 			<li><strong>Review Committee Decision:</strong> <%= @app.review_committee_decision %></li>
-			<li><strong>Feedback Person:</strong> <%= @app.feedback_person.fullname rescue "not yet assigned" %></li>
+			<li><strong>Feedback Person:</strong> <%= @app.feedback_person.try(:fullname) rescue "not yet assigned" %></li>
 			<li><strong>Comments:</strong> <%= @app.review_committee_notes %></li>
 			</ul>
 	<%- end -%>
