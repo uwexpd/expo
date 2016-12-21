@@ -179,8 +179,7 @@ div#left_sidebar {
 	margin: 28px 2em 0 -10px;
 	width: 180px;
 	background: #fff;
-	border-right: 1px solid #ddd;
-	height:700px;
+	border-right: 1px solid #ddd;	
 }
 
 div#right_sidebar {
@@ -295,4 +294,3 @@ table#mentees h3 {
 	padding-top: 100px;
 	background: url(../images/symposium/mgh_crowds.jpg) repeat-x;
 }
-2016

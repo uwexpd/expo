@@ -8,7 +8,8 @@ my_formats = {
   :date_at_time12         => "%A, %B %d, %Y at %I:%M",
   :date_by_time12         => "%A, %B %d, %Y by %I:%M",
   :date_at_time24         => "%A, %B %d, %Y at %H:%M",
-  :date_by_time24         => "%A, %B %d, %Y by %H:%M"
+  :date_by_time24         => "%A, %B %d, %Y by %H:%M",
+  :date_pretty            => "%A, %B %d, %Y at %I:%M %p"
   
 }
 

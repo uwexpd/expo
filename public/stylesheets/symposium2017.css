@@ -49,7 +49,7 @@ body {
 h1.page_title {
 	text-indent: -9000px;
 	height: 150px;
-	width: 750px;
+	width: 1500px;
 	position: absolute;
 	top: 0px;
 /*	left: 50px;*/
@@ -180,7 +180,6 @@ div#left_sidebar {
 	width: 180px;
 	background: #fff;
 	border-right: 1px solid #ddd;
-	height:700px;
 }
 
 div#right_sidebar {
@@ -295,3 +294,9 @@ table#mentees h3 {
 	padding-top: 100px;
 	background: url(../images/symposium/mgh_crowds.jpg) repeat-x;
 }
+
+/* Added by 2017*/
+.page div#left_sidebar {
+	height: 700px;
+}
+

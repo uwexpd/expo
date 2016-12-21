@@ -170,6 +170,10 @@ class Offering < ActiveRecord::Base
   def deadline_pretty
     self.deadline.strftime "%A, %B %d, %Y at %I:%M %p"
   end
+  
+  def mentor_deadline_pretty
+    self.mentor_deadline.strftime "%A, %B %d, %Y at %I:%M %p"
+  end
 
   # Constructs a title that includes the quarter_offered, if set.
   def title
