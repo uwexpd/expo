@@ -2,7 +2,7 @@
 		<%= qf.label(question.attribute_to_update, question.question) %>
 		
 		<%= qf.collection_select(question.attribute_to_update, 
-								question.options.sort_by(&:title), 
+								 question.options.sort_by{|o|o.ordering || o.title},
 								:value,
 								:title,
 								{:prompt => true, :selected => @user_application.get_answer(question.id).to_s }

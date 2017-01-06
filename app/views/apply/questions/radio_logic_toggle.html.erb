@@ -10,7 +10,7 @@
 			<% 			   			   
 			    script_str += "$$('#associate_question_#{option.associate_question_id}').invoke('hide'); "
 			    file_question = ApplicationFile.find_by_application_for_offering_id_and_offering_question_id(@user_application.id, option.associate_question_id)
-				selected_option = ApplicationAnswer.find_by_offering_question_id_and_answer(question.id, option.title)
+				selected_option = ApplicationAnswer.find_by_application_for_offering_id_and_offering_question_id_and_answer(@user_application.id, question.id, option.title)
 			
 			    if (selected_option && file_question && !file_question.file.nil?) || selected_option
   		   		   script_str += "Element.show('associate_question_#{option.associate_question_id}'); "
