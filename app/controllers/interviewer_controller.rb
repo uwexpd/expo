@@ -98,7 +98,7 @@ class InterviewerController < ApplicationController
       end
     end
     yes_option_id = @offering.application_review_decision_types.find_by_yes_option(true)
-    @apps = @offering.applications_with_status("submitted")
+    @apps = @offering.applications_with_status(:complete) + @offering.application_for_offerings.with_status(:submitted)
     
     if params[:conflict_of_interests]
       @offering_interviewer.conflict_of_interests.destroy_all

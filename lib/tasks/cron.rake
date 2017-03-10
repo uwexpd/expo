@@ -48,6 +48,16 @@ namespace :cron do
     end
   end
   
+  namespace :sessions do
+    desc "Remove expired sessions"
+    task :remove_expired_sessions => :environment do
+      STDOUT.sync = true
+      puts "Removing sessions that are not updated with one day or are created older than two days ago.."
+      deleted = Session.sweep
+      puts "Deleted #{deleted} rows."
+    end
+  end
+  
   namespace :events do
     desc "Send reminder to users who RSVP the events"
     task :send_reminders => :environment do

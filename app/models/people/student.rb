@@ -346,7 +346,7 @@ class Student < Person
   end
     
   def major_branch_list(join_string = ", ")
-    sdb.majors.collect(&:major_branch_name).join(join_string)
+    sdb.majors.collect(&:major_branch_name).uniq.join(join_string)
   end
     
   
