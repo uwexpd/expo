@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
   before_filter :verify_uwsdb_connection
   before_filter :save_dom_id_to_update
   before_filter :apply_popup_layout_if_requested
+  before_filter :check_if_contact_info_blank
   
   # routing_navigator :on
 
@@ -239,6 +240,15 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "You haven't updated your contact information for awhile. Please confirm your contact information below."
       return redirect_to profile_path(:return_to => request.url)
     end
-  end  
+  end
+
+  # This is only for UW Standard users since EXPO updates student info via Student Web Service directly
+  # No need for external expo users since they need to fill contact information when creating accounts.
+  def check_if_contact_info_blank
+    if @current_user && @current_user.user_type == "UW Standard user" && @current_user.person.contact_info_updated_at.blank?
+      flash[:notice] = "Please update your contact information."
+      return redirect_to profile_path(:return_to => request.url)
+    end
+  end
   
 end

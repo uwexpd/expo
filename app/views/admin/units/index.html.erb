@@ -15,9 +15,9 @@
 	</tr>
 	<% for unit in @units %>
 	<tr id="unit_<%= unit.id %>">
-		<td><%= image_tag unit.logo.thumb.url if unit.logo %></td>
-		<td><%=h unit.name %>
+		<td><%= link_to unit.name, unit %>
 			<br><small class="light"><%=h unit.abbreviation %></small></td>
+		<td><%= image_tag unit.logo.thumb.url if unit.logo %></td>
 		<td><%= link_to "Home", unit.home_url %>
 			<%= "| " + link_to("Engage", unit.engage_url) unless unit.read_attribute(:engage_url).blank? %></td>
 		<td><%= unit.show_on_expo_welcome? ? "<span class=green>Yes</span>" : "<span class=red>No</span>" %></td>

@@ -18,7 +18,7 @@
 		</dd>
 <% end -%>
 
-<% if obj.nil? || obj.new_record? %>
+<% if obj.nil? || obj.new_record? || obj.firstname.blank? || obj.lastname.blank?  %>
 	<dt>first name</dt>
 	<dd><%= obj.is_a?(Student) ? obj.formal_firstname : person_fields.text_field(:firstname) %></dd>
 	

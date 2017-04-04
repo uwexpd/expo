@@ -41,7 +41,7 @@ class SessionController < ApplicationController
         user.create_token
         if email = UserMailer.deliver_password_reminder(user)
           EmailContact.log(user.person, email)
-          flash.now[:notice] = "Instructions have been sent to your email address that will tell you how to reset your password."
+          flash.now[:notice] = "Instructions have been sent to your email #{user.email} that will tell you how to reset your password."
         end
       elsif params[:email]
         @email_address = params[:email].strip
@@ -53,7 +53,7 @@ class SessionController < ApplicationController
             for user in @users
               EmailContact.log(user.person, email)
             end            
-            flash.now[:notice] = "Your username reminder have been sent to your email address."
+            flash.now[:notice] = "Your username reminder have been sent to your email #{user.email}."
           end
         end        
       end    

@@ -1,4 +1,5 @@
 class InterviewerController < ApplicationController
+  skip_before_filter :check_if_contact_info_blank
   before_filter :fetch_offering, :fetch_person
   before_filter :fetch_offering_interviewer, :except => [:inactive]
   before_filter :check_if_contact_info_is_current, :except => [:update, :inactive]
