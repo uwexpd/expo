@@ -40,11 +40,7 @@ class StudentResource < WebServiceResult
   def photo
     @photo ||= StudentPhoto.new(@id)
   end
-  
-  def fullname
-    self.StudentName.strip.gsub(',', ', ')
-  end
-  
+    
   def lastname
     #fullname.split(',')[0] rescue self.LastName
     self.LastName.try(:titleize)
@@ -54,5 +50,11 @@ class StudentResource < WebServiceResult
     #fullname.split(',')[1].split(' ')[0] rescue self.FirstName
     self.FirstName.try(:titleize)
   end
+  
+  def fullname
+    #self.StudentName.strip.gsub(',', ', ')
+    lastname + ", " + firstname
+  end
+  
 
 end
