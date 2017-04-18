@@ -42,19 +42,24 @@ class OpportunitiesController < ApplicationController
   
   def search
     if params[:research_area] || params[:keyword] || params[:contact_person]
-      @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area]).paginate(:page => params[:page]) unless params[:research_area].blank?
-      @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword]).paginate(:page => params[:page]) unless params[:keyword].blank?
-      @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person]).paginate(:page => params[:page]) unless params[:contact_person].blank?
+      @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area]) unless params[:research_area].blank?
+      @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword]) unless params[:keyword].blank?
+      @research_opportunities = ResearchOpportunity.find_by_contact(params[:contact_person]) unless params[:contact_person].blank?
+      @research_opportunities = @research_opportunities.select{|o| o.end_date.blank? || o.end_date > Date.today} unless @research_opportunities.blank?
       @total_found = @research_opportunities.size
+      @research_opportunities = @research_opportunities.paginate(:page => params[:page], :per_page => 25)
+      
     else
-      @research_opportunities = ResearchOpportunity.paginate :order => 'created_at DESC, title ASC', :conditions => { :active => true }, :page => params[:page]
+      @research_opportunities = ResearchOpportunity.paginate :order => 'created_at DESC, title ASC', 
+                                                             :conditions => ["active =? AND (ISNULL(end_date) OR end_date >?)", true, Date.today], 
+                                                             :page => params[:page]
     end
   end
   
   def details
     if params[:id]
       @research_opportunity = ResearchOpportunity.find params[:id]
-      unless @research_opportunity.active?
+      if !@research_opportunity.active? || (@research_opportunity.end_date && @research_opportunity.end_date < Date.today)
         flash[:error] = "The opportunity, #{@research_opportunity.title}, is inactive. You are not able to see the details."
         redirect_to :action => "search"
       end

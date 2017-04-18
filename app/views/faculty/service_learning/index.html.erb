@@ -3,7 +3,11 @@
 
 <ul id="service-learning-welcome-links" class="extra-padding">
 		
-	<% unless @courses_for_quarter.empty? %>
+	<% if @courses_for_quarter.empty? %>
+		<strong>You are not listed as an instructor for service-learning courses for <%= @quarter.title %></strong>,
+		If you believe this to be an error, please contact your service learning staff.
+	
+	<% else %>
 	<!-- <li id="potential-organizations"><%= link_to "View potential organization matches for #{@quarter.title}", 
 					faculty_service_learning_path(:action => 'potential_organizations', :quarter_abbrev => @quarter) %>
 		<br>See which potential organizations have been matched with your courses and leave your comments if wants.</li> -->
