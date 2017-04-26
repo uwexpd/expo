@@ -1002,6 +1002,10 @@ class Admin::ApplyController < Admin::BaseController
     session[:breadcrumbs].add(@offering.theme_response_title || "Theme Responses")
     @theme_responders = @confirmers.reject{|c| c.theme_response.blank? }
     @theme2_responders = @confirmers.reject{|c| c.theme_response2.blank? }
+    respond_to do |format|
+      format.html # theme_response.html.erb
+      format.xls { render :action => 'theme_responses', :layout => 'basic' } # theme_response.xls.erb
+    end
   end
   
   def proceedings_requests

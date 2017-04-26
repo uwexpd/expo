@@ -1,0 +1,27 @@
+<thead>
+	<tr>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Major</th>
+		<th>Class Standing</th>
+		<th><%= @offering.theme_response_instructions %></th>
+		<th><%= @offering.theme_response2_instructions %></th>
+		<th>Give permission to publish?</th>		
+	</tr>
+</thead>
+
+<tbody>
+	
+	<% @theme_responders.each do |theme_responder| %>
+		<tr>
+			<td><%=h theme_responder.person.firstname %></td>
+			<td><%=h theme_responder.person.lastname %></td>
+			<td><%=h theme_responder.person.majors_list(true) %></td>
+			<td><%=h theme_responder.person.class_standing_description %></td>
+			<td><%=h theme_responder.theme_response %></td>
+			<td><%=h theme_responder.theme_response2 %></td>
+			<td><%=h theme_responder.theme_response3 %></td>
+		</tr>
+	<% end -%>
+	
+</tbody>
