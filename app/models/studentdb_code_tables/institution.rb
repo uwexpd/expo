@@ -15,7 +15,7 @@ class Institution < StudentInfo
   def name
     college_names = {
       "THE EVERGREEN ST COLL" => "The Evergreen State College",
-      "NORTH SEATTLE CC"      => "North Seattle Community College",
+      "NORTH SEATTLE CC"      => "North Seattle College",
       "SEATTLE CENTRAL CC"    => "Seattle Central Community College",
       "SEATTLE PACIFIC UNIV"  => "Seattle Pacific University",
       "SEATTLE UNIV"          => "Seattle University",
@@ -49,7 +49,7 @@ class Institution < StudentInfo
       "ARKANSAS ST UNIV"      => "Arkansas State University",
       "UNIV NTHRN IOWA"       => "University of Northern Iowa",
       "UNIV OF WASHINGTON"    => "University of Washington",
-      "SOUTH SEATTLE CC"      => "South Seattle Community College",
+      "SOUTH SEATTLE CC"      => "South Seattle College",
       "UNIV OF NEW HAMPSHIRE" => "University of New Hampshire",
       "UNIV NEVADA LAS VEGA"  => "University of Nevada Las Vegas",
       "BEMIDJI ST UNIV"       => "Bemidji State University",

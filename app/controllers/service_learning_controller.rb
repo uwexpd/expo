@@ -52,7 +52,7 @@ class ServiceLearningController < ApplicationController
   end
 
   def my_position
-    @placements ||= @student.service_learning_placements.for(@quarter).reject{|p|p.position.general_study?}
+    @placements ||= @student.service_learning_placements.for(@quarter,nil).reject{|p|p.position.general_study?}
     redirect_to :action => "index" if @placements.empty?
   end
 
@@ -475,7 +475,7 @@ class ServiceLearningController < ApplicationController
   end
 
   def check_if_already_registered
-    @placements ||= @student.service_learning_placements.for(@quarter).reject{|p|p.position.general_study?}
+    @placements ||= @student.service_learning_placements.for(@quarter,nil).reject{|p|p.position.general_study?}
     @current_position = @placements.first.position unless @placements.empty?
     redirect_to :action => "complete" if !@service_learning_course.open? && !@placements.empty?
   end
