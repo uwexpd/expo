@@ -270,7 +270,7 @@ class StudentRecord < StudentInfo
     hispanic_ethnicity.try(:description) == "HISPANIC" ? hispanic_ethnicity : (ethnic_ethnicity || Ethnicity.find(DEFAULT_ETHNIC_CODE))
   end
 
-  # Returns true if this student's resident code is 1 ("RESIDENT") and 2 ("RESIDENT IMMIGRANT") see more: http://depts.washington.edu/reptreq/RptWS-ResidentTable.htm.
+  # Returns true if this student's resident code is 1 ("RESIDENT") and 2 ("RESIDENT IMMIGRANT") see more: https://studentdata.washington.edu/sdb-resident-codes/.
   def washington_state_resident?
     resident == 1 || resident == 2
   end

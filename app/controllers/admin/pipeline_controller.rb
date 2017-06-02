@@ -55,7 +55,8 @@ class Admin::PipelineController < Admin::BaseController
     
     @orientations = Event.find(:all, :include => [ :event_type, :unit, :times ], 
                                :conditions => {:event_types => {:title => "Orientation"},
-                                               :units => {:abbreviation => "pipeline"} },
+                                               :units => {:abbreviation => "pipeline"}, 
+                                               :created_at => (Time.now - 1.years)..Time.now },
                                :order => "event_times.start_time DESC")
                                
     @show_quarter_select_dropdown = true

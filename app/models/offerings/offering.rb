@@ -578,11 +578,12 @@ class Offering < ActiveRecord::Base
             rq = reference_quarter            
             t = StudentTranscript.find(sk, rq.year, rq.quarter_code_id) rescue nil
             t = (StudentTranscript.find(sk, rq.prev.year, rq.prev.quarter_code_id) rescue nil) if t.nil?
-            ref_majors = t.nil? ? [] : t.majors                    
+            ref_majors = t.nil? ? [] : t.majors
             # puts ref_majors.size
           else
             ref_majors = a.person.majors
           end
+          major_extra = nil
           for major in ref_majors
             major_name = major
             if major.is_a?(StudentMajor) || major.is_a?(StudentTranscriptMajor)
@@ -591,7 +592,7 @@ class Offering < ActiveRecord::Base
               if major_abbrs[major.major_abbr.strip]
                 major_extra = major_abbrs[major.major_abbr.strip].find{|m| major.branch == m.major_branch && major.pathway == m.major_pathway }
               end
-              major_name = major_extra.nil? ? major.full_name : major_extra.fixed_name 
+              major_name = major_extra.nil? ? major.full_name : major_extra.fixed_name
             end
             majors[major_name] = (majors[major_name].nil? ? [a.app.id] : majors[major_name] << a.app.id) unless major_name.blank?
           end

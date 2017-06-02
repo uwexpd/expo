@@ -43,9 +43,9 @@ class Student < Person
     log_with_color "UWSDB Fetch", "Fetching student data update for Student #{self.id}"
     return false if sdb.nil?
     attrs = { 
-      :fullname => sws ? sws.fullname : sdb.fullname,
-      :firstname => sws ? sws.firstname : sdb.firstname,
-      :lastname => sws ? sws.lastname : sdb.lastname,
+      :fullname => sws ? (sws.fullname rescue sdb.fullname) : sdb.fullname,
+      :firstname => sws ? (sws.firstname rescue sdb.firstname) : sdb.firstname,
+      :lastname => sws ? (sws.lastname rescue sdb.lastname) : sdb.lastname,
       :email => sdb.email,
 	    :gender => sdb.s1_gender,
 	    :class_standing_id => sdb.class_standing,
