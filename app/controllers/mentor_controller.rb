@@ -66,11 +66,11 @@ class MentorController < ApplicationController
     @mentee_application = @mentee_application_record.application_for_offering
     @mentee = @mentee_application.person        
     @error_message = params["error_message"] if params["error_message"]    
-    
+
     if @mentee_application_record.primary || @mentee_application_record.meets_minimum_qualification?
-      @approval_display = true unless @mentee_application.passed_status?(:revision_submitted) || @mentee_application.passed_status?(:complete)
+        @approval_display = true unless @mentee_application.passed_status?(:revision_submitted) || @mentee_application.passed_status?(:complete)
     else
-      @approval_display = true unless @mentee_application_record.approved?  
+        @approval_display = true unless @mentee_application_record.approved?
     end
     
     check_if_past_deadline unless @mentee_application_record.responded?

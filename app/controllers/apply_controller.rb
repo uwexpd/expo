@@ -370,7 +370,12 @@ class ApplyController < ApplicationController
           @user_application.set_status "final_revision_submitted"
           flash[:notice] = "Thank you for submitting your final revisions."
         else
-          @user_application.set_status "revision_submitted"
+          # if non required mentors (graduate student/researcher) responds the abstract. set status to +revision_approval_needed+
+          if @user_application.mentors.reject{|m| m.primary || m.meets_minimum_qualification?}.collect(&:responded?).include?(true)
+            @user_application.set_status "revision_approval_needed"
+          else
+            @user_application.set_status "revision_submitted"
+          end
           flash[:notice] = "Thank you for submitting your revised abstract. An email has been sent to your mentor."
         end
         redirect_to :action => "index" and return

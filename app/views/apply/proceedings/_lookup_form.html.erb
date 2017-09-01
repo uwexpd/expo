@@ -11,7 +11,7 @@
 
 		<% form_tag url_for(:action => 'result'), :method => :get do %>
 			<%= label_tag :student_name, "Student Name:" %>
-			<%= text_field_tag :student_name, params[:student_name] %>
+			<%= text_field_tag :student_name, params[:student_name], :placeholder => 'firstname lastname' %>
 			<%= submit_tag "Search", 
 					:onClick => "return validateNotBlank(student_name, student_lookup_error, 'Please enter a student name.')" %>
 		<% end -%>
@@ -49,7 +49,7 @@
 
 		<% form_tag url_for(:action => 'result'), :method => :get do %>
 			<%= label_tag :mentor_name, "Mentor Name:" %>
-			<%= text_field_tag :mentor_name, params[:mentor_name] %>
+			<%= text_field_tag :mentor_name, params[:mentor_name], :placeholder => 'firstname lastname' %>
 			<%= submit_tag "Search",
 					:onClick => "return validateNotBlank(mentor_name, mentor_lookup_error, 'Please enter a mentor name.')" %>
 		<% end -%>

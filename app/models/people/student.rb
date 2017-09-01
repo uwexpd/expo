@@ -82,6 +82,10 @@ class Student < Person
     include_nickname ? "#{read_attribute(:firstname)}#{" (" + nickname + ")" unless nickname.blank?}" : read_attribute(:firstname)
   end
   
+  def firstname_first(formal = true)
+     "#{formal ? formal_firstname(true) : read_attribute(:firstname)} #{lastname}"
+  end
+
   def lastname
     # sdb.lastname
     self.sdb_update(:name)

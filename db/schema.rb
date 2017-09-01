@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20161108203555) do
+ActiveRecord::Schema.define(:version => 20170901182933) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2730,6 +2730,7 @@ ActiveRecord::Schema.define(:version => 20161108203555) do
     t.date     "volunteer_since"
     t.boolean  "paid"
     t.boolean  "religious"
+    t.boolean  "group_ok"
   end
 
   add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"
