@@ -12,6 +12,18 @@
 	 			:locals => { :service_learning_position => @position, :admin => false } %>
 </div>
 
+<% if @use_pipeline_links %>
+	<div class="content-block">
+	  <h3>Pipeline Position Details
+	    <span class="right"><%= link_to 'Edit', edit_community_partner_service_learning_position_path(@quarter, @position, 
+								:anchor => 'subjects'), :class => "edit button" if @position.organization_quarter.allow_position_edits? %></span></h3>
+  
+	    <%= render :partial => "admin/pipeline/organizations/positions/pipeline_position_details",
+	          :locals => { :pipeline_position => @position, :admin => false } %>
+	</div>
+<% end %>
+
+
 <% unless @position.general_study? %>
 <div class="content-block">
 <h3>Scheduling Details
@@ -33,7 +45,7 @@
 </div>
 <% end %>
 
-<% unless @position.general_study? %>
+<% unless @position.general_study? || @use_pipeline_links %>
 <div class="content-block">
 <h3>Orientation Details
 	<span class="right">
@@ -42,4 +54,5 @@
 	<%= render  :partial => "admin/service_learning/organizations/positions/orientation_details",
 	 			:locals => { :service_learning_position => @position, :admin => false} %>
 </div>
+
 <% end %>
