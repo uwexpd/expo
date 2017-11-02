@@ -186,17 +186,21 @@ class Admin::ServiceLearning::CoursesController < Admin::ServiceLearningControll
         
     # Display Carlson pipeline project placements in pipeline roster students page, which allows pipeline staff 
     # to easily find the students who should be placed pipeline positions.
-    pipeline_org = Organization.find_by_name("Pipeline Project") 
-    pipeline_org_quarter = pipeline_org.organization_quarters.for_quarter(@quarter)
-    pipeline_org_placements = pipeline_org_quarter.collect(&:positions).flatten.collect(&:placements).flatten
-    
-    for p in pipeline_org_placements
-        if @placements[p.person_id].nil?
-          @placements[p.person_id] = [p]
-        else          
-          @placements[p.person_id] << p
+    pipeline_org = Organization.find(180)
+    if pipeline_org
+      pipeline_org_quarter = pipeline_org.organization_quarters.for_quarter(@quarter)
+      unless pipeline_org_quarter.empty?
+        pipeline_org_placements = pipeline_org_quarter.collect(&:positions).flatten.collect(&:placements).flatten
+
+        for p in pipeline_org_placements
+            if @placements[p.person_id].nil?
+              @placements[p.person_id] = [p]
+            else
+              @placements[p.person_id] << p
+            end
         end
-    end        
+      end
+    end
         
     # Find the dropped placements and students
     @course_dropper_placements = ServiceLearningPlacement::Deleted.find_all_by_service_learning_course_id(@service_learning_course.id)     

@@ -49,6 +49,7 @@ group :development do
   gem "request-log-analyzer"
   gem "sevenwire-rest-client"
   gem "log4r"
+  gem 'brakeman', :require => false
 end
 
 group :test do

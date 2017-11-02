@@ -85,7 +85,7 @@
 	<%= link_to_submit "Match pipeline with selected", 
 						'organization_students_form', 						
 						:url => match_pipeline_placement_service_learning_organizations_url(:organization => @organization),
-						:link_options => {:class => "icon-left match button"} if @organization.name == "Pipeline Project" %>
+						:link_options => {:class => "icon-left match button"} if @organization.id == 180 %>
 	
 </div>
 	

@@ -24,7 +24,7 @@
     <td><%= link_to service_learning_course.title, service_learning_course_path(@unit, @quarter, service_learning_course) %>
 		<%= "<span class='orange tag'>required</span>" if service_learning_course.required %></td>
 	
-	<td><%= service_learning_course.enrollee_count %>
+	<td><%= service_learning_course.enrollee_count rescue "(error occurred)" %>
 		<%= link_to "(roster)", students_service_learning_course_path(@unit, @quarter, service_learning_course) %></td>
 
 	<td align=center value="<%= service_learning_course.finalized? ? 'Finalized' : 'Not Finalized' %>">

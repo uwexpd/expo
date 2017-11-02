@@ -28,7 +28,7 @@
 				</li>
 				
 			<li class="icon-left email">
-				<%= link_to_expo_email(contact, contact.person.email) %>
+				<%= link_to_expo_email(contact, contact.person.email) rescue "No Email" %>
 				</li>
 				
 			<% unless contact.person.users.empty? %>

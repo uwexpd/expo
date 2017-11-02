@@ -1,11 +1,11 @@
 development:  
     host: ws.admin.washington.edu
-    cert: expo.uaa.washington.edu.uwca.crt
+    cert: expo.uaa.washington.edu.crt
     key: expo.uaa.washington.edu.key
     ca_file: uwca.pem
 
 production:
     host: ws.admin.washington.edu
-    cert: expo.uaa.washington.edu.uwca.crt
+    cert: expo.uaa.washington.edu.crt
     key: expo.uaa.washington.edu.key
     ca_file: uwca.pem

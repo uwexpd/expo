@@ -20,6 +20,7 @@ GEM
     addressable (2.1.2)
     andrew311-activerecord-odbc-adapter (2.3.1)
     awesome_print (1.2.0)
+    brakeman (4.0.1)
     builder (3.0.0)
     calendar_date_select (1.16.3)
     capistrano (2.9.0)
@@ -134,6 +135,7 @@ DEPENDENCIES
   addressable (~> 2.1.0)
   andrew311-activerecord-odbc-adapter
   awesome_print (~> 1.2.0)
+  brakeman
   calendar_date_select
   capistrano
   composite_primary_keys
