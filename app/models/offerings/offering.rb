@@ -34,10 +34,6 @@ class Offering < ActiveRecord::Base
                         ],
             :conditions => ['name = ?', status_name.to_s]
     end
-    def valid_status
-      #find :all, :conditions => ['current_application_status_id is not null']
-      reject{|a| a.current_application_status_id.nil?}
-    end
     def awarded
       reject{|a| !a.awarded?}
     end
@@ -51,6 +47,11 @@ class Offering < ActiveRecord::Base
       find_all{|a| a.awaiting_disbursement? }
     end
   end
+  has_many :valid_status_applications,
+            :class_name => "ApplicationForOffering",
+            :include => [ {:current_application_status => :application_status_type } ],
+            :conditions => ['current_application_status_id is not null']
+
   has_many :application_group_members, :through => :application_for_offerings, :source => :group_members
   has_many :people, :through => :application_for_offerings
   has_many :pages, :class_name => "OfferingPage", :order => "ordering", :dependent => :destroy

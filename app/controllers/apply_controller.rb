@@ -9,6 +9,7 @@ class ApplyController < ApplicationController
   before_filter :check_restrictions, :except => [:restricted, :cancelled, :list, :which, :group_member_validation]
   before_filter :check_must_be_student_restriction, :except => [:restricted, :cancelled, :list, :which, :enter_code, :group_member_validation, :group_member]
   before_filter :display_submitted_note, :except => [:restricted, :cancelled, :availability, :summary, :list, :which, :revise_abstract, :index, :accept]
+  before_filter :check_if_contact_info_blank
   
   def index
     # render index.html.erb

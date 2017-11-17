@@ -1,10 +1,8 @@
-<% content_for :head do %>
-<script type="text/javascript" src="http://emergency.washington.edu/alert.js"></script>
-<% end -%>
+<%# content_for :head do %>
+<!-- <script src="https://www.washington.edu/static/alert.js" type="text/javascript"></script> -->
+<%# end -%>
 
 <%= make_main_content_blocked %>
-
-<%= javascript_tag("displayAlert();") %>
 
 <%= javascript_include_tag "card_reader" %>
 <%= javascript_include_tag "user_unit_select" %>

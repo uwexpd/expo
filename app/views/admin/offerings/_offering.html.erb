@@ -9,7 +9,7 @@
 			<td><%= link_to offering.current_offering_admin_phase.name, :controller => 'admin/apply',
 							:offering => offering.id, :action => 'phases', :id => offering.current_offering_admin_phase rescue nil %></td>
 
-			<td><%= link_to "Applications#{" (" + offering.application_for_offerings_count.to_s + ")" unless offering.application_for_offerings_count.nil?}", admin_apply_path(offering) %></td>
+			<td><%= link_to "Applications#{" (" + offering.valid_status_applications.count.to_s + ")" unless offering.application_for_offerings_count.nil?}", admin_apply_path(offering) %></td>
 
 			<td><%= link_to "<span>Edit</span>", edit_offering_path(offering), :class => 'icon-left no-text edit' %>
 				<%= link_to "<span>Clone</span>", clone_offering_path(offering), 

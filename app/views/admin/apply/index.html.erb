@@ -18,7 +18,7 @@
 	
 		<li id="view-all">
 			<%= link_to "All Applications", admin_apply_action_path(@offering, 'list') %>
-			<br>There are currently <b><%= pluralize @apps.size, "application" %></b> in the system.
+			<br>There are currently <b><%= pluralize @offering.valid_status_applications.size, "application" %></b> in the system.
 			<br><small class="light"><%= render :partial => "status_counts" %></small>
 			</li>
 	
