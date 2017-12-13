@@ -4,8 +4,7 @@
 config/certs
 config/database.yml
 config/uwca.crt
-
-config/environments/development.rb
+config/email.yml
 
 /files
 /javascripts

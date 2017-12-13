@@ -143,7 +143,7 @@ class ProceedingsReport
     
     print "P" ## "primary presenter name, "
     add_to_index(:people, app.person.lastname_first.strip)
-    presenter = "<i>#{app.person.firstname_first(false).strip rescue "(Name Error)"}, "
+    presenter = "<i>#{app.person.firstname_first.strip rescue "(Name Error)"}, "
     reference_quarter ||= @reference_quarter || Quarter.find_by_date(@offering.deadline)
     presenter << "#{app.person.class_standing_description(:recent_graduate_placeholder => "Recent Graduate", :reference_quarter => reference_quarter) rescue nil}"
     presenter << ", #{app.person.majors_list(true, ", ", reference_quarter).strip rescue nil}" unless app.person.majors_list(true, ", ", reference_quarter).blank?

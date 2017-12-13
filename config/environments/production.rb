@@ -25,3 +25,6 @@ ActionController::Base.session_options[:session_secure] = true
 
 #require 'active_ldap' # disabled after upgrade to rails 2.3.4
 
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.default_url_options = { :host => "expo.uw.edu", :protocol => 'https' }
+config.action_mailer.smtp_settings = YAML.load_file("#{Rails.root}/config/email.yml")[Rails.env].symbolize_keys

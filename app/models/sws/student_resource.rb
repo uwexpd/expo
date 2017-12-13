@@ -56,5 +56,8 @@ class StudentResource < WebServiceResult
     lastname + ", " + firstname
   end
   
+  def legalname
+    self.RegisteredName
+  end
 
 end
