@@ -135,7 +135,7 @@ class Admin::ApplyController < Admin::BaseController
     for page in @app.pages
       question_types = page.offering_page.questions.collect(&:display_as).uniq.to_set
       attribute_types = page.offering_page.questions.collect(&:attribute_to_update).uniq.to_set
-      unless ["files","mentors","application_type","application_category"].any? {|type| question_types.include?(type) } || ["Abstract"].any? {|attribute| attribute_types.include?(attribute) }
+      unless (!question_types.include?("radio_logic_toggle") && ["files","mentors","application_type","application_category"].any? {|type| question_types.include?(type) }) || ["Abstract"].any? {|attribute| attribute_types.include?(attribute) }
         @app_pages << page
       end
       
