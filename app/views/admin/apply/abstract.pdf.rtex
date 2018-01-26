@@ -27,9 +27,10 @@
 	\\
 	
 	[ ]  Accept \hspace{20pt}
+	[ ]  Accept/Format \hspace{20pt}
 	[ ]  Minor Revision (Edited) \hspace{20pt}
-	[ ]  Minor Revision (Commented) \hspace{20pt}
-	[ ]  Revise \hspace{20pt}
+	[ ]  Minor Revision (Commented) \newline
+	[ ]  Revise \hspace{21pt}
 	[ ]  Reject
 
 	\vspace{15pt}
@@ -41,7 +42,7 @@
 	[ ]  Future/past tense issues \newline
 	[ ]  Student needs to discuss THEIR role in research (i.e., unclear what student actually did) \newline
 	[ ]  Section(s) Missing: \newline
-	\rule{10pt}{0.5pt} Purpose \hspace{10pt}
+	\rule{10pt}{0.5pt} Context/Purpose \hspace{10pt}
 	\rule{10pt}{0.5pt} Question/Hypothesis \hspace{10pt}
 	\rule{10pt}{0.5pt} Methods/Approach to the problem \newline
 	\rule{10pt}{0.5pt} Expected/Preliminary Results \hspace{10pt}
