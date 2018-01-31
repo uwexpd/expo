@@ -64,3 +64,8 @@
 	<%= f.grouped_collection_select :application_category_id, @offering.application_types, 
 									:offering_application_categories, :title, :id, :title, :prompt => true %>
 </p>
+
+<p>
+	Hide this abstract in the online proceedings?
+	<%= f.check_box :hide_proceeding_abstract %>
+</p>

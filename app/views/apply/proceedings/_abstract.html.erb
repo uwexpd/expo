@@ -79,34 +79,38 @@
 	</div>
 
 	<% cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_text', :expires_in => 12.hours) do %>
-
-		<!-- Abstract -->
+		
 		<div class="abstract_text" style="display:none" id="abstract_text_<%= abstract.id %>">
-			<%= abstract.text(:abstract).body %>
-		</div>
+			
+		<% if abstract.hide_proceeding_abstract == true %>			
+			<p>This abstract is no longer available. Please contact urp@uw.edu if you have any questions.</p></div>		
+		<% else %>		
+			<!-- Abstract -->		
+			<%= abstract.text(:abstract).body %></div>
 	
-		<!-- Similar Abstracts -->
-		<ul class="similar_abstracts">	
-			<% for major in abstract.person.majors %>
-				<% if @majors.include?(major) && @majors[major].size > 1 %>
-					<li><%= link_to "Other #{major} major students (#{@majors[major].size})", 
-									apply_proceedings_url(@offering, 'result', 
-									:student_major => (major.is_a?(String) ? major : major.full_name)) %></li>
+			<!-- Similar Abstracts -->
+			<ul class="similar_abstracts">	
+				<% for major in abstract.person.majors %>
+					<% if @majors.include?(major) && @majors[major].size > 1 %>
+						<li><%= link_to "Other #{major} major students (#{@majors[major].size})", 
+										apply_proceedings_url(@offering, 'result', 
+										:student_major => (major.is_a?(String) ? major : major.full_name)) %></li>
+					<% end -%>
 				<% end -%>
-			<% end -%>
 
-			<% if @departments.include?(abstract.mentor_department) && @departments[abstract.mentor_department].size > 1 %>
-			<li><%= link_to "Other #{abstract.mentor_department} mentored projects (#{@departments[abstract.mentor_department].size})", 
-							apply_proceedings_url(@offering, 'result', :mentor_department => abstract.mentor_department) %></li>
-			<% end -%>
-
-			<% for mentor in abstract.mentors %>
-				<%- unless mentor.other_mentees.empty? -%>
-				<li><%= link_to "Other students mentored by #{mentor.firstname_first} (#{mentor.other_mentees.size})", 
-								apply_proceedings_url(@offering, 'result', :mentor_name => mentor.lastname_first) %></li>
+				<% if @departments.include?(abstract.mentor_department) && @departments[abstract.mentor_department].size > 1 %>
+				<li><%= link_to "Other #{abstract.mentor_department} mentored projects (#{@departments[abstract.mentor_department].size})", 
+								apply_proceedings_url(@offering, 'result', :mentor_department => abstract.mentor_department) %></li>
 				<% end -%>
-			<% end -%>
-		</ul>
+
+				<% for mentor in abstract.mentors %>
+					<%- unless mentor.other_mentees.empty? -%>
+					<li><%= link_to "Other students mentored by #{mentor.firstname_first} (#{mentor.other_mentees.size})", 
+									apply_proceedings_url(@offering, 'result', :mentor_name => mentor.lastname_first) %></li>
+					<% end -%>
+				<% end -%>
+			</ul>
+		<% end %>
 		
 	<% end -%>
 

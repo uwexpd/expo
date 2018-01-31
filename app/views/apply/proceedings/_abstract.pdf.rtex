@@ -37,7 +37,11 @@ end
 @content << '\end{flushleft}' + "\n" + '\end{minipage}' + "\n\n\n" + '\vspace{1em}'
 
 unless @skip_abstracts
-  @content << latex_clean(abstract.text("Abstract").body) + "\n"
+  if abstract.hide_proceeding_abstract
+  	@content << "This abstract is no longer available." + "\n"
+  else 
+  	@content << latex_clean(abstract.text("Abstract").body) + "\n"
+  end
 end
 
 %>

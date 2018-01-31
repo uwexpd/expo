@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170901213809) do
+ActiveRecord::Schema.define(:version => 20180130232433) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(:version => 20170901213809) do
     t.text     "special_requests"
     t.text     "task_completion_status_cache"
     t.integer  "theme_response3"
+    t.boolean  "hide_proceeding_abstract"
   end
 
   add_index "application_for_offerings", ["offering_id"], :name => "index_applications_on_offering_id"
