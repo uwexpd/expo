@@ -1,0 +1,4 @@
+dom_id = "toggle_reviewer_finalized_button_#{@applicant_reviewer.id}"
+page << "$('#{dom_id}').removeClassName('on')"
+page << "$('#{dom_id}').removeClassName('off')"
+page << "$('#{dom_id}').addClassName('#{@applicant_reviewer.finalized? ? "on" : "off"}')"

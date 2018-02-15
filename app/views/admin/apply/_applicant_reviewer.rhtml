@@ -46,7 +46,12 @@
 					<% end -%>
 				</small>
 			</td>
-			<td><%= applicant_reviewer.finalized? ? "<font color=green>Finalized</font>" : "<font color=red>Not finalized</font>" %></td>
+			<td>
+				<%= link_to_remote "<span>#{applicant_reviewer.finalized? ? "Yes" : "No"}</span>",
+									:url => {:action => "toggle_reviewer_finalized", :id => applicant_reviewer.id },
+									:html => {:class => "#{applicant_reviewer.finalized? ? "on" : "off"} switch",
+											  :id => "toggle_reviewer_finalized_button_#{applicant_reviewer.id}"} %>
+			</td>
 
 		<% else %>
 	

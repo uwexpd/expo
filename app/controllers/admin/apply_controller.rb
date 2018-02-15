@@ -1107,7 +1107,13 @@ class Admin::ApplyController < Admin::BaseController
     @project_answers = app_answers.select{|a| a.answer == "#{@lab_query}"}
   end    
 
-
+  def toggle_reviewer_finalized
+    @applicant_reviewer = ApplicationReviewer.find(params[:id])
+    @applicant_reviewer.toggle_finalized
+    respond_to do |format|
+      format.js
+    end
+  end
 
   protected
   

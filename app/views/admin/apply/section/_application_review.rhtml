@@ -3,8 +3,9 @@
 	admin_view = true if audience == :admin
 	@user_application = @app 	# need to use the same instance variable so the partials work 
 	@full_view = true			# with full_view on, we get to see extra things that mentors and others can't see
-	@pages = @app.pages.reject{|p| audience == :reviewer ? p.hide_in_reviewer_view? : p.hide_in_admin_view? }
+	@pages = @app.pages.reject{|p| (audience == :reviewer || audience == :download) ? p.hide_in_reviewer_view? : p.hide_in_admin_view? }
 	@download = true if audience == :download
+
 %>
 <h2>Application Details
 	<% if admin_view%>

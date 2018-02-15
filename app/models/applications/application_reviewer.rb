@@ -159,5 +159,10 @@ class ApplicationReviewer < ActiveRecord::Base
     tcs
   end
 
+  def toggle_finalized
+    update_attribute :finalized, !finalized?
+    finalized?
+  end
+
   
 end
