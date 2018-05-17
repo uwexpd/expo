@@ -50,6 +50,7 @@ class ProceedingsProgramReport < ProceedingsReport
     poster_type = @offering.poster_application_type
     oral_type   = @offering.oral_application_type
     visual_type = @offering.visual_arts_application_type
+    performing_type = @offering.application_types.detect{|t| t.title=="Performing Arts"}
 
     # Poster Session 1
     puts "\nPoster Session 1"
@@ -66,14 +67,23 @@ class ProceedingsProgramReport < ProceedingsReport
          change_divider_tab("Presentation 1", 3)
          start_new_page(true)
          add_session @offering.sessions.for_type_in_group(oral_type, 1).sort_by(&:identifier)
+
+    # Performing Arts
+    puts "\nPerforming Arts"
+         change_divider_tab
+         #start_new_page(true)
+         start_new_page(true)
+         change_divider_tab("Performing Arts", 2)
+         start_new_page(true)
+         add_session @offering.sessions.for_type_in_group(performing_type, 1), :include_heading => false
        
     # Poster Session 2
     puts "\nPoster Session 2"
          change_divider_tab
+         #start_new_page(true)
          start_new_page(true)
          start_new_page(true)
-         start_new_page(true)
-         change_divider_tab("Poster 2", 2)
+         change_divider_tab("Poster 2", 1)
          start_new_page(true)
          fix_margins
          add_session @offering.sessions.for_type_in_group(poster_type, 2), :include_heading => false        
@@ -88,7 +98,7 @@ class ProceedingsProgramReport < ProceedingsReport
         start_new_page(true)
         start_new_page(true)
         start_new_page(true) # add one more
-        change_divider_tab("Poster 3", 1)
+        change_divider_tab("Poster 3", 4)
         start_new_page(true)
         fix_margins
         add_session @offering.sessions.for_type_in_group(poster_type, 3), :include_heading => false
@@ -98,7 +108,7 @@ class ProceedingsProgramReport < ProceedingsReport
         change_divider_tab
         start_new_page(true)
         start_new_page(true)
-        change_divider_tab("Visual Arts & Design", 4)
+        change_divider_tab("Visual Arts & Design", 3)
         start_new_page(true)
         add_session @offering.sessions.for_type_in_group(visual_type, 4), :include_heading => false
         
@@ -107,7 +117,7 @@ class ProceedingsProgramReport < ProceedingsReport
         change_divider_tab
         start_new_page(true)
         start_new_page(true)
-        change_divider_tab("Presentation 2", 3)
+        change_divider_tab("Presentation 2", 2)
         start_new_page(true)
         add_session @offering.sessions.for_type_in_group(oral_type, 2).sort_by(&:identifier)
            
@@ -116,7 +126,7 @@ class ProceedingsProgramReport < ProceedingsReport
        change_divider_tab
        start_new_page(true)
        start_new_page(true)
-       change_divider_tab("Poster 4", 2)
+       change_divider_tab("Poster 4", 1)
        start_new_page(true)
        fix_margins
        add_session @offering.sessions.for_type_in_group(poster_type, 4), :include_heading => false       
@@ -124,6 +134,7 @@ class ProceedingsProgramReport < ProceedingsReport
      # Index
      puts "Index"
        change_divider_tab
+       start_new_page(true)
        start_new_page(true)
        start_new_page(true)
        start_new_page(true)

@@ -5,6 +5,7 @@ class StudentRecord < StudentInfo
   has_one :student_person, :class_name => "Student", :foreign_key => "system_key"
   has_one :record2, :class_name => "StudentRecord2", :foreign_key => "system_key"
   has_one :address, :class_name => "StudentAddress", :foreign_key => "system_key"
+  has_many :ethnicities, :class_name => "StudentEthnicity", :foreign_key => "system_key"
   has_many :transcripts, :class_name => "StudentTranscript", :foreign_key => "system_key"
   has_many :admission_applications, :class_name => "StudentAdmissionApplication", :foreign_key => "system_key"
   has_many :transfers, :class_name => "StudentTransfer", :foreign_key => "system_key"

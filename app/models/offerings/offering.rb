@@ -521,9 +521,14 @@ class Offering < ActiveRecord::Base
     application_types.find(:first, :joins => :application_type, :conditions => { "application_types.title" => "Oral Presentation" })
   end  
 
-  # Returns the OfferingApplicationType that is assigned to the "Oral Session" application type.
+  # Returns the OfferingApplicationType that is assigned to the "Visual Arts" application type.
   def visual_arts_application_type
     application_types.find(:first, :joins => :application_type, :conditions => { "application_types.title" => "Visual Arts & Design" })
+  end
+  
+  # Returns the OfferingApplicationType that is assigned to the "Performing Arts" application type.
+  def performing_arts_application_type
+    application_types.find(:first, :joins => :application_type, :conditions => { "application_types.title" => "Performing Arts" })
   end
 
   # Returns a new or existing Population with the requested starting set. The starting set can be any valid association
