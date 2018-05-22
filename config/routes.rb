@@ -560,6 +560,9 @@ ActionController::Routing::Routes.draw do |map|
   # Default Route and Welcome
   # -------------------------
 
+  # Testing Rails Exception Notification
+  map.connect 'test_exception_notifier', :controller => 'application', :action => 'test_exception_notifier'
+
   # Default Route
   map.connect ':controller/:action/:id.:format'
   map.connect ':controller/:action/:id'
@@ -567,5 +570,6 @@ ActionController::Routing::Routes.draw do |map|
   # Welcome Page
   map.connect '', :controller => "welcome"
   map.root :controller => 'welcome'
+  
   
 end

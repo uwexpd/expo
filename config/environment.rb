@@ -93,6 +93,9 @@ require 'yaml'
 CONSTANTS = YAML::load(ERB.new((IO.read("#{RAILS_ROOT}/config/constants.yml"))).result).symbolize_keys
 
 # Setup Exception notifier
+ExceptionNotification::Notifier.exception_recipients = %w(expohelp@u.washington.edu)
+ExceptionNotification::Notifier.sender_address = %("EXP-Online" <expohelp@u.washington.edu>)
+ExceptionNotification::Notifier.email_prefix = "[ERROR] "
 # ExceptionNotifier.exception_recipients = %w(expohelp@u.washington.edu)
 # ExceptionNotifier.sender_address = %("EXP-Online" <expohelp@u.washington.edu>)
 # ExceptionNotifier.email_prefix = "[error] "

@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  # include ExceptionNotifiable
+  include ExceptionNotification::Notifiable
   include AuthenticatedSystem, AuthorizedSystem
   include Userstamp
 
@@ -81,6 +81,10 @@ class ApplicationController < ActionController::Base
       args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
       system "rake #{task} #{args.join(' ')} --trace 2>&1 >> #{RAILS_ROOT}/log/#{log_file}.log"
       exit! 127
+  end
+
+  def test_exception_notifier
+    raise 'Test Exception. This is a test exception to make sure the exception notifier is working.'
   end
 
   private

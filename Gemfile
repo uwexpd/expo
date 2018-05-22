@@ -8,7 +8,7 @@ gem "sanitize"
 gem "rtex"
 gem "calendar_date_select"
 gem "hoe", "~> 2.3.3" # dependency with gem version 1.3.7
-gem "RedCloth"
+gem "RedCloth", "~> 4.2.9 " # related to composite_primary_keys (converting Textile into HTML)
 gem "htmldoc"
 gem "rcov"
 gem "hoptoad_notifier"
@@ -32,6 +32,9 @@ gem "factory_girl", "~> 1.2.2" # TODO upgrade to "~> 2.0.5"
 gem "rspec", "~> 1.2.9" # dependecy with hoe 2.3.3
 gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
 
+# Error report
+gem "exception_notification", "~> 2.3.3"
+
 
 group :production do  
   gem "omniauth-shibboleth"
@@ -41,7 +44,6 @@ end
 
 group :development do
   gem "awesome_print", "~> 1.2.0"
-  gem "andrew311-activerecord-odbc-adapter"
   gem "capistrano"
   gem 'rvm-capistrano', :require => false
   gem "thin"

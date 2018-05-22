@@ -18,10 +18,9 @@ GEM
       activerecord
       activerecord (>= 2.3.5)
     addressable (2.1.2)
-    andrew311-activerecord-odbc-adapter (2.3.1)
     awesome_print (1.2.0)
     brakeman (4.0.1)
-    builder (3.0.0)
+    builder (3.2.3)
     calendar_date_select (1.16.3)
     capistrano (2.9.0)
       highline
@@ -42,6 +41,7 @@ GEM
       deprecated (= 2.0.1)
     deprecated (2.0.1)
     eventmachine (1.0.3)
+    exception_notification (2.3.3.0)
     factory_girl (1.2.4)
     fastthread (1.0.7)
     gem_plugin (0.2.3)
@@ -99,7 +99,7 @@ GEM
     rcov (1.0.0)
     rdoc (2.4.3)
     request-log-analyzer (1.12.9)
-    rmagick (2.5.2)
+    rmagick (2.16.0)
     rspec (1.2.9)
     rspec-rails (1.2.7.1)
       rack (>= 0.4.0)
@@ -129,11 +129,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth
+  RedCloth (~> 4.2.9)
   activerecord-odbc-adapter (~> 2.0)
   acts_as_strip (~> 1.0.0)
   addressable (~> 2.1.0)
-  andrew311-activerecord-odbc-adapter
   awesome_print (~> 1.2.0)
   brakeman
   calendar_date_select
@@ -143,6 +142,7 @@ DEPENDENCIES
   database_cleaner (>= 0.9.1)
   dbd-odbc
   dbi
+  exception_notification (~> 2.3.3)
   factory_girl (~> 1.2.2)
   hoe (~> 2.3.3)
   hoptoad_notifier
