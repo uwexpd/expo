@@ -33,7 +33,12 @@ class Admin::ServiceLearningController < Admin::BaseController
         obj_hash.each do |obj_id,val|
           if obj_type == "Organization"
             o = Organization.find(obj_id)
-            o.invite_for(@quarter.next, @unit)
+            if params[:activate] == "true"
+              o.activate_for(@quarter.next, true, @unit)
+              flash[:notice] = "Successfully activated organizations."
+            else
+              o.invite_for(@quarter.next, @unit)
+            end
           else
             oq = OrganizationQuarter.find(obj_id)          
             oq.allow_evals_if_active
