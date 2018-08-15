@@ -37,7 +37,12 @@ class Admin::ServiceLearningController < Admin::BaseController
           else
             oq = OrganizationQuarter.find(obj_id)          
             oq.allow_evals_if_active
-            oq.queue_mid_quarter_emails(val, @unit)
+            if params[:activate] == "true"
+              oq.mid_quarter_organization_activate(val, @unit)
+              flash[:notice] = "Successfully activated organizations."
+            else
+              oq.queue_mid_quarter_emails(val, @unit)
+            end
           end
         end
       end

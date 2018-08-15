@@ -127,7 +127,6 @@ class StudentRecord < StudentInfo
   # except for that it returns an array of StudentRecord objects, not Student objects.
   def self.find_by_anything(q, limit = 100)
     students = []
-    logger.debug "DEBUG >>>>>>>>>>>>> #{q}"
     if q.to_s.strip.is_numeric?
       q.to_i == 0 ? students = [] : students = self.find_by_student_no("#{q}")
     else

@@ -47,6 +47,7 @@ module Admin::BaseHelper
     function << "$('group_variant').value='#{options[:group_variant]}';" if options[:group_variant]
     function << "$('#{form_id.to_s}').method='#{options[:method]}';" if options[:method]
     function << "$('#{form_id.to_s}').submit()"
+    function = "if (confirm('#{options[:confirm]}')) {#{function}}" if options[:confirm]
     link_to_function link_text, function, options[:link_options]
   end
   

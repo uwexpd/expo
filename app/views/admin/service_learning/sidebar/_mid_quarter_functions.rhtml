@@ -26,6 +26,15 @@
 		
 		</dd>
 	
+	<dt></dt>
+	<dd>
+		<strong>Optional: activate selected organizations to <%= @quarter.next.title %> without queuing e-mails.</strong>
+		<br>
+		<ul class="icons">
+			<li class='icon-left make-change'><%= link_to_submit "activate organizatons", "mid_quarter_form",
+			:url => service_learning_mid_quarter_path(:activate => "true"), :confirm => "Are you sure?" %></li>
+		</ul>
+	</dd>
 </dl>
 
 <%#= periodically_call_remote :url => service_learning_mid_quarter_path(@unit, :links => true), 

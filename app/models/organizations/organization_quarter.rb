@@ -187,6 +187,12 @@ class OrganizationQuarter < ActiveRecord::Base
     organization.mark_inactive if action != 'invite' && !@emails_sent
 
   end
+
+  def mid_quarter_organization_activate(action = 'invite', unit = nil)
+    if action == 'invite'
+      Organization.find(organization.id).activate_for(Quarter.find(quarter.next.id), true, unit.id)
+    end
+  end
   
   # Updates the organization quater's position counts.
   # Called when a position is created, saved or destroyed
