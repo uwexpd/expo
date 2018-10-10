@@ -98,7 +98,8 @@ class Quarter < ActiveRecord::Base
 
   # Returns the current Quarter, based on quarter start dates.
   def self.current_quarter
-    @current_quarter ||= Quarter.find(:first, :conditions => [ "first_day < ?", Time.now ], :order => "first_day DESC")
+    #@current_quarter ||= Quarter.find(:first, :conditions => [ "first_day < ?", Time.now ], :order => "first_day DESC") Remove instance valuable so it won't be cacheed until refresh the web server
+    Quarter.find(:first, :conditions => [ "first_day < ?", Time.now ], :order => "first_day DESC")
   end
   
   # Returns true if this quarter is the current_quarter.

@@ -82,7 +82,11 @@ class ServiceLearningPosition < ActiveRecord::Base
     end
     # Limits the list of placements to only those associated with the passed object. _Obj_ can be either a ServiceLearningCourse or Person.
     def for(obj)
-      find(:all, :conditions => ["#{obj.class.name.foreign_key} = ?", obj]) rescue []
+      if obj.is_a? Student
+        find(:all, :conditions => ["#{obj.class.superclass.name.foreign_key} = ?", obj]) rescue []
+      else
+        find(:all, :conditions => ["#{obj.class.name.foreign_key} = ?", obj]) rescue []
+      end
     end
     # Limits the list of placements to only those associated with the passed object but _also_ still considered and "open slot"
     # (i.e., person_id is null)
