@@ -18,7 +18,7 @@ Rails::Initializer.run do |config|
   config.load_paths += Dir["#{RAILS_ROOT}/app/models/[a-z]*"]
   config.load_paths += Dir["#{RAILS_ROOT}/app/models/[a-z]*/[a-z]*"]
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/plugins/strip_attributes/"]
-  config.load_paths += Dir["#{RAILS_ROOT}/app/sweepers/[a-z]*"]
+  config.load_paths += %W( #{RAILS_ROOT}/app/sweepers )
   
   # Setup a secret to ensure integrity of session cookies (new in rails 2.0 apparently)
   config.action_controller.session = { :key => "_expo_session", :secret => "mGg44KjlwppO2HXXmatTh9d3413501ba3117948a2441574e4e5df" }
@@ -50,6 +50,7 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
+  config.active_record.observers = "ApplicationForOfferingSweeper", "ServiceLearningPlacementSweeper"
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
