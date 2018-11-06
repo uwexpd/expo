@@ -12,11 +12,12 @@
 			<td width=100>Active:</td>
 			<td><%= link_to_remote "<span>#{@research_opportunity.active? ? "On" : "Off"}</span>",
 	 								{ :url => active_research_opportunity_path(@research_opportunity, :return_to => request.request_uri),
-	 								  :indicator => true },
+	 								  :indicator => true,
+	 								  :success => "alert('Successfully queued an e-mail to #{@research_opportunity.name}');" },
 									{ :class => "#{@research_opportunity.active? ? "on" : "off"} switch",
 									  :id => "active_button_#{@research_opportunity.id}" }
 									 %></td>
-			<td><span class='small'>Switching active/inactive will send an email notification to faculty</span></td>
+			<td><span class='small'>Switching active/inactive will queue an email notification to faculty</span></td>
 			<!-- <td><%= check_box_tag :auto_email, 1, true %>auto-email to faculty when activate/deactivate</td> -->
 		</tr>		
 	</table>	

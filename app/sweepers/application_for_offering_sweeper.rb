@@ -20,7 +20,7 @@ class ApplicationForOfferingSweeper < ActionController::Caching::Sweeper
       url = url_for(:controller => "apply/#{app.offering_id}/proceedings", :action => 'result', :action_suffix => action_suffix, :id => app.id, :host => CONSTANTS[:base_system_url])
       # Remove 'http://'
       fragment_name = url[7..-1]
-      Rails.logger.debug "fragment_name => #{fragment_name}"
+      #Rails.logger.debug "fragment_name => #{fragment_name}"
       Rails.cache.delete("views/#{fragment_name}")
     end
 

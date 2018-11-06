@@ -21,7 +21,7 @@
 	<dt>Minimum<br> <%= f.label :requirements %><%= required %></dt>
 	<dd><%= f.text_area :requirements, :cols => 75, :rows => 10 %></dd>
 
-	<dt>Auto-remove date <br>(optional)</dt>
+	<dt>Auto-remove date <%= required %></dt>
 	<dd>
 		<%= f.date_select :end_date, :include_blank => true, :start_year => Time.now.year %>
 		<br><span class="caption">Leave blank for no end date (Post will remain active unless otherwise requested)</span>

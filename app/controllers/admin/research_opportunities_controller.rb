@@ -100,8 +100,8 @@ class Admin::ResearchOpportunitiesController < Admin::BaseController
      
      faculty_template = EmailTemplate.find_by_name("research oppourtunity activate and deactivate notification")
      link = @research_opportunity.active? ? "https://#{CONSTANTS[:base_url_host]}/opportunities/details/#{@research_opportunity.id}" : "https://#{CONSTANTS[:base_url_host]}/opportunities/submit/#{@research_opportunity.id}"
-     TemplateMailer.deliver(faculty_template.create_email_to(@research_opportunity, link, @research_opportunity.email)
-                           ) if faculty_template     
+     #TemplateMailer.deliver(faculty_template.create_email_to(@research_opportunity, link, @research_opportunity.email)) if faculty_template
+     EmailQueue.queue(@research_opportunity.email, faculty_template.create_email_to(@research_opportunity, link, @research_opportunity.email)) if faculty_template
      
      respond_to do |format|
        format.html { redirect_to redirect_to_path || {:action => "show"} }

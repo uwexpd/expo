@@ -7,7 +7,8 @@ class ResearchOpportunity < ActiveRecord::Base
   validates_presence_of :department
   validates_presence_of :description
   validates_presence_of :requirements
-  validates_presence_of :research_area1 
+  validates_presence_of :end_date, :message => "(auto-remove date) can't be blank."
+  validates_presence_of :research_area1
   validate :end_date_cannot_be_in_the_past
         
   def get_area_name(area_id)

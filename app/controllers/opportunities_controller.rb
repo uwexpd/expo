@@ -11,15 +11,25 @@ class OpportunitiesController < ApplicationController
       redirect_to :action => "submit", :id => @research_opportunity.id and return
     end
     
-    if params[:research_opportunity]      
+    if params[:research_opportunity]
       if @research_opportunity.update_attributes(params[:research_opportunity])
          redirect_to :action => "submit", :id => @research_opportunity.id
       end
-    end    
+    end
+  end
+
+  def update
+    @research_opportunity = ResearchOpportunity.find(params[:id]) if params[:id]
+    if params[:research_opportunity]
+      if @research_opportunity.update_attributes(params[:research_opportunity])
+         redirect_to :action => "submit", :id => @research_opportunity.id
+      end
+    end
   end
   
   def submit
-    redirect_to :action => "form", :id => params[:id] if params[:commit] == "Back to edit"
+    redirect_to :action => "form", :id => params[:id] if params[:form]
+    redirect_to :action => "update", :id => params[:id] if params[:update]
     
     @research_opportunity ||= ResearchOpportunity.find(params[:id]) if params[:id]
     
@@ -28,7 +38,7 @@ class OpportunitiesController < ApplicationController
     end
     
     if params[:commit] == "Submit opportunity"
-      if @research_opportunity.update_attribute :submitted, true          
+      if @research_opportunity.update_attributes(:submitted => true, :active => nil)
          flash[:notice] = "Successfully submitted a research opportunity."
          
          urp_template = EmailTemplate.find_by_name("research oppourtunity approval request")

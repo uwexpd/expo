@@ -6,12 +6,20 @@
 
 <br>
 
-<% unless @research_opportunity.submitted? %>
+<% form_tag do %>
 
-	<% form_tag do %>
-		<%= submit_tag "Back to edit", :disable_with => 'Back to editing...' %>
-		<span class="separator"> – or – </span>
-		<%= submit_tag "Submit opportunity", :disable_with => 'Submitting...' %>
+	<% if @research_opportunity.submitted? %>
+		<%= submit_tag "Edit", :disable_with => 'editing...', :name => 'update'  %>
+	<% else %>
+		<%= submit_tag "Back to edit", :disable_with => 'Back to editing...', :name => 'form' %>
 	<% end %>
+
+	<p class="separator"> – or – </p>
+	<%= submit_tag "Submit opportunity", :disable_with => 'Submitting...' %>
 	
-<% end %>	
+	<% if @research_opportunity.submitted? %>
+		<span class='red small'>Note: This re-sbumission will deactivate the position until URP staff approves it.</span>
+	<% end %>
+
+<% end %>
+<br>
