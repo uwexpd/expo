@@ -8,5 +8,8 @@
 # replace %mentee.attribute% with @mentee.attribute
 @text = @text.gsub(/\%mentee.([a-z0-9_.]+)\%/) { |a| eval("@#{a.gsub!(/\%/,'')}") rescue nil }
 
+# replace %offering.attribute% with @offering.attribute
+@text = @text.gsub(/\%offering.([a-z0-9_.]+)\%/) { |a| eval("@#{a.gsub!(/\%/,'')}") rescue nil }
+
 
 %><%= @text %>

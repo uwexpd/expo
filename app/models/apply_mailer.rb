@@ -25,6 +25,7 @@ class ApplyMailer < ActionMailer::Base
     @subject.gsub!(/\%mentee.([a-z0-9_.]+)\%/) { |a| eval("mentor.application_for_offering.person.#{a.gsub!(/\%mentee./,'').gsub!(/\%/,'')}") rescue nil }
     @body       = { :mentor => mentor,
                     :mentee => mentor.application_for_offering.person,
+                    :offering => mentor.application_for_offering.offering,
                     :text => email_template.body.to_s, 
                     :link => link }
     @from       = email_template.from
@@ -49,6 +50,7 @@ class ApplyMailer < ActionMailer::Base
     @subject.gsub!(/\%mentee.([a-z0-9_.]+)\%/) { |a| eval("mentor.application_for_offering.person.#{a.gsub!(/\%mentee./,'').gsub!(/\%/,'')}") rescue nil }
     @body       = { :mentor => mentor,
                     :mentee => mentor.application_for_offering.person,
+                    :offering => mentor.application_for_offering.offering,
                     :text => email_template.body.to_s, 
                     :link => link }
     @from       = email_template.from
