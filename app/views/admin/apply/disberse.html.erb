@@ -1,4 +1,4 @@
-<span class="light right"><%= link_to "Download in Excel", {:format => 'xls'}, :class => 'icon-left xls button' %></span>
+<span class="light right"><%= link_to "Download", {:format => 'xls'}, :class => 'icon-left xls button' %></span>
 <h3>Disburse Awards</h3>
 
 <% apps_not_empty = false %>
@@ -22,7 +22,7 @@
 	</tr>	
 		
 	<tr class="rowset-header">
-		<td colspan=5><%= o.title %></td>
+		<td colspan=5 style="padding: 10px !important;"><%= o.title %></td>
 		<td colspan=1 style="text-align: right;"><%= pluralize apps.size, "award" %></td>
 	</tr>
 	
