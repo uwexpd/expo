@@ -249,12 +249,12 @@ class ApplyController < ApplicationController
               uwnetid = input_netid.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1)
               student = Student.find_by_uw_netid(uwnetid)
               unless student.nil?
-                  template = EmailTemplate.find_by_name("Husky 100: Notification for Nominated Student")
+                  template = EmailTemplate.find_by_name("Husky 100: Nominated Student First Notification")
                   if template
-                      EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.fullname}")), @user_application.current_status
+                      EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.firstname_first}")), @user_application.current_status
                       sent_student_emails << student.email
                   else
-                      flash[:error] = "Can not find the template to send: Husky 100: Notification for Nominated Student."
+                      flash[:error] = "Can not find the template to send: Husky 100: Nominated Student First Notification."
                   end
               end
             end
@@ -371,8 +371,11 @@ class ApplyController < ApplicationController
           @user_application.set_status "final_revision_submitted"
           flash[:notice] = "Thank you for submitting your final revisions."
         else
-          # if non required mentors (graduate student/researcher) responds the abstract. set status to +faculty_approval_needed+
-          if @user_application.mentors.reject{|m| m.primary || m.meets_minimum_qualification?}.collect(&:responded?).include?(true)
+          # if non required mentors (graduate student/researcher) responds the abstract. set status to +faculty_approval_needed+ unless ALL primary/required mentors (faculty/pos-doc) have responded
+          required_mentors = @user_application.mentors.select{|m| m.primary || m.meets_minimum_qualification?}
+          non_required_mentors = @user_application.mentors.reject{|m| m.primary || m.meets_minimum_qualification?}
+
+          if required_mentors.collect(&:responded?).include?(false) && non_required_mentors.collect(&:responded?).include?(true)
             @user_application.set_status "faculty_approval_needed"
           else
             @user_application.set_status "revision_submitted"
