@@ -113,6 +113,8 @@ class OfferingQuestion < ActiveRecord::Base
       elsif attribute_to_update == 'fullname'
         add_error_message page and return if required? && page.application_for_offering.person.firstname.blank?
         add_error_message page and return if required? && page.application_for_offering.person.lastname.blank?
+      elsif display_as == 'files'
+        #bypass since we add #add_files_errors to check that
       else
         if !model_to_update.blank?
           if required? && eval("page.application_for_offering.#{model_to_update}.#{attribute_to_update}.blank?")
