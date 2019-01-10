@@ -10,6 +10,11 @@
 <fieldset>
 
 	<ul class="welcome-links">
+		<% unless @user_application.submitted? %>
+			<li class="application accessibility">
+				The University of Washington is committed to providing access and reasonable accommodation in its services, programs, activities, education and employment for individuals with disabilities. If you need additional access and/or assistance in the completion and submission of this application/form please contact <a href="mailto:expohelp@uw.edu">expohelp@uw.edu</a>.
+			</li>
+		<% end %>
 		<li class="application status">
 			<b>Your Current Application Status:</b>
 		 	<%=h @user_application.status.public_title %>

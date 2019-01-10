@@ -2773,6 +2773,9 @@ h1.big-icon {
 	background-image: url(../images/tango/32x32/apps/accessories-text-editor.png);
 }
 
+.welcome-links .accessibility {
+	background-image: url(../images/tango/32x32/apps/preferences-desktop-accessibility.png);
+}
 
 .sub-links {
 	font-size: 80% !important;

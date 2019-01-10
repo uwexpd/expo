@@ -375,7 +375,7 @@ class ApplyController < ApplicationController
           required_mentors = @user_application.mentors.select{|m| m.primary || m.meets_minimum_qualification?}
           non_required_mentors = @user_application.mentors.reject{|m| m.primary || m.meets_minimum_qualification?}
 
-          if required_mentors.collect(&:responded?).include?(false) && non_required_mentors.collect(&:responded?).include?(true)
+          if required_mentors.collect(&:responded?).include?(false) || non_required_mentors.collect(&:responded?).include?(true)
             @user_application.set_status "faculty_approval_needed"
           else
             @user_application.set_status "revision_submitted"

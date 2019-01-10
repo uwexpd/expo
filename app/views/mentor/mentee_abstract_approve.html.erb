@@ -57,7 +57,8 @@
 		<p><label for="mentor_approval_response_revise">
 			<%= f.radio_button :approval_response, 'revise' %>
 			<big>No</big>, but I will work with the student(s) to revise it before 
-			<%= @offering.mentor_deadline ? @offering.mentor_deadline.to_s(:date_at_time12) : "the deadline" %>.
+			<%= HelpText.caption :deadline_revised_abstracts, Offering %>
+			<%#= @offering.mentor_deadline ? @offering.mentor_deadline.to_date : "the deadline" %>
 		</label></p>
 
 		<p><label for="mentor_approval_response_no_with_explanation">
