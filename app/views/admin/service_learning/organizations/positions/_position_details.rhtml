@@ -116,4 +116,9 @@
 		<dd><%= service_learning_position.skills_requirement %></dd>
 	<% end -%>
 
+	<% unless service_learning_position.picture.blank? %>
+		<dt>picture</dt>
+		<dd><%= image_tag service_learning_position.picture.large.url %></dd>
+	<% end %>
+
 </dl>

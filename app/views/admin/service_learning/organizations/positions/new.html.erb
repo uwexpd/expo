@@ -5,7 +5,7 @@
 
 <%= error_messages_for :service_learning_position %>
 
-<% form_for @service_learning_position, 
+<% upload_form_for @service_learning_position, 
 			:url => service_learning_organization_positions_path(@unit, @quarter, @organization),
 			:builder => HelpTextFormBuilder,
 			:html => { :class => "help_text", :id => 'position_form' } do |f| %>

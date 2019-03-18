@@ -40,7 +40,11 @@
 	<dt>main phone</dt>
 	<dd><%= f.text_field :main_phone %></dd>
 
-
+	<dt><%= f.label :logo %></dt>
+	<dd><%= image_tag f.object.logo.thumb.url if f.object.logo rescue nil %>
+		<%= upload_column_field 'organization', 'logo' %>
+		<p class="caption">Upload image file such as JPG/PNG. The image's dimension fits best with minimum height 150 pixels.</p>
+	</dd>
 
 	<dt>mission statement</dt>
 	<dd><%= f.text_area :mission_statement, :style => "width:99%", :rows => 6 %></dd>

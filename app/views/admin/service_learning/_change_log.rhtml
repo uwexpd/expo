@@ -23,7 +23,13 @@
 				<% unless c.read_attribute(:changes).blank? %>
 				<br>
 				<small>
-					<b class="light">Changed fields:</b> <%= c.read_attribute(:changes).keys.join(", ") %>
+					<b class="light">Changed fields:</b>
+					<% changes = c.read_attribute(:changes) %>
+					<% if changes.class== Hash %>
+						<%= c.read_attribute(:changes).keys.join(", ") %>
+					<% else %>
+						<%= c.read_attribute(:changes).match('logo')[0] rescue c.read_attribute(:changes).match('picture')[0] %>
+					<% end %>
 				</small>
 				<% end %>
 			</td>

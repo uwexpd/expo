@@ -85,7 +85,7 @@ class MentorController < ApplicationController
       if @mentee_application_record.update_attributes(params[:mentor])
         @mentee_application_record.update_attribute(:approval_at, Time.now)
         if @mentee_application.submitted?
-          @required_mentors = @mentee_application.reload.mentors.select{|m| m.primary || m.meets_minimum_qualification?}
+          @required_mentors = @mentee_application.reload.mentors.select{|m| m.meets_minimum_qualification?}
           @mentee_application.set_status "complete" unless @required_mentors.collect(&:approved?).include?(false)
           @mentee_application.set_status "revision_needed" if @mentee_application_record.approval_response == 'revise'
           @mentee_application.set_status "mentor_denied" if @mentee_application_record.approval_response == 'no_with_explanation'

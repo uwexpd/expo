@@ -234,7 +234,15 @@ task :general_study_faculty => :environment do
     puts "Updated #{lineno} General Study Fauclty"
     
 end
-   
+
+desc "Test a course for negative string"
+task :test_course => :environment do
+      puts "test starts....."
+      src = StudentRegistrationCourse.find_by_system_key(1788493)
+      puts "#{src.inspect}"
+      course = src.course
+      puts "#{y course}"
+end
    
    
    

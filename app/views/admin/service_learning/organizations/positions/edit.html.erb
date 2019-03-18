@@ -2,7 +2,7 @@
                                     
 <%= make_main_content_blocked %>
 
-<% form_for @service_learning_position, 
+<% upload_form_for @service_learning_position, 
 			:url => form_url, 
 			:builder => HelpTextFormBuilder,
 			:html => { :class => "help_text", :id => 'position_form' } do |f| %>

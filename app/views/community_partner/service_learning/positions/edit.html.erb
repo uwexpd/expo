@@ -8,7 +8,7 @@
 
 </div>
 
-<% form_for @position, 
+<% upload_form_for @position, 
 			:url => community_partner_service_learning_position_path(@quarter, @position), 
 			:builder => HelpTextFormBuilder,
 			:html => { :class => "help_text", :id => 'position_form' } do |f| %>

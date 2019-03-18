@@ -2,7 +2,7 @@
 
 <%= error_messages_for :organization %>
 
-<% form_for @organization, :url => admin_organization_path(@organization) do |f| %>
+<% upload_form_for @organization, :url => admin_organization_path(@organization) do |f| %>
 
 	<%= render :partial => "fields", :locals => { :f => f, :admin => true } %>
 

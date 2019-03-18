@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
     def for(unit_id); find(:all, :conditions => { :unit_id => unit_id }); end
   end
   has_many :units, :through => :roles do
-    def minus_exp; find(:all, :conditions => "abbreviation != 'exp'"); end
+    def minus_exp; find(:all, :conditions => "abbreviation != 'expd'"); end
   end
   has_many :organization_quarters, :class_name => "organization_quarter", :foreign_key => "staff_contact_user_id"
   has_many :logins, :class_name => "LoginHistory" do

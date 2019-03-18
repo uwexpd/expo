@@ -19,7 +19,7 @@
 <p class="caption">Your organization name cannot be changed from this page.</p>
 <%= text_field_tag :organization_name_placeholder, @organization.name, :disabled => true, :class => "big" %>
 
-<%= f.check_box :self_placement, :label => "self-placement?" if admin %>
+<%= f.check_box :self_placement, :label => "Self-placement?" if admin %>
 
 <% if @use_pipeline_links %>
 <%= f.check_box :use_slots, :label => "use slots?" if admin %>
@@ -32,6 +32,11 @@
 						:class => "big" %>
 
 <%= f.text_field :ideal_number_of_slots, :size => 3 %>
+
+<%= f.label :picture, "Position Picture" %>
+<p class="caption">Upload image file such as JPG/PNG. The image's dimension fits best with minimum height 150 pixels.</p>
+<%= image_tag f.object.picture.thumb.url if f.object.picture rescue nil %>
+<%= upload_column_field 'service_learning_position', 'picture' %>
 
 
 <% unless skip_nav %>

@@ -57,7 +57,10 @@ GEM
     json (1.6.5)
     json_pure (1.7.3)
     log4r (1.1.10)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
     method_source (0.8.2)
+    mini_mime (1.0.1)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -149,6 +152,7 @@ DEPENDENCIES
   htmldoc
   json
   log4r
+  mail
   mongrel
   mongrel_cluster
   mysql

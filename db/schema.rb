@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180131013300) do
+ActiveRecord::Schema.define(:version => 20181218204609) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -972,6 +972,7 @@ ActiveRecord::Schema.define(:version => 20180131013300) do
     t.string   "type"
     t.boolean  "does_pipeline"
     t.boolean  "multiple_quarter"
+    t.string   "logo"
   end
 
   create_table "deleted_service_learning_courses", :force => true do |t|
@@ -1112,6 +1113,7 @@ ActiveRecord::Schema.define(:version => 20180131013300) do
     t.boolean  "paid"
     t.boolean  "religious"
     t.boolean  "group_ok"
+    t.string   "picture"
   end
 
   create_table "department_extras", :force => true do |t|
@@ -2207,6 +2209,7 @@ ActiveRecord::Schema.define(:version => 20180131013300) do
     t.boolean  "target_school"
     t.boolean  "does_pipeline"
     t.boolean  "multiple_quarter"
+    t.string   "logo"
   end
 
   create_table "people", :force => true do |t|
@@ -2734,6 +2737,7 @@ ActiveRecord::Schema.define(:version => 20180131013300) do
     t.boolean  "paid"
     t.boolean  "religious"
     t.boolean  "group_ok"
+    t.string   "picture"
   end
 
   add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"

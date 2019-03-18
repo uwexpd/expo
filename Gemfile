@@ -31,6 +31,7 @@ gem "factory_girl", "~> 1.2.2" # TODO upgrade to "~> 2.0.5"
 #gem "thoughtbot-factory_girl", :lib => 'factory_girl', :source => 'http://gems.github.com'
 gem "rspec", "~> 1.2.9" # dependecy with hoe 2.3.3
 gem "rspec-rails", "~> 1.2.7.1" # dependecy with rspec
+gem "mail"
 
 # Error report
 gem "exception_notification", "~> 2.3.3"

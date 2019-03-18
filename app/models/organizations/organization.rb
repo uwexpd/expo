@@ -42,6 +42,10 @@ class Organization < ActiveRecord::Base
   named_scope :all_with_archived
   
   default_scope :order => "name"
+
+  image_column :logo,
+              :versions => { :mini => "45x28", :thumb => "70x43", :large => "268x166" },
+              :store_dir => proc{|record, file| "shared/organization/#{record.id}/logo"}
   
   def main_phone=(number)
     write_attribute :main_phone, number.to_s.gsub(/\D/,"")

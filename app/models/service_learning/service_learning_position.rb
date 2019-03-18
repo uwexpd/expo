@@ -183,6 +183,10 @@ class ServiceLearningPosition < ActiveRecord::Base
   has_many :service_learning_position_shares
   
   attr_accessor :new_number_of_slots, :new_times
+
+  image_column :picture,
+              :versions => { :mini => "45x28", :thumb => "70x43", :large => "268x166" },
+              :store_dir => proc{|record, file| "shared/service_learning_position/#{record.id}/picture"}
   
   def <=>(o)
     title <=> o.title

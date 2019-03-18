@@ -442,7 +442,7 @@ class ServiceLearningController < ApplicationController
     if @student.sdb.age < 18 && !@student.valid_service_learning_waiver_on_file?
       flash[:error] = "Since you are under 18, your parent or guardian <strong>must</strong> sign an Acknowledgement of Risk
                         form on your behalf <strong>before</strong> you can register for a service learning position. Please
-                        visit the Carlson Center office in 120 Mary Gates Hall as soon as possible."
+                        visit the Carlson Center office in Mary Gates Hall as soon as possible."
     end
   end
 
@@ -451,7 +451,7 @@ class ServiceLearningController < ApplicationController
       raise ServiceLearningException.new("You must have an Acknowledgement of Risk on file.",
             "Since you are under 18, your parent or guardian <strong>must</strong> sign an Acknowledgement of Risk
             form on your behalf <strong>before</strong> you can register for a service learning position. Please
-            visit the Carlson Center office in 120 Mary Gates Hall as soon as possible.")
+            visit the Carlson Center office in Mary Gates Hall as soon as possible.")
     end
   end
 

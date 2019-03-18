@@ -2,7 +2,7 @@
 
 <%= error_messages_for :organization %>
 
-<% form_for @organization, :url => community_partner_service_learning_organization_path(@quarter) do |f| %>
+<% upload_form_for @organization, :url => community_partner_service_learning_organization_path(@quarter) do |f| %>
 
 	<%= render :partial => "admin/organizations/fields", :locals => { :f => f, :admin => false } %>
 
