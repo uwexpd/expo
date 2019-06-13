@@ -128,6 +128,7 @@ class StudentRecord < StudentInfo
   def self.find_by_anything(q, limit = 100)
     students = []
     if q.to_s.strip.is_numeric?
+      q = q.to_s.strip
       q.to_i == 0 ? students = [] : students = self.find_by_student_no("#{q}")
     else
       students << self.find_by_uw_netid("#{q}") << self.find_by_name("#{q}", limit)

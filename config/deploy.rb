@@ -16,6 +16,7 @@ set :repository,  "git@github.com:uwexpd/expo.git"
 set :scm, "git"
 set :branch, 'master'
 set :deploy_via, :remote_cache
+set :keep_releases, 10
 
 set :rvm_ruby_string, "1.8.7" # set up which rvm ruby to use in server
 
@@ -52,7 +53,7 @@ namespace :deploy do
   end  
 end
 
-after "deploy:finalize_update", "deploy:config_symlink"
+after "deploy:finalize_update", "deploy:config_symlink", "deploy:cleanup"
 
 # Using hoptoad_notifier
 # Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|

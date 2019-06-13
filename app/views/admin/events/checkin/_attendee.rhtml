@@ -78,7 +78,11 @@
 				<small>
 				<% for group_member in attendee.invitable.app.group_members %>
 					<% group_invitee = group_member.event_invitees.for_event(@event).first %>
-					<% if group_invitee.checked_in? %>
+					<% if group_invitee.blank? %>
+						<span class="red">
+							<%= group_member.firstname_first %>: No check-in status available.
+						</span>
+					<% elsif group_invitee.checked_in? %>
 						<span class="green">
 							<%= group_member.firstname_first %>:
 							<%= relative_timestamp(group_invitee.checkin_time) %>

@@ -20,7 +20,7 @@
 	<dd><%= phone_number @organization.main_phone %></dd>
 	
 	<dt>logo</dt>
-	<dd><%= image_tag @organization.logo.large.url if @organization.logo %></dd>
+	<dd><%= image_tag @organization.logo.large.url if @organization.logo rescue nil %></dd>
 
 	<dt>mission statement</dt>
 	<dd><%= @organization.mission_statement %></dd>

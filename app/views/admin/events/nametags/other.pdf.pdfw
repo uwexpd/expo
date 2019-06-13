@@ -4,7 +4,8 @@ pdf.start_columns 2, 36
 
 row = 0
 nametag_height = pdf.margin_height / 3
-footer_y = { 0 => 512, 1 => 294, 2 => 82 }
+# adject footer position. 0 -> first row, 1 -> second row, etc
+footer_y = { 0 => 519, 1 => 300, 2 => 88 }
 
 while !@nametags.empty?
 

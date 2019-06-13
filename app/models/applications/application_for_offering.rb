@@ -1047,7 +1047,7 @@ class ApplicationForOffering < ActiveRecord::Base
   # is mentoring a student outside of his/her discipline and you don't want to group them in a weird way.
   def mentor_department
     return read_attribute(:mentor_department) unless read_attribute(:mentor_department).blank?
-    primary_mentor.department if primary_mentor
+    primary_mentor.department.try(:strip) if primary_mentor
   end
   
   def academic_department(delimiter = ", ")

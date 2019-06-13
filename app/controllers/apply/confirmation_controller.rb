@@ -105,7 +105,7 @@ class Apply::ConfirmationController < ApplyController
       flash[:error] = "We're sorry, but the confirmation process is currently disabled."
       redirect_to apply_url(@offering) and return
     end
-    unless @user_application.passed_status?("fully_accepted")
+    unless @user_application.passed_status?("fully_accepted") || @user_application.passed_status?("fully_accepted_vad")
       flash[:error] = "You cannot go through the confirmation process until your application has been fully accepted."
       redirect_to apply_url(@offering) and return
     end

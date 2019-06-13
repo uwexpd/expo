@@ -28,7 +28,7 @@ class SessionController < ApplicationController
     if self.current_user.is_a? PubcookieUser
       #return_to = request.env['HTTP_REFERER'].to_s unless request.env['HTTP_REFERER'].to_s.blank?
       #redirect_to ("/expologout/?return_to=" + return_to) and return false
-      redirect_to "http://www.washington.edu/computing/weblogin/logout.html" and return false
+      redirect_to "https://itconnect.uw.edu/security/uw-netids/weblogin/#logout" and return false
     end
     redirect_back_or_default('/')
   end

@@ -1,6 +1,7 @@
 class ApplicationForOfferingSweeper < ActionController::Caching::Sweeper
   include ActionController::UrlWriter
-  observe ApplicationForOffering
+  observe ApplicationForOffering, ApplicationMentor, ApplicationGroupMember
+
   
   def after_save(app)
 	expire_cache_for(app)
@@ -16,11 +17,15 @@ class ApplicationForOfferingSweeper < ActionController::Caching::Sweeper
     # @controller ||= ActionController::Base.new
     # expire_fragment([:abstract_presenters , app])
     # expire_fragment([:abstract_text , app])
+    offering_id = app.offering_id rescue app.offering.id
+    app_id = app.class.name == "ApplicationForOffering" ? app.id : app.application_for_offering.id
+
     ['abstract_presenters','abstract_text'].each do |action_suffix|
-      url = url_for(:controller => "apply/#{app.offering_id}/proceedings", :action => 'result', :action_suffix => action_suffix, :id => app.id, :host => CONSTANTS[:base_system_url])
-      # Remove 'http://'
-      fragment_name = url[7..-1]
-      #Rails.logger.debug "fragment_name => #{fragment_name}"
+      url = url_for(:controller => "apply/#{offering_id}/proceedings", :action => 'result', :action_suffix => action_suffix, :id => app_id, :host => CONSTANTS[:base_url_host])
+
+      fragment_name = url[7..-1] # Remove 'http://'
+
+      #Rails.logger.info "fragment_name => #{fragment_name}"
       Rails.cache.delete("views/#{fragment_name}")
     end
 

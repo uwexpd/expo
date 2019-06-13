@@ -2,7 +2,7 @@
 
 <table>
 
-	<% for organization_quarter in @organization.organization_quarters %>
+	<% for organization_quarter in @organization.organization_quarters.sort_by(&:quarter_id).reverse! %>
 		<tr <%= "class='current'" if organization_quarter.quarter.current_quarter? %>>
 			<td><%= link_to organization_quarter.quarter.title,
 			 				service_learning_organization_path(@unit, organization_quarter.quarter, @organization) %></td>

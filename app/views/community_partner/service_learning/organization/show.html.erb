@@ -27,7 +27,7 @@
 	<dd><small><%= simple_format @organization.mission_statement %></small></dd>
 	
 	<dt>Logo</dt>
-	<dd><%= image_tag @organization.logo.large.url if @organization.logo %></dd>
+	<dd><%= image_tag @organization.logo.large.url if @organization.logo rescue nil %></dd>
 	
 		
 </dl>

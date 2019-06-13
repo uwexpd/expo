@@ -6,6 +6,7 @@
 		<th>Type</th>
 		<th>Department</th>
 		<th>Academic Department</th>
+		<th>Institution</th>
 		<th>MGR Awarded Mentee Count</th>
 		<th><%= @offering.year_offered rescue nil %> Symposium Mentee Count</th>
 		<th>Nomination Count</th>
@@ -14,6 +15,7 @@
 		<th>ID</th>
 		<th>Class</th>
 		<th>Majors</th>
+		<th>Nominator Institution</th>
 		<th>Scholarships</th>
 		<th>Comments</th>
 		<% 1.upto(@offering.year_offered - 2009) do |number| %> <%# We have online expo symposium since 2009 %>
@@ -34,6 +36,7 @@
 				<td><%=h nominator.nominated_mentor.mentor_type.title rescue nil %></td>
 				<td><%=h nominee.department_name %></td>
 				<td><%=h nominator.nominated_mentor.academic_department.join(", ") rescue nil %></td>
+				<td><%=h nominator.nominated_mentor.person.institution_name rescue nil %></td>
 				<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering.award_types.collect(&:scholar_title).include?("Mary Gates Research Scholar") }.size if nominee.is_a?(Person) %></td>
 				<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering == @offering }.size if nominee.is_a?(Person) %></td>
 				<td><%= nominators.size %></td>
@@ -42,6 +45,7 @@
 				<td><%=h nominator.type.to_s + " "  + nominator.id.to_s %></td>
 				<td><%=h nominator.person.class_standing_description rescue nil %></td>
 				<td><%= nominator.person.majors_list(true) rescue nil %></td>
+				<td><%= nominator.person.institution_name rescue nil %></td>
 				<td><%= nominator.person.awards_list rescue nil %></td>
 				<td><%=h nominator.nominated_mentor_explanation %></td>			
 					<% 1.upto(@offering.year_offered - 2009) do |number| %>

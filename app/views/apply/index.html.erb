@@ -32,4 +32,4 @@
 </fieldset>
 
 <%= render :partial => "sidebar" %>
-<%= render :partial => "apply/confirmation/sidebar", :locals => { :hide_welcome_link => true } if @user_application.passed_status?("fully_accepted") %>
+<%= render :partial => "apply/confirmation/sidebar", :locals => { :hide_welcome_link => true } if @user_application.passed_status?("fully_accepted") || @user_application.passed_status?("fully_accepted_vad") %>

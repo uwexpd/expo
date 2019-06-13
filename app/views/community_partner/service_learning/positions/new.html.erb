@@ -1,12 +1,12 @@
 <h1>New Service-Learning Position</h1>
 
-<% form_for @position, :url => community_partner_service_learning_positions_path(@quarter), 
+<% upload_form_for @position, :url => community_partner_service_learning_positions_path(@quarter),
 						:builder => HelpTextFormBuilder,
 						:html => { :class => "help_text", :id => 'position_form' } do |f| %>
 
 	<%= error_messages_for :position %>
 
-	<%= render  :partial => "admin/service_learning/organizations/positions/tabs/basic_info", 
+	<%= render  :partial => "admin/service_learning/organizations/positions/tabs/basic_info",
 				:locals => { :f => f, :service_learning_position => @position,
 					 					:admin => false, 
 										:skip_nav => true,
