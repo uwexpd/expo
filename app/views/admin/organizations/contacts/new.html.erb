@@ -3,12 +3,12 @@
 <%= error_messages_for :organization_contact %>
 
 <div>
-  <%= link_to_function "New contact", "$('organizaiton_contact_move').hide();$('organizaiton_contact_form').show()", :class => "big_top_tab"%>
+  <%= link_to_function "New contact", "$('organization_contact_move').hide();$('organization_contact_form').show()", :class => "big_top_tab"%>
   <%= separator %>
-  <%= link_to_function "Move / copy existing contact", "$('organizaiton_contact_form').hide();$('organizaiton_contact_move').show()", :class => "big_top_tab"%>
+  <%= link_to_function "Move / copy existing contact", "$('organization_contact_form').hide();$('organization_contact_move').show()", :class => "big_top_tab"%>
 </div>
 
-<div id="organizaiton_contact_form" class="organizaiton_contact_container">
+<div id="organization_contact_form" class="organization_contact_container">
 
 <% form_for(@organization_contact) do |f| %>
 
@@ -22,7 +22,7 @@
 
 <% end %>
 </div>
-<div  id="organizaiton_contact_move" class="organizaiton_contact_container" style="display:none;">
+<div  id="organization_contact_move" class="organization_contact_container" style="display:none;">
   <%= render :partial => "existing_contact"%>
 </div>
 
