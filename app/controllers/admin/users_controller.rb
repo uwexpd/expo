@@ -76,7 +76,7 @@ class Admin::UsersController < Admin::BaseController
   
   def search
     session[:breadcrumbs].add "Search"
-    conditions = params[:search] ? ["login LIKE ?", "%#{params[:search][:login]}%"] : nil
+    conditions = params[:search] ? ["login LIKE ?", "%#{params[:search][:login].strip}%"] : nil
     @users = User.paginate :all, :order => 'identity_type DESC, login ASC', 
                             :conditions => conditions, 
                             :page => params[:page], :include => [:person, :latest_login]

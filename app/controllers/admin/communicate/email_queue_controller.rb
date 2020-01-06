@@ -53,12 +53,12 @@ class Admin::Communicate::EmailQueueController < Admin::BaseController
 
   def update
     @email = EmailQueue.find(params[:id])
-    @email.email.to = params[:t_mail_mail][:to]
-    @email.email.from = params[:t_mail_mail][:from]
-    @email.email.subject = params[:t_mail_mail][:subject]
-    @email.email.cc = params[:t_mail_mail][:cc]
-    @email.email.bcc = params[:t_mail_mail][:bcc]
-    @email.email.body = params[:t_mail_mail][:body]
+    @email.email.to = params[:t_mail_mail] ? params[:t_mail_mail][:to] : params[:mail_message][:to]
+    @email.email.from = params[:t_mail_mail] ? params[:t_mail_mail][:from] : params[:mail_message][:from]
+    @email.email.subject = params[:t_mail_mail] ? params[:t_mail_mail][:subject] : params[:mail_message][:subject]
+    @email.email.cc = params[:t_mail_mail] ? params[:t_mail_mail][:cc] : params[:mail_message][:cc]
+    @email.email.bcc = params[:t_mail_mail] ? params[:t_mail_mail][:bcc] : params[:mail_message][:bcc]
+    @email.email.body = params[:t_mail_mail] ? params[:t_mail_mail][:body] : params[:mail_message][:body]
 
     respond_to do |format|
       if @email.save
