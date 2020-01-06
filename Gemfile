@@ -2,7 +2,7 @@ source "https://rubygems.org"
 gem "rails", "2.3.5"
 gem "mongrel"
 gem "mongrel_cluster"
-gem "will_paginate", '~> 2.3.11'
+gem "will_paginate", '~> 3.0.5'
 gem "json"
 gem "sanitize"
 gem "rtex"
