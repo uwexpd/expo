@@ -41,9 +41,7 @@
 	</p><br>	
 
 	<p><strong>Do you approve this abstract?</strong>  <%= "<span class='green-check'>X</span> <span class='green highlight'>You already approved this abstract.</span><br>" if @mentee_application_record.approved? %></p>
-	<p>Once you give your response, an email will be sent to the student notifying him or her of your response.  
-		NOTE: If you select "No", you will NOT harm the student's chances of presenting at the Symposium. 
-		A "No" response will simply re-open the student's application to allow them to revise under your guidance.</p>	
+	<p>Once you give your response, an email will be sent to the student notifying them of your response.</p>	
 
 	<div class="left-indent">
 
@@ -56,7 +54,7 @@
 
 		<p><label for="mentor_approval_response_revise">
 			<%= f.radio_button :approval_response, 'revise' %>
-			<big>No</big>, but I will work with the student(s) to revise it before 
+			<big>No</big>, revision needed. I will work with the student(s) to revise it before 
 			<%= HelpText.caption :deadline_revised_abstracts, Offering %>
 			<%#= @offering.mentor_deadline ? @offering.mentor_deadline.to_date : "the deadline" %>
 		</label></p>
