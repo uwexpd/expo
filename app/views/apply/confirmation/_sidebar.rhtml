@@ -35,10 +35,12 @@
 				<%= link_to "<span class='title'>Nominate Your Mentor</span>", 
 							{:controller => '/apply/confirmation', :action => "nominate"} %></li>
 
-			<li <%= "id='current'" if page == 'theme' %> <%= "class='completed'" unless @confirmer.theme_response.blank? %>>
-				<%= link_to "<span class='title'>#{@offering.theme_response_title || "Theme Response"}</span>", 
+			<% unless @offering.theme_response_title.blank? %>
+			  <li <%= "id='current'" if page == 'theme' %> <%= "class='completed'" unless @confirmer.theme_response.blank? %>>
+			  <%= link_to "<span class='title'>#{@offering.theme_response_title || "Theme Response"}</span>",
 							{:controller => '/apply/confirmation', :action => "theme"} %></li>
-							
+			<% end %>
+
 			<li <%= "id='current'" if page == 'requests' %> <%= "class='completed'" unless @user_application.special_requests.blank? %>>
 				<%= link_to "<span class='title'>Special Requests</span>", 
 							{:controller => '/apply/confirmation', :action => "requests"} %></li>

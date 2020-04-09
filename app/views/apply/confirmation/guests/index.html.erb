@@ -61,14 +61,16 @@
 		"
 		 %>
 
-		<h3>Sample Postcard:</h3>
-		<div class="postcard envelope sample">
-			<div class="stamp" id="postcard_sample_stamp"></div>
-			<div class="address" id="postcard_sample">
+		 <% unless @offering.guest_postcard_layout.blank? %>
+		  <h3>Sample Postcard:</h3>
+		  <div class="postcard envelope sample">
+			 <div class="stamp" id="postcard_sample_stamp"></div>
+			 <div class="address" id="postcard_sample">
 				<%= @guest.fullname %><br><%= @guest.formatted_address %>
-			</div>
-			<div class="message"><%= simple_format @offering.parse_guest_postcard_layout(@confirmer) %></div>
-		</div>
+			 </div>
+			 <div class="message"><%= simple_format @offering.parse_guest_postcard_layout(@confirmer) %></div>
+		  </div>
+		 <% end %>
 			
 			
 

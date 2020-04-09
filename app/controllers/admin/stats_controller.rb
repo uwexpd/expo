@@ -179,7 +179,7 @@ class Admin::StatsController < Admin::BaseController
       end
     end
     @students.each do |s|
-      if s
+      if s && s.sdb
         @under_rep_students << s if s.sdb.ethnicity.under_represented?
         @eop_students << s if s.sdb.special_program.description == "EOP 1"
         @ethnicities[s.sdb.ethnicity.description] = @ethnicities[s.sdb.ethnicity.description] ? @ethnicities[s.sdb.ethnicity.description]+1 : 1
