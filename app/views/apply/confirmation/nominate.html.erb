@@ -16,7 +16,7 @@
 	  <%= button_to "Next: Special Requests →", :action => 'requests', :method => :get %>
 	<% else %>
 	  <%= button_to "Next: Theme Response →", { :action => "theme" }, :method => :get %>
-	 <% end %>
+	<% end %>
 </div>
 
 <%= render :partial => "sidebar", :locals => { :page => 'nominate' } %>

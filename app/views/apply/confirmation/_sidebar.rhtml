@@ -27,9 +27,11 @@
 				<%= link_to "<span class='title'>Workshops</span>", 
 							{:controller => '/apply/confirmation', :action => "workshops"} %></li>
 
-			<li <%= "id='current'" if page == 'guests' %> <%= "class='completed'" unless @confirmer.guests.empty? %>>
+			<% unless @offering.guest_invitation_instructions.blank? %>
+			  <li <%= "id='current'" if page == 'guests' %> <%= "class='completed'" unless @confirmer.guests.empty? %>>
 				<%= link_to "<span class='title'>Invite Guests</span>", 
 							{:controller => '/apply/confirmation/guests', :action => "index"} %></li>
+			<% end %>
 
 			<li <%= "id='current'" if page == 'nominate' %> <%= "class='completed'" unless @confirmer.nominated_mentor.nil? %>>
 				<%= link_to "<span class='title'>Nominate Your Mentor</span>", 

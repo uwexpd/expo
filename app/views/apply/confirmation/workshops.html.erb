@@ -5,7 +5,11 @@
 <%= render :file => "rsvp/event.html.erb" %>
 
 <div class="progress_nav_buttons">
-	<%= button_to "Next: Invite Guests →", { :action => "guests" }, :method => :get %>
+	<% if @offering.guest_invitation_instructions.blank? %>
+	  <%= button_to "Next: Nominate Your Mentor →", apply_confirmation_url(:action => 'nominate'), :method => :get %>
+	<% else %>
+	  <%= button_to "Next: Invite Guests →", { :action => "guests" }, :method => :get %>
+	<% end %>
 </div>
 
 
