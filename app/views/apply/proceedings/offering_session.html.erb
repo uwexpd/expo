@@ -21,7 +21,7 @@
 	<ul class="session_details">
 		<li><strong><%= @offering_session.title %></strong></li>
 		<li><%= @offering_session.time_detail %></li>
-		<li><%= @offering_session.location %></li>
+		<li><%= @offering_session.location if (@offering.id==577 && (@current_user != :false && @current_user.admin && @current_user.in_unit?(3))) || @offering.id != 577 %></li>
 		<%= "<li>Moderated by #{@offering_session.moderator.try(:fullname)}</li>" unless @offering_session.moderator.try(:fullname).blank? %>
 	</ul>
 
