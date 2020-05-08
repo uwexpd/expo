@@ -6,8 +6,9 @@
 
 <div id="home" title="Proceedings" selected="true" class="panel">
 
-	<h1 class="title"><%= @offering.title %></h1>
-
+	<% if @offering.deadline.year == Time.now.year %>
+	  <h1 class="title"></h1>
+	<% end %>
 	<!-- <fieldset>
 		<div class="block">
 			<h2>Welcome!</h2>
@@ -16,7 +17,7 @@
 	</fieldset>
 	 -->
 
-
+    <h2><%= @offering.name %></h2>
 	<h2>Schedule</h2>
 	<fieldset>
 	<ul class="link-list">

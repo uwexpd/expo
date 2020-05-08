@@ -8,8 +8,13 @@
 		<!-- Project title -->
 		<strong class="project_title"><%= link_to_function abstract.stripped_project_title.strip, "Effect.toggle(\"abstract_text_#{abstract.id}\", 'blind')" %></strong>
 
-		<% unless @offering.id!=577 || abstract.theme_response2.nil? %>
-          <strong style='margin-left: 2rem'><a href="<%= abstract.theme_response2 %>" target="_blank"><span class='icon-left pdf'>View a pdf of this poster</a></strong>
+		<!--
+			# Only for 2020 Virtual Symposium
+			# Only URP admin staff can view all the time
+			# Public can only view at symposium date | borrow +financial_aid_approval_request_sent_at+ for this purpose use
+		-->
+		<% if @offering.id==577 && !abstract.theme_response2.nil? && ((@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at) %>
+            <strong style='margin-left: 2rem'><a href="<%= abstract.theme_response2 %>" target="_blank"><span class='icon-left show'>View presenter work</a></strong>
 		<% end %>
 
 		<div class="two_column">

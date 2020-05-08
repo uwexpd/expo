@@ -17,6 +17,7 @@
 				<% if sessions.size == 1 %>
 					<%= render :partial => "session", :object => sessions.first, :locals => { :show_time => true } %>
 				<% else %>
+					<% application_type="Poster & Lighting Talks" if @offering.id==577 && application_type=='Poster Presentation' %>
 					<li><%= link_to_function "<span class='toggle_state'>+</span>#{application_type} #{session_group}
 											#{content_tag(:span, sessions.first.time_detail("&ndash;"), :class => 'time')}", 
 											"flipToggleable('session_list_#{sessions.hash}', this)",

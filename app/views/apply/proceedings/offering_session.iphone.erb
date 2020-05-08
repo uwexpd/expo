@@ -18,7 +18,7 @@
 		</div>
 		<div class="row">
 			<label>Location</label>
-			<span><%= @offering_session.location %></span>
+			<span><%= @offering_session.location if @offering.id != 577 || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at %></span>
 		</div>
 		<%- unless @offering_session.moderator.try(:fullname).blank? -%>
 			<div class="row">

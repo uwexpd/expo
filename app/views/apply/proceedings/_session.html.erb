@@ -2,7 +2,7 @@
 
 <li id="session_<%= session.id %>">
 
-	<%= content_tag(:span, "#{session.location}", :class => 'location') if (@offering.id==577 && (@current_user != :false && @current_user.admin && @current_user.in_unit?(3))) || @offering.id != 577 %>
+	<%= content_tag(:span, "#{session.location}", :class => 'location') if @offering.id != 577 || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at %>
 
 	<%= content_tag(:span, "#{session.identifier}", :class => 'session_identifier') unless session.identifier.blank? %>
 	
@@ -13,5 +13,5 @@
 	
 	</li>
 	
-	<%= "#{session.presenters_count + session.group_members.count} student presenters" if show_time %>
+	<%= "#{session.presenters.count + session.group_members.count} student presenters" if show_time %>
 	

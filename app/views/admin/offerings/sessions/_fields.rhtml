@@ -19,10 +19,10 @@
 	<dd><%= f.text_field :location, :size => 75 %></dd>
 
 	<dt>start time</dt>
-	<dd><%= f.time_select :start_time, :twelve_hour => true, :minute_step => 15 %></dd>
+	<dd><%= f.time_select :start_time, :twelve_hour => true, :minute_step => 5 %></dd>
 
 	<dt>end time</dt>
-	<dd><%= f.time_select :end_time, :twelve_hour => true, :minute_step => 15 %></dd>
+	<dd><%= f.time_select :end_time, :twelve_hour => true, :minute_step => 5 %></dd>
 	
 	<dt>type</dt>
 	<dd><%= f.collection_select :offering_application_type_id, @offering.application_types, :id, :title, :include_blank => true %></dd>
