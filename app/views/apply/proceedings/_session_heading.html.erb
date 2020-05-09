@@ -3,7 +3,7 @@
 	<h1><%= session_heading.title %></h1>
 	<h5 class="light inline">
 		<%= session_heading.time_detail %>
-		<%= "| #{session_heading.location}" if (@offering.id != 577 && !session_heading.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at %>
+		<%= "| #{session_heading.location}" if (@offering.id != 577 && !session_heading.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at if @offering.financial_aid_approval_request_sent_at %>
 		<%= "| Moderated by #{session_heading.moderator.try(:fullname)}" unless session_heading.moderator.try(:fullname).blank? %>
 	</h5>
 </div>

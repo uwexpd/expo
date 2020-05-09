@@ -11,9 +11,9 @@
 
 <h2>Schedule</h2>
 <ul class="schedule">
-	
+
 	<% for session_group, application_types_hash in @sessions %>
-		<% for application_type, sessions in application_types_hash.sort.reverse %>
+		<% for application_type, sessions in application_types_hash.sort_by{|k,v|v.first.start_time} %>
 				<% if sessions.size == 1 %>
 					<%= render :partial => "session", :object => sessions.first, :locals => { :show_time => true } %>
 				<% else %>
