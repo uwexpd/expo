@@ -27,12 +27,12 @@
 	</ul>
 
 	<ul class="link-list">
-		<li>
-			<%= link_to_if((@current_user != :false && @current_user.admin) || @presenters.size <= 25, "Print these abstracts", url_for(:overwrite_params => {:format => :pdf}), :class => "icon-left pdf") %>
-			<% unless (@current_user != :false && @current_user.admin) || @presenters.size <= 25 %>		
-			   <br><span class="caption">You need admin permission to print a 25+ abstracts pdf file.</span>
-			<% end %>
-		</li>
+		<!-- <li> -->
+			<%#= link_to_if((@current_user != :false && @current_user.admin) || @presenters.size <= 25, "Print these abstracts", url_for(:overwrite_params => {:format => :pdf}), :class => "icon-left pdf") %>
+			<%# unless (@current_user != :false && @current_user.admin) || @presenters.size <= 25 %>
+			   <!-- <br><span class="caption">You need admin permission to print a 25+ abstracts pdf file.</span> -->
+			<%# end %>
+		<!-- </li> -->
 		<li><%= link_to "Return to Proceedings Home", @header_link, :class => "icon-left home" %></li>
 		<%= render :partial => "apply/proceedings/favorite_abstracts" %>
 		<li><%= link_to_function "View all abstracts", "$$('.abstract_text').invoke('show')", :class => 'icon-left list' %></li>
