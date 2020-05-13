@@ -8,7 +8,7 @@
 
 	<dt>moderator</dt>
 	<dd><%= f.collection_select :moderator_id, 
-								@offering.moderators.active.select{|m| m.offering_sessions.for(@offering).empty? || m.id == f.object.moderator_id }.sort, 
+								@offering.moderators.active.sort_by(&:fullname),
 								:id, :fullname, :include_blank => true unless @offering.moderators.empty? %>
 								<%= if  @offering.moderators.empty?
 									link_to "Add Moderators", edit_offering_url(@offering, :anchor => "moderators"), :popup => true

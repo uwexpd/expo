@@ -12,8 +12,8 @@ class OfferingSession < ActiveRecord::Base
   
   validates_presence_of :offering_id, :title
   validates_uniqueness_of :title, :scope => :offering_id
-  validates_uniqueness_of :moderator_id, :scope => :offering_id, :allow_nil => true,
-                          :message => "has already been assigned to another session."
+  # validates_uniqueness_of :moderator_id, :scope => :offering_id, :allow_nil => true,
+                          # :message => "has already been assigned to another session."
   
   PLACEHOLDER_CODES = %w(title identifier time_detail)
   PLACEHOLDER_ASSOCIATIONS = %w(offering moderator application_type)
