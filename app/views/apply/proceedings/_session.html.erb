@@ -13,5 +13,5 @@
 	
 	</li>
 	
-	<%= "#{session.presenters.count + session.group_members.count} student presenters" if show_time %>
+	<%= "#{session.presenters_count + session.group_members.count rescue '#error'} student presenters" if show_time %>
 	

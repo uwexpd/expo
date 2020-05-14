@@ -26,7 +26,7 @@
 				<% end -%>
 			
 			<% if sessions.size > 1 %>
-			<%= sessions.collect{|s| s.presenters.count}.sum %> presentations in <%= pluralize sessions.size, "session" %>
+			<%= sessions.collect{|s| s.presenters_count }.sum rescue '#error' %> presentations in <%= pluralize sessions.size, "session" %>
 			<div id="session_list_<%= sessions.hash %>" style="display:none">
 				<ul>
 					<%= render :partial => "session", :collection => sessions.sort_by(&:identifier) %>
