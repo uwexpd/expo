@@ -54,7 +54,7 @@ GEM
       activesupport
       builder
     htmldoc (0.2.3)
-    json (1.6.5)
+    json (2.3.0)
     json_pure (1.7.3)
     log4r (1.1.10)
     mail (2.7.1)
