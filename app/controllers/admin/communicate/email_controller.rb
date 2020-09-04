@@ -107,7 +107,7 @@ class Admin::Communicate::EmailController < Admin::BaseController
     end
     @recipients.flatten!
     @recipients.compact!
-    @recipients
+    @recipients.uniq!
   end
 
 end

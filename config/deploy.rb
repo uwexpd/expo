@@ -20,10 +20,17 @@ set :keep_releases, 10
 
 set :rvm_ruby_string, "1.8.7" # set up which rvm ruby to use in server
 
-server "expd.uaa.washington.edu", :app, :web, :db, :primary => true
+server "expo.uw.edu", :app, :web, :db, :primary => true
 #role :web, "expo.uaa.washington.edu"                          # Your HTTP server, Apache/etc
 #role :app, "expo.uaa.washington.edu"                          # This may be the same as your `Web` server
 #role :db,  "expo.uaa.washington.edu", :primary => true        # This is where Rails migrations will run
+
+# To configure Capistrano to automatically trust project .rvmrc files on deployment
+namespace :rvm do
+  task :trust_rvmrc do
+    run "rvm rvmrc trust #{release_path}"
+  end
+end
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
@@ -53,7 +60,7 @@ namespace :deploy do
   end  
 end
 
-after "deploy:finalize_update", "deploy:config_symlink", "deploy:cleanup"
+after "deploy:finalize_update", "rvm:trust_rvmrc", "deploy:config_symlink", "deploy:cleanup"
 
 # Using hoptoad_notifier
 # Dir[File.join(File.dirname(__FILE__), '..', 'vendor', 'gems', 'hoptoad_notifier-*')].each do |vendored_notifier|
