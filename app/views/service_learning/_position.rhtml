@@ -14,11 +14,11 @@
 			<% if is_your_position %>
 				This is your current position.
 			<% elsif show_switch_link && !filled %>
-				<%= button_to "Switch to this position →", { :action => 'change', :id => position.id } if service_learning_course.open? %>
-				<%= link_to "More details →", :action => "position", :id => position.id if show_links %>			
+				<%= button_to "Switch to this position →", community_engaged_action_path(:action => 'change', :id => position.id) if service_learning_course.open? %>
+				<%= link_to "More details →", community_engaged_action_path(:action => "position", :id => position.id) if show_links %>			
 			<% elsif show_links %>
-				<%= button_to "Choose this position →", { :action => 'choose', :id => position.id } if service_learning_course.open? %>
-				<%= link_to "More details →", :action => "position", :id => position.id if show_links %>
+				<%= button_to "Choose this position →", community_engaged_action_path(:action => 'choose', :id => position.id) if service_learning_course.open? %>
+				<%= link_to "More details →", community_engaged_action_path(:action => "position", :id => position.id) if show_links %>
 			<% elsif filled %>
 				This position is filled.
 			<% end -%>
@@ -29,7 +29,7 @@
 		<div class="details">
 
 			<h4 class="position title">
-				<%= link_to_if show_links, position.title, :action => "position", :id => position.id %>
+				<%= link_to_if show_links, position.title, community_engaged_action_path(:action => "position", :id => position.id) %>
 				<span class="light"> at <strong><%= position.organization.name %></strong></span>
 				</h4> 
 

@@ -130,7 +130,7 @@
 			<dt>Describe the work of the position. What does your service with the organization look like day-to-day? What is the work environment like? What have you already learned through your volunteer efforts there? <%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :description, :style => "width:70%", :rows => 6 %></dd>
 			
-			<dt>How will this service-learning position make an impact on your organization and/or the people you serve? 
+			<dt>How will this community-engaged learning position make an impact on your organization and/or the people you serve? 
 				<%= content_tag('em', '*', :class => 'required') %></dt>
 			<dd><%= p.text_area :impact_description, :style => "width:70%", :rows => 6 %></dd>		
 		</dl>
@@ -164,7 +164,7 @@
 <%- end # end new_position_attributes -%>
 
 <dl class="inline-definitions">
-	<h2>Through service-learning, I hope to learn <%= content_tag('em', '*', :class => 'required') %></h2>
+	<h2>Through community-engaged learning, I hope to learn <%= content_tag('em', '*', :class => 'required') %></h2>
 	<p>How do the themes explored in this course relate to your role at your service site? What new things do you hope to explore through this integration of academic learning and service?</p>
 	<dt></dt><dd><%= s.text_area :hope_to_learn, :style => "width:85%", :rows => 5 %></dd>
 </dl>

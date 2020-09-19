@@ -381,6 +381,11 @@ ActionController::Routing::Routes.draw do |map|
       faculty.service_learning_home 'service_learning', :controller => 'ServiceLearning'
       faculty.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
       faculty.service_learning 'service_learning/:quarter_abbrev/:action/:id', :controller => 'ServiceLearning'
+      # Name change from service_learning to community_engaged
+      faculty.service_learning_home 'community_engaged', :controller => 'ServiceLearning'
+      faculty.service_learning_home 'community_engaged/:quarter_abbrev', :controller => 'ServiceLearning'
+      faculty.service_learning 'community_engaged/:quarter_abbrev/:action/:id', :controller => 'ServiceLearning'
+      ##################
       faculty.general_study_home 'general_study', :controller => 'GeneralStudy'
       faculty.general_study_home 'general_study/:quarter_abbrev', :controller => 'GeneralStudy'
       faculty.general_study 'general_study/:quarter_abbrev/:action/:id', :controller => 'GeneralStudy'      
@@ -396,7 +401,29 @@ ActionController::Routing::Routes.draw do |map|
     community_partner.service_learning_moa_reminder 'service_learning/moa_reminder', :controller => 'ServiceLearning', :action => 'moa_reminder'
     community_partner.service_learning_download_moa_pdf 'service_learning/download_moa_pdf', :controller => 'ServiceLearning', :action => "download_moa_pdf"    
     community_partner.service_learning_home 'service_learning/:quarter_abbrev', :controller => 'ServiceLearning'
-    
+
+    # Name change from service_learning to community_engaged
+    community_partner.service_learning_home 'community_engaged', :controller => 'ServiceLearning'
+    community_partner.service_learning_moa_reminder 'community_engaged/moa_reminder', :controller => 'ServiceLearning', :action => 'moa_reminder'
+    community_partner.service_learning_download_moa_pdf 'community_engaged/download_moa_pdf', :controller => 'ServiceLearning', :action => "download_moa_pdf"
+    community_partner.service_learning_home 'community_engaged/:quarter_abbrev', :controller => 'ServiceLearning'
+
+    community_partner.namespace :service_learning,  :path_prefix => 'community_partner/community_engaged/:quarter_abbrev',
+                                                    :controller => 'ServiceLearning' do |service_learning|
+      service_learning.resource 'organization',     :controller => 'Organization',
+                                                    :path_prefix => 'community_partner/community_engaged/:quarter_abbrev' do |organization|
+        organization.resources 'contacts',          :member => { :send_login_link => :get }
+      end
+      service_learning.resources 'students',        :controller => 'Students',
+                                                    :path_prefix => 'community_partner/community_engaged/:quarter_abbrev',
+                                                    :member => { :evaluate => :get, :submit_evaluation => :put }
+      service_learning.resources 'courses',         :controller => 'Courses',
+                                                    :path_prefix => 'community_partner/community_engaged/:quarter_abbrev'
+      service_learning.resources 'positions',       :controller => 'Positions',
+                                                    :path_prefix => 'community_partner/community_engaged/:quarter_abbrev',
+                                                    :collection => { :copy_from_previous => :any }
+    end
+    ###############################################################
     community_partner.namespace :service_learning,  :path_prefix => 'community_partner/service_learning/:quarter_abbrev',
                                                     :controller => 'ServiceLearning' do |service_learning|
       service_learning.resource 'organization',     :controller => 'Organization',
@@ -410,9 +437,9 @@ ActionController::Routing::Routes.draw do |map|
                                                     :path_prefix => 'community_partner/service_learning/:quarter_abbrev'
       service_learning.resources 'positions',       :controller => 'Positions',
                                                     :path_prefix => 'community_partner/service_learning/:quarter_abbrev',
-                                                    :collection => { :copy_from_previous => :any }  
+                                                    :collection => { :copy_from_previous => :any }
       service_learning.general_study 'service_learning/:quarter_abbrev/general_study/:action/:id', :controller => 'GeneralStudy', :path_prefix => ''
-    end
+    end    
   end
 
 
@@ -420,59 +447,105 @@ ActionController::Routing::Routes.draw do |map|
   # --------------------------
 
   # Service Learning
+  # Name change from service_learning to community_engaged
+  map.community_engaged 'community_engaged/:action', :controller => 'service_learning', :quarter_abbrev => 'current'
+  map.community_engaged_action 'community_engaged/:action/:id', :controller => 'service_learning', :quarter_abbrev => 'current'
+  map.community_engaged 'community_engaged/current/:action', :controller => 'service_learning', :quarter_abbrev => 'current'
+  map.community_engaged 'community_engaged/:quarter_abbrev/:action', :controller => 'service_learning'
+  ############################################################################################################
   map.service_learning 'service_learning/:action', :controller => 'service_learning', :quarter_abbrev => 'current'
   map.service_learning 'service_learning/:action/:id', :controller => 'service_learning', :quarter_abbrev => 'current'
   map.service_learning 'service_learning/current/:action', :controller => 'service_learning', :quarter_abbrev => 'current'
   map.service_learning 'service_learning/:quarter_abbrev/:action', :controller => 'service_learning'
-  
+
+
   # Pipeline
-  map.pipeline_base 'pipeline/', 
-                :controller => 'pipeline', :action => "index"
-  map.pipeline 'pipeline/find_bus_routes', 
-                :controller => 'pipeline', :action => "find_bus_routes"
+  map.riverways_base 'riverways/', :controller => 'pipeline', :action => "index"
+  map.pipeline_base 'pipeline/', :controller => 'pipeline', :action => "index"
+  map.riverways_find_bus 'riverways/find_bus_routes', :controller => 'pipeline', :action => "find_bus_routes"
+  map.pipeline_find_bus  'pipeline/find_bus_routes', :controller => 'pipeline', :action => "find_bus_routes"
+  map.riverways_download_background_check 'riverways/download_background_check',
+                :controller => 'pipeline', :action => "download_background_check"
   map.pipeline_download_background_check 'pipeline/download_background_check', 
                 :controller => 'pipeline', :action => "download_background_check"
-  map.pipeline_which 'pipeline/which',
-                :controller => 'pipeline', :action => "which"
+  map.riverways_which 'riverways/which', :controller => 'pipeline', :action => "which"
+  map.pipeline_which 'pipeline/which', :controller => 'pipeline', :action => "which"
+  map.pipeline_stop_email 'riverways/stop_email/:student_id/:token',
+                :controller => 'pipeline', :action => "stop_email"
   map.pipeline_stop_email 'pipeline/stop_email/:student_id/:token',
                 :controller => 'pipeline', :action => "stop_email"
-  map.pipeline_update_placement_quarter 'pipeline/update_placement_quarter/:id', 
+  map.riverways_update_placement_quarter 'riverways/update_placement_quarter/:id',
                 :controller => 'pipeline', :action => 'update_placement_quarter'
-  map.pipeline_quarter 'pipeline/:quarter_abbrev/', 
+  map.pipeline_update_placement_quarter 'pipeline/update_placement_quarter/:id',
+                :controller => 'pipeline', :action => 'update_placement_quarter'
+  map.riverways_quarter 'riverways/:quarter_abbrev/',
                 :controller => 'pipeline', :action => "index"
-  map.pipeline 'pipeline/:quarter_abbrev/:course_abbrev', 
+  map.pipeline_quarter 'pipeline/:quarter_abbrev/',
                 :controller => 'pipeline', :action => "index"
-  map.pipeline_favorites 'pipeline/:quarter_abbrev/:course_abbrev/favorites', 
-                :controller => 'pipeline', :action => "favorites"  
-  map.pipeline_search 'pipeline/:quarter_abbrev/:course_abbrev/search', 
+  map.riverways 'riverways/:quarter_abbrev/:course_abbrev',
+                :controller => 'pipeline', :action => "index"
+  map.pipeline 'pipeline/:quarter_abbrev/:course_abbrev',
+                :controller => 'pipeline', :action => "index"
+  map.riverways_favorites 'riverways/:quarter_abbrev/:course_abbrev/favorites',
+                :controller => 'pipeline', :action => "favorites"
+  map.pipeline_favorites 'pipeline/:quarter_abbrev/:course_abbrev/favorites',
+                :controller => 'pipeline', :action => "favorites"
+  map.riverways_search 'riverways/:quarter_abbrev/:course_abbrev/search',
                 :controller => 'pipeline', :action => "search"
+  map.pipeline_search 'pipeline/:quarter_abbrev/:course_abbrev/search',
+                :controller => 'pipeline', :action => "search"
+  map.riverways_orientation_signup 'riverways/:quarter_abbrev/:course_abbrev/orientation_signup',
+                :controller => 'pipeline', :action => "orientation_signup"
   map.pipeline_orientation_signup 'pipeline/:quarter_abbrev/:course_abbrev/orientation_signup', 
                 :controller => 'pipeline', :action => "orientation_signup"
+  map.riverways_orientation_rsvp 'riverways/:quarter_abbrev/:course_abbrev/orientation_rsvp', 
+                :controller => 'pipeline', :action => "orientation_rsvp"
   map.pipeline_orientation_rsvp 'pipeline/:quarter_abbrev/:course_abbrev/orientation_rsvp', 
                 :controller => 'pipeline', :action => "orientation_rsvp"
+  map.pipeline_student_info 'riverways/:quarter_abbrev/:course_abbrev/student_info', 
+                :controller => 'pipeline', :action => "pipeline_student_info"
   map.pipeline_student_info 'pipeline/:quarter_abbrev/:course_abbrev/student_info', 
                 :controller => 'pipeline', :action => "pipeline_student_info"
+  map.riverways_show 'riverways/:quarter_abbrev/:course_abbrev/show/:id', 
+                :controller => 'pipeline', :action => "show"
   map.pipeline_show 'pipeline/:quarter_abbrev/:course_abbrev/show/:id', 
                 :controller => 'pipeline', :action => "show"
+  map.pipeline_add_favorite 'riverways/:quarter_abbrev/:course_abbrev/add_favorite/:id', 
+                :controller => 'pipeline', :action => "add_favorite"
   map.pipeline_add_favorite 'pipeline/:quarter_abbrev/:course_abbrev/add_favorite/:id', 
                 :controller => 'pipeline', :action => "add_favorite"
   map.pipeline_remove_favorite 'pipeline/:quarter_abbrev/:course_abbrev/remove_favorite/:id', 
                 :controller => 'pipeline', :action => "remove_favorite"
+  map.pipeline_confirm_position 'riverways/:quarter_abbrev/:course_abbrev/confirm_position/:id', 
+                :controller => 'pipeline', :action => "confirm_position"
   map.pipeline_confirm_position 'pipeline/:quarter_abbrev/:course_abbrev/confirm_position/:id', 
                 :controller => 'pipeline', :action => "confirm_position"
+  map.pipeline_remove_position_confirmation 'riverways/:quarter_abbrev/:course_abbrev/remove_position_confirmation/:id', 
+                :controller => 'pipeline', :action => "remove_position_confirmation"
   map.pipeline_remove_position_confirmation 'pipeline/:quarter_abbrev/:course_abbrev/remove_position_confirmation/:id', 
                 :controller => 'pipeline', :action => "remove_position_confirmation"
+  map.pipeline_checkin 'riverways/:quarter_abbrev/:course_abbrev/checkin/:id/:token', 
+                :controller => 'pipeline', :action => 'checkin'
   map.pipeline_checkin 'pipeline/:quarter_abbrev/:course_abbrev/checkin/:id/:token', 
                 :controller => 'pipeline', :action => 'checkin'
+  map.pipeline_email_remove_confirmation 'riverways/:quarter_abbrev/:course_abbrev/email_remove_confirmation/:id', 
+                :controller => 'pipeline', :action => 'email_remove_confirmation'
   map.pipeline_email_remove_confirmation 'pipeline/:quarter_abbrev/:course_abbrev/email_remove_confirmation/:id', 
-                :controller => 'pipeline', :action => 'email_remove_confirmation'                                
-
+                :controller => 'pipeline', :action => 'email_remove_confirmation'
+  
+  map.resources :tutoring_log,
+                :name_prefix => "pipeline_",
+                :path_prefix => 'riverways/:quarter_abbrev/:course_abbrev/:placement',
+                :controller => 'pipeline/tutoring_log',
+                :collection => { :submit => :put }
   map.resources :tutoring_log,
                 :name_prefix => "pipeline_",
                 :path_prefix => 'pipeline/:quarter_abbrev/:course_abbrev/:placement',
                 :controller => 'pipeline/tutoring_log',
                 :collection => { :submit => :put }
+  
   map.pipeline_tutoring 'pipeline/:quarter_abbrev/:course_abbrev/:placement', :controller => 'pipeline/tutoring_log', :action => 'index'
+  map.riverways_tutoring 'riverways/:quarter_abbrev/:course_abbrev/:placement', :controller => 'pipeline/tutoring_log', :action => 'index'
         
   # Online Applications
   map.apply_proceedings_favorites 'apply/:offering/proceedings/favorites/:action/:id.:format', :controller => 'apply/proceedings/favorites'

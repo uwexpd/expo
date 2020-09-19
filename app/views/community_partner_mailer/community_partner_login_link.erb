@@ -1,12 +1,29 @@
 Dear <%= @organization_contact.person.firstname %>,
 
-<%= @organization_contact.organization.name %> has identified you as an organization contact. This allows you to access and edit information about your organization's <% if @unit.abbreviation=="carlson" %><%= "Carlson Center service-learning" %><% else %><%= @unit.title %><% end -%> opportunities. To login to the system, please follow the link below:
+<% if @unit.abbreviation=="bothell" %>
+	You have been identified by <%= @organization_contact.organization.name %> as an organization contact for the UW EXPO database.
 
-<%= @link %>
+	Once your account is set up, you can post and edit CBLR project and position descriptions, track students who register for your positions, and complete end of quarter evaluations online. EXPO is a database developed to track service learning partnerships, and shared by all three campuses (Bothell, Seattle, Tacoma). It is managed by the Center for Engaged Learning and Education (CELE, formerly Carlson Center) at UW Seattle.  	
+<% else %>
+	<%= @organization_contact.organization.name %> has identified you as an organization contact. This allows you to access and edit information about your organization's <% if @unit.abbreviation=="carlson" %><%= "Carlson Center service-learning" %><% else %><%= @unit.title %><% end -%> opportunities.
+<% end %>
 
-You will be asked to login with a username and password. If you do not yet have a username in our system, you can click a link on that page to quickly create a new user.
+	To login to the system, please follow the link below:
+	<%= @link %>
 
-If you have questions, please feel free to contact us at any time.
+	You will be asked to login with a username and password. If you do not yet have a username in our system, you can click a link on that page to quickly create a new user.
+<% if @unit.abbreviation=="bothell" %>
+	If you are unable to access EXPO, try the following:
+	• Be sure you’re using Google Chrome – EXPO works best with it.
+	• Log out of all other accounts, then use this link to log into EXPO
+	• Use Google Chrome’s Incognito window
+	• (If applicable), check the current google account you are logged into and make sure you are using your UW account if you are signed in to multiple Google accounts
+	• Contact serve@uw.edu for help
+
+	If you have questions or need assistance, please feel free to contact uwbcblr@uw.edu or serve@uw.edu at any time.
+<% else %>    	
+	If you have questions, please feel free to contact us at any time.
+<% end %>
 
 Thank you,
 

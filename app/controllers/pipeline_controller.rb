@@ -31,8 +31,8 @@ class PipelineController < ApplicationController
   def initialize_breadcrumbs
     session[:breadcrumbs] = BreadcrumbTrail.new
     session[:breadcrumbs].start
-    session[:breadcrumbs].add "EXPO Home", root_url, {:class => "home"}
-    session[:breadcrumbs].add "Pipeline Project", pipeline_base_url
+    session[:breadcrumbs].add "EXPO Home", riverways_base_url , {:class => "home"}
+    session[:breadcrumbs].add "Riverways Education Partnerships", riverways_base_url
   end
 
   
@@ -359,7 +359,7 @@ class PipelineController < ApplicationController
     else
       @quarter = (params[:quarter_abbrev]=='current') ? @current_quarter : Quarter.find_by_abbrev(params[:quarter_abbrev])
     end
-    session[:breadcrumbs].add "#{@quarter.title}", pipeline_quarter_path(@quarter), :class => 'quarter_select'
+    session[:breadcrumbs].add "#{@quarter.title}", riverways_quarter_path(@quarter), :class => 'quarter_select'
   end
   
   def check_if_student

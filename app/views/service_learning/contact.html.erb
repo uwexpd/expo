@@ -1,11 +1,11 @@
-<% title("Service-Learning Registration", @quarter.title) %>
+<% title("Community-Engaged Learning Registration", @quarter.title) %>
 
 <%= render :partial => "your_position", :locals => { :service_learning_course => @service_learning_course, :position => @position } %>
 
 <% form_for @student, :url => { :action => 'contact', :id => @position } do |f| -%>
 
 <h2>In case we need to get ahold of you...</h2>
-<p>From time to time, we might need to e-mail or call you to get more information. It is important that you check your UW e-mail address (<strong><%= @student.email %></strong>) regularly for updates about your service-learning position.</p>
+<p>From time to time, we might need to e-mail or call you to get more information. It is important that you check your UW e-mail address (<strong><%= @student.email %></strong>) regularly for updates about your community-engaged learning position.</p>
 
 	<%= error_messages_for :student %>
 

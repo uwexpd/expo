@@ -1,6 +1,6 @@
 <%= make_main_content_blocked %>
 
-<% title("Service-Learning Registration", @quarter.title) %>
+<% title("Community-Engaged Learning Registration", @quarter.title) %>
 
 <%= render :partial => "your_position", :locals => { :service_learning_course => @service_learning_course, :position => @current_position, :hide_change_button => true } if @placements && !@placements.empty? %>
 
