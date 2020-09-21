@@ -1,8 +1,21 @@
 <% title("Community-Engaged Learning Registration", @quarter.title) %>
 
 <%= render :partial => "your_position", :locals => { :service_learning_course => @service_learning_course, :position => @position } %>
-
-<h2>Acknowledgement of Risk</h2>
+<center><h2>
+	<p>University of Washington </p>
+	<% if @service_learning_course.unit.abbreviation == 'bothell' %>
+		<p>Community Based Learning and Research<p/> 
+		<p>Community-Engaged Learning Acknowledgement of Risk Form<p/>		
+	<% else %>
+		<p>Community Engagement and Leadership Education (CELE) Center<p/> 
+		<p>Community Engaged Courses Acknowledgement of Risk Form<p/>
+	<% end %>
+	</h2>
+</center>
+<br />
+<h3>NOTE: This form must be signed and filed with the <%= @service_learning_course.unit.abbreviation == 'bothell' ? 'CBLR Office' : 'CELE Center' %> before any student can begin volunteering as part of a community engaged course.</h3>
+<br />
+<h2>Acknowledgment of Risk and Consent for Treatment for Students Age 18 and Over</h2>
 
 <% form_for @student, :url => { :action => 'risk', :id => @position } do |f| -%>
 

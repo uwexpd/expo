@@ -70,12 +70,12 @@ class ServiceLearningController < ApplicationController
       # TODO: change place_into to the place_into(position, course, unit) format when the student side it set up to use units
       @student.place_into(@new_position, @service_learning_course)
       flash[:notice] = "You are now registered into your new service-learning position."
-      redirect_to :action => "complete"
+      redirect_to community_engaged_action_path(:action => "complete")
     end
   end
 
   def choose
-    redirect_to :action => "contact", :id => @position
+    redirect_to community_engaged_action_path(:action => "contact", :id => @position)
   end
 
   def contact
@@ -85,7 +85,7 @@ class ServiceLearningController < ApplicationController
       else
         @student.update_attribute :phone, params[:student][:phone]
         flash[:notice] = "Contact information saved. Thank you."
-        redirect_to :action => "risk", :id => @position
+        redirect_to community_engaged_action_path(:action => "risk", :id => @position)
       end
     end
   end
@@ -101,7 +101,7 @@ class ServiceLearningController < ApplicationController
         # TODO: change place_into to the place_into(position, course, unit) format when the student side it set up to use units
         @student.place_into(@position, @service_learning_course)
         flash[:notice] = "Service-learning registration complete."
-        redirect_to :action => "complete"
+        redirect_to community_engaged_action_path(:action => "complete")
       end
     end
   end

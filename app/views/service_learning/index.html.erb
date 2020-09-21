@@ -17,13 +17,13 @@
 
 	<% if @service_learning_course.finalized? && !@service_learning_course.open? %>
 		<div class="yellow box">
-		<strong>Service-learning registration is not open for this course.</strong> 
+		<strong>Community-engaged learning registration is not open for this course.</strong>
 		Until it is, you can browse the positions that are available for this course. Please 
 		note that these positions are subject to change until registration opens.
 		</div>
 	<% elsif !@service_learning_course.finalized? -%>
 		<div class="yellow box">
-		<strong>Service-learning positions have not yet been finalized for this course.</strong> Please check back later.
+		<strong>Community-engaged learning positions have not yet been finalized for this course.</strong> Please check back later.
 		</div>
 	<% end -%>	
 

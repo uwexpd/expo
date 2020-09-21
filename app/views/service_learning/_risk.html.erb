@@ -6,15 +6,20 @@
 		<p>Should my minor child require emergency medical treatment as a result of accident or illness arising during volunteer work, I consent to such treatment.  I acknowledge that the University of Washington does not provide health and accident insurance for service learning participants and I agree to be financially responsible for any medical bills incurred as a result of emergency medical treatment.  I acknowledge that my child has been given the option to purchase student insurance through the University.  I will notify the Service Learning staff and staff at my child’s volunteer site in writing if my minor child has medical conditions about which emergency medical personnel should be informed.</p>
 	
 <% else %>
-
-<p>Volunteering in the community has its own risks. Before you can participate in service learning opportunities, you <strong>must</strong> read and sign the acknowledgement of risk agreement below.</p>
-
-	<% if @service_learning_course.unit.abbreviation == 'carlson' %>
+	
 	<blockquote>
-		<p>I acknowledge there are certain risks inherent in volunteering in the community, including but not limited to physical injury and death. I acknowledge that all risks cannot be prevented and I assume those beyond the control of the University faculty and staff. I represent that I am physically able, with or without accommodation, to participate in community-engaged learning, and that I am able to use the equipment and/or supplies described in the community-engaged learning position description for which I am registering and that I have obtained the required immunizations (if any immunization requirements have been listed in the service learning position description for which I am registering).</p>
-		<p>Should I require emergency medical treatment as a result of accident or illness arising during volunteer work, I consent to such treatment. I acknowledge that the University of Washington does not provide health and accident insurance for community-engaged learning participants and I agree to be financially responsible for any medical bills incurred as a result of emergency medical treatment. I acknowledge that I have been given the option to purchase student insurance through the University. I will notify the Community-engaged learning staff and staff at my volunteer site in writing if I have medical conditions about which emergency medical personnel should be informed.</p>
-		<p>I understand that it is my responsibility to request reasonable accommodation, if needed for my community-engaged learning placement. To request disability accommodation for community-engaged learning placements, students can contact: UW Disability Resources for Students (matriculated students): depts.washington.edu/uwdrs; or UW Disability Services Office (non matriculated students): http://www.washington.edu/admin/dso.</p>
-		<p>I understand that this Acknowledgement of Risk Form applies to all UW Carlson Center-coordinated service learning activities in which I am registering for this quarter and for the remainder of the academic year.  </p>
+		<p>I acknowledge there are certain risks inherent in volunteering in the community, including but not limited to bodily injury, illness due to exposure to infectious diseases (including COVID-19), and death.Risks inherent in this activity include bodily injury or illness due to exposure to infectious diseases, including COVID-19. I acknowledge that all risks cannot be prevented and I assume those beyond the control of the University faculty and staff. I represent that I am physically able, with or without accommodation, to participate in community-engagement activities; that I am able to use the equipment and/or supplies described in the community-engaged learning position description for which I am registering. I have reviewed any applicable safety plans (including those for COVID-19 prevention) linked in the position description. I have obtained the required immunizations (if any immunization requirements have been listed in the position description for which I am registering).</p>
+		<p>Should I require emergency medical treatment as a result of an accident or illness arising during volunteer work, I consent to such treatment. I acknowledge that the University of Washington does not provide health and accident insurance for community-engaged learning participants and I agree to be financially responsible for any medical bills incurred as a result of emergency medical treatment. I will notify the UW Community-Engaged Courses staff and staff at my volunteer site in writing if I have medical conditions about which emergency medical personnel should be informed.</p>
+		<p>I understand that it is my responsibility to request reasonable accommodation, if needed for my community-engaged learning placement. To request disability accommodation for community-engagement activities, 
+		<% if @service_learning_course.unit.abbreviation == 'bothell' %>
+			 students (matriculated and non-matriculated) can contact Disability Resources for Students: https://www.uwb.edu/studentaffairs/drs
+		<% else %>
+			 Seattle-campus students can contact: UW Disability Resources for Students (matriculated students): depts.washington.edu/uwdrs;  or UW Disability Services Office (non matriculated students): http://www.washington.edu/admin/dso. 
+		<% end %>
+
+		</p>
+		<p>I understand that this Acknowledgement of Risk Form applies to all UW-coordinated community engagement activities for which I am registering this quarter; this acknowledgement will be in effect for any such community engagement activities through the remainder of the academic year. </p>
+
 		<dl class="inline-definitions">
 			<dt>Student Name</dt><dd><%= @student.fullname %></dd>
 			<dt>Course</dt><dd><%= @service_learning_course.title %></dd>
@@ -22,11 +27,7 @@
 		    <dt>Email</dt><dd><%= @student.email %></dd>		  
 		</dl>
 	
-	<% else %>
+	
 			
-	<blockquote>
-		<p>I acknowledge there are certain risks inherent in volunteering in the community, including but not limited to physical injury and death.  I acknowledge that all risks cannot be prevented and I assume those beyond the control of the University faculty and staff.  I represent that I am physically able, with or without accommodation, to participate in service learning, and that I am able to use the equipment and/or supplies described in the job descriptions for the service learning positions, and that I have obtained the required immunizations.</p>
-		<p>Should I require emergency medical treatment as a result of accident or illness arising during volunteer work, I consent to such treatment.  I acknowledge that the University of Washington does not provide health and accident insurance for service learning participants and I agree to be financially responsible for any medical bills incurred as a result of emergency medical treatment.  I acknowledge that I have been given the option to purchase student insurance through the University.  I will notify the Service Learning staff and staff at my volunteer site in writing if I have medical conditions about which emergency medical personnel should be informed.</p>
-
-	<% end %>
-<% end -%>
+	
+<% end %>
