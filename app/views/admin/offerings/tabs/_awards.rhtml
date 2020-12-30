@@ -61,15 +61,15 @@
 <p class="intro">These users are responsible for approving awards after they have been awarded.</p>
 
 <dl class="inline-definitions">
-
+	<% user_admins = User.admin%>
 	<dt>Dean</dt>
-	<dd><%= f.collection_select :dean_approver_id, PubcookieUser.all, :id, :login, :include_blank => true %></dd>
+	<dd><%= f.collection_select :dean_approver_id, user_admins, :id, :login, :include_blank => true %></dd>
 
 	<dt>Financial aid</dt>
-	<dd><%= f.collection_select :financial_aid_approver_id, PubcookieUser.all, :id, :login, :include_blank => true %></dd>
+	<dd><%= f.collection_select :financial_aid_approver_id, user_admins, :id, :login, :include_blank => true %></dd>
 
 	<dt>Disbersement</dt>
-	<dd><%= f.collection_select :disbersement_approver_id, PubcookieUser.all, :id, :login, :include_blank => true %></dd>
+	<dd><%= f.collection_select :disbersement_approver_id, user_admins, :id, :login, :include_blank => true %></dd>
 	
 </dl>
 	

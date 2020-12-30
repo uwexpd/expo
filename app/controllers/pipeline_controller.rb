@@ -227,8 +227,12 @@ class PipelineController < ApplicationController
     @error_message = nil
     if @quarter == @current_quarter
       @pipeline_position = ServiceLearningPosition.find(params[:id])
-    
+
       service_learning_placement = ServiceLearningPlacement.find_by_person_id_and_service_learning_position_id(@student.id, params[:id])
+
+      @student.update_attribute :service_learning_risk_signature, params[:electronic_signature] || @student.fullname
+      @student.update_attribute :service_learning_risk_date, Time.now
+
       if service_learning_placement.nil?
         force_placement = !(@pipeline_position.use_slots? || (!@service_learning_course.nil? && @service_learning_course.no_filters?))
         if !@student.place_into!(@pipeline_position, @service_learning_course, @unit, false, "2", force_placement)

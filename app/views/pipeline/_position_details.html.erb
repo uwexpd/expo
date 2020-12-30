@@ -219,6 +219,15 @@ end
 
 			    <%= render :partial => "confirm_position_warning" %>
 
+			    <div class="yellow box">
+					<div id="electronic_signature">
+						<%= @student.sdb.age < 18 ? 'Signature of Parent or Guardian: ' : 'Electronic Signature (type your full legal name):' %>
+						<%= text_field_tag "electronic_signature_#{pipeline_position.id}" %>
+						<%= content_tag('em', '*', :class => 'required') %><br />
+						Date: <u style="font-weight:normal"><%= Time.now.to_date.to_s(:long) %></u>
+					</div>
+				</div>
+
 			    <div class="">
 			    <%= link_to_function "Cancel", 
 			  						"Effect.BlindUp('pipeline_position_confirm_check_#{pipeline_position.id}', { duration: 0.25 }); 
@@ -227,11 +236,11 @@ end
 			  	</div>
 			  	<div class="">
 			    <%= link_to_remote "Continue With Confirmation", 
-			         {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, 
-			          :action => "confirm_position", :id => pipeline_position.id}, 
+			         {:url=> {:controller => "pipeline", :quarter_abbrev => @quarter.abbrev, :course_abbrev => @course_abbrev, :action => "confirm_position", :id => pipeline_position.id},
 			          :indicator => "global",
-			          :before => "this.disabled=true;this.onclick=function(){return false;}; $('confirm_cancel_#{pipeline_position.id}').onclick=function(){return false;};$('global_overlay').stopObserving('click');"}, 
-			          :class => "button" %>
+			          :before => "this.disabled=true;this.onclick=function(){return false;}; $('confirm_cancel_#{pipeline_position.id}').onclick=function(){return false;};$('global_overlay').stopObserving('click');",
+			      	  :with => "'electronic_signature=' + $('electronic_signature_#{pipeline_position.id}').value"},
+			          {:class => "button"} %>
 			    </div>
 			  </div>
 			</div>

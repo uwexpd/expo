@@ -4,7 +4,7 @@ desc "Importing file for service learning placements permutation"
 
 task :placements_permutation => :environment do
     print "Parsing CSV file...."
-    file_path = "tmp/SPH_491B_Registration.csv"
+    file_path = "tmp/SPH_491_Project_Preference_Responses.csv"
     print "(file path: #{file_path})\n"
 
     import_file = CSV.open(file_path, 'r', ?,, ?\r)
@@ -77,22 +77,10 @@ task :placements_permutation => :environment do
 	
 	positions = 
     {
-    	"Asian Counseling and Referral Service- ESL Tutor/TA" => 4,
-		"Asian Counseling and Referral Service- Food Bank Helper" => 3,
-		"Downtown Emergency Service Center (DESC)- Homelessness & Housing Health Needs Survey Administrators" => 3,
-		"Elizabeth Gregory Home- Winter Quarter Donation Project" => 4,
-		"Lifelong- Food & Nutrition Program Assistant" =>4,
-		"Needle Exchange- Syringe Exchange Volunteer"  =>2,
-		"New Horizons Ministries- Direct Service Volunteer for Day Program" => 2,
-		"New Horizons Ministries- Direct Service Volunteer for Drop-In" =>	3,
-		"New Horizons Ministries- Direct Service Volunteer for Young Adult Shelter" => 2,
-		"ROOTS Young Adult Shelter- Evening Shelter Volunteer" => 5,
-		"Seattle Central College - Basic Studies Tutoring Program- Adult Literacy Tutor (ESL/ABE/GED)" => 5,
-		"Specialized Programs: Seattle Parks and Recreation- Recreation Program Assistant for People with Developmental Disabilities" => 4,
-		"Teen Feed- Teen Feed Advocate" => 4,
-		"United Way of King County Tax Campaign- 2020 Census and Benefits Navigator" => 5,
-		"Vulnerable Population Strategic Initiative (VPSI)- 9-1-1 Education and Outreach for limited English proficient (LEP) communities" => 2,
-		"Vulnerable Population Strategic Initiative (VPSI)- Stroke and CPR outreach program to older adults" =>	6      
+		"Washington State Department of Health: Emergency Languages and Outreach Services Contract Community Interviews" => 30,
+		"Neighborhood House: Health & Wellness Children’s Stories and Video Lesson Series (Remote)" => 30,
+		"National Asian Pacific Center on Aging: How-To Video Series for AAPI Elders" => 30,
+		"Vulnerable Population Strategic Initiative (VPSI): 9-1-1 Senior Education and Outreach Program" => 10
     }    
 
     #Run permutation 

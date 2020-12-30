@@ -4,7 +4,7 @@
 		<li><%= link_to "Student Summary", {:action => 'show', :id => @app } unless !params[:view] %></li>
 		<li><%= link_to "Application Details", { :action => 'show', :id => @app, :view => :project_details } %></li>
 		<li><%= link_to "Mentor's Letter of Support", { :action => 'view', :id => @app, :mentor => @app.mentors.first.id } %>
-		<li><%= link_to "Student's Essay", { :action => 'view', :id => @app, :file => @app.files.first.id } %></li>
+		<li><%= link_to "Student's Essay", { :action => 'view', :id => @app, :file => @app.files.first.try(:id)  } %></li>
 		<li><%= link_to "Student's Transcript", { :action => 'transcript', :id => @app } %></li>
 		
 		<% for previous_app in @app.past_applications %>

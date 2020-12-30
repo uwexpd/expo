@@ -175,7 +175,7 @@ class WebServiceResult
         :cert         => OpenSSL::X509::Certificate.new(File.open("#{RAILS_ROOT}/config/certs/#{config_options[:cert]}")),
         :key          => OpenSSL::PKey::RSA.new(File.open("#{RAILS_ROOT}/config/certs/#{config_options[:key]}")),
         :ca_file      => "#{RAILS_ROOT}/config/certs/#{config_options[:ca_file]}",
-        :verify_mode  => OpenSSL::SSL::VERIFY_PEER
+        :verify_mode  => OpenSSL::SSL::VERIFY_NONE # FIXME: Use VERIFY_PEER
       }
     end
   

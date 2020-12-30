@@ -15,7 +15,7 @@
 <br />
 <h3>NOTE: This form must be signed and filed with the <%= @service_learning_course.unit.abbreviation == 'bothell' ? 'CBLR Office' : 'CELE Center' %> before any student can begin volunteering as part of a community engaged course.</h3>
 <br />
-<h2>Acknowledgment of Risk and Consent for Treatment for Students Age 18 and Over</h2>
+<h2><%= @student.sdb.age < 18 ? 'Acknowledgment of Risk and Consent for Treatment for Minor Students' : 'Acknowledgment of Risk and Consent for Treatment for Students Age 18 and Over' %></h2>
 
 <% form_for @student, :url => { :action => 'risk', :id => @position } do |f| -%>
 
@@ -25,7 +25,7 @@
 
 	<div class="yellow box">
 		<div id="electronic_signature">
-			Electronic Signature (type your full legal name): 
+			<%= @student.sdb.age < 18 ? 'Signature of Parent or Guardian: ' : 'Electronic Signature (type your full legal name):' %>
 			<%= f.text_field :electronic_signature %>
 			<%= content_tag('em', '*', :class => 'required') %>
 			Date: <u style="font-weight:normal"><%= Time.now.to_date.to_s(:long) %></u>

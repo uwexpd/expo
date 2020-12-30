@@ -48,7 +48,7 @@
 <tr class="borderless">
 	<td colspan=7 class="left-indent">
 		<strong>Review Committee Decision:</strong> <%= @a.review_committee_decision %>.
-		<strong>Feedback Person:</strong> <%= @a.feedback_person.fullname %>.
+		<strong>Feedback Person:</strong> <%= @a.feedback_person.try(:fullname) %>.
 	</td>
 </tr>
 <%- end -%>

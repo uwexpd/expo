@@ -1,9 +1,22 @@
+<center>
+	<h2>
+	  <p>University of Washington</p>
+	  <p>Community Engagement and Leadership Education (CELE) Center</p>
+	  <p>Community Engaged Courses Acknowledgement of Risk Form</p>
+	</h2>
+</center>
+<h3>NOTE: This form must be signed and filed with the CELE Center before any student can begin volunteering as part of a community engaged course.</h3>
+<h2><%= @student.sdb.age < 18 ? 'Acknowledgment of Risk and Consent for Treatment for Minor Students' : 'Acknowledgment of Risk and Consent for Treatment for Students Age 18 and Over' %></h2>
+<%= render :partial => "/service_learning/risk" %>
+
+<br/>
 <h4 class="icon-left exclamation">Are You Sure?</h4>
 <h1>Are You Sure?</h1>
-
 <p>
   Only press continue if you have emailed the position supervisor and intend to tutor in this position.
 </p>
 <p>
   Press cancel if you have not yet emailed the position supervisor or are unsure about where you want to tutor.
 </p>
+
+
