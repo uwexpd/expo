@@ -12,7 +12,7 @@
 		<p>I acknowledge there are certain risks inherent in volunteering in the community, including but not limited to bodily injury, illness due to exposure to infectious diseases (including COVID-19), and death.Risks inherent in this activity include bodily injury or illness due to exposure to infectious diseases, including COVID-19. I acknowledge that all risks cannot be prevented and I assume those beyond the control of the University faculty and staff. I represent that I am physically able, with or without accommodation, to participate in community-engagement activities; that I am able to use the equipment and/or supplies described in the community-engaged learning position description for which I am registering. I have reviewed any applicable safety plans (including those for COVID-19 prevention) linked in the position description. I have obtained the required immunizations (if any immunization requirements have been listed in the position description for which I am registering).</p>
 		<p>Should I require emergency medical treatment as a result of an accident or illness arising during volunteer work, I consent to such treatment. I acknowledge that the University of Washington does not provide health and accident insurance for community-engaged learning participants and I agree to be financially responsible for any medical bills incurred as a result of emergency medical treatment. I will notify the UW Community-Engaged Courses staff and staff at my volunteer site in writing if I have medical conditions about which emergency medical personnel should be informed.</p>
 		<p>I understand that it is my responsibility to request reasonable accommodation, if needed for my community-engaged learning placement. To request disability accommodation for community-engagement activities, 
-		<% if @service_learning_course.unit.abbreviation == 'bothell' %>
+		<% if @service_learning_course && @service_learning_course.unit.abbreviation == 'bothell' %>
 			 students (matriculated and non-matriculated) can contact Disability Resources for Students: https://www.uwb.edu/studentaffairs/drs
 		<% else %>
 			 Seattle-campus students can contact: UW Disability Resources for Students (matriculated students): depts.washington.edu/uwdrs;  or UW Disability Services Office (non matriculated students): http://www.washington.edu/admin/dso. 
@@ -25,7 +25,7 @@
 
 		<dl class="inline-definitions">
 			<dt>Student Name</dt><dd><%= @student.fullname %></dd>
-			<dt>Course</dt><dd><%= @service_learning_course.title %></dd>
+			<dt>Course</dt><dd><%= @service_learning_course.title if @service_learning_course %></dd>
 		    <dt>Student ID #</dt><dd><%= @student.student_no %></dd>
 		    <dt>Email</dt><dd><%= @student.email %></dd>		  
 		</dl>
