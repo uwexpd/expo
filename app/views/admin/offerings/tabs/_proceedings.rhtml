@@ -1,5 +1,15 @@
 <h2>Online Proceedings</h2>
 
+<p>
+	<%= f.check_box :virtual_proceeding %>
+	Enable the virtual proceeding process and displays
+</p>
+
+<p>
+	Public can only view virtual proceeding at:
+	<%= f.datetime_select :proceeding_public_display_at %></dd>
+<p>
+
 <p>Welcome Text
 	<%= f.text_area :proceedings_welcome_text, :style => "width: 99%" %></p>
 	<p class="caption">Use Textile formatting for markup.</p>

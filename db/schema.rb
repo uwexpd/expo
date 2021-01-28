@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20181218204609) do
+ActiveRecord::Schema.define(:version => 20210127094836) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -515,6 +515,12 @@ ActiveRecord::Schema.define(:version => 20181218204609) do
   add_index "appointments", ["previous_appointment_id"], :name => "index_appointments_on_previous_appointment_id"
   add_index "appointments", ["staff_person_id"], :name => "index_appointments_on_staff_person_id"
   add_index "appointments", ["student_id"], :name => "index_appointments_on_student_id"
+
+  create_table "ar_internal_metadata", :primary_key => "key", :force => true do |t|
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "award_types", :force => true do |t|
     t.string   "title"
@@ -2053,6 +2059,8 @@ ActiveRecord::Schema.define(:version => 20181218204609) do
     t.boolean  "allow_to_review_mentee",                      :default => false
     t.datetime "confirmation_deadline"
     t.boolean  "disable_signature"
+    t.boolean  "virtual_proceeding"
+    t.datetime "proceeding_public_display_at"
   end
 
   create_table "omsfa_student_info", :force => true do |t|
@@ -2487,6 +2495,12 @@ ActiveRecord::Schema.define(:version => 20181218204609) do
     t.boolean  "submitted"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "submitted_at"
+    t.integer  "submitted_person_id"
+    t.boolean  "paid"
+    t.boolean  "work_study"
+    t.string   "location"
+    t.text     "learning_benefit"
   end
 
   create_table "rights", :force => true do |t|

@@ -9,11 +9,11 @@
 		<strong class="project_title"><%= link_to_function abstract.stripped_project_title.strip, "Effect.toggle(\"abstract_text_#{abstract.id}\", 'blind')" %></strong>
 
 		<!--
-			# Only for 2020 Virtual Symposium
+			# For Virtual Symposium
 			# Only URP admin staff can view all the time
-			# Public can only view at symposium date | borrow +financial_aid_approval_request_sent_at+ for this purpose use
+			# Public can only view at symposium date
 		-->
-		<% if @offering.id==577 && !abstract.theme_response2.nil? && ((@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at) %>
+		<% if @offering.virtual_proceeding && !abstract.theme_response2.nil? && ((@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.proceeding_public_display_at) %>
             <strong style='margin-left: 2rem'><a href="<%= abstract.theme_response2 %>" target="_blank"><span class='icon-left show'>View presenter work</a></strong>
 		<% end %>
 
@@ -75,7 +75,7 @@
 				<ul>
 				<li><%= link_to abstract.offering_session.title(:include_identifier => true), 
 							apply_proceedings_url(@offering, 'offering_session', :id => abstract.offering_session.id) if abstract.offering_session %></li>
-				<%= "<li>#{abstract.offering_session.location rescue nil}</li>" if (@offering.id != 577 && !abstract.offering_session.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.financial_aid_approval_request_sent_at if @offering.financial_aid_approval_request_sent_at rescue nil %>
+				<%= "<li>#{abstract.offering_session.location rescue nil}</li>" if (!@offering.virtual_proceeding && !abstract.offering_session.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.proceeding_public_display_at if @offering.proceeding_public_display_at rescue nil %>
 				<%= "<li>#{content_tag(:span, abstract.location_section.title, :style => "color:##{abstract.location_section.color}") rescue nil}</li>" if abstract.location_section rescue nil %>
 				<%= "<li>Easel ##{abstract.easel_number rescue nil}</li>" if abstract.easel_number rescue nil %>
 				<%= "<li>#{abstract.offering_session.time_detail}</li>" if abstract.offering_session %>
