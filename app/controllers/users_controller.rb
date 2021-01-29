@@ -29,10 +29,13 @@ class UsersController < ApplicationController
     @user.valid? 
   end
 
-  def create
+  def create    
     cookies.delete :auth_token    
     @user = User.new(params[:user])
-    if User.find_by_email params[:user][:person_attributes][:email].strip, :conditions => 'type IS NULL'
+    if params['robot_check'].blank? || params['robot_check'] != '7'
+      flash[:error] = "Please answer the robot check answer correclty."
+      render :action => 'new'
+    elsif User.find_by_email params[:user][:person_attributes][:email].strip, :conditions => 'type IS NULL'
       flash.now[:error] = "This email address is already in use. <small>#{@template.link_to('Forgot your username/password?', :controller => 'session', :action => 'forgot')}</small>"
       render :action => 'new'
     else      

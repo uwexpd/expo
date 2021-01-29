@@ -26,9 +26,11 @@
 						:locals => { :show_address_fields => :false, :show_title_field => :false, :show => [] } %>
 		<% end -%>
 
-
+		<dt>3 + 4 = </dt>
+		<dd><%= text_field_tag 'robot_check' %>
+			<p class="caption">Check if you are a robut.</p>
+		</dd>
 	</dl>
-
 
 <p><%= submit_tag 'Sign up' %></p>
 
