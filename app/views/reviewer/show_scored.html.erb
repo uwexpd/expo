@@ -1,5 +1,6 @@
 <% mark_as_confidential @offering.confidentiality_note %>
 <% make_main_content_blocked %>
+<% virtual_proceeding = @app.offering.virtual_proceeding %>
 
 <div class="content-block">
 	<h3 style="margin-bottom: 0"><%= @app.person.fullname %>
@@ -17,12 +18,12 @@
 
 	<div id="tabs">
 		<ul>
-		<%= link_to_tab("Student Info", "student_info", { :action => "show", :id => @app, :section => "student_info" }, "tabview_content") %>
+		<%= link_to_tab("Student Info", "student_info", { :action => "show", :id => @app, :section => "student_info" }, "tabview_content") unless virtual_proceeding %>
 		<%= link_to_tab("Application Details", "application_review", { :action => "show", :id => @app, :section => "application_review" }, "tabview_content") %>
-		<%= link_to_tab("Transcript", "transcript", { :action => "show", :id => @app, :section => "transcript" }, "tabview_content") %>
+		<%= link_to_tab("Transcript", "transcript", { :action => "show", :id => @app, :section => "transcript" }, "tabview_content") unless virtual_proceeding %>
 		<%= link_to_tab("Essay & Files", "essay", { :action => "show", :id => @app, :section => "essay" }, "tabview_content") unless @app.files.empty? %>
 		<%= link_to_tab("#{@offering.mentor_title.pluralize}", "mentor_letter", { :action => "show", :id => @app, :section => "mentor_letter" }, "tabview_content") if @offering.uses_mentors? %>
-		<%= link_to_tab("Past Applications", "past_applications", { :action => "show", :id => @app, :section => "past_applications" }, "tabview_content") %>
+		<%= link_to_tab("Past Applications", "past_applications", { :action => "show", :id => @app, :section => "past_applications" }, "tabview_content") unless virtual_proceeding %>
 		</ul>
 	</div>
 

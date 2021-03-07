@@ -178,9 +178,15 @@ class Quarter < ActiveRecord::Base
 
   # Returns the quarter where the specified date falls by calling the same method on StudentCalendarQuarter. Returns the
   # Quarter object instead of a StudentCalendarQuarter object.
+  # If not found in StudentCalendarQuarter, try to workaround to guess from quarter's first day, added 02-01-2021
   def self.find_by_date(qdate)
     scq = StudentCalendarQuarter.find_by_date(qdate) 
-    scq.quarter rescue nil
+    # scq.quarter rescue nil
+    if scq
+      scq.quarter
+    else
+      self.find(:first, :conditions => [":qdate >= first_day AND year = :qyear", {:qdate => qdate.to_s(:db), :qyear => qdate.year}]) rescue nil
+    end
   end
 
   protected
