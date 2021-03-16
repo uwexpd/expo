@@ -66,7 +66,7 @@
 			<% if logged_in? %>
 				<li id="username">
 					<%= render :partial => "shared/username_note" %></li>
-				<li><%= link_to_unless_current "Edit Your Profile", profile_path(:return_to => request.url) %></li>
+				<li><%= link_to_unless_current "Edit Profile", profile_path(:return_to => request.url) %></li>
 				<li><%= link_to "Log out", logout_path %></li>
 				<% if current_user.admin? %>
 					<li><%= render :partial => "shared/save_favorite" %></li>

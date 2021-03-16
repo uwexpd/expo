@@ -49,7 +49,8 @@
 					<% if logged_in? %>
 					<li id="username">
 						<%= render :partial => "shared/username_note" %> |</li>
-					<li><%= link_to_unless_current "Edit Your Profile", profile_path(:return_to => request.url) %> |</li>
+					<li><%= link_to_unless_current "Edit Profile", profile_path(:return_to => request.url) %> |</li>
+					<li><a href='https://expd.uw.edu/expo-help-faq/' target='_blank'>Help</a> |</li>
 					<li><%= link_to "Log out", logout_path %></li>
 					<% end %>
 				</ul>
