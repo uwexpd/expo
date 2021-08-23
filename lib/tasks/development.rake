@@ -34,3 +34,25 @@ task :setup_development_users => :environment do
   end
   puts "Done"
 end
+
+desc "fix blank person issue"
+task :fix_blank_person => :environment do
+  person_blank_users = User.all(:conditions => "person_id is null")
+  puts "There are #{person_blank_users.count} users without person record"
+
+  person_blank_users.each do |u|
+    puts "user id/login = #{u.id}/#{u.login}"
+    u.person = Person.create
+    u.save!
+    student = Student.find_by_uw_netid("#{u.login}")
+    if student
+      person = u.person
+      person.email = student.email
+      person.firstname = student.firstname
+      person.lastname = student.lastname
+      person.save!
+      puts "-------saved person info from student record"
+    end
+  end
+
+end

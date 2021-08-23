@@ -60,4 +60,8 @@ class StudentResource < WebServiceResult
     self.RegisteredName
   end
 
+  def pronouns
+    self.Pronouns rescue nil
+  end
+
 end

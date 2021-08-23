@@ -4,7 +4,7 @@ desc "Importing file for service learning placements permutation"
 
 task :placements_permutation => :environment do
     print "Parsing CSV file...."
-    file_path = "tmp/SPH_491_Project_Preference_Responses.csv"
+    file_path = "tmp/Bothell Spring 2021 Health Studies Fieldwork Survey.csv"
     print "(file path: #{file_path})\n"
 
     import_file = CSV.open(file_path, 'r', ?,, ?\r)
@@ -77,10 +77,29 @@ task :placements_permutation => :environment do
 	
 	positions = 
     {
-		"Washington State Department of Health: Emergency Languages and Outreach Services Contract Community Interviews" => 30,
-		"Neighborhood House: Health & Wellness Children’s Stories and Video Lesson Series (Remote)" => 30,
-		"National Asian Pacific Center on Aging: How-To Video Series for AAPI Elders" => 30,
-		"Vulnerable Population Strategic Initiative (VPSI): 9-1-1 Senior Education and Outreach Program" => 10
+		"Bloodworks NW - Blood Donor Health Education and Recruitment Planning (Remote)" => 8,
+		"Everett Gospel Mission - Community Engagement and Activity Assistant (In-Person/On-Site)" => 4,
+		"Full Life Care - Assistant for COVID-19 Support for Home Care Aides (Remote/ Interview Required)" => 3,
+		"Full Life - Health Home Client Outreach Assistant (Remote/ Interview Required)" => 3,
+		"Inside Health Institute - Program Manager for Counseling Outreach and Population Health Initiative (Remote/Interview Required)" => 3,
+		"Latino Educational Training Institute - Health and Wellness Center Program Assistance (Remote)" => 1,
+		"Mukilteo Family YMCA - Community Researcher (Remote)" => 3,
+		"Mukilteo Family YMCA - Skate Park Outreach to Teens (Remote)" => 2,
+		"Neighborhood House - Narrate and Record Health & Wellness Children’s Stories and Video Lessons for Pre-K – 6th Grade (Remote)" => 5,
+		"Public Health Seattle & King County - Creating Access and Pathways to Public Health and STEM Careers – BIPOC students encouraged to participate (Remote)" => 2,
+		"Public Health Seattle & King County -Tobacco/Vaping Project Intern (Remote)" => 1,
+		"Project Girl - Mental Health and Wellness Mentoring Support (Remote)" => 2,
+		"Providence Regional Medical Center - Community Resource Outreach - Snohomish County Mask Brigade (On-site/In Person)" => 1,
+		"Sea Mar Community Health Centers - PROF BRECKWICH-VASQUEZ STUDENTS ONLY: MSAW's Researcher Internship (Remote)" => 2,
+		"Sea Mar Community Health Centers - PROF BRECKWICH-VASQUEZ STUDENTS ONLY: MSAW’s Designer Internship (Remote)" => 1,
+		"Shoreline Sports Foundation - Outdoor Adventure Coordinator (On-site/In Person/Interview Required)" => 1,
+		"Shoreline Sports Foundation - Service Coordinator (On-site/In Person/Interview Required)" => 1,
+		"Seattle Children’s Hospital - ABC Cookbook Design Support- Alyssa Burnett Center (Remote)" => 1,
+		"Tavon Learning Center - Resource Development (Remote)" => 2,
+		"UW Bothell School of Nursing and Health Studies - Communication and Social Media Assistant (Remote)" => 1,
+		"UW Pacific Northwest Agriculture Safety and Health (PNASH) Center - Outreach Internship Digital Media Junior Specialist (Remote)" => 2,
+		"Washington Coalition to Eliminate Farmworker Sexual Harassment - BASTA Coalition Intern (Remote/Interview Required)" => 4,
+		"YMCA of Greater Seattle - Nutrition Education and Enrichment - Curriculum Development (Remote)" => 2
     }    
 
     #Run permutation 
@@ -136,7 +155,7 @@ task :placements_permutation => :environment do
 	end
 
 	puts "#{placements.size} Placements : #{placements.inspect}"
-	puts "Postions left: #{positions.inspect}"
+	puts "Postions left detail: #{positions.inspect}"
 	puts "#{not_placed.size} students not placed: #{not_placed.inspect}"
 
 end

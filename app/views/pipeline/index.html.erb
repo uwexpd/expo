@@ -4,18 +4,18 @@
   <%= link_to "next quarter &gt;", pipeline_quarter_path(@quarter.next), :class => "inline" %>
 <% end %>
 
-<% title "Riverways Education Partnerships Dashboard" %>
+<% title "#{@unit.name} Dashboard" %>
 
 <h1>Welcome, <%= @student.firstname %>.</h1>
 
-<p>This page shows you the status of your involvement with the Riverways Education Partnerships.</p>
+<p>This page shows you the status of your involvement with the <%= @unit.name %>.</p>
 
 <ul class="welcome-links">
 	
 	<li id="orientation_status_display" class="orientation <%= @progress_statuses[:orientation][:css_class] %>">
 
 		<span class="status_marker"></span>
-		<h4>Riverways Education Partnerships Orientation</h4>
+		<h4><%= @unit.name %> Orientation</h4>
 		<%= @progress_statuses[:orientation][:text] %>
 		<p>*If you are enrolled in EDUC 401 or Soc 292, your orientation will be the first day of class. You do not need to sign up for orientation here.</p>
 

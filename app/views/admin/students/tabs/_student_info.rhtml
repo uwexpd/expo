@@ -20,7 +20,8 @@
 	<dd><%= @student.sdb.gpa %></dd>
 	
 	<dt>gender</dt>
-	<dd><%= @student.gender %></dd>
+	<dd><%= @student.gender %>
+		<%= "<span>(#{@student.sws.pronouns})</span>" unless @student.sws.pronouns.blank? %></dd>
 	
 	<dt>age</dt>
 	<dd><%= @student.sdb.age %>

@@ -32,7 +32,7 @@ class PipelineController < ApplicationController
     session[:breadcrumbs] = BreadcrumbTrail.new
     session[:breadcrumbs].start
     session[:breadcrumbs].add "EXPO Home", riverways_base_url , {:class => "home"}
-    session[:breadcrumbs].add "Riverways Education Partnerships", riverways_base_url
+    session[:breadcrumbs].add "CELE EDUC (Riverways Education Partnerships)", riverways_base_url
   end
 
   

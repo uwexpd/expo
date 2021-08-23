@@ -36,7 +36,7 @@
 				<td><%=h nominator.nominated_mentor.mentor_type.title rescue nil %></td>
 				<td><%=h nominee.department_name %></td>
 				<td><%=h nominator.nominated_mentor.academic_department.join(", ") rescue nil %></td>
-				<td><%=h nominator.nominated_mentor.person.institution_name rescue nil %></td>
+				<td><%=h nominator.nominated_mentor.person.institution_name || nominator.nominated_mentor.person.organization rescue nil %></td>
 				<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering.award_types.collect(&:scholar_title).include?("Mary Gates Research Scholar") }.size if nominee.is_a?(Person) %></td>
 				<td><%= nominee.application_mentors.select{|a| a.application_for_offering.offering == @offering }.size if nominee.is_a?(Person) %></td>
 				<td><%= nominators.size %></td>
