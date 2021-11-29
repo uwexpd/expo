@@ -1,3 +1,6 @@
+<%= javascript_include_tag 'chosen.proto' %>
+<%= javascript_include_tag 'prototype.1.7' %>
+<%= stylesheet_link_tag 'chosen' %>
 <dl class="inline-definitions">
 	
 	<dt><%= f.label :application_type_id %></dt>
@@ -7,7 +10,7 @@
 	<dd><%= f.check_box :allow_other_category %> This option acts as an "other" option where users can type in a custom answer.</dd>
 	
 	<dt><%= f.label :workshop_event_id %></dt>
-	<dd><%= f.collection_select :workshop_event_id, Event.all.sort, :id, :title, :prompt => "Select a workshop event (Optional)" %> 
+	<dd><%= f.collection_select(:workshop_event_id, Event.all.sort, :id, :title, {:prompt => "Select a workshop event (Optional)", :include_blank => "Select a workshop (Optional)"}, {:class => "chzn-select"}) %>
 		<small>or <%= link_to "Create one", 
 						new_event_path(:offering_id => @offering, :popup_layout => true, :dom_id_to_update => 'application_type_workshop_event_id'), 
 						:popup => ['new_window', 'scrollbars=yes,height=700,width=800'] %></small></dd>

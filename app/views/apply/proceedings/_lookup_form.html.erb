@@ -37,6 +37,16 @@
 			<%= submit_tag "Lookup",
 			 		:onClick => "return validateNotBlank(student_award, student_lookup_error, 'Please choose an award to lookup.')" %>
 		<% end -%>
+		<br />
+		<% form_tag url_for(:action => 'result'), :method => :get do %>
+			<%= label_tag :student_campus, "Student Campus:" %>
+			<%= select_tag :student_campus,
+							options_for_select([["Campus (#{@campus.size})", nil]] +
+												@campus.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
+												params[:student_campus]),
+							{ :style => "width: 20em" } %>
+			<%= submit_tag "Lookup", :onClick => "return validateNotBlank(student_campus, student_lookup_error, 'Please choose a campus to lookup.')" %>
+		<% end -%>
 
 	</div>
 

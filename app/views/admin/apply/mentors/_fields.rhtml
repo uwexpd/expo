@@ -123,7 +123,9 @@
 
 	<dt>approval at</dt>
 	<dd><%= f.datetime_select :approval_at, :include_blank => true, :twelve_hour => true %></dd>
-	
+
+	<dt>relationship</dt>
+	<dd><%= f.text_field :relationship, :size => 60 %></dd>
 </dl>
 
 

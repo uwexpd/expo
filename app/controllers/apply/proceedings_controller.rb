@@ -4,7 +4,7 @@ class Apply::ProceedingsController < ApplyController
   skip_before_filter :login_required, :student_login_required_if_possible
   skip_before_filter :fetch_user_applications, :choose_application, :redirect_to_group_member_area, :check_restrictions, :check_must_be_student_restriction, :display_submitted_note
   
-  before_filter :fetch_majors, :fetch_departments, :fetch_awards
+  before_filter :fetch_majors, :fetch_departments, :fetch_awards, :fetch_campus
   before_filter :fetch_favorite_abstracts
 
   before_filter :add_header_details
@@ -51,6 +51,7 @@ class Apply::ProceedingsController < ApplyController
     @result = find_by_department(params[:mentor_department]) unless params[:mentor_department].blank?
     @result = find_by_major(params[:student_major]) unless params[:student_major].blank?
     @result = find_by_award(params[:student_award]) unless params[:student_award].blank?
+    @result = find_by_campus(params[:student_campus]) unless params[:student_campus].blank?
     @result = @result.uniq unless @result.empty?
     @result = @result.sort_by{|x| "#{x.offering_session.try(:session_group).to_s}#{x.offering_session.try(:identifier).to_s}"}
     
@@ -165,6 +166,12 @@ class Apply::ProceedingsController < ApplyController
     result = @awards.values_at(query).flatten
     result = @offering.application_for_offerings.find_all_by_id(result).flatten
   end
+
+  def find_by_campus(query)
+    @query_strings[:student_campus] = query
+    result = @campus.values_at(query).flatten.compact
+    result = @offering.application_for_offerings.find_all_by_id(result).flatten
+  end
   
   # Fetches all primary presenters and group members in the confirmed status
   def fetch_applicants
@@ -183,6 +190,10 @@ class Apply::ProceedingsController < ApplyController
   
   def fetch_awards
     @awards = @offering.awards_mapping(:confirmed)
+  end
+
+  def fetch_campus
+    @campus = @offering.campus_mapping(:confirmed)
   end
   
   def fetch_favorite_abstracts

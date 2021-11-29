@@ -49,12 +49,12 @@
 
 		<p><label for="mentor_approval_response_approved">
 			<%= f.radio_button :approval_response, 'approved' %>
-			<big>Yes</big>
+			Yes
 		</label></p>
 
 		<p><label for="mentor_approval_response_revise">
 			<%= f.radio_button :approval_response, 'revise' %>
-			<big>No</big>, revision needed. I will work with the student(s) to revise it before 
+			No, revision needed. I will work with the student(s) to revise it before 
 			<%= HelpText.caption :deadline_revised_abstracts, Offering %>
 			<%#= @offering.mentor_deadline ? @offering.mentor_deadline.to_date : "the deadline" %>
 		</label></p>

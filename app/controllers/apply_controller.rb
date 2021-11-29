@@ -371,8 +371,8 @@ class ApplyController < ApplicationController
           @user_application.set_status "final_revision_submitted"
           flash[:notice] = "Thank you for submitting your final revisions."
         else
-          # Check if non required mentors (graduate student/researcher) responds the abstract. set status to +faculty_approval_needed+ unless ALL primary/required mentors (faculty/pos-doc) have responded
-          # In other word, if there is one of required_mentors who doesn't responded then set status +faculty_approval_needed+
+          # Check if non required mentors (graduate student/researcher) respond the abstract. set status to +faculty_approval_needed+ unless ALL primary/required mentors (faculty/post-doc) have responded
+          # In other word, if there is one of required_mentors who doesn't respond then set status +faculty_approval_needed+
           required_mentors = @user_application.mentors.select{|m| m.meets_minimum_qualification?}
 
           if required_mentors.collect(&:responded?).include?(false)

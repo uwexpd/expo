@@ -637,5 +637,42 @@ class Offering < ActiveRecord::Base
       awards
     end
   end
+
+  # Creates (or restores from cache) a hash with keys of campus names and values of arrays of application ID numbers.
+  # Default cache is 24 hours.
+  def campus_mapping(status = :confirmed, reference_quarter = nil)
+    reference_quarter ||= Quarter.find_by_date(deadline)
+    OFFERINGS_CACHE.fetch("campus_mapping_#{id}_#{status.to_s.underscore}_#{reference_quarter.abbrev}", :expires_in => 24.hours) do
+      @apps = application_for_offerings.with_status(status)
+      campus ||= {}
+      all_apps ||= (@apps + @apps.collect(&:group_members)).flatten.compact
+
+      all_apps.each do |a|
+        if a.person
+          # print "DEBUG person => #{a.person.id.to_s.ljust(10)}"
+          if a.person.is_a?(Student)
+            sk = a.person.system_key
+            rq = a.offering.quarter_offered || Quarter.find_by_date(a.offering.deadline)
+            t = StudentTranscript.find([sk, rq.year, rq.quarter_code_id]) rescue nil
+            t = (StudentTranscript.find([sk, rq.prev.year, rq.prev.quarter_code_id]) rescue nil) if t.nil?
+            ref_majors = t.nil? ? [] : t.majors
+          else
+            ref_majors = a.person.majors
+          end
+          #puts "DEBUG ref_majors => #{ref_majors.inspect}"
+          ref_majors.each do |major|
+            #puts "DEBUG major => #{major}"
+            if major.is_a?(StudentMajor) || major.is_a?(StudentTranscriptMajor)
+              campus_name = major.is_a?(StudentTranscriptMajor) ? major.branch_name : major.major_branch_name
+            else
+              campus_name = "Other Campus"
+            end
+            campus[campus_name] = (campus[campus_name].nil? ? [a.app.id] : campus[campus_name] << a.app.id) unless campus_name.blank?
+          end
+        end
+      end
+      campus
+    end
+  end
   
 end

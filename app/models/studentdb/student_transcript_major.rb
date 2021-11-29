@@ -32,5 +32,18 @@ class StudentTranscriptMajor < StudentInfo
   def pathway
     tran_pathway
   end
+
+  # Campus code: 0 => Seattle, 1 => Bothell, 2 => Tacoma
+  def branch_name
+   if branch == 0
+     "Seattle Campus"
+   elsif branch == 1
+     "Bothell Campus"
+   elsif branch == 2
+     "Tacoma Campus"
+   else
+     "Other Campus"
+   end
+  end
   
 end
