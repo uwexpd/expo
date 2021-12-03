@@ -404,9 +404,10 @@ class ServiceLearningController < ApplicationController
     else
       @enrolled_service_learning_courses = @student.enrolled_service_learning_courses(@quarter) #, nil) # by setting nil here, we check ALL courses except pipeline -- I changed this to not pass nil so that it will default to Carlson instead [mharris2 1/4/11]
       
-      # if we don't find any Carlson classes, check Bothell too
+      # if we don't find any Carlson classes, check Riverways(previous pipeline) and Bothell as well
       if @enrolled_service_learning_courses.empty?
-        @enrolled_service_learning_courses = @student.enrolled_service_learning_courses(@quarter, Unit.find_by_abbreviation("bothell"))
+        @enrolled_service_learning_courses = @student.enrolled_service_learning_courses(@quarter, Unit.find_by_abbreviation("riverways"))
+        @student.enrolled_service_learning_courses(@quarter, Unit.find_by_abbreviation("bothell")) if @enrolled_service_learning_courses.empty?
       end
       
       session[:enrolled_service_learning_course_ids] = @enrolled_service_learning_courses.collect(&:id)

@@ -103,7 +103,7 @@
 				<% if @offering.allow_early_mentor_submissions? %>
 				<li>
 				<div id="early_mentor_email_field_<%= mentor.id %>">
-					<p class="left-indent">To request a letter of support from your <%= @offering.mentor_title %> immediately, please check the box below.  (Once you give early access to your <%= @offering.mentor_title %>, you will not be able to remove him/her as a <%= @offering.mentor_title %> from your application.)</p>
+					<p class="left-indent">To request a letter of support from your <%= @offering.mentor_title %> immediately, please check the box below.  (Once you give early access to your <%= @offering.mentor_title %>, you will not be able to remove them as a <%= @offering.mentor_title %> from your application.)</p>
 
 						<p class="question_block">
 							<%= mf.check_box :send_invite_email_now, :checked => true %>
