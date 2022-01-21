@@ -59,9 +59,9 @@ div.auto_complete ul {
 
 body {
 	margin: 0;
-	font-family: Helvetica;
+	font-family: "Encode Sans Compressed",sans-serif, Helvetica;
 	background: #FFFFFF;
-	color: #000000;
+	color: #333333;
 	overflow-x: hidden;
 	-webkit-user-select: none;
 	-webkit-text-size-adjust: none;
@@ -91,9 +91,10 @@ body > *[selected="true"] {
 
 a[selected], a:active {
 	background-color: #194fdb !important;
-	background-image: url(../images/iui/listArrowSel.png), url(../images/iui/selection.png) !important;
-	background-repeat: no-repeat, repeat-x;
-	background-position: right center, left top;
+	/*background-color: #ddd !important;*/
+	/*background-image: url(../images/iui/listArrowSel.png), url(../images/iui/selection.png) !important;*/
+	/*background-repeat: no-repeat, repeat-x;*/
+	/*background-position: right center, left top;*/
 	color: #FFFFFF !important;
 }
 
@@ -107,11 +108,22 @@ body > .toolbar {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	border-bottom: 1px solid #2d3642;
-	border-top: 1px solid #6d84a2;
+	/*border-bottom: 1px solid #2d3642;
+	border-top: 1px solid #6d84a2;*/
 	padding: 10px;
 	height: 45px;
-	background: url(../images/iui/toolbar.png) #6d84a2 repeat-x;
+	/*background: url(../images/iui/toolbar.png) #6d84a2 repeat-x;*/
+	background-color: #4b2e83 ;
+	box-shadow: 0 2px 5px rgb(0 0 0 / 30%);
+}
+
+.toolbar #w-patch {
+	background-image: url(../images/app/yellow-patch.png);
+	width: 39px;
+	height: 45px;
+	position: fixed;
+	top: -8px;
+	z-index: 100;
 }
 
 .toolbar > h1 {
@@ -158,6 +170,66 @@ body[orient="landscape"] > .toolbar > h1 {
 	-webkit-border-image: url(../images/iui/toolButton.png) 0 5 0 5;
 }
 
+/*.uw-btn {
+  padding: 11px 20px;
+  text-transform: uppercase;
+  background-color: #e8e3d3;
+  font-weight: 800;
+  color: #5A5A5A;
+  display: inline-block;
+  position: relative;
+  background-image: none !important;
+  border-bottom: none;
+  text-decoration: none;
+  margin-bottom: 25px;
+  margin-right: 50px;
+  z-index: 1;
+  line-height: 24px;
+  font-size: 16px;
+  text-decoration: none !important;
+ }*/
+
+ .uw-back-btn {
+	position: absolute;
+	overflow: hidden;
+	top: 8px;
+	left: 6px;
+	right: auto;
+	margin: 0;
+	padding: 0 3px;
+	line-height: 30px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-overflow: ellipsis;
+	text-decoration: none;
+	white-space: nowrap;
+  border-width: 0 0 0 14px;
+	-webkit-border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;
+	-moz-border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;
+	border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;
+ }
+
+ .uw-search {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	  text-indent: -99999px;
+  border: 2px solid white;
+  background:  url(../images/iui/search.svg) no-repeat center center #4b2e83;
+  background-size: 54%;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  width: 30px;
+  height: 30px;
+  padding: 0;  
+  overflow: hidden;
+ }
+
 .blueButton {
 	-webkit-border-image: url(../images/iui/blueButton.png) 0 5 0 5;
 	border-width: 0 5px;
@@ -172,10 +244,14 @@ body[orient="landscape"] > .toolbar > h1 {
 	display: none;
 	left: 6px;
 	right: auto;
-	padding: 0;
+	padding: 0 3px;
 	max-width: 55px;
-	border-width: 0 8px 0 14px;
-	-webkit-border-image: url(../images/iui/backButton.png) 0 8 0 14;
+	border-width: 0 0 0 16px;
+	-webkit-border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;
+	-moz-border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;
+	border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;
+	/*border-width: 0 8px 0 14px;
+	-webkit-border-image: url(../images/iui/arrow_back_ios_white.png) 0 8 0 14;*/
 }
 
 .whiteButton,
@@ -207,19 +283,25 @@ body[orient="landscape"] > .toolbar > h1 {
 	color: #FFFFFF;
 }
 
-.fullButton, a.add_favorite {
+.fullButton, a.add_favorite, a.remove_favorite {
 	margin: 12px;
 	padding: 10px;
-	background: #fff;
+	background: #ddd;
 	display: block;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border: 1px solid #999999;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	/*border: 1px solid #999999;*/
 	font-size: 16px;
 	font-weight: bold;
-	color: #6d84a2;
+	color: #0a84ff;
 	text-decoration: none;
 	text-align: center;
+}
+
+.fullButton:hover, a.add_favorite:hover, a.remove_favorite:hover {
+	background: #aeb0b2;
+	color: #0a84ff;
 }
 
 .clear-button {
@@ -245,6 +327,10 @@ body[orient="landscape"] > .toolbar > h1 {
 	color: red;
 }
 
+.gray, .grey {
+	color: gray;
+}
+
 /************************************************************************************************/
 
 ul.link-list {
@@ -255,7 +341,9 @@ ul.link-list {
 ul.link-list > li {
 	position: relative;
 	margin: 0;
-	border-bottom: 1px solid #E0E0E0;
+	/*border-bottom: 1px solid #E0E0E0;*/
+	background-color: #eee;
+  border-bottom: 1px solid #fff;
 	padding: 8px 0 8px 10px;
 	font-size: 20px;
 	font-weight: bold;
@@ -282,7 +370,7 @@ ul.link-list > li.group {
 	background: url(../images/iui/listGroup.png) repeat-x;
 	font-size: 17px;
 	font-weight: bold;
-	text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
+	/*text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;*/
 	color: #FFFFFF;
 }
 
@@ -330,7 +418,7 @@ body > .dialog {
 	z-index: 2;
 	background: rgba(0, 0, 0, 0.8);
 	padding: 0;
-	text-align: right;
+	/*text-align: right;*/
 }
 
 .nonmodal-dialog {
@@ -347,7 +435,10 @@ body > .dialog {
 	border: none;
 	border-top: 1px solid #6d84a2;
 	padding: 10px 6px;
-	background: url(../images/iui/toolbar.png) #7388a5 repeat-x;
+	/*background: url(../images/iui/toolbar.png) #7388a5 repeat-x;*/
+	background-color: #4b2e83 ;
+	color: white;
+	font-size: 14px;
 }
 
 .dialog > fieldset > h1 {
@@ -360,18 +451,20 @@ body > .dialog {
 	text-align: center;
 }
 
-.dialog > fieldset > label, fieldset.dialog > label {
+.dialog > fieldset > label, fieldset.dialog > label, .dialog > label {
 	position: absolute;
-	margin: 16px 0 0 6px;
+	margin: 21px 0 0 6px;
 	font-size: 14px;
 	color: #999999;
+	display: block;
 }
+
 
 input:not(input[type|=radio]):not(input[type|=checkbox]), select {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	width: 100%;
-	margin: 8px 0 0 0;
+	margin: 12px 0 0 0;
 	padding: 6px 6px 6px 6.5em;
 	font-size: 16px;
 	font-weight: normal;
@@ -389,18 +482,20 @@ input#invitee_fullname {
 	-webkit-box-sizing: border-box;
 	padding: 10px;
 	margin: 10px;
-	background: #c8c8c8 url(../images/iui/pinstripes.png);
+	/*background: #c8c8c8 url(../images/iui/pinstripes.png);*/
+	background-color: white;
 	text-align: center;
 }
 
 .panel > fieldset {
 	position: relative;
 	margin: 0 0 20px 0;
-	padding: 0;
+	/*padding: 0;*/
 	background: #FFFFFF;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border: 1px solid #999999;
+	/*-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;*/
+	/*border: 1px solid #999999;*/
+	border:  none;
 	/*text-align: right;*/
 	font-size: 16px;
 	margin: 10px;
@@ -408,6 +503,14 @@ input#invitee_fullname {
 
 .panel > fieldset .block {
 	padding: 10px;
+}
+
+.panel > fieldset > h2 {
+	background-color: #4b2e83 ;
+	color:  white;
+	margin:  0;
+	padding: 12px;
+	font-size: 20px;
 }
 
 .panel > small {
@@ -450,8 +553,9 @@ a.uwnetid_link #uwnetid_logo {
 .row {
 	position: relative;
 	min-height: 42px;
-	border-bottom: 1px solid #999999;
-	-webkit-border-radius: 0;
+	background-color:  #eee;
+	border-bottom: 1px solid #fff;
+	/*-webkit-border-radius: 0;*/
 }
 
 fieldset > .row:last-child {
@@ -484,10 +588,11 @@ fieldset > .row:last-child {
 
 .row > span {
 	position: relative;
-	padding: 12px 10px 12px 110px;
+	padding: 12px 10px 12px 10px;
 	margin: 0;
 	display: block;
-}
+	color:  #333;
+} 
 
 .row > .toggle {
 	position: absolute;
@@ -559,7 +664,7 @@ fieldset > .row:last-child {
 	margin: 18px 0 12px 14px;
 	font-size: inherit;
 	font-weight: bold;
-	color: #4d4d70;
+	color: #4b2e83;
 	text-shadow: rgba(255, 255, 255, 0.75) 1px 1px 0;
 	text-align:center;
 	
@@ -590,7 +695,8 @@ fieldset > .row:last-child {
 }
 
 .proceedings .panel h2.session_title {
-	padding-left: 3.5em;
+	/*padding-left: 3.5em;*/
+	padding-left: 2em;
 	margin-right: 10px;
 	min-height: 2em;
 	margin-bottom: 12px;
@@ -603,13 +709,24 @@ fieldset > .row:last-child {
 
 .proceedings h1.title {
 	display: block;
-	background: #7fb439 url(../images/symposium/2021/proceedings-iphone.png) no-repeat;
-	background-size: 400px 75px;
+	background: #b7a57a url(../images/symposium/2022/proceedings-iphone.png);
+	background-size: cover;
+	/*background-size: 600px 75px;*/
 	text-indent: -1000px;
 	height: 75px;
 	border-bottom: 1px solid #999;
 	margin-top: 0;
 	margin-bottom: 12px;
+}
+
+.proceedings h1.title.year_2021 {
+  background: #b7a57a url(../images/symposium/2021/proceedings-iphone.png);
+  background-size: cover;
+}
+
+.proceedings h1.title.year_2020 {
+  background: #b7a57a url(../images/symposium/2020/proceedings-iphone.png);
+  background-size: cover;
 }
 
 .proceedings h4.time {
@@ -627,6 +744,10 @@ fieldset > .row:last-child {
 	font-size: 100%;
 }
 
+.proceedings li.abstract a:hover {
+	background-color: #ddd;
+}
+
 .abstract .project_title {
 	display: block;
 	font-weight: bold;
@@ -638,9 +759,15 @@ fieldset > .row:last-child {
 	margin: 0;
 }
 
+.abstract_text {
+	background-color:  #eee;
+}
+
 .abstract_text p {
 	line-height: 140%;
 	margin: 10px;
+	text-align: left;
+	color:  #333;
 }
 
 .status.tag {
@@ -664,6 +791,8 @@ fieldset > .row:last-child {
 
 dl.inline-definitions {
 	margin-top: 1em;
+	font-size: smaller;
+	/*color: #5a5a5a;*/
 }
 
 dl.inline-definitions dt {
@@ -683,6 +812,7 @@ dl.inline-definitions dd {
 	font-size: 100%;
 	padding: 2px;
 	padding-left: 100px;
+	text-align: left;
 }
 
 dl.inline-definitions dd ul {

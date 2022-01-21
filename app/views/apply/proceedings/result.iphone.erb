@@ -1,4 +1,13 @@
-<div id="abstract_search_results" class="panel" title="Results">
+<%= render :partial => "lookup_form" %>
+
+<div class="toolbar">
+    <h1 id="pageTitle"></h1>
+    <%= link_to "Home", @header_link, :class => "uw-back-btn", :target => "_self" %>
+    <!-- <a id="proceedings" class="uw-back-btn" href="/apply/<%= @offering.id %>/proceedings">Home</a>     -->
+    <a class="uw-search" href="#lookup_form">Search</a>
+</div>
+
+<div id="abstract_search_results" class="panel" title="Results" selected="true">
 	<%= render :partial => 'sorted_abstracts', :object => @result %>
 </div>
 

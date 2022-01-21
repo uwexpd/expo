@@ -1,35 +1,40 @@
+<%= render :partial => "lookup_form" %>
+
 <div class="toolbar">
+	<!-- <div id="w-patch"></div> -->
     <h1 id="pageTitle"></h1>
-    <a id="backButton" class="button" href="#"></a>
-    <a class="button" href="#lookup_form">Search</a>
+    <a id="backButton" class="uw-back-btn" href="#"></a>
+    <a class="uw-search" href="#lookup_form">Search</a>
 </div>
 
 <div id="home" title="Proceedings" selected="true" class="panel">
 
 	<% if @offering.deadline.year == Time.now.year %>
 	  <h1 class="title"></h1>
+	<% else %>
+	  <h1 class="title year_<%= @offering.deadline.year %>"></h1>
 	<% end %>
 	<!-- <fieldset>
 		<div class="block">
 			<h2>Welcome!</h2>
-			<%= textilize @offering.proceedings_welcome_text %>
+			<%#= textilize @offering.proceedings_welcome_text %>
 		</div>
 	</fieldset>
 	 -->
 
-    <h2><%= @offering.name %></h2>
-	<h2>Schedule</h2>
+    <h2><%= @offering.name.upcase %></h2>	
 	<fieldset>
+	<h2>Schedule</h2>
 	<ul class="link-list">
 		<% for session_group, application_types_hash in @sessions %>
-			<% for application_type, sessions in application_types_hash.sort.reverse %>
+			<% for application_type, sessions in application_types_hash.sort_by{|k,v|v.first.start_time} %>
 				<% if sessions.size == 1 %>
-					<li><%= link_to sessions.first.title + "<br><small>#{sessions.first.time_detail}</small>", :action => 'offering_session', :offering => @offering, :id => sessions.first %></li>
+					<li><%= link_to sessions.first.title + "<br><small class='gray'>#{sessions.first.time_detail}</small>", :action => 'offering_session', :offering => @offering, :id => sessions.first %></li>
 				<% else %>
-					<li><%= link_to "#{application_type} #{session_group}<br><small>#{sessions.first.time_detail}</small>", "#sessions_#{session_group}" %></li>
-				<% end -%>
-			<% end -%>
-		<% end -%>
+					<li><%= link_to "#{application_type} #{session_group}<br><small class='gray'>#{sessions.first.time_detail}</small>", "##{application_type.parameterize.underscore.to_s}_#{session_group}" %></li>
+				<% end %>
+			<% end %>
+		<% end %>
 	</ul>
 	</fieldset>
 	
@@ -48,16 +53,13 @@
 </div>
 
 <% for session_group, application_types_hash in @sessions %>
-	<% for application_type, sessions in application_types_hash.sort.reverse %>
+	<% for application_type, sessions in application_types_hash.sort_by{|k,v|v.first.start_time} %>
 		<% if sessions.size > 1 %>
-			<ul class="link-list sessions_list" id="<%= "sessions_#{session_group}" %>" title="<%= "#{application_type} #{session_group}" %>">
+			<ul class="link-list sessions_list" id="<%= "#{application_type.parameterize.underscore.to_s}_#{session_group}" %>" title="<%= "#{application_type} #{session_group}" %>">
 				<% for session in sessions %>
 					<li><%= link_to "<span class=\"session_identifier\">#{session.identifier}</span> #{session.title}", :action => 'offering_session', :offering => @offering, :id => session %></li>
-				<% end -%>
-			</ul>
-		</div>
-		<% end -%>
-	<% end -%>
-<% end -%>
-
-<%= render :partial => "lookup_form" %>
+				<% end %>
+			</ul>		
+		<% end %>
+	<% end %>
+<% end %>

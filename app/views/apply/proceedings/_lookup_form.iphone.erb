@@ -3,27 +3,56 @@
 	<fieldset>
 		<h1>Search</h1>
 
-        <a class="button leftButton" type="cancel">Cancel</a>
-        <a class="button blueButton" type="submit">Search</a>
-
+        <a class="uw-back-btn" type="cancel">Cancel</a>
+        <a class="uw-search" type="submit">Search</a>
+      <div style='padding-top: 10px'>
 		<span class="error-message" id="student_lookup_error"></span>
 		<span class="error-message" id="mentor_lookup_error"></span>
+	  </div>
+		<% form_tag url_for(:action => 'result'), :method => :get do %>
+			<%= label_tag :student_name, "Student Name:" %>
+			<%= text_field_tag :student_name, params[:student_name], :placeholder => 'firstname lastname' %>
+			<%= submit_tag "Search",
+					:onClick => "return validateNotBlank(student_name, student_lookup_error, 'Please enter a student name.')" %>
+		<% end %>
 
-		<%= label_tag :student_name, "Student Name:" %>
-		<%= text_field_tag :student_name, params[:student_name], :autocomplete => false, :autocorrect => "off", :autocapitalize => "off" %>
+		<% form_tag url_for(:action => 'result'), :method => :get do %>
+			<% label_tag :student_major, "Student Major:" %>
+				<%= select_tag :student_major,
+							options_for_select([["Student Majors (#{@majors.size})", nil]] +
+												@majors.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
+												params[:student_major]) %>
+					<%= submit_tag "Lookup",
+					:onClick => "return validateNotBlank(student_major, student_lookup_error, 'Please choose a major to lookup.')" %>
 
-		<%= label_tag :mentor_name, "Mentor Name:" %>
-		<%= text_field_tag :mentor_name, params[:mentor_name], :autocomplete => false, :autocorrect => "off", :autocapitalize => "off" %>
+		<% end %>
 
-		<%= select_tag :student_major, 
-						options_for_select([["Student Majors (#{@majors.size})", nil]] + 
-											@majors.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
-											params[:student_major]) %>
+		<% form_tag url_for(:action => 'result'), :method => :get do %>
+			<% label_tag :student_award, "Student Award:" %>
+			<%= select_tag :student_award,
+							options_for_select([["Student Awards (#{@awards.size})", nil]] +
+												@awards.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
+												params[:student_award]) %>
+			<%= submit_tag "Lookup",
+					:onClick => "return validateNotBlank(student_award, student_lookup_error, 'Please choose an award to lookup.')" %>
+		<% end %>
 
-		<%= select_tag :mentor_department,
-						options_for_select([["Mentor Departments (#{@departments.size})", nil]] + 
-											@departments.map{|k,v| ["#{k} (#{v.size})", k]}.sort,
-						 					params[:mentor_department]) %>
+		<% form_tag url_for(:action => 'result'), :class => 'dialog', :method => :get do %>
+			<%= label_tag :mentor_name, "Mentor Name:" %>
+			<%= text_field_tag :mentor_name, params[:mentor_name], :placeholder => 'firstname lastname' %>
+			<%= submit_tag "Search",
+					:onClick => "return validateNotBlank(mentor_name, student_lookup_error, 'Please enter a mentor name.')" %>
+		<% end %>
+
+		<% form_tag url_for(:action => 'result'), :method => :get do %>
+			<% label_tag :mentor_department, "Mentor Department:" %>
+			<%= select_tag :mentor_department,
+							options_for_select([["Mentor Departments (#{@departments.size})", nil]] +
+												@departments.map{|k,v| ["#{k} (#{v.size})", k]}.sort,
+												params[:mentor_department]) %>
+			<%= submit_tag "Lookup",
+					:onClick => "return validateNotBlank(mentor_department, student_lookup_error, 'Please choose a mentor department to lookup.')" %>
+		<% end %>
 
 	</fieldset>
 

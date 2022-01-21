@@ -4,7 +4,7 @@ desc "Importing file for service learning placements permutation"
 
 task :placements_permutation => :environment do
     print "Parsing CSV file...."
-    file_path = "tmp/Bothell Spring 2021 Health Studies Fieldwork Survey.csv"
+    file_path = "tmp/Wi22 HSF Script.csv"
     print "(file path: #{file_path})\n"
 
     import_file = CSV.open(file_path, 'r', ?,, ?\r)
@@ -29,9 +29,9 @@ task :placements_permutation => :environment do
 	    choice1  	   = col[2].strip unless col[2].blank?
 	    choice2        = col[3].strip unless col[3].blank?
 	    choice3        = col[4].strip unless col[4].blank?
-	    choice4        = col[5].strip unless col[5].blank?
+	    # choice4        = col[5].strip unless col[5].blank?
 
-		# puts "Row #{lineno}: #{fullname}, #{choice1}, #{choice2}, #{choice3}"
+		# puts "Row #{lineno}: #{fullname}, #{student_number}, #{choice1}, #{choice2}, #{choice3}"
 	    
 	    # Store as a hash for their 3 choices {key:values}
 	    choice1_group[student_number] = ''
@@ -44,9 +44,13 @@ task :placements_permutation => :environment do
     		choice3_group[student_number] = choice3_group[student_number] << choice3    	
 	    end	    
 	end
-	#puts "Choice1 Group: #{choice1_group.inspect}"
-	#puts "Choice2 Group: #{choice2_group.inspect}"
-	#puts "Choice3 Group: #{choice3_group.inspect}"
+	# Remove nil value
+	choice1_group = choice1_group.delete_if {|k,v| k.nil?}
+	choice2_group = choice2_group.delete_if {|k,v| k.nil?}
+	choice3_group = choice3_group.delete_if {|k,v| k.nil?}
+	# puts "Choice1 Group: #{choice1_group.inspect}"
+	# puts "Choice2 Group: #{choice2_group.inspect}"
+	# puts "Choice3 Group: #{choice3_group.inspect}"
 		
 	#counts = Hash.new 0
     #choice1_group.each { |name, choice| counts[choice] += 1}
@@ -74,43 +78,38 @@ task :placements_permutation => :environment do
 		# "UW Farm- UW Farm Intern" => 4,
 		# "United Way of King County Tax Campaign- 2020 Census and Benefits Navigator" => 30
   #   }
-	
+
 	positions = 
     {
-		"Bloodworks NW - Blood Donor Health Education and Recruitment Planning (Remote)" => 8,
-		"Everett Gospel Mission - Community Engagement and Activity Assistant (In-Person/On-Site)" => 4,
-		"Full Life Care - Assistant for COVID-19 Support for Home Care Aides (Remote/ Interview Required)" => 3,
-		"Full Life - Health Home Client Outreach Assistant (Remote/ Interview Required)" => 3,
-		"Inside Health Institute - Program Manager for Counseling Outreach and Population Health Initiative (Remote/Interview Required)" => 3,
-		"Latino Educational Training Institute - Health and Wellness Center Program Assistance (Remote)" => 1,
-		"Mukilteo Family YMCA - Community Researcher (Remote)" => 3,
-		"Mukilteo Family YMCA - Skate Park Outreach to Teens (Remote)" => 2,
-		"Neighborhood House - Narrate and Record Health & Wellness Children’s Stories and Video Lessons for Pre-K – 6th Grade (Remote)" => 5,
-		"Public Health Seattle & King County - Creating Access and Pathways to Public Health and STEM Careers – BIPOC students encouraged to participate (Remote)" => 2,
-		"Public Health Seattle & King County -Tobacco/Vaping Project Intern (Remote)" => 1,
-		"Project Girl - Mental Health and Wellness Mentoring Support (Remote)" => 2,
-		"Providence Regional Medical Center - Community Resource Outreach - Snohomish County Mask Brigade (On-site/In Person)" => 1,
-		"Sea Mar Community Health Centers - PROF BRECKWICH-VASQUEZ STUDENTS ONLY: MSAW's Researcher Internship (Remote)" => 2,
-		"Sea Mar Community Health Centers - PROF BRECKWICH-VASQUEZ STUDENTS ONLY: MSAW’s Designer Internship (Remote)" => 1,
-		"Shoreline Sports Foundation - Outdoor Adventure Coordinator (On-site/In Person/Interview Required)" => 1,
-		"Shoreline Sports Foundation - Service Coordinator (On-site/In Person/Interview Required)" => 1,
-		"Seattle Children’s Hospital - ABC Cookbook Design Support- Alyssa Burnett Center (Remote)" => 1,
-		"Tavon Learning Center - Resource Development (Remote)" => 2,
-		"UW Bothell School of Nursing and Health Studies - Communication and Social Media Assistant (Remote)" => 1,
-		"UW Pacific Northwest Agriculture Safety and Health (PNASH) Center - Outreach Internship Digital Media Junior Specialist (Remote)" => 2,
-		"Washington Coalition to Eliminate Farmworker Sexual Harassment - BASTA Coalition Intern (Remote/Interview Required)" => 4,
-		"YMCA of Greater Seattle - Nutrition Education and Enrichment - Curriculum Development (Remote)" => 2
+		"Bloodworks NW Blood Donor Engagement, Education and Sustainability Researcher (Remote)" => 2,
+		"Bloodworks NW Blood Donor Health Education and Recruitment Planning (Remote or Hybrid)" => 2,
+		"Food Lifeline Shop the Dock Ambassador (In Person/Onsite) (Interview Required)" => 5,
+		"HealthPoint Quality Improvement Assistant 40-80 hour position Bothell Location (Remote) (Interview Required)" => 2,
+		"Latino Educational Training Institute LatinX COVID-19 Community Health Educator (Remote)" => 3,		
+		"Neighborhood House Creating Digital Health Education for Children, Teachers, and Caregivers (Remote) (Working w/Minors)" => 8,
+		"Neighborhood House Health Educator: Skill Share Instructor for Youth (Remote) (Working with Minors)" => 8,
+		"North Sound Accountable Communities for Health COVID-19 Response Intern (In Person/Onsite)" => 2,
+		"Providence Regional Medical Center Community Health Education Program Support (Hybrid)" => 2,
+		"Rainier Valley Community Clinic ARNP Visit Types: Social Media Content and Education (Remote)" => 1,
+		"Rainier Valley Community Clinic Literature Review: Impact of Early Intervention on School Readiness (Remote)" => 4,
+		"Rainier Valley Community Clinic Needs Assessment: Pregnancy and Parenting During High School and Physical and Emotional Healthcare Access in King County (Remote)" => 2,
+		"Snohomish Health District Medical Reserve Corp Volunteer (In Person/Onsite) (Working w/Minors)" => 10,
+		"Snohomish Health District Public Health Communication Intern (Remote)" => 8,
+		"UWB SNHS Social Media Communications Assistant Mental Health Matters (90% Remote) (Interview Required)" => 1,
+		"UWB SNHS Communication and Social Media Assistant (Remote)" => 1,
+		"Village Reach Global Health Advocacy and Communications Intern (Hybrid)" => 1,
+		"WA West African Center Pillar Youth, Adult, and Senior Programs Assistance (In Person/Onsite/Hybrid) (Working w/Minors)" => 8
     }    
-
+    puts "RUN Permutation"
     #Run permutation 
     while choice1_group.size > 0
-
+    	# puts "debug: Choice1 Group: #{choice1_group.inspect}"
 	    # Random pick 
 	    placement = choice1_group.to_a.choice #["Brooke Kirk", "Cerebro Cleanup Crew"]
 
 	    # remove random picked student from choice groups
 	    choice1_group.delete(placement[0])
-	    #puts "debug: #{placement[0]} => #{placement[1]} (#{positions[placement[1]]})"
+	    # puts "debug: #{placement[0]} => #{placement[1]} (#{positions[placement[1]]})"
 
 	    # check if number of position is enough
 	    if positions[placement[1]] > 0
@@ -121,14 +120,12 @@ task :placements_permutation => :environment do
 			# remove placed student from rest of choice groups
 	    	choice2_group.delete(placement[0])
 	    	choice3_group.delete(placement[0])
-	    end
-
+	    end	    
 	end    
-
-	#puts "#{placements.size} Placements : #{placements.inspect}"
-	#puts "Postions : #{positions.inspect}"
-	#puts "#{choice1_group.size} Choice1 Group Left : #{choice1_group.inspect}"
-	#puts "#{choice2_group.size} Choice2 Group : #{choice2_group.inspect}"
+	# puts "#{placements.size} Placements : #{placements.inspect}"
+	# puts "Postions : #{positions.inspect}"
+	# puts "#{choice1_group.size} Choice1 Group Left : #{choice1_group.inspect}"
+	# puts "#{choice2_group.size} Choice2 Group : #{choice2_group.inspect}"
 
 	while choice2_group.size > 0
 	    placement = choice2_group.to_a.choice
@@ -153,7 +150,7 @@ task :placements_permutation => :environment do
 	    	not_placed << placement[0]
 	    end
 	end
-
+    puts "Result :"
 	puts "#{placements.size} Placements : #{placements.inspect}"
 	puts "Postions left detail: #{positions.inspect}"
 	puts "#{not_placed.size} students not placed: #{not_placed.inspect}"

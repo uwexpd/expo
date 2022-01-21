@@ -1,13 +1,15 @@
-<div class="toolbar">
-    <h1 id="pageTitle"></h1>
+<!-- <div class="toolbar"> -->
+    <!-- <h1 id="pageTitle"></h1>
     <a id="backButton" class="button" href="#"></a>
     <a class="button" href="#lookup_form">Search</a>
-</div>
+</div> -->
 
 <div class="panel" title="Session" selected="true">
 	<div class="block">
 		<h2 class="session_title">
-			<div class="session_identifier"><%= @offering_session.identifier %></div>
+			<% unless @offering_session.identifier.blank? %>
+				<div class="session_identifier"><%= @offering_session.identifier %></div>
+			<% end %>
 			<%= @offering_session.title %></h2>
 	</div>
 

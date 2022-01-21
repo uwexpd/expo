@@ -299,17 +299,20 @@ class Person < ActiveRecord::Base
   
   # Based on gender, returns a "his" or "her." If gender is not specified, returns "his or her."
   def his_her
-    gender.blank? ? "his or her" : gender == "F" ? "her" : "his"
+    "their"
+    # gender.blank? ? "his or her" : gender == "F" ? "her" : "his"
   end
   
   # Based on gender, returns a "he" or "she." If gender is not specified, returns "he or she."
   def he_she
-    gender.blank? ? "he or she" : gender == "F" ? "she" : "he"
+    "they"
+    # gender.blank? ? "he or she" : gender == "F" ? "she" : "he"
   end
   
   # Based on gender, returns a "him" or "her." If gender is not specified, returns "him or her."
   def him_her
-    gender.blank? ? "him or her" : gender == "F" ? "her" : "him"
+    "them"
+    # gender.blank? ? "him or her" : gender == "F" ? "her" : "him"
   end
   
   # Returns true if the students has been placed into a ServiceLearningPlacement for a given ServiceLearningCourse.
