@@ -89,19 +89,17 @@ body > *[selected="true"] {
 	display: block;
 }
 
-a[selected], a:active {
+a[selected], a:active, a:focus, .fullButton:active, .fullButton:focus, a.add_favorite:active, a.remove_favorite:active, a.add_favorite:focus, a.remove_favorite:focus {
 	background-color: #194fdb !important;
-	/*background-color: #ddd !important;*/
-	/*background-image: url(../images/iui/listArrowSel.png), url(../images/iui/selection.png) !important;*/
-	/*background-repeat: no-repeat, repeat-x;*/
-	/*background-position: right center, left top;*/
+	background-image: url(../images/iui/listArrowSel.png), url(../images/iui/selection.png) !important;
+	background-repeat: no-repeat, repeat-x !important;
+	background-position: right center, left top !important;
 	color: #FFFFFF !important;
 }
 
-a[selected="progress"] {
+a[selected="progress"], .fullButton[selected="progress"], a.add_favorite[selected="progress"], a.remove_favorite[selected="progress"] {
 	background-image: url(../images/iui/loading.gif), url(../images/iui/selection.png) !important;
 }
-
 /************************************************************************************************/
 
 body > .toolbar {
@@ -214,7 +212,7 @@ body[orient="landscape"] > .toolbar > h1 {
 	position: absolute;
 	top: 5px;
 	right: 10px;
-	  text-indent: -99999px;
+	text-indent: -99999px;
   border: 2px solid white;
   background:  url(../images/iui/search.svg) no-repeat center center #4b2e83;
   background-size: 54%;

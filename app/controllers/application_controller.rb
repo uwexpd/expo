@@ -108,7 +108,9 @@ class ApplicationController < ActionController::Base
   end
 
   def iphone_request?
-    request.user_agent =~ /(Mobile\/.+Safari)/
+    # request.user_agent =~ /(Mobile\/.+Safari)/
+    # Update to apply to mobile device instead of just iphone
+    request.user_agent =~ /Mobile|webOS/
   end
   helper_method :iphone_request?
   
