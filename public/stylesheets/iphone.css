@@ -705,26 +705,50 @@ fieldset > .row:last-child {
 	padding-top: 10px;
 }
 
+.proceedings .uw-header {
+	border-bottom: 1px solid #999;
+	-webkit-box-shadow: 0 1px 3px rgb(34 25 25 / 40%);
+  box-shadow: 0 1px 3px rgb(34 25 25 / 40%);
+}
+
 .proceedings h1.title {
 	display: block;
-	background: #b7a57a url(../images/symposium/2022/proceedings-iphone.png);
-	background-size: cover;
-	/*background-size: 600px 75px;*/
-	text-indent: -1000px;
+	background: #fff url(../images/symposium/proceedings-iphone.png) no-repeat;
+	background-size: contain;
+	background-position: center;
+	/*text-indent: -1000px;*/
 	height: 75px;
-	border-bottom: 1px solid #999;
-	margin-top: 0;
-	margin-bottom: 12px;
+	margin: 0 12px 0 12px;
+}
+
+.proceedings h1.title.year_2024 {
+  background: #b7a57a url(../images/symposium/2024/proceedings-iphone.png);
+  background-size: cover;
+  margin: 0;
+}
+
+.proceedings h1.title.year_2023 {
+  background: #b7a57a url(../images/symposium/2023/proceedings-iphone.png);
+  background-size: cover;
+  margin: 0;
+}
+
+.proceedings h1.title.year_2022 {
+  background: #b7a57a url(../images/symposium/2022/proceedings-iphone.png);
+  background-size: cover;
+  margin: 0;
 }
 
 .proceedings h1.title.year_2021 {
   background: #b7a57a url(../images/symposium/2021/proceedings-iphone.png);
   background-size: cover;
+  margin: 0;
 }
 
 .proceedings h1.title.year_2020 {
   background: #b7a57a url(../images/symposium/2020/proceedings-iphone.png);
   background-size: cover;
+  margin: 0;
 }
 
 .proceedings h4.time {

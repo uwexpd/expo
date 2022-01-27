@@ -8,12 +8,13 @@
 </div>
 
 <div id="home" title="Proceedings" selected="true" class="panel">
-
-	<% if @offering.deadline.year == Time.now.year %>
-	  <h1 class="title"></h1>
+	<div class="uw-header">
+	<% if @offering.deadline.year < 2020 %>
+	    <h1 class="title"></h1>
 	<% else %>
 	  <h1 class="title year_<%= @offering.deadline.year %>"></h1>
 	<% end %>
+	</div>
 	<!-- <fieldset>
 		<div class="block">
 			<h2>Welcome!</h2>

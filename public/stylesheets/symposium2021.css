@@ -16,7 +16,7 @@ body {
 }
 
 #header {
-	background: #7fb439 url(../images/symposium/2021/header.png) no-repeat;
+	background: #4b2e83 url(../images/symposium/2021/header.png);
 	height: 149px;
 	border-bottom: 1px solid #b2b2b2;
 }
@@ -45,15 +45,14 @@ body {
 	color: #700;
 }
 
-
 h1.page_title {
 	text-indent: -9000px;
 	height: 150px;
-	width: 1500px;
+  width: 750px;
 	position: absolute;
 	top: 0px;
 /*	left: 50px;*/
-	background: url(../images/symposium/2021/header-title.png) no-repeat;
+  background: url(../images/symposium/2021/header-title.png) no-repeat;
 }
 
 .proceedings h1.page_title {
