@@ -76,5 +76,5 @@
 <% end -%>
 
 <% sidebar :help, :class => 'help' if @offering.reviewer_help_text %>
-<% sidebar :multi_composite_report, :class => 'download' if @ready_for_finalization || @do_not_finalize %>
+<% sidebar :multi_composite_report, :class => 'download' if !@offering.virtual_proceeding && (@ready_for_finalization || @do_not_finalize) %>
 <% sidebar :input_committee_score if @offering.review_committee_submits_committee_score? %>
