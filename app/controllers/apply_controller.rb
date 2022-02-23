@@ -370,10 +370,10 @@ class ApplyController < ApplicationController
         if @user_application.in_status?(:conditionally_accepted_full_revision_needed) || @user_application.in_status?(:conditionally_accepted_commented)
           @user_application.set_status "final_revision_submitted"
           flash[:notice] = "Thank you for submitting your final revisions."
-        else
-          # Check if non required mentors (graduate student/researcher) respond the abstract. set status to +faculty_approval_needed+ unless ALL primary/required mentors (faculty/post-doc) have responded
-          # In other word, if there is one of required_mentors who doesn't respond then set status +faculty_approval_needed+
-          required_mentors = @user_application.mentors.select{|m| m.meets_minimum_qualification?}
+        else          
+          # check if there is one of primary OR required_mentors((faculty/post-doc)) who did NOT respond then set status +faculty_approval_needed+
+          # Once ALL primary AND required mentors (faculty/post-doc) have responded, set status +revision_submitted+
+          required_mentors = @user_application.mentors.select{|m| m.primary || m.meets_minimum_qualification?}
 
           if required_mentors.collect(&:responded?).include?(false)
             @user_application.set_status "faculty_approval_needed"
