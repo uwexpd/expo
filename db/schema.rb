@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20210127094836) do
+ActiveRecord::Schema.define(:version => 20220217230308) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1846,6 +1846,7 @@ ActiveRecord::Schema.define(:version => 20210127094836) do
     t.integer  "option_column"
     t.integer  "start_year"
     t.integer  "end_year"
+    t.boolean  "hide_in_reviewer_view"
   end
 
   create_table "offering_restriction_exemptions", :force => true do |t|

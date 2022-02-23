@@ -32,8 +32,10 @@
 
 	<% end -%>
 
-	<dt>gender</dt>
-	<dd><%= @student.gender %></dd>
+	<% if current_user.admin? %>
+		<dt>gender</dt>
+		<dd><%= @student.gender %></dd>
+	<% end %>
 	
 	<dt>age</dt>
 	<dd><%= @student.age rescue "<small class=\"light\">unknown</small>" %></dd>

@@ -32,7 +32,7 @@
 		
 		<div class="content" id="tabview_content">
 			<noscript>
-				<%= render :partial => "admin/apply/section/application_review" %>
+				<%= render :partial => "admin/apply/section/application_review", :locals => { :audience => :reviewer } %>
 			</noscript>
 			<div class="loading">Loading...</div>
 		</div>

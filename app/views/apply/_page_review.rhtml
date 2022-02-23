@@ -29,8 +29,15 @@
 			
 			<% if page_review.started %>
 				<ul>
-				<%= render 	:partial => "apply/question_review", 
-							:collection => page_review.offering_page.questions, 
+				<%
+				    if !current_user.admin? && @reviewer == true
+						questions = page_review.offering_page.questions.reject{|q| q.hide_in_reviewer_view? }
+					else
+						questions = page_review.offering_page.questions
+				    end
+				%>
+				<%= render 	:partial => "apply/question_review",
+							:collection => questions,
 							:locals => { :page => page_review } %>
 				</ul>
 			<% end %>
