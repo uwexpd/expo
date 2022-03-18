@@ -1,4 +1,4 @@
-<h1>Meetings
+<h1><%= @committee.meetings_title_display %>
 	<span class="light">&raquo; <%= @committee.name %></span></h1>
 
 <table>
@@ -11,12 +11,12 @@
 	</tr>
 	
 	<tr class="rowset-header">
-		<td colspan=5>Upcoming Meetings</td>
+		<td colspan=5>Upcoming <%= @committee.meetings_title_display %></td>
 	</tr>
 	<%= render :partial => "meeting", :collection => @committee.meetings.future %>
 	
 	<tr class="rowset-header">
-		<td colspan=5>Past Meetings</td>
+		<td colspan=5>Past <%= @committee.meetings_title_display %></td>
 	</tr>
 	<%= render :partial => "meeting", :collection => @committee.meetings.past, :locals => { :past => true } %>
 	

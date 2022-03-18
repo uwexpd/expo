@@ -15,8 +15,8 @@
 		</small>
 		</li>
 
-	<li id="meetings"><%= link_to "Meetings", admin_committee_meetings_path(@committee) %>
-		<br>View the meetings that have been arranged for this committee.
+	<li id="meetings"><%= link_to @committee.meetings_title_display, admin_committee_meetings_path(@committee) %>
+		<br>View the <%= @committee.meetings_title_display(true) %> that have been arranged for this committee.
 		<br><small>
 		<%= @committee.meetings.future.sort.collect{|m| link_to m.title, admin_committee_meeting_path(@committee, m)}.join(", ") %>
 		</small>

@@ -1,4 +1,4 @@
-<h1>Edit Committee Meeting
+<h1>Edit Committee <%= !@committee.meetings_alt_title.blank? ? @committee.meetings_alt_title : 'Meeting' %>
 	<span class="light">&raquo; <%= @meeting.title %></span></h1>
 	
 <% form_for [:admin, @meeting], :url => admin_committee_meeting_url(@committee, @meeting) do |f| %>

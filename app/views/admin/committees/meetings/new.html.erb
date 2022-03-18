@@ -1,4 +1,4 @@
-<h1>New Committee Meeting</h1>
+<h1>New Committee <%= !@committee.meetings_alt_title.blank? ? @committee.meetings_alt_title : 'Meeting' %></h1>
 	
 <% form_for :meeting, @meeting, :url => admin_committee_meetings_url(@committee) do |f| %>
 	<%= f.error_messages %>

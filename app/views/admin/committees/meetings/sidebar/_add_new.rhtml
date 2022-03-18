@@ -1,4 +1,4 @@
 <h3><strong>Add Committee Meeting</strong></h3>
 <ul class="add-links">
-	<li><%= link_to "Add new committee meeting", new_admin_committee_meeting_path(@committee) %></li>
+	<li><%= link_to "Add new committee #{@committee.meetings_title_display(true)}", new_admin_committee_meeting_path(@committee) %></li>
 </ul>

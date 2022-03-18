@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220217230308) do
+ActiveRecord::Schema.define(:version => 20220317232426) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -660,6 +660,7 @@ ActiveRecord::Schema.define(:version => 20220217230308) do
     t.date     "response_reset_date"
     t.text     "meetings_text"
     t.integer  "interview_offering_id"
+    t.string   "meetings_alt_title"
   end
 
   create_table "contact_histories", :force => true do |t|

@@ -23,7 +23,7 @@
 	<% unless @committee_member.committee_member_meetings.future.empty? %>
 	<% i += 1 %>
 	<li <%= "class='current'" if params[:action] == 'meetings' %>>
-		<%= link_to "<small class='light'>#{i}</small>Meetings & Trainings", 
+		<%= link_to "<small class='light'>#{i}</small>#{@committee.meetings_alt_title.blank? ? "Meetings &amp; Trainings" : @committee.meetings_alt_title}", 
 					:action => 'meetings' %>
 	</li>
 	<% end -%>

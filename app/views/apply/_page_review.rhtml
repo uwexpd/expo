@@ -30,7 +30,7 @@
 			<% if page_review.started %>
 				<ul>
 				<%
-				    if !current_user.admin? && @reviewer == true
+				    if @current_user && !@current_user.admin? && @reviewer == true
 						questions = page_review.offering_page.questions.reject{|q| q.hide_in_reviewer_view? }
 					else
 						questions = page_review.offering_page.questions

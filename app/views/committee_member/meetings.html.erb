@@ -1,13 +1,13 @@
 <% title(@committee.name, "Committee Login") %>
 
-<h1>Meetings &amp; Trainings</h1>
+<h1><%= @committee.meetings_alt_title.blank? ? "Meetings &amp; Trainings" : @committee.meetings_alt_title %></h1>
 
 <% form_for @committee_member, :url => { :action => 'meetings' } do |f| %>
 
 <dl class="big numbers">
 
 	<dt>6</dt>
-	<dd><strong>Which of the following meetings or trainings will you attend?</strong>
+	<dd><strong>Which of the following <%= @committee.meetings_alt_title.blank? ? "meetings or trainings" : @committee.meetings_alt_title.downcase %> will you attend?</strong>
 		<% default_text = "<p>We are offering the following meeting/training times:</p>" %>
 		<%= @committee.meetings_text.blank? ? default_text : textilize(@committee.meetings_text) %>
 

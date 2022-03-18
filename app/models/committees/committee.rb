@@ -70,5 +70,15 @@ class Committee < ActiveRecord::Base
   def response_lifetime_date
     response_reset_date || CommitteeMember::DEFAULT_RESPONSE_LIFETIME.ago
   end
+
+  def meetings_title_display(downcase = false)
+    if downcase
+      read_attribute(:meetings_alt_title).blank? ? "meetings" : meetings_alt_title.downcase
+    else
+      read_attribute(:meetings_alt_title).blank? ? "Meetings" : meetings_alt_title
+    end 
+    
+  end
+
   
 end

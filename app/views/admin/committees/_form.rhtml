@@ -21,6 +21,11 @@
 <dd><%= f.text_area :unit_signature, :cols => 60, :rows => 5 %>
 	<br><small class="light">The signature appears at the bottom of the final "complete" page and "inactive" page.</small></dd>
 
+<dt>meetings alt. title</dt>
+<dd><%= f.text_field :meetings_alt_title %>
+	<p class="caption">If you name your meetings something else, enter the singular form of the alternate title here (e.g., "Sessions Preferences" for symposium moderator).</p></dd>
+
+
 <dt>meetings text</dt>
 <dd><%= f.text_area :meetings_text, :cols => 60, :rows => 5 %>
 	<p class="caption">This bit of text is displayed above the list of meetings when committee members are 
