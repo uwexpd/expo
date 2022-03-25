@@ -23,10 +23,12 @@
 										{:controller => '/apply/confirmation', :action => "contact_info"} %></li> -->
 							
 			<% attending = @user_application.application_type.workshop_event.attending?(@confirmer.person) rescue false %>
+			<% if @offering.application_types.collect(&:workshop_event).compact.size > 0 %>
 			<li <%= "id='current'" if page == 'workshops' %> <%= "class='completed'" if attending %>>
 				<%= link_to "<span class='title'>Workshops</span>", 
 							{:controller => '/apply/confirmation', :action => "workshops"} %></li>
-
+			<% end %>
+			
 			<% unless @offering.guest_invitation_instructions.blank? %>
 			  <li <%= "id='current'" if page == 'guests' %> <%= "class='completed'" unless @confirmer.guests.empty? %>>
 				<%= link_to "<span class='title'>Invite Guests</span>", 

@@ -7,8 +7,8 @@
 <dl class="big numbers">
 
 	<dt>6</dt>
-	<dd><strong>Which of the following <%= @committee.meetings_alt_title.blank? ? "meetings or trainings" : @committee.meetings_alt_title.downcase %> will you attend?</strong>
-		<% default_text = "<p>We are offering the following meeting/training times:</p>" %>
+	<dd>
+		<% default_text = "<strong>We are offering the following meeting/training times:</strong>" %>
 		<%= @committee.meetings_text.blank? ? default_text : textilize(@committee.meetings_text) %>
 
 		<ul class="bulletless">

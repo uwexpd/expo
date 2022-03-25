@@ -67,7 +67,7 @@ class CommitteeMemberController < ApplicationController
   def meetings
     session[:breadcrumbs].add "#{@committee_member.committee.meetings_title_display}"
     if params[:committee_member]
-      if ç.update_attributes(params[:committee_member])
+      if @committee_member.update_attributes(params[:committee_member])
         flash[:notice] = "All information saved."
         if @committee_member.committee.interview_offering_id.blank?
           redirect_to :action => "complete"
