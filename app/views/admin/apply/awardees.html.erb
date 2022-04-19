@@ -10,7 +10,7 @@
 		<td><%= a.person.student_no %></td>
 		<td><%= a.person.firstname %></td>
 		<td><%= a.person.lastname %></td>
-		<td><%= a.person.sdb.majors_list %></td>
+		<td><%= a.person.sdb.majors_list rescue a.person.majors_list %></td>
 		<td><%= eval("a.person.sdb.address.full_#{a.local_or_permanent_address}_address") rescue nil %></td>
 		<td><%= a.award_list("<br>") %></td>
 		</tr>

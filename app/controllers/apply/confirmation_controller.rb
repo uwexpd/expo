@@ -46,8 +46,8 @@ class Apply::ConfirmationController < ApplyController
   def workshops
     @event = @user_application.application_type.workshop_event rescue nil
     if @event.nil?
-      flash[:error] = "Your application type does not have any associated workshops."
-      redirect_to :action => "index" and return
+      flash[:notice] = "Your application type does not have any associated workshops. Redirected to next step."
+      redirect_to :action => "nominate" and return
     end
   end
 
