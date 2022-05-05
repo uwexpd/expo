@@ -1044,7 +1044,7 @@ class ApplicationForOffering < ActiveRecord::Base
 
   # Returns the primary mentor's department. Often used for sorting applications into groups. You can override this by
   # setting a new value in the +mentor_department+ attribute of the record. This might be useful if the primary mentor
-  # is mentoring a student outside of his/her discipline and you don't want to group them in a weird way.
+  # is mentoring a student outside of their discipline and you don't want to group them in a weird way.
   def mentor_department
     return read_attribute(:mentor_department) unless read_attribute(:mentor_department).blank?
     primary_mentor.department.try(:strip) if primary_mentor

@@ -387,7 +387,7 @@ class ApplyController < ApplicationController
     end
   end
 
-  # Allows the applicant to confirm minor changes to his/her abstract that have been made by the staff.
+  # Allows the applicant to confirm minor changes to their abstract that have been made by the staff.
   def confirm_abstract
     if !@user_application.status.offering_status.allow_abstract_confirmation?
       flash[:error] = "Your abstract does not need confirmation, so you are not allowed to access that page."

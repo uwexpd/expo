@@ -28,7 +28,7 @@
 		:hoverclass => 'droppable',
 		:accept => "applicant_not_assigned_to_#{reviewer.id}",
 		:indicator => 'assigning',
-		:failure => "alert('That reviewer is a mentor for that student. You cannot assign a student to his or her mentor for review.')"
+		:failure => "alert('That reviewer is a mentor for that student. You cannot assign a student to their mentor for review.')"
 		%>
 
 <%= drop_receiving_element div_id, 
@@ -36,5 +36,5 @@
 		:hoverclass => 'droppable',
 		:accept => "applicant_mini_not_assigned_to_#{reviewer.id}",
 		:indicator => 'assigning',
-		:failure => "alert('That reviewer is a mentor for that student. You cannot assign a student to his or her mentor for review.')"
+		:failure => "alert('That reviewer is a mentor for that student. You cannot assign a student to their mentor for review.')"
 		%>

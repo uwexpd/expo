@@ -235,7 +235,7 @@ class CommitteeMember < ActiveRecord::Base
     end
   end
 
-  # Checks to see if this committee member is allowed to view an ApplicationForOffering that may not be assigned to him or her.
+  # Checks to see if this committee member is allowed to view an ApplicationForOffering that may not be assigned to them.
   # This method will return true if any of the applications_for_review include the specified ApplicationForOffering in its
   # +past_applications+ method; otherwise, return false. Note that this might be slow to run (fix it later?).
   def ok_to_view_past_application?(past_app)

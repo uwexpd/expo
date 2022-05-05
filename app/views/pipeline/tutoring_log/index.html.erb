@@ -52,7 +52,7 @@
 		<% form_tag submit_pipeline_tutoring_log_path(@quarter.abbrev, @course_abbrev, @placement), :method => :put do %>
 			<%= submit_tag "Submit Tutoring Logs", :disable_with => 'Submitting tutoring hours...', :disabled => @placement.tutoring_submitted? %>
 		<% end %>
-		<p class="caption">This allows your supervisor to view your logged hours for his or her evaluation. Note that you are still able to edit logs after submission</p>		
+		<p class="caption">This allows your supervisor to view your logged hours for their evaluation. Note that you are still able to edit logs after submission</p>
 	<% end -%>
 	</center>
 	

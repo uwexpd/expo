@@ -123,7 +123,7 @@ class Student < Person
     current_credits(quarter) >= CONSTANTS[:credits_required_for_full_time]
   end
 
-  # Returns true if this student is an undergraduate at the University. A student is considered undergraduate if his or her
+  # Returns true if this student is an undergraduate at the University. A student is considered undergraduate if their
   # +class_standing+ is <= 5.
   def undergrad?
     sdb.class_standing <= 5
