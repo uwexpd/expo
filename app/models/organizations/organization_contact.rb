@@ -100,7 +100,7 @@ class OrganizationContact < ActiveRecord::Base
   end
 
   # Overrides destroy to only set +current+ to false. This removes this organization contact from most lists
-  # and other places, but still keeps the object valid for associations like when he or she is a supervisor for
+  # and other places, but still keeps the object valid for associations like when they are a supervisor for
   # an old ServiceLearningPosition. If you truly want to destroy this object from the database, use #destroy!.  
   def destroy
     self.update_attribute(:current, false)

@@ -33,8 +33,8 @@
 	
 		<div id="name_fields" class="box" style="display: none">
 			<p class="small warning">Only change <%= not_self ? "this person's" : "your" %> 
-				name if <%= not_self ? "he or she is" : "you're" %> the same person. <br>
-				<strong>If <%= not_self ? "he or she isn't" : "you aren't" %> <%= obj.firstname_first %>, 
+				name if <%= not_self ? "they are" : "you're" %> the same person. <br>
+				<strong>If <%= not_self ? "they are not" : "you aren't" %> <%= obj.firstname_first %>, 
 				then you should <%= not_self ? "create a new account" : link_to("create a new account", signup_path) %>
 				instead.</strong><br>Contact our staff for assistance if you need help.
 			</p>

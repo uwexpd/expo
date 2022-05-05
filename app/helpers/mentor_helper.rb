@@ -3,7 +3,7 @@ module MentorHelper
   # Formats the mentor instructions from the database to include dynamic fields, using this procedure:
   #  1. Uses auto_link to add link tags, etc.
   #  2. Writes the note about whether the student has waived their right to see the letter once uploaded.
-  #  3. Writes the note about viewing the student's application, if he/she has given the mentor access.
+  #  3. Writes the note about viewing the student's application, if they have given the mentor access.
   #  4. Substitutes variables +%variable%+ syntax with values from the @mentee variable.
   def format_mentor_instructions(text)
     text = auto_link(text)
