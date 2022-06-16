@@ -40,8 +40,18 @@
 </div>
 <% end %>
 
+<% if @service_learning_position.education_sector? %>
+<div class="content-block">
+	<h3>Education Sectors
+		<span class="right"><%= link_to 'Edit', edit_service_learning_organization_position_path(@unit, 
+		                                          @quarter, @organization, @service_learning_position, :anchor => 'sector'
+		                                          ), :class => "edit button" %></span></h3>
 
-<% unless @service_learning_position.general_study? %>
+	<%= render :partial => "admin/service_learning/organizations/positions/education_sectors",
+		 		:locals => { :admin => true, :service_learning_position => @service_learning_position } %>
+</div>
+<% end %>
+
 <div class="content-block">
 	<h3>Scheduling Details
 		<span class="right"><%= link_to 'Edit', edit_service_learning_organization_position_path(@unit, 
@@ -51,9 +61,8 @@
 	<%= render :partial => "admin/service_learning/organizations/positions/scheduling_details",
 		 		:locals => { :admin => true, :service_learning_position => @service_learning_position } %>
 </div>
-<% end %>
 
-<% unless @use_pipeline_links || @service_learning_position.general_study? %>
+<% unless @use_pipeline_linksß %>
   <div class="content-block">
   	<h3>Orientation Details
   		<span class="right"><%= link_to 'Edit', edit_service_learning_organization_position_path(@unit, 

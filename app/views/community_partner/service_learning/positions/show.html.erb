@@ -15,16 +15,25 @@
 <% if @use_pipeline_links %>
 	<div class="content-block">
 	  <h3>Pipeline Position Details
-	    <span class="right"><%= link_to 'Edit', edit_community_partner_service_learning_position_path(@quarter, @position, 
-								:anchor => 'subjects'), :class => "edit button" if @position.organization_quarter.allow_position_edits? %></span></h3>
+	    <span class="right"><%= link_to 'Edit', edit_community_partner_service_learning_position_path(@quarter, @position, :anchor => 'subjects'), :class => "edit button" if @position.organization_quarter.allow_position_edits? %></span></h3>
   
 	    <%= render :partial => "admin/pipeline/organizations/positions/pipeline_position_details",
 	          :locals => { :pipeline_position => @position, :admin => false } %>
 	</div>
 <% end %>
 
+<% if @position.education_sector? %>
+<div class="content-block">
+	<h3>Education Sectors
+		<span class="right"><%= link_to 'Edit', edit_community_partner_service_learning_position_path(@quarter, @position, 					:anchor => 'sector'), :class => "edit button" if @position.organization_quarter.allow_position_edits? %></span></h3>
+	</h3>
 
-<% unless @position.general_study? %>
+	<%= render :partial => "admin/service_learning/organizations/positions/education_sectors",
+		 		:locals => { :admin => true, :service_learning_position => @position } %>
+</div>
+<% end %>
+
+
 <div class="content-block">
 <h3>Scheduling Details
 	<span class="right">
@@ -34,7 +43,6 @@
 	<%= render :partial => "admin/service_learning/organizations/positions/scheduling_details"	,
 		 		:locals => { :admin => false, :service_learning_position => @position } %>
 </div>
-<% end %>
 
 
 <% if @position.general_study? %>

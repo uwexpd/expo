@@ -2,6 +2,7 @@ class Admin::ServiceLearning::Organizations::PositionsController < Admin::Servic
   before_filter :fetch_organization
   before_filter :service_learning_organization_positions_breadcrumbs
   skip_before_filter :check_unit_permission, :only => :show
+  skip_before_filter :service_learning_organization_positions_breadcrumbs, :only => :remote_add_sector
   before_filter :check_service_learning_position_permission, :only => :show
 
   uses_tiny_mce
@@ -160,7 +161,17 @@ class Admin::ServiceLearning::Organizations::PositionsController < Admin::Servic
     render :template => 'community_partner/service_learning/positions/copy_from_previous'
   end
 
-  
+  def remote_add_sector    
+    @sector = nil
+    unless params[:sector][:name].empty?
+      @sector = ServiceLearningPositionsSectorType.create(params[:sector])
+    end
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
   
   def service_learning_organization_positions_breadcrumbs

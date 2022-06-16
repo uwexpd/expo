@@ -1,13 +1,13 @@
-<h2>Tutoring Formats</h2>
+<h2>Tutoring Formats (Education sector)</h2>
 <p class="intro"><%= HelpText.caption(:tutoring_formats_page_intro, ServiceLearningPosition) %></p>
 	
 <div>
-  <label for="pipeline_positions_tutoring_format_ids">Tutoring Formats</label>
+  <label for="pipeline_positions_tutoring_type_ids">Tutoring Formats</label>
   <ul>
   <% PipelinePositionsTutoringType.all.each do |tutoring_type| %>
     <li>
       <%= check_box_tag("service_learning_position[pipeline_positions_tutoring_type_ids][]", tutoring_type.id, 
-                        pipeline_position.pipeline_positions_grade_level_ids.include?(tutoring_type.id), {:default => true}) %>
+                        pipeline_position.pipeline_positions_tutoring_type_ids.include?(tutoring_type.id), {:default => true}) %>
       <%= tutoring_type.name %> 
     </li>
   <% end %>

@@ -1,0 +1,24 @@
+<dl class="inline-definitions">
+	
+	<dt>subjects</dt>
+	<dd>
+	  <% for subject in service_learning_position.pipeline_positions_subjects %>
+	  <%= subject.name %><br />
+	  <% end %>
+	</dd>
+	
+	<dt>grade levels</dt>
+	<dd>
+	  <% for grade_levels in service_learning_position.pipeline_positions_grade_levels %>
+	  <%= grade_levels.name %><br />
+	  <% end %>
+	</dd>
+	
+	<dt>tutoring formats</dt>
+	<dd>
+	  <% for tutoring_type in service_learning_position.pipeline_positions_tutoring_types %>
+	  <%= tutoring_type.name %><br />
+	  <% end %>
+	</dd>	
+
+</dl>

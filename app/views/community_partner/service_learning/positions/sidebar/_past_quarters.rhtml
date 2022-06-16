@@ -1,7 +1,7 @@
 <h3>View other quarters</h3>
 
 <ul class="link-list">
-<% for organization_quarter in @organization.organization_quarters.reject{|oq| oq.quarter == @quarter} %>
+<% for organization_quarter in @organization.organization_quarters.reject{|oq| oq.quarter == @quarter}.reverse! %>
 	<li><%= link_to organization_quarter.quarter.title,
 	 		community_partner_service_learning_positions_path(organization_quarter.quarter) %></li>
 <% end -%>

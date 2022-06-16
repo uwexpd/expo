@@ -1,0 +1,8 @@
+unless @sector.nil?
+  page.insert_html( :bottom, 'service_learning_position_sectors_list', 
+                  "<li>
+                    <input id='service_learning_positions_sector_type_ids_' type='checkbox' value='#{@sector.id}' 
+                           name='service_learning_position[service_learning_positions_sector_type_ids][]' default='true' checked='checked'/>
+                        #{@sector.name}
+                  </li>" )
+end

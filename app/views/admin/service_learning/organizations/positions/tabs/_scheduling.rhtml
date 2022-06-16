@@ -34,12 +34,12 @@
 <br>
 <%= f.radio_button :times_are_flexible, false %> No, the times above are exact shift times.
 
-<% if @use_pipeline_links %>
-	<%= f.label_with_caption :group_ok %>
-	<%= f.radio_button :group_ok, true %> Yes, we can host more than two tutors at our site at the same time.	
-	<br>
-	<%= f.radio_button :group_ok, false %> No, we can only host 1 or 2 tutors at our site at each day and time.		
-<% end %>
+
+<%= f.label_with_caption :group_ok %>
+<%= f.radio_button :group_ok, true %> Yes, we can host more than two volunteers at our site at the same time.	
+<br>
+<%= f.radio_button :group_ok, false %> No, we can only host 1 or 2 volunteers at our site at each day and time.		
+
 
 <%= f.text_area :time_notes, :rows => 5, :style => "width: 99%", :class => "mceEditor" %>
 

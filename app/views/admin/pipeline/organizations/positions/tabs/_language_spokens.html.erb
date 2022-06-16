@@ -22,8 +22,14 @@
 </div>
 
 <div class="progress_nav_buttons">
-	<%= link_to_tab_pane "&#x2190; Previous: Tutoring Formats", :location, :link_only => true, :link_class => "button" %>
-	<%= link_to_tab_pane "Next: Finish &#x2192;", :finish, :link_only => true, :link_class => "strong button" %>
+  <span id="sector_previous_button" <%= "style='display:none'" unless pipeline_position.education_sector? %>>
+    <%= link_to_tab_pane "&#x2190; Previous: Tutoring Formats", :tutoring_formats, :link_only => true, :link_class => "button" %>
+  </span>
+  <span id="non_sector_previous_button" <%= "style='display:none'" if pipeline_position.education_sector? %>>
+    <%= link_to_tab_pane "&#x2190; Previous: Sector", :sector, :link_only => true, :link_class => "button" %>
+  </span>
+
+	<%= link_to_tab_pane "Next: Orientation &#x2192;", :orientation, :link_only => true, :link_class => "strong button" %>
 	
 </div>
 

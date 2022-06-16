@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220317232426) do
+ActiveRecord::Schema.define(:version => 20220525234126) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -2757,6 +2757,20 @@ ActiveRecord::Schema.define(:version => 20220317232426) do
   end
 
   add_index "service_learning_positions", ["organization_quarter_id"], :name => "index_service_learning_positions_on_organization_quarter_id"
+
+  create_table "service_learning_positions_sector_types", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "service_learning_positions_sector_types_links", :force => true do |t|
+    t.integer  "service_learning_position_id"
+    t.integer  "service_learning_positions_sector_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "service_learning_positions_skill_types", :force => true do |t|
     t.integer  "service_learning_position_id"

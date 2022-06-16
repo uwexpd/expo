@@ -331,7 +331,8 @@ ActionController::Routing::Routes.draw do |map|
                                                                                   :toggle_evals => :any, :match_pipeline_placement => :post }
       } do |organizations|
           organizations.resources   :positions, :controller => 'Organizations::Positions',
-                                                                :collection => { :copy_from_previous => :any }
+                                                                :collection => { :copy_from_previous => :any,
+                                                                                 :remote_add_sector  => :post }
         end
     
       # Lowest priority service_learning route: "home"  

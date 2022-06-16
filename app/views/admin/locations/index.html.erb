@@ -1,4 +1,8 @@
-<h1>Listing locations</h1>
+<h1>Listing locations
+  <span class="light right"><%= link_to "Add new location", new_location_path, :class => 'add button' %></span>
+</h1>
+
+<% paginated_section(@locations) do %>
 
 <table>
   <tr>
@@ -12,6 +16,7 @@
     <th>Bus directions</th>
     <th>Notes</th>
     <th>Site supervisor person</th>
+    <th colspan=3>Functions</th>
   </tr>
 
 <% for location in @locations %>
@@ -33,6 +38,6 @@
 <% end %>
 </table>
 
-<br />
+<% end %>
 
-<%= link_to 'New location', new_location_path %>
+<br />

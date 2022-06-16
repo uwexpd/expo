@@ -31,7 +31,7 @@
 				<%= link_to_expo_email(contact, contact.person.email) rescue "No Email" %>
 				</li>
 				
-			<% unless contact.person || contact.person.users.empty? %>
+			<% unless !contact.person || contact.person.users.empty? %>
 			<li class="icon-left user">
 					<% contact.person.users.each do |u| %>
 						<% login_text = u.logins.latest.nil? ? "Never logged in" : 

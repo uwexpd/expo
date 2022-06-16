@@ -121,4 +121,20 @@
 		<dd><%= image_tag service_learning_position.picture.large.url %></dd>
 	<% end %>
 
+	<% if service_learning_position.education_sector? %>
+		<dt>sector</dt>
+		<dd>
+		  <% for sector in service_learning_position.service_learning_positions_sector_types %>
+		  <%= sector.name %><br />
+		  <% end %>
+		</dd>
+
+		<dt>languages spoken</dt>
+		<dd>
+		  <% for language_spoken in service_learning_position.pipeline_positions_language_spokens %>
+		  <%= language_spoken.name %><br />
+		  <% end %>
+		</dd>
+	<% end %>
+
 </dl>

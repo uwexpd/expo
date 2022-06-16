@@ -26,9 +26,5 @@
 
 <div class="progress_nav_buttons">
 	<%= link_to_tab_pane "&#x2190; Previous: Scheduling", :scheduling, :link_only => true, :link_class => "button" %>
-	<% unless @use_pipeline_links %>
-	<%= link_to_tab_pane "Next: Orientation &#x2192;", :orientation, :link_only => true, :link_class => "strong button" %>
-	<% else %>
-	<%= link_to_tab_pane "Next: Subjects &#x2192;", :subjects, :link_only => true, :link_class => "strong button" %>
-	<% end %>
+	<%= link_to_tab_pane "Next: Sector &#x2192;", :sector, :link_only => true, :link_class => "strong button" %>	
 </div>

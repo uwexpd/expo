@@ -1,9 +1,11 @@
 class OpportunitiesController < ApplicationController
   skip_before_filter :login_required
-  before_filter :student_login_required_if_possible, :only => ['search', 'details']  
+  before_filter :redirect_to_new_site, :only => ['search', 'details']
+  before_filter :student_login_required_if_possible, :only => ['search', 'details']
   before_filter :check_if_uwnetid, :only => ['search', 'details']
         
-  def form    
+  def form
+    redirect_to "https://new.expo.uw.edu/expo/opportunities/research"
     @research_opportunity = (ResearchOpportunity.find(params[:id]) if params[:id]) || ResearchOpportunity.new
     
     if @research_opportunity.submitted?
@@ -50,7 +52,7 @@ class OpportunitiesController < ApplicationController
     end     
   end  
   
-  def search
+  def search    
     if params[:research_area] || params[:keyword] || params[:contact_person]
       @research_opportunities = ResearchOpportunity.find_by_research_area(params[:research_area]) unless params[:research_area].blank?
       @research_opportunities = ResearchOpportunity.find_by_keyword(params[:keyword]) unless params[:keyword].blank?
@@ -80,6 +82,10 @@ class OpportunitiesController < ApplicationController
   end
 
   protected
+
+  def redirect_to_new_site
+    redirect_to "https://new.expo.uw.edu/expo/opportunities"
+  end
   
   def check_if_uwnetid
     unless @current_user.class.name == "PubcookieUser"
