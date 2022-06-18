@@ -44,28 +44,25 @@
 												<div class=\"arrow\"></div>",
 											 :sector, :link_only => true %>
 					</td>
-
-					<div id="sector_logic" <%= "style='display:none'" unless @use_pipeline_links || service_learning_position.education_sector? %>>
-
-						<td id="tab_pane_link_subjects" <%= "style='display:none'" unless service_learning_position.education_sector? %>>
-							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
-													<div class=\"name\">Subjects</div>
-													<div class=\"arrow\"></div>",
-												 :subjects, :link_only => true %>
-						</td>
-						<td id="tab_pane_link_grade_levels" <%= "style='display:none'" unless service_learning_position.education_sector? %>>
-							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
-													<div class=\"name\">Grade Levels</div>
-													<div class=\"arrow\"></div>",
-												 :grade_levels, :link_only => true %>
-						</td>
-						<td id="tab_pane_link_tutoring_formats"<%= "style='display:none'" unless service_learning_position.education_sector? %>>
-							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
-													<div class=\"name\">Tutoring Formats</div>
-													<div class=\"arrow\"></div>",
-												 :tutoring_formats, :link_only => true %>
-						</td>						
-	    			</div>
+					
+					<td id="tab_pane_link_subjects" <%= "style='display:none'" unless service_learning_position.education_sector? %>>
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Subjects</div>
+												<div class=\"arrow\"></div>",
+											 :subjects, :link_only => true %>
+					</td>
+					<td id="tab_pane_link_grade_levels" <%= "style='display:none'" unless service_learning_position.education_sector? %>>
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Grade Levels</div>
+												<div class=\"arrow\"></div>",
+											 :grade_levels, :link_only => true %>
+					</td>
+					<td id="tab_pane_link_tutoring_formats"<%= "style='display:none'" unless service_learning_position.education_sector? %>>
+						<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
+												<div class=\"name\">Tutoring Formats</div>
+												<div class=\"arrow\"></div>",
+											 :tutoring_formats, :link_only => true %>
+					</td>	    			
 
 	    			<td id="tab_pane_link_language_spokens">
 							<%= link_to_tab_pane "<div class=\"sequence\">#{sequence_num += 1}</div>
@@ -120,8 +117,6 @@
 			 			:locals => { :f => f, :service_learning_position => service_learning_position } %>
 		<% end -%>
 
-		<div id="sector_logic_tabpane" <%= "style='display:none'" unless @use_pipeline_links || service_learning_position.education_sector? %>>
-
 		<% tab_pane :subjects do %>
 			<%= render :partial => "admin/pipeline/organizations/positions/tabs/subjects",
 			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
@@ -136,7 +131,6 @@
 			<%= render :partial => "admin/pipeline/organizations/positions/tabs/tutoring_formats",
 			 			:locals => { :f => f, :pipeline_position => service_learning_position } %>
 		<% end -%>
-		</div>
 
 		<% tab_pane :language_spokens do %>
 			<%= render :partial => "admin/pipeline/organizations/positions/tabs/language_spokens",

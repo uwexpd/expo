@@ -1,3 +1,5 @@
+<% admin ||= false %>
+
 <h2>Sectors</h2>
 <p class="intro"><%= HelpText.caption(:education_sector_intro, ServiceLearningPosition) %></p>
 
@@ -7,22 +9,23 @@
   <% ServiceLearningPositionsSectorType.find(:all, :order => "name").each do |sector| %>
     <li>
       <%= check_box_tag("service_learning_position[service_learning_positions_sector_type_ids][]", sector.id, 
-                        service_learning_position.service_learning_positions_sector_type_ids.include?(sector.id), {:default => true, :onchange => "if (#{sector.id==1}){Element.toggle(sector_logic);Element.toggle(sector_logic_tabpane);Element.toggle(sector_next_button);Element.toggle(non_sector_next_button);Element.toggle(sector_previous_button);Element.toggle(non_sector_previous_button);
-                          // for community partner edit page
-                          Element.toggle(tab_pane_link_subjects);Element.toggle(tab_pane_link_grade_levels);Element.toggle(tab_pane_link_tutoring_formats);}" }) %>
+                        service_learning_position.service_learning_positions_sector_type_ids.include?(sector.id), {:default => true, :onchange => "if (#{sector.id==1}){Element.toggle(tab_pane_link_subjects);Element.toggle(tab_pane_link_grade_levels);Element.toggle(tab_pane_link_tutoring_formats);Element.toggle(sector_next_button);Element.toggle(non_sector_next_button);Element.toggle(sector_previous_button);Element.toggle(non_sector_previous_button);}" }) %>
       <%= sector.name %> 
     </li>
   <% end %>
   </ul>
 </div>
-<div class="service_learning_position_add_sector_container">
-<%= text_field_tag 'new_sector', '', {:id => "service_learning_position_add_sector"} %>
-<%= link_to_remote "Add Sector", {:with => "'sector[name]=' + $('service_learning_position_add_sector').value",
+
+<% if admin %>
+  <div class="service_learning_position_add_sector_container">
+  <%= text_field_tag 'new_sector', '', {:id => "service_learning_position_add_sector"} %>
+  <%= link_to_remote "Add Sector", {:with => "'sector[name]=' + $('service_learning_position_add_sector').value",
                                   :url => remote_add_sector_service_learning_organization_positions_path(@unit, @quarter,@organization), 
                                   :loading  => "$('sector_add_indicator').show()",
                                   :complete => "$('sector_add_indicator').hide()"}, {:class => "button"} %>
-<%= indicator("sector_add_indicator") %>
+  <%= indicator("sector_add_indicator") %>
 </div>
+<% end %>
 
 <div class="progress_nav_buttons">
 	<%= link_to_tab_pane "&#x2190; Previous: Location", :location, :link_only => true, :link_class => "button" %>

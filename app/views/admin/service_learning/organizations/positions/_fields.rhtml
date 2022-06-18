@@ -12,13 +12,18 @@
 				<%= link_to_tab_pane "Scheduling", :scheduling %>
 				<%= link_to_tab_pane "Location", :location %>		
 				<%= link_to_tab_pane "Sector", :sector %>
-				<div id="sector_logic" <%= "style='display:none'" unless @use_pipeline_links || service_learning_position.education_sector? %>>
-				<%# if @use_pipeline_links || service_learning_position.education_sector? %>
-					<%= link_to_tab_pane "Subjects", :subjects %>
-					<%= link_to_tab_pane "Grade Levels", :grade_levels %>
-					<%= link_to_tab_pane "Tutoring Formats", :tutoring_formats %>	
-				<%# end %>
-				</div>
+				<!-- <div id="sector_logic" <%#= "style='display:none'" unless @use_pipeline_links || service_learning_position.education_sector? %>> -->
+				
+				<li id="tab_pane_link_subjects" <%= "style='display:none'" unless @use_pipeline_links ||service_learning_position.education_sector? %>>
+					<%= link_to_tab_pane "Subjects", :subjects, :link_only => true %>
+				</li>
+				<li id="tab_pane_link_grade_levels" <%= "style='display:none'" unless @use_pipeline_links ||service_learning_position.education_sector? %>>
+				    <%= link_to_tab_pane "Grade Levels", :grade_levels, :link_only => true %>
+				</li>
+				<li id="tab_pane_link_tutoring_formats" <%= "style='display:none'" unless @use_pipeline_links ||service_learning_position.education_sector? %>>
+					<%= link_to_tab_pane "Tutoring Formats", :tutoring_formats, :link_only => true %>
+				</li>
+				<!-- </div> -->
 				<%= link_to_tab_pane "Languages Spoken", :language_spokens %>
 				<%= link_to_tab_pane "Orientation", :orientation %>
 			<% end %>
@@ -70,24 +75,19 @@
 			<%= render :partial => "admin/service_learning/organizations/positions/tabs/sector",
 			 			:locals => { :f => f, :admin => true, :service_learning_position => service_learning_position } %>
 		<% end %>
-        	
-		<div id="sector_logic_tabpane" <%= "style='display:none'" unless @use_pipeline_links || service_learning_position.education_sector? %>>
-	    <%# if @use_pipeline_links || service_learning_position.education_sector? %>
-			<% tab_pane :subjects do %>
-	  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/subjects",
-	  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
-	  		<% end -%>
-	  		<% tab_pane :grade_levels do %>
-	  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/grade_levels",
-	  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
-	  		<% end -%>
-	  		<% tab_pane :tutoring_formats do %>
-	  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/tutoring_formats",
-	  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
-	  		<% end -%>  		
 
-		<%# end %>
-		</div>
+		<% tab_pane :subjects do %>
+  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/subjects",
+  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
+  		<% end -%>
+  		<% tab_pane :grade_levels do %>
+  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/grade_levels",
+  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
+  		<% end -%>
+  		<% tab_pane :tutoring_formats do %>
+  			<%= render :partial => "admin/pipeline/organizations/positions/tabs/tutoring_formats",
+  			 			:locals => { :f => f, :admin => true, :pipeline_position => service_learning_position } %>
+  		<% end -%>
 
 		<% tab_pane :language_spokens do %>
   			<%= render :partial => "admin/pipeline/organizations/positions/tabs/language_spokens",
