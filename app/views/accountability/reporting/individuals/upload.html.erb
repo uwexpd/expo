@@ -3,7 +3,7 @@
 <%= HelpText.caption :reporting_interface_report_courses_note, AccountabilityReport %>
 <br>
 <p>Use this page to upload a file containing all of your individual student involvement. You can use this page multiple times to upload multiple sets of data.<br> 	
-	<b><%= link_to "Download an Excel template to start and follow an instruction below", "https://expd.uw.edu/expd/wp-content/uploads/individual_reporting_templat_2021.xls", :class => 'icon-left xls' %></b>
+	<b><%= link_to "Download an Excel template to start and follow an instruction below", "https://expd.uw.edu/expd/wp-content/uploads/individual_reporting_template_#{AccountabilityReport.last.year}.xls", :class => 'icon-left xls' %></b>
 </p>
 <h3>Instruction:</h3>
 <ul class="pretty">
