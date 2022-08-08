@@ -17,7 +17,14 @@
 	
 		<dt>Birthdate:</dt>
 		<dd><%= general.sdb.birth_date rescue "(unknown)" %></dd>
-	
+
+		<% unless general.sdb.degrees.granted.blank? %>
+		  <dt>Degrees Earned:</dt>
+		  <dd><%= general.sdb.degrees.collect{|d|d.deg_title.strip.titleize}.join(", ") %></dd>
+
+		  <dt>Degrees Quarter:</dt>
+		  <dd><%= general.sdb.degrees.collect{|d|d.quarter.title} %></dd>
+		<% end %>
 		<!-- <dt>Status:</dt>
 		<dd></dd> -->
 	
