@@ -5,6 +5,7 @@
   <ul id="pipeline_position_language_spokens_list">
   <% PipelinePositionsLanguageSpoken.find(:all, :order => "name").each do |language| %>
     <li>
+      <%= hidden_field_tag "service_learning_position[pipeline_positions_language_spoken_ids][]", '' %>
       <%= check_box_tag("service_learning_position[pipeline_positions_language_spoken_ids][]", language.id, 
                         pipeline_position.pipeline_positions_language_spoken_ids.include?(language.id), {:default => true}) %>
       <%= language.name %> 

@@ -8,6 +8,7 @@
   <ul id="service_learning_position_sectors_list">
   <% ServiceLearningPositionsSectorType.find(:all, :order => "name").each do |sector| %>
     <li>
+      <%= hidden_field_tag "service_learning_position[service_learning_positions_sector_type_ids][]", '' %>
       <%= check_box_tag("service_learning_position[service_learning_positions_sector_type_ids][]", sector.id, 
                         service_learning_position.service_learning_positions_sector_type_ids.include?(sector.id), {:default => true, :onchange => "if (#{sector.id==1}){Element.toggle(tab_pane_link_subjects);Element.toggle(tab_pane_link_grade_levels);Element.toggle(tab_pane_link_tutoring_formats);Element.toggle(sector_next_button);Element.toggle(non_sector_next_button);Element.toggle(sector_previous_button);Element.toggle(non_sector_previous_button);}" }) %>
       <%= sector.name %> 

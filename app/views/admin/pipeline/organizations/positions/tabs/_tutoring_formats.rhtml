@@ -6,6 +6,7 @@
   <ul>
   <% PipelinePositionsTutoringType.all.each do |tutoring_type| %>
     <li>
+      <%= hidden_field_tag "service_learning_position[pipeline_positions_tutoring_type_ids][]", '' %>
       <%= check_box_tag("service_learning_position[pipeline_positions_tutoring_type_ids][]", tutoring_type.id, 
                         pipeline_position.pipeline_positions_tutoring_type_ids.include?(tutoring_type.id), {:default => true}) %>
       <%= tutoring_type.name %> 

@@ -6,6 +6,7 @@
   <ul>
   <% PipelinePositionsGradeLevel.all.each do |grade_level| %>
     <li>
+      <%= hidden_field_tag "service_learning_position[pipeline_positions_grade_level_ids][]", '' %>
       <%= check_box_tag("service_learning_position[pipeline_positions_grade_level_ids][]", grade_level.id, 
                         pipeline_position.pipeline_positions_grade_level_ids.include?(grade_level.id), {:default => true}) %>
       <%= grade_level.name %> 

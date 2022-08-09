@@ -48,10 +48,10 @@
 				<td><label for="copy_times">Times</label></td></tr>
 			<tr><td><%= check_box_tag "copy[]", "orientation_notes", false, :id => "copy_orientation_notes" %></td>
 				<td><label for="copy_orientation_notes">Orientation Notes</label></td></tr>
-			<% if @use_pipeline_links %>
+			<%# if @use_pipeline_links || %>
 			<tr><td><%= check_box_tag "copy[]", "pipeline_position", false, :id => "copy_pipeline_position" %></td>
-				<td><label for="copy_pipeline_position">Pipeline Position Information</label></td></tr>
-			<% end %>
+				<td><label for="copy_pipeline_position">Education Sectors Information</label></td></tr>
+			<%# end %>
 		</table>
 		</dd>
 		

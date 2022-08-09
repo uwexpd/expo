@@ -168,7 +168,7 @@ class ServiceLearningPosition < ActiveRecord::Base
   PLACEHOLDER_CODES = %w(title description context_description impact_description ideal_number_of_slots number_of_slots)
   PLACEHOLDER_ASSOCIATIONS = %w(organization quarter previous supervisor orientation location)
   
-  has_many :service_learning_positions_sector_types_links, :foreign_key => "service_learning_position_id"
+  has_many :service_learning_positions_sector_types_links, :foreign_key => "service_learning_position_id", :dependent => :destroy
   has_many :service_learning_positions_sector_types, :through => :service_learning_positions_sector_types_links
 
   # Pipeline things
@@ -519,6 +519,7 @@ class ServiceLearningPosition < ActiveRecord::Base
     
     # copy over the subjects, tutoring types and 
     if copy_groups.include?('pipeline_position')
+      p.service_learning_positions_sector_type_ids = service_learning_positions_sector_type_ids
       p.pipeline_positions_subject_ids = pipeline_positions_subject_ids
       p.pipeline_positions_grade_level_ids = pipeline_positions_grade_level_ids
       p.pipeline_positions_tutoring_type_ids = pipeline_positions_tutoring_type_ids
@@ -566,6 +567,7 @@ class ServiceLearningPosition < ActiveRecord::Base
     @timecodes ||= times.collect(&:timecodes).flatten.uniq
   end
   
+  def sectors; service_learning_positions_sector_types; end
   def subjects; pipeline_positions_subjects; end
   def tutoring_types; pipeline_positions_tutoring_types; end
   def grade_levels; pipeline_positions_grade_levels; end

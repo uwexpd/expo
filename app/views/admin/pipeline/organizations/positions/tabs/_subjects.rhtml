@@ -6,6 +6,7 @@
   <ul id="pipeline_position_subject_list">
   <% PipelinePositionsSubject.find(:all, :order => "name").each do |subject| %>
     <li>
+      <%= hidden_field_tag "service_learning_position[pipeline_positions_subject_ids][]", '' %>
       <%= check_box_tag("service_learning_position[pipeline_positions_subject_ids][]", subject.id, 
                         pipeline_position.pipeline_positions_subject_ids.include?(subject.id), {:default => true}) %>
       <%= subject.name %> 
