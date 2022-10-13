@@ -111,7 +111,7 @@ class Event < ActiveRecord::Base
   
   # Send a reminder to user, a day before event time
   def send_attendee_reminder!
-    template = EmailTemplate.find(reminder_email_template_id)
+    template = EmailTemplate.find_by_id(reminder_email_template_id)
     return false if template.nil?
     attendees.tomorrow_reminder.each do |attendee|
         EmailContact.log(
