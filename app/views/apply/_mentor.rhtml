@@ -5,7 +5,7 @@
 	<td class="title">
 		<%= title %>
 		<p class="smaller light">
-			<%= link_to_unless @user_application.submitted? || !@user_application.less_mentors_ok?, "remove", 
+			<%= link_to_unless mentor.primary? || @user_application.submitted? || !@user_application.less_mentors_ok?, "remove", 
 								{:action => 'update', :page => @page.ordering, :remove_mentor => mentor.id}, 
 								:confirm => "Are you sure?" unless mentor.invite_email_sent? %>
 		</p>
@@ -72,11 +72,16 @@
 						</label>
 						
 						<div class="question_block">
-						<% @offering.mentor_types.each do |mentor_type| %>
-							<%= mf.radio_button :application_mentor_type_id, mentor_type.application_mentor_type_id %>
-							<%= mentor_type.title %>
-							<br>
-						<% end -%>
+						<% if mentor.primary? && @alternate_stylesheet.include?('symposium') %>
+							<%= mf.radio_button :application_mentor_type_id, 1 %>
+							<%= "Faculty" %>
+						<% else %>	
+							<% @offering.mentor_types.each do |mentor_type| %>
+								<%= mf.radio_button :application_mentor_type_id, mentor_type.application_mentor_type_id %>
+								<%= mentor_type.title %>
+								<br>
+							<% end %>
+						<% end %>
 						</div>
 					
 					</li>

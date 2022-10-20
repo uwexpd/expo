@@ -2777,6 +2777,10 @@ h1.big-icon {
 	background-image: url(../images/tango/32x32/apps/preferences-desktop-accessibility.png);
 }
 
+.welcome-links .help {
+	background-image: url(../images/tango/32x32/apps/help-browser.png);
+}
+
 .sub-links {
 	font-size: 80% !important;
 	display: block;
