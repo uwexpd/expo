@@ -14,7 +14,7 @@
 
 <% if show_salutation_field %>
 	<dt>salutation</dt>
-	<dd><%= person_fields.select :salutation, %w( Mr. Mrs. Ms. Miss Professor Dr. Hon. Rev. ) , {:prompt => true} %>
+	<dd><%= person_fields.select :salutation, %w( Mr. Mrs. Ms. Mx. Miss Professor Dr. Hon. Rev. ) , {:prompt => true} %>
 		</dd>
 <% end -%>
 

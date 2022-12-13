@@ -72,7 +72,7 @@
 						</label>
 						
 						<div class="question_block">
-						<% if mentor.primary? && @alternate_stylesheet.include?('symposium') %>
+						<% if mentor.primary? && @offering.alternate_stylesheet.include?('symposium') %>
 							<%= mf.radio_button :application_mentor_type_id, 1 %>
 							<%= "Faculty" %>
 						<% else %>	
