@@ -17,7 +17,7 @@
 		<td><%=link_to invitation_code.application_for_offering.person.fullname, 
 						admin_app_path(@offering, invitation_code.application_for_offering) if invitation_code.application_for_offering %></td>
 		<td><%=h invitation_code.note %></td>
-		<td><%=h invitation_code.institution.institution_name if invitation_code.institution %></td>
+		<td><%=h invitation_code.institution.name if invitation_code.institution %></td>
 		<td><%= link_to "Show", offering_invitation_code_path(@offering, invitation_code) %></td>
 		<td><%= link_to "Edit", edit_offering_invitation_code_path(@offering, invitation_code) %></td>
 		<td><%= link_to_remote "Destroy", 

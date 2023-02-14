@@ -4,11 +4,11 @@
 	<div class="light right">
 		<strong>Date Range:</strong>
 		<%= select_tag :start_quarter_id, 
-						options_from_collection_for_select(Quarter.past_quarters(12).reverse << Quarter.current_quarter, 
+						options_from_collection_for_select(Quarter.past_quarters(16).reverse << Quarter.current_quarter, 
 						:id, :title, :selected => @start_quarter.id) %>
 		<%= separator "through" %>
 		<%= select_tag :end_quarter_id, 
-						options_from_collection_for_select(Quarter.past_quarters(12).reverse << Quarter.current_quarter, 
+						options_from_collection_for_select(Quarter.past_quarters(16).reverse << Quarter.current_quarter, 
 						:id, :title, :selected => @end_quarter.id) %>
 		<small>
 			<%= check_box_tag :students_only, true, @students_only %> <label for="students_only">Only count UW Students</label>
