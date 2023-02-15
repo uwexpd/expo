@@ -20,9 +20,13 @@
 	<dd><%= @student.sdb.gpa %></dd>
 	
 	<dt>gender</dt>
-	<dd><%= @student.gender %>
-		<%= "<span>(#{@student.sws.pronouns})</span>" unless @student.sws.pronouns.blank? %></dd>
+	<dd><%= @student.gender %>		
 	
+	<% if @student.sws.pronouns %>
+	  <dt>pronouns</dt>
+	  <dd><%= @student.sws.pronouns %>			
+	<% end %>
+
 	<dt>age</dt>
 	<dd><%= @student.sdb.age %>
 		<%= "<span class='minor warning'>&nbsp;</span>" if @student.sdb.age < 18 %></dd>
