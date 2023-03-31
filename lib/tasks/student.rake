@@ -210,11 +210,6 @@ task :general_study_faculty => :environment do
       code         = row[1].strip unless row[1].blank?
       employee_id  = row[2].strip unless row[2].blank?
       uw_netid     = row[3].strip unless row[3].blank?
-
-      # fullname     = row[0].blank? ? row[0] : row[0].strip 
-      # code         = row[1].blank? ? row[1] : row[1].strip 
-      # employee_id  = row[2].blank? ? row[2] : row[2].strip 
-      # uw_netid     = row[3].blank? ? row[3] : row[3].strip
       
       unless fullname.blank?
         lastname  = fullname.split(",").first.try(:strip).try(:capitalize)
@@ -244,7 +239,40 @@ task :test_course => :environment do
       puts "#{y course}"
 end
    
+
+desc "Import for insert or update students first generation and pell eligible information"
+task :first_gene_pell => :environment do
+    print "Parsing CSV file...."    
+    file_path = "tmp/PE_AIDB_as_of_03-15-2023.csv" #First_Gen_AIDB_03-15-2023.csv
+    print "(file path: #{file_path})\n"
+    
+    lineno = 0
+    
+    file = CSV.open(file_path, 'r', ?,, ?\r)
    
+    puts "Start to add/update first generation/pell eligble information..."
+     
+    file.each do |row|      
+      lineno += 1
+      next if lineno == 1 # skip title
+
+      system_key = row[0].strip unless row[0].blank?
+      boolean    = row[1].strip unless row[1].blank?      
+
+      if student=FirstGenerationPellEligible.find_by_system_key(system_key)        
+         #:first_gen => boolean =='Y'
+         student.update_attributes(:pell_eligible => boolean =='Y', :updated_at => Time.now)
+
+      else        
+        f= FirstGenerationPellEligible.new(:pell_eligible => boolean =='Y') #first_gen => boolean =='Y'
+        f.system_key = system_key
+        f.save
+      end
+      
+    end    
+    puts "Added/updated #{lineno-1} students first generation and pell eligible"
+    
+end
    
    
    

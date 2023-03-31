@@ -1,6 +1,6 @@
 <%= javascript_include_tag 'tablesort' %>
 
-<h1>Amgen Project Preference</h1>
+<h1>Project Preference</h1>
 <% form_tag :action => 'amgen_project_preference' do %>
 	<span style="padding-right:5px;">Please select a project reference for a query:</span>  
 	<%= select_tag :lab_query, options_for_select(@preferences_dropdown, "#{@lab_query}") %>

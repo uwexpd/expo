@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  system_key: 1
+  first_gen: false
+  pell_eligible: false
+
+two:
+  system_key: 1
+  first_gen: false
+  pell_eligible: false
