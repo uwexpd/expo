@@ -10,6 +10,7 @@ config/email.yml
 /javascripts
 /stylesheets
 /public/images/shared/
+/doc
 
 log/
 

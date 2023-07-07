@@ -229,37 +229,24 @@ class ApplyController < ApplicationController
     
   end
   
-  def submit    
+  def submit
     unless @offering.disable_signature?
       @user_application.electronic_signature = params[:user_application]['electronic_signature']
       @user_application.electronic_signature_date = Time.now
     end            
     if @user_application.passes_validations? && (@offering.disable_signature? || @user_application.electronic_signature_valid?)
-      if @user_application.mentor_letter_received?
-        @user_application.set_status "complete"
+
+      @user_application.set_status "submitted"
+
+      if @offering.require_all_mentor_letters_before_complete?
+        @user_application.set_status "complete" if @user_application.all_mentor_letters_received?
       else
-        @user_application.set_status "submitted"
+        @user_application.set_status "complete" if @user_application.mentor_letter_received?
       end
-      # Send eamil notification for husky 100 process. TODO: Refactory this in the future and use application mentor to store the nominated students
+
+      # Send eamil notification for husky 100 process.
       unless @offering.questions.find_all_by_display_as('husky100_netid').blank?
-          sent_student_emails = []
-          @offering.questions.find_all_by_display_as('husky100_netid').each do |question_id|
-            input_netid = @user_application.get_answer(question_id)
-            if input_netid
-              uwnetid = input_netid.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1)
-              student = Student.find_by_uw_netid(uwnetid)
-              unless student.nil?
-                  template = EmailTemplate.find_by_name("Husky 100: Nominated Student First Notification")
-                  if template
-                      EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.firstname_first}")), @user_application.current_status
-                      sent_student_emails << student.email
-                  else
-                      flash[:error] = "Can not find the template to send: Husky 100: Nominated Student First Notification."
-                  end
-              end
-            end
-          end
-          flash[:notice] = "A notification email sent to #{sent_student_emails.join(', ')} for husky 100 nomination."
+        send_husky_notifications
       end
       
       redirect_to :action => 'index' and return
@@ -269,6 +256,27 @@ class ApplyController < ApplicationController
       render :action => 'review'
     end    
 
+  end
+
+  def send_husky_notifications
+    sent_student_emails = []
+      @offering.questions.find_all_by_display_as('husky100_netid').each do |question_id|
+        input_netid = @user_application.get_answer(question_id)
+        if input_netid
+          uwnetid = input_netid.to_s.match(/^(\w+)(@.+)?$/).try(:[], 1)
+          student = Student.find_by_uw_netid(uwnetid)
+          unless student.nil?
+              template = EmailTemplate.find_by_name("Husky 100: Nominated Student First Notification")
+              if template
+                  EmailContact.log  student.id, TemplateMailer.deliver(template.create_email_to(student, link = "#{@user_application.person.firstname_first}")), @user_application.current_status
+                  sent_student_emails << student.email
+              else
+                  flash[:error] = "Can not find the template to send: Husky 100: Nominated Student First Notification."
+              end
+          end
+        end
+      end
+      flash[:notice] = "A notification email sent to #{sent_student_emails.join(', ')} for husky 100 nomination."
   end
   
   def availability
