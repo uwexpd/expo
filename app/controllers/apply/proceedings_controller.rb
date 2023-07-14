@@ -25,7 +25,7 @@ class Apply::ProceedingsController < ApplyController
     respond_to do |format|
       format.html
       format.iphone
-      format.pdf if @current_user.admin?
+      format.pdf if @current_user != :false && @current_user.admin?
     end
   end
   
@@ -39,7 +39,7 @@ class Apply::ProceedingsController < ApplyController
     respond_to do |format|
       format.html
       format.iphone
-      format.pdf if @current_user.admin?
+      format.pdf if @current_user != :false && @current_user.admin?
     end
   end
   
@@ -61,7 +61,7 @@ class Apply::ProceedingsController < ApplyController
     respond_to do |format|
       format.html
       format.iphone
-      format.pdf { render :layout => 'proceedings', :merge_with => merge_file } if @current_user.admin? || @result.size <= 25
+      format.pdf { render :layout => 'proceedings', :merge_with => merge_file } if (@current_user != :false && @current_user.admin?) || @result.size <= 25
     end
   end
   
@@ -74,7 +74,7 @@ class Apply::ProceedingsController < ApplyController
     respond_to do |format|
       format.html
       format.iphone
-      format.pdf { render :layout => 'proceedings', :merge_with => merge_file } if @current_user.admin? || @result.size <= 25
+      format.pdf { render :layout => 'proceedings', :merge_with => merge_file } if (@current_user != :false && @current_user.admin?) || @result.size <= 25
     end
   end
   

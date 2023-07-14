@@ -1,6 +1,6 @@
 <tr>
 	<td><%= link_to application_mentor.application_for_offering.person.fullname, :action => "mentee", :id => application_mentor %></td>
-	<td><%= application_mentor.application_for_offering.offering.name %></td>
+	<td><%= application_mentor.application_for_offering.offering.title %></td>
 	<td><%= strip_tags application_mentor.application_for_offering.project_title %></td>
 	<td>
 		<%= "<div class='green-check'>X</div>" if application_mentor.letter_received? %>

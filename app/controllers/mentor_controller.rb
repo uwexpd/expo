@@ -7,7 +7,7 @@ class MentorController < ApplicationController
 
   def index
     @person = @current_user.person
-    @mentor_applications = @person.application_mentors
+    @mentor_applications = @person.application_mentors.reverse
     @mentor_applications = @mentor_applications.select{|m| m.offering == @offering rescue false} if @offering
     render :action => 'index_abstract_approve' and return if @offering && @offering.mentor_mode == 'abstract_approve'
   end
