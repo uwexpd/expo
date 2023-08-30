@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20230330192531) do
+ActiveRecord::Schema.define(:version => 20230830171537) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -1106,6 +1106,7 @@ ActiveRecord::Schema.define(:version => 20230330192531) do
     t.boolean  "religious"
     t.boolean  "group_ok"
     t.string   "picture"
+    t.integer  "education_sector"
   end
 
   create_table "department_extras", :force => true do |t|
