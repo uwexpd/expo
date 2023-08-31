@@ -5,7 +5,7 @@
 	  <% if invitee.person.is_a? Student %>
 	    <%= link_to invitee.person.fullname, [:admin, invitee.person] %><%= invitee.person.pipeline_inactive ? "<span id='pipeline_inactive_#{invitee.person.id}' class='tag'>inactive</span>" : "<span id='pipeline_inactive_#{invitee.person.id}'></span>" if @use_pipeline_links %>
 	  <% else %>
-	    <%=h invitee.person.fullname rescue invitee.fullname rescue "#error" %>
+	    <%= link_to invitee.person.fullname, [:admin, invitee.person] rescue invitee.fullname rescue invitee.person.id rescue "#error" %>
 	  <% end %>
 	</td>
 	<td value="<%= invitee.attending? ? 'Attending' : 'Not Attending' %>"><span class="current_reply">
