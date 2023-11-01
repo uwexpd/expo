@@ -22,9 +22,9 @@
 	<dt>gender</dt>
 	<dd><%= @student.gender %>		
 	
-	<% unless @student.sws.pronouns.blank? %>
+	<% if @student.sws && !@student.sws.pronouns.blank? %>
 	  <dt>pronouns</dt>
-	  <dd><%= @student.sws.pronouns %>			
+	  <dd><%= @student.sws.pronouns rescue 'error' %>
 	<% end %>
 
 	<dt>age</dt>

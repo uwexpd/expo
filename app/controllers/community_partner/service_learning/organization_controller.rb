@@ -9,6 +9,10 @@ class CommunityPartner::ServiceLearning::OrganizationController < CommunityPartn
   end
 
   def update
+    if @organization.class == School
+      params[:organization] = params[:school]
+    end
+    # logger.debug "Debug => #{params[:organization].inspect}"
     respond_to do |format|
       if @organization.update_attributes(params[:organization])
         flash[:notice] = 'Your organization information was successfully updated.'

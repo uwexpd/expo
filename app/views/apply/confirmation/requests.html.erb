@@ -2,7 +2,7 @@
 
 <%= render :partial => "apply/switch" if @application_count > 1 %>
 
-<h1>Do you have any special requests?</h1>
+<h1>Do you have any special requests or accommodations requests?</h1>
 
 <%= textilize ERB.new(@offering.special_requests_text).result(binding) %>
 
