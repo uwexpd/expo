@@ -16,7 +16,7 @@ body {
 }
 
 #header {
-	background: #7fb439 url(../images/symposium/2024/header.png);
+/*	background: #7fb439 url(../images/symposium/2024/header.png);*/
 	height: 149px;
 	border-bottom: 1px solid #b2b2b2;
 }
@@ -53,11 +53,11 @@ h1.page_title {
 	position: absolute;
 	top: 0px;
 /*	left: 50px;*/
-  background: url(../images/symposium/2024/header-title.png) no-repeat;
+  background: url(../images/symposium/2024/header.png) repeat;
 }
 
 .proceedings h1.page_title {
-	background-image: url(../images/symposium/2024/proceedings-title.png);
+	background-image: url(../images/symposium/2024/proceedings.png);
 }
 
 h5.unit_name {
