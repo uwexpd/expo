@@ -141,8 +141,8 @@ div#title {
 
 #footer-focus-element {
 	background: url(../images/symposium/2012/footer-side-image.png) no-repeat;
-	width: 200px;
-	height: 200px;
+	width: 150px;
+	height: 150px;
 	z-index: 1000;
 	float: right;
 	margin-left:10px;

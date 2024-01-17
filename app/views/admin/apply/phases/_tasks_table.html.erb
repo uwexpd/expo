@@ -1,4 +1,6 @@
 <% result_type ||= :in_progress %>
+<% @phase_apps = @phase.applications_for(result_type).flatten.paginate(:page => params[:page], :per_page => 30) %>
+<% paginated_section @phase_apps do %>
 
 <table class="tasks_table">
 	
@@ -10,7 +12,7 @@
 		<% end -%>
 	</tr>
 
-	<% for app in @phase.applications_for(result_type) %>
+  <% for app in @phase_apps %>
 	<tr>
 		<td><%= link_to app.person.lastname_first, admin_student_path(app.person) %>
 			<br><small><%= link_to (app.stripped_project_title.blank? ? "View Application" : truncate(
@@ -26,10 +28,7 @@
 					:locals => { :app => app } %>
 
 	</tr>
-	<% end -%>
-
-
-
+  <% end %>
 
 	<% unless @phase.applications_for?(result_type) %>
 	<tr class="empty">
@@ -39,5 +38,5 @@
 
 
 </table>
-	
-	
+
+<% end %>
