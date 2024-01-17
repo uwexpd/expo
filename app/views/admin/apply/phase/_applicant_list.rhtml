@@ -2,30 +2,37 @@
 
 <% show_history ||= false %>
 
-<table class="sortable" id="sortable-table-0">
+<% @task.application_status_types.each do |t| %>
 
-	<tr class="small left">
-		<th><div class="sort-icon"><%= select_all_check_box @task.id %>Student</div></th>
-		<th><div class="sort-icon">Project</div></th>
-		<% @task.extra_fields.each do |t| %>
-			<th><div class="sort-icon"><%= t.title %></div></th>
-		<% end -%>
-		<th><div class="sort-icon">Current Status</div></th>
-	</tr>
+<%
+	if show_history || @task.show_history?
+		apps = @offering.applications_with_status(t.name)
+	else
+		apps = @offering.application_for_offerings.with_status(t.name)
+	end
+	unless @task.applicant_list_criteria.blank?
+		apps = apps.select{|object| eval(@task.applicant_list_criteria) rescue true}
+	end
+	total_apps_count = apps.size
+	apps = apps.sort_by(&:lastname_first).paginate(:page => params[:page], :per_page => params[:per_page] || 30)
+%>
 
-	<% @task.application_status_types.each do |t| %>
-	
-		<% 
-		if show_history || @task.show_history?
-			apps = @offering.applications_with_status(t.name)
-		else
-			apps = @offering.application_for_offerings.with_status(t.name)
-		end 
-		unless @task.applicant_list_criteria.blank?
-			apps = apps.select{|object| eval(@task.applicant_list_criteria) rescue true}
-		end
-		apps = apps.sort_by(&:lastname_first)
-		%>
+<% unless apps.blank? %>
+<%= page_entries_info apps, :entry_name => 'applicants' %>.
+<span>Per page: <%= select_tag "per_page", options_for_select(["30", "50", "100", total_apps_count.to_s], params[:per_page]), :onchange => "per_page_select()" %></span>
+<% end %>
+<% paginated_section apps do %>
+
+	<table class="sortable" id="sortable-table-0">
+
+		<tr class="small left">
+			<th><div class="sort-icon"><%= select_all_check_box @task.id %>Student</div></th>
+			<th><div class="sort-icon">Project</div></th>
+			<% @task.extra_fields.each do |extra_field| %>
+				<th><div class="sort-icon"><%= extra_field.title %></div></th>
+			<% end -%>
+			<th><div class="sort-icon">Current Status</div></th>
+		</tr>
 
 		<tr class="rowset-header">
 			<td colspan=<%= 3 + @task.extra_fields.size %>>
@@ -35,7 +42,7 @@
 			</td>
 		</tr>
 
-		<% apps.each do |a| %>
+		<% for a in apps %>
 
 			<tr <%= "class=not_current" if !@task.application_status_types.collect(&:name).include?(a.current_status_name) %>>
 				<td><%= select_check_box(a, a.current_status_name) %>
@@ -52,7 +59,20 @@
 			<% current_status_name = a.current_status_name %>
 			
 		<% end %>
-		
-	<% end -%>
+	</table>
 
-</table>
+<% end %>
+		
+<% end -%>
+
+<script type="text/javascript">
+	function per_page_select(){
+		var selected = document.getElementById('per_page').value;
+		var url = window.location.href
+		if (url.includes('?')){
+			window.location.href = url + "&per_page=" + selected;
+		}else{
+			window.location.href = url + "?per_page=" + selected;
+		}
+	}
+</script>
