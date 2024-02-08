@@ -31,7 +31,8 @@
 	</tr>
 	<% end -%>
 	
-	<%- unless @app.offering.reviewers_for(@app).blank? -%>
+	<% offering_reviewers = @app.offering.reviewers_for(@app) %>
+	<%- unless offering_reviewers.blank? -%>
 	<tr>
 		<td colspan=<%= @offering.review_criterions.size %>>
 			
@@ -39,7 +40,7 @@
 				<% remote_form_for :app, @app, :url => { :action => 'update', :id => @app, :tab => "review_committee" }, :indicator => "assign_reviewer_#{@app.id}" do |f| %>
 					<%= f.label :new_reviewer, "Add Another Reviewer:" %>
 					<%= f.collection_select :new_reviewer, 
-											@app.offering.reviewers_for(@app).sort,
+											offering_reviewers.sort,
 											:id,
 											'fullname' %>
 					<%= f.submit "Add" %>
