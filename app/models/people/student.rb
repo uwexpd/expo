@@ -28,7 +28,7 @@ class Student < Person
     :name     => 1.month,
     :class_standing     => 1.month,
     :gender     => 1.year,
-    :email    => 1.week
+    :email    => 1.month
   }
   
   # Checks if the SDB-based contact information for this record is out-of-date by comparing the current +sdb_update_at+

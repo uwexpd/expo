@@ -499,7 +499,7 @@ class ServiceLearningPosition < ActiveRecord::Base
     attrs << %w(title description context_description impact_description
                 duration_requirement age_requirement skills_requirement
                 other_age_requirement other_duration_requirement time_commitment_requirement
-                background_check_required tb_test_required paperwork_requirement) if copy_groups.include?('details')
+                background_check_required tb_test_required paperwork_requirement legal_name_required birthdate_required ssn_required fingerprint_required other_background_check_required other_background_check_requirement non_intl_student_required) if copy_groups.include?('details')
     attrs << %w(supervisor_person_id) if copy_groups.include?('supervisor')
     attrs << %w(location_id alternate_transportation) if copy_groups.include?('location')
     attrs << %w(time_notes times_are_flexible) if copy_groups.include?('times')
