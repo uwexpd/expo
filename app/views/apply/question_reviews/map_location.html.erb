@@ -1,6 +1,6 @@
-<% location = eval "@user_application.#{question.full_attribute_name}" %>
+<%# location = eval "@user_application.#{question.full_attribute_name}" %>
 
-<li>
+<%# <li>
 	<div id="map-container">
 	    <!-- A text box and two buttons for geocoding and mapping an address -->
 	    <div id="geocode-panel" style="visibility: hidden">
@@ -14,9 +14,9 @@
 	    <div id="map-submit-container" style="visibility: hidden">
 	        <input id="map-submit" type="button" value="Confirm and Submit Your Locations">
 	    </div><br>	
-		<%= hidden_field_tag 'hidden-json-container', location %>
+		<%#= hidden_field_tag 'hidden-json-container', location %>
 		
-	</div>
-</li>
-<%= javascript_include_tag 'gmap-location-grabber' %>
-<%= javascript_include_tag('https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbKJJA95NmykzS3HHSllLxeVlGTcB7c&libraries=drawing&callback=initMap', :async => true, :defer => true).sub('.js', '') %>
+	<%# </div> %>
+<%# </li> %> %>
+<%#= javascript_include_tag 'gmap-location-grabber' %>
+<%#= javascript_include_tag('https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbKJJA95NmykzS3HHSllLxeVlGTcB7c&libraries=drawing&callback=initMap', :async => true, :defer => true).sub('.js', '') %>
