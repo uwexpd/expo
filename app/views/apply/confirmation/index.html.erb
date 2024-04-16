@@ -28,7 +28,7 @@
 			<% if @confirmer.confirmed.nil? || (Time.now <= @offering.confirmation_deadline if @offering.confirmation_deadline) %>
 				<%= f.submit "Submit your confirmation →", :disable_with => "Submitting confirmation..." %>
 			<% else %>
-				<p><span class="green icon-left complete">You've confirmed your participation Please contact urp@uw.edu if you need to change your participation.</span></p>
+				<p><span class="green icon-left complete">You've confirmed your participation Please contact <%= @offering.contact_email %> if you need to change your participation.</span></p>
 			<% end -%>
 	</div>
 
