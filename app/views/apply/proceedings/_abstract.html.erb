@@ -19,7 +19,7 @@
 
 		<div class="two_column">
 		
-			<dl class="<%= 'half' unless params[:action] == 'offering_session' %>">
+			<dl class="half">
 				
 				<% cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_presenters') do  %>
 		
@@ -67,14 +67,14 @@
 			</dl>
 		
 
-	<% unless params[:action] == 'offering_session' || abstract.offering_session.nil? %>
+	<% unless abstract.offering_session.nil? # || params[:action] == 'offering_session' %>
 		<dl class="half">
 		
 			<dt>Session</dt>
 			<dd>
-				<ul>
-				<li><%= link_to abstract.offering_session.title(:include_identifier => true), 
-							apply_proceedings_url(@offering, 'offering_session', :id => abstract.offering_session.id) if abstract.offering_session %></li>
+				<ul><%= "<br>" %>
+					<%= link_to abstract.offering_session.title(:include_identifier => true), 
+							apply_proceedings_url(@offering, 'offering_session', :id => abstract.offering_session.id) unless !abstract.offering_session || params[:action] == 'offering_session'%>
 				<%= "<li>#{abstract.offering_session.location rescue nil}</li>" if (!@offering.virtual_proceeding && !abstract.offering_session.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.proceeding_public_display_at if @offering.proceeding_public_display_at rescue nil %>
 				<%= "<li>#{content_tag(:span, abstract.location_section.title, :style => "color:##{abstract.location_section.color}") rescue nil}</li>" if abstract.location_section rescue nil %>
 				<%= "<li>Easel ##{abstract.easel_number rescue nil}</li>" if abstract.easel_number rescue nil %>

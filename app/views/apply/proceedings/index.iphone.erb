@@ -30,7 +30,8 @@
 		<% for session_group, application_types_hash in @sessions %>
 			<% for application_type, sessions in application_types_hash.sort_by{|k,v|v.first.start_time} %>
 				<% if sessions.size == 1 %>
-					<li><%= link_to sessions.first.title + "<br><small class='gray'>#{sessions.first.time_detail}</small>", :action => 'offering_session', :offering => @offering, :id => sessions.first %></li>
+					<% session = sessions.first %>
+					<li><%= link_to session.title + " <span class='grey' style='font-size:50%; vertical-align:top'>(#{session.location})</span>" + "<br><small class='gray'>#{session.time_detail}</small>", :action => 'offering_session', :offering => @offering, :id => session %></li>
 				<% else %>
 					<li><%= link_to "#{application_type} #{session_group}<br><small class='gray'>#{sessions.first.time_detail}</small>", "##{application_type.parameterize.underscore.to_s}_#{session_group}" %></li>
 				<% end %>

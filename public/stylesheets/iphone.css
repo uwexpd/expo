@@ -343,9 +343,10 @@ ul.link-list > li {
 	background-color: #eee;
   border-bottom: 1px solid #fff;
 	padding: 8px 0 8px 10px;
-	font-size: 20px;
+	font-size: 20px;	
 	font-weight: bold;
 	list-style: none;
+	line-height: 24px;
 }
 
 ul.link-list.small > li {
@@ -668,15 +669,30 @@ fieldset > .row:last-child {
 	
 }
 
-.proceedings .session_identifier {
+.proceedings .sessions_list a {
+	padding-left: 4em;
+	min-height: 35px;
+}
+
+.proceedings .panel h2.session_title {
+/*	padding-left: 3.5em;*/
+/*	padding-left: 2em;*/
+	margin-right: 10px;
+	min-height: 2em;
+	margin-bottom: 12px;
+	font-size: 130%;
+	text-align:center;
+}
+
+.proceedings .session_identifier {	
 	padding: 0;
+	position: absolute;
 	color: #07b;
 	width: 3em;
 	left: 10px;
 	line-height: 200%;
 	text-indent: 0;
-	min-height: 35px;
-	position: absolute;
+	min-height: 35px;	
 	text-align: center;
 	float: left;
 	background: #e5f4ff;
@@ -687,18 +703,8 @@ fieldset > .row:last-child {
 	font-weight: bold;
 }
 
-.proceedings .sessions_list a {
-	padding-left: 4em;
-	min-height: 35px;
-}
-
-.proceedings .panel h2.session_title {
-	/*padding-left: 3.5em;*/
-	padding-left: 2em;
-	margin-right: 10px;
-	min-height: 2em;
-	margin-bottom: 12px;
-	font-size: 130%;
+.proceedings h2.session_title .session_identifier {
+	position: relative;
 }
 
 .proceedings.offering_session .panel {

@@ -983,7 +983,7 @@ class Admin::ApplyController < Admin::BaseController
     @offering.mentor_types.each{|t| @nominees[t.application_mentor_type] = {}}
     for nominator in @confirmers.reject{|c| c.nominated_mentor.nil? }
       mentor = nominator.nominated_mentor
-      if mentor.person
+      if mentor.person && mentor.mentor_type
         if @nominees[mentor.mentor_type][mentor.person].nil?
           @nominees[mentor.mentor_type][mentor.person] = [nominator]
         else

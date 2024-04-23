@@ -25,10 +25,10 @@ class Student < Person
                           student_no system_key transfer_student?)
 
   SDB_CACHE_VALIDITY_LENGTH = {
-    :name     => 1.month,
-    :class_standing     => 1.month,
+    :name     => 1.year,
+    :class_standing     => 1.year,
     :gender     => 1.year,
-    :email    => 1.month
+    :email    => 1.year
   }
   
   # Checks if the SDB-based contact information for this record is out-of-date by comparing the current +sdb_update_at+
