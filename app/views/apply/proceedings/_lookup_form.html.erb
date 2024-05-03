@@ -47,6 +47,17 @@
 							{ :style => "width: 20em" } %>
 			<%= submit_tag "Lookup", :onClick => "return validateNotBlank(student_campus, student_lookup_error, 'Please choose a campus to lookup.')" %>
 		<% end -%>
+		<br />
+		<% form_tag url_for(:action => 'result'), :method => :get do %>
+			<%= label_tag :session_location, "Building Location:" %>
+			<%= select_tag :session_location, 
+							options_for_select([["Locations (#{@locations.size})", nil]] + 
+												@locations.map{|k,v| ["#{k} (#{v.size})", k] }.sort,
+												params[:session_location]),
+							{ :style => "width: 20em" } %>
+			<%= submit_tag "Lookup",
+			 		:onClick => "return validateNotBlank(session_location, student_lookup_error, 'Please choose an location to lookup.')" %>
+		<% end -%>
 
 	</div>
 

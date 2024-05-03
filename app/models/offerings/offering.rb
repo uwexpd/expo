@@ -674,5 +674,27 @@ class Offering < ActiveRecord::Base
       campus
     end
   end
-  
+
+
+  def session_location_mapping(status = :confirmed)
+    OFFERINGS_CACHE.fetch("session_location_mapping_#{id}_#{status.to_s.underscore}", :expires_in => 24.hours) do
+      @apps = application_for_offerings.with_status(status)      
+      locations = {}
+      for iapp in @apps
+        if iapp.application_type && iapp.application_type.title == "Poster Presentation"
+          location = iapp.location_section.title if iapp.location_section
+        else
+          location = iapp.offering_session.location if iapp.offering_session
+        end        
+
+        ['MGH','HUB','CSE'].each do |building|
+          if location && location.include?(building)
+            locations[building] = (locations[building].nil? ? [iapp.id] : locations[building] << iapp.id)
+          end          
+        end
+      end
+      locations
+    end
+  end
+
 end
