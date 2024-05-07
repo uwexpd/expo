@@ -75,7 +75,9 @@
 				<ul><%= "<br>" %>
 					<%= link_to abstract.offering_session.title(:include_identifier => true), 
 							apply_proceedings_url(@offering, 'offering_session', :id => abstract.offering_session.id) unless !abstract.offering_session || params[:action] == 'offering_session'%>
-				<%= "<li>#{abstract.offering_session.location rescue nil}</li>" if (!@offering.virtual_proceeding && !abstract.offering_session.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.proceeding_public_display_at if @offering.proceeding_public_display_at rescue nil %>
+				<% unless abstract.application_type.title == 'Poster Presentation' %>
+					<%= "<li>#{abstract.offering_session.location rescue nil}</li>" if (!@offering.virtual_proceeding && !abstract.offering_session.location.blank?) || (@current_user != :false && @current_user.admin && @current_user.in_unit?(3)) || Time.now >= @offering.proceeding_public_display_at if @offering.proceeding_public_display_at rescue nil %>
+				<% end %>
 				<%= "<li>#{content_tag(:span, abstract.location_section.title, :style => "color:##{abstract.location_section.color}") rescue nil}</li>" if abstract.location_section rescue nil %>
 				<%= "<li>Easel ##{abstract.easel_number rescue nil}</li>" if abstract.easel_number rescue nil %>
 				<%= "<li>#{abstract.offering_session.time_detail}</li>" if abstract.offering_session %>
@@ -91,7 +93,7 @@
 		<div class="abstract_text" style="display:none" id="abstract_text_<%= abstract.id %>">
 			
 		<% if abstract.hide_proceeding_abstract == true %>			
-			<p>This abstract is no longer available. Please contact urp@uw.edu if you have any questions.</p></div>		
+			<p>This abstract is no longer available. Please contact <%= @offering.contact_email rescue 'undergradresearch@uw.edu' %> if you have any questions.</p></div>		
 		<% else %>		
 			<!-- Abstract -->		
 			<%= abstract.text(:abstract).body %></div>
