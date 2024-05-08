@@ -8,7 +8,8 @@
 
 		<dl class="inline-definitions">
 
-			<% cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_presenters', :format => :iphone) do %>
+			<%
+			 cache(:controller => 'proceedings', :action => 'result', :id => abstract.id, :action_suffix => 'abstract_presenters', :format => :iphone) do %>
 
 			<dt><%= pluralize_without_count (1 + abstract.group_members.count), "Presenter" %></dt>
 			<dd>
@@ -43,8 +44,8 @@
 				<ul>
 
 					<!-- Mentors -->
-					<% for mentor in abstract.mentors %>
-						<li><%= mentor.info_detail_line(true) %></li>
+					<% for mentor in abstract.mentors.sort_by{|m| m.primary? ? 0 : 1} %>
+						<li><%= mentor.info_detail_line(true, true) %></li>
 					<% end -%>
 
 				</ul>

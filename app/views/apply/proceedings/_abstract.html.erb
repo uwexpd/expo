@@ -56,7 +56,7 @@
 					<ul>
 
 						<!-- Mentors -->
-						<% for mentor in abstract.mentors %>
+						<% for mentor in abstract.mentors.sort_by{|m| m.primary? ? 0 : 1} %>
 							<li><%= mentor.info_detail_line(true, true) %></li>
 						<% end -%>
 
