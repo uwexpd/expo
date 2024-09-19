@@ -3,6 +3,7 @@
 		<th>ID</th>
 		<th>Nominee Last Name</th>
 		<th>Nominee First Name</th>
+		<th>Nominee Email</th>
 		<th>Type</th>
 		<th>Department</th>
 		<th>Academic Department</th>
@@ -33,6 +34,7 @@
 				<td><%=h nominator.nominated_mentor.id %></td>
 				<td><%=h nominee.lastname %></td>
 				<td><%=h nominee.firstname %></td>
+				<td><%=h nominee.email %></td>
 				<td><%=h nominator.nominated_mentor.mentor_type.title rescue nil %></td>
 				<td><%=h nominee.department_name %></td>
 				<td><%=h nominator.nominated_mentor.academic_department.join(", ") rescue nil %></td>

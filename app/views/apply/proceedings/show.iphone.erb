@@ -34,10 +34,10 @@
 		<% end -%>
 
 		<!-- Mentors -->
-		<% for mentor in @app.mentors %>
+		<% for mentor in @app.mentors.sort_by{|m| m.primary? ? 0 : 1} %>
 			<div class="row">
 				<label>Mentor</label>
-				<span><%= mentor.info_detail_line(true) %></span>
+				<span><%= mentor.info_detail_line(true, true) %></span>
 			</div>
 		<% end -%>
 

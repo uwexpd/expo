@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20230830171537) do
+ActiveRecord::Schema.define(:version => 20240919003943) do
 
   create_table "academic_departments", :force => true do |t|
     t.string   "name"
@@ -251,6 +251,7 @@ ActiveRecord::Schema.define(:version => 20230830171537) do
     t.text     "task_completion_status_cache"
     t.integer  "theme_response3"
     t.boolean  "hide_proceeding_abstract"
+    t.string   "time_conflicts"
   end
 
   add_index "application_for_offerings", ["offering_id"], :name => "index_applications_on_offering_id"
@@ -361,6 +362,7 @@ ActiveRecord::Schema.define(:version => 20230830171537) do
     t.string   "relationship"
     t.text     "task_completion_status_cache"
     t.string   "academic_department"
+    t.boolean  "confirm_primary"
   end
 
   add_index "application_mentors", ["application_for_offering_id"], :name => "index_mentors_on_app_id"
@@ -854,6 +856,7 @@ ActiveRecord::Schema.define(:version => 20230830171537) do
     t.text     "task_completion_status_cache"
     t.integer  "theme_response3"
     t.boolean  "hide_proceeding_abstract"
+    t.string   "time_conflicts"
   end
 
   create_table "deleted_application_mentors", :force => true do |t|
@@ -887,6 +890,7 @@ ActiveRecord::Schema.define(:version => 20230830171537) do
     t.string   "relationship"
     t.text     "task_completion_status_cache"
     t.string   "academic_department"
+    t.boolean  "confirm_primary"
   end
 
   create_table "deleted_application_statuses", :force => true do |t|
@@ -2496,6 +2500,9 @@ ActiveRecord::Schema.define(:version => 20230830171537) do
     t.boolean  "work_study"
     t.string   "location"
     t.text     "learning_benefit"
+    t.string   "availability"
+    t.boolean  "social"
+    t.string   "social_if_yes"
   end
 
   create_table "rights", :force => true do |t|

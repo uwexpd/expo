@@ -5,7 +5,7 @@
 <tr id="attendee_<%= attendee.id %>" class="attendee_row <%= "mobile" if attendee.mobile_checkin? %>">
 
 	<!-- Name -->
-	<td><%= highlight(attendee.invitable.lastname_first, highlight_phrase) %></td>
+	<td><%= highlight(attendee.invitable.lastname_first, highlight_phrase) rescue attendee.id %></td>
 
 	<!-- Event Time -->
 	<% if @event.times.size > 1 %>
