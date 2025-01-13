@@ -500,7 +500,7 @@ class Offering < ActiveRecord::Base
   # Based on the +count_method_for_accountability+, returns the objects to count in the accountability process.
   def accountability_objects
     case count_method_for_accountability.to_sym
-    when :awardees      then awardees
+    when :awardees      then accountability_awardees
     when :presenters    then presenters
     when :complete      then complete
     else []
@@ -508,8 +508,11 @@ class Offering < ActiveRecord::Base
   end
 
   def awardees;      application_for_offerings.awarded; end
+  def accountability_awardees; (application_for_offerings.with_status(:awarded) + application_for_offerings.awarded).uniq; end
   def presenters;    (sessions.collect(&:presenters) + sessions.collect(&:group_members)).flatten; end
   def complete;      applications_with_status(:complete); end
+
+
 
   # Returns the OfferingApplicationType that is assigned to the "Poster Session" application type.
   def poster_application_type
