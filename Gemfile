@@ -8,7 +8,7 @@ gem "sanitize"
 gem "rtex"
 gem "calendar_date_select"
 gem "hoe", "~> 2.3.3" # dependency with gem version 1.3.7
-gem "RedCloth", "~> 4.2.9 " # related to composite_primary_keys (converting Textile into HTML)
+gem "RedCloth", "~> 4.3.0" # related to composite_primary_keys (converting Textile into HTML)
 gem "htmldoc"
 gem "rcov"
 gem "hoptoad_notifier"
