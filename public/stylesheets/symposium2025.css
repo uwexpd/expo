@@ -1,0 +1,305 @@
+
+html {
+	margin: 0;
+}
+
+body {
+	background: #7e7e7e;
+}
+
+#wrap {
+	border: none;
+	padding: 0;
+	margin: 0;
+	margin-bottom: -25px;
+	/*background: none;*/
+}
+
+#header {
+	background: #7fb439 url(../images/symposium/2025/header.png) repeat;
+	height: 149px;
+	border-bottom: 1px solid #b2b2b2;
+	background-size: 1200px 150px;
+}
+
+#flashes {
+	text-align: left;
+	font-weight: normal;
+	margin: 0;
+}
+
+#flashes #notice, #flashes #error {
+	padding: 1em 50px;
+	margin: 0;
+	background: #bec;
+	color: #065309;
+	border-color: #8da;
+	border-width: 1px 0;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+	border-radius:0;
+}
+
+#flashes #error, .delete-dialog, #errorExplanation {
+	background: #fdd;
+	border-color: #fbb;
+	color: #700;
+}
+
+
+h1.page_title {
+	text-indent: -9000px;
+	height: 150px;
+	width: 100%;
+	position: absolute;
+	top: 0px;
+/*	left: 50px;*/
+  background: url(../images/symposium/2025/header-title.png) repeat;
+  background-size: 1200px 150px;
+}
+
+.proceedings h1.page_title {
+	background-image: url(../images/symposium/2025/event-title.png);
+	background-size: 1200px 150px;
+}
+
+h5.unit_name {
+	display: none;
+}
+
+#account-nav-wrap {
+	position: absolute;
+	top: 25px;
+	right: 50px;
+	color: #fff;
+	z-index: 100;
+}
+
+#account-nav {
+	float: none;
+	margin: 0;
+}
+
+#account-nav a {
+	color: #fff;
+}
+
+div#title {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 125px;
+	width: 100%;
+}
+
+#content {
+	padding: 0 50px;
+	background: #fff;
+	overflow: auto;
+}
+
+#main-content {
+	padding: 2em 0;
+}
+
+#footer {
+	color: #f2f2f2;
+	border: none;
+	border-top: 1px solid #b2b2b2;
+	background: none;
+	margin: 0;
+	padding: 20px 20px 0 50px;
+	font: 100% "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+
+}
+
+#footer-wrap {
+	clear: both;
+	background: #000;
+	border-bottom: 1px solid #727272;
+}
+
+#footer a {
+	color: #f2f2f2;
+}
+
+#footer p {
+	border-left: none;
+	padding: 0;
+	line-height: 1.5;
+}
+
+#footer .dso_statement {
+	color: #999999;
+	background: #39275b;
+	margin: 30px -20px 0 -50px;
+	padding: 30px 50px;
+	padding-right: 200px;
+ 	border-bottom: 1px solid #606060;
+}
+
+#footer .dso_statement a {
+	color: #f2f2f2;
+}
+
+#footer-focus-element {
+	background: url(../images/symposium/2012/footer-side-image.png) no-repeat;
+	width: 150px;
+	height: 150px;
+	z-index: 1000;
+	float: right;
+	margin-left:10px;
+}
+
+h2#application_page_title {
+	color: #000;
+}
+
+h3#application_page_number {
+	color: #2e3192;
+}
+
+p.page_intro {
+	font: inherit;
+}
+
+#time_left {
+	position: absolute;
+	top: 42px;
+	right: 50px;
+}
+
+#time_left, #time_left strong, #time_left.three.days strong, #time_left.one.day strong {
+	color: #fff;
+}
+
+#time_left.one.day strong {
+	color: red;
+}
+
+div#left_sidebar {
+	float: left;
+	margin: 28px 2em 0 -10px;
+	width: 180px;
+	background: #fff;
+	border-right: 1px solid #ddd;
+}
+
+div#right_sidebar {
+	float: right;
+	/*clear: left;*/
+	margin: 2em;
+	margin-right: 0;
+	border: 1px solid #dadada;
+	width: 20%;
+	background: #fefaf2;
+}
+
+p.page_intro {
+	font-size: 100%;
+	padding-left: 196px;
+}
+
+.page_list {
+	font: inherit;
+	margin-bottom: 10px;
+	background: none; /*#f0edfb;*/
+	border: none; /*1px solid #999;*/
+}
+
+.page_list li {
+	color: #6a717c;
+}
+
+.page_list li#current {
+	color: #39275b;
+	background-color: #fdfdba;
+	border-top: 1px solid #fde496;
+	border-bottom: 1px solid #fde496;
+}
+
+.page_list li#welcome_page_link, .page_list li.welcome_page_link {
+	border-bottom: none; /*1px solid #ddd;*/
+	background: none; /*#e7e4f1;*/
+}
+
+.page_list li.welcome_page_link a .title{
+	font-weight: bold;
+}
+
+.page_list li#review_page_link {
+	border-top: none; /*1px solid #ddd;*/
+	background: none; /*#e7e4f1;*/
+}
+
+.page_list a {
+	color: #6a717c;
+}
+
+form.cmxform fieldset li {
+  list-style: none;
+  padding: 1em 0;
+  margin: 0;
+  border-bottom: 1px solid #f3effb;
+}
+
+table#mentees td{
+	padding: 1.5em 10px;
+}
+
+table#mentees h3 {
+	margin-bottom: 3px;
+	font: inherit;
+	font-size: 110%;
+	font-weight: bold;
+}
+
+.sample.postcard {
+	padding: 1em;
+	background: #fff;
+	height: 250px;
+	margin: 1em 0;
+	border: 1px solid #999;
+}
+
+.sample.postcard .message {
+	position: relative;
+	font-size: 7.5px;
+	border-right: 1px solid #999;
+	width: 60%;
+	padding-right: 1em;
+	line-height: 1.3;
+}
+
+.sample.postcard .address {
+	float: right;
+	width: 38%;
+	position: relative;
+	top: 20%;
+	font-size: 90%;
+	clear: right;
+}
+
+.sample.postcard .stamp {
+	width: 60px;
+	height: 60px;
+	float: right;
+	background: url(../images/app/forever_stamp.png) no-repeat;
+}
+
+.sample.postcard .stamp.no_stamp {
+	border: 1px solid #dadada;
+	background: none;
+	width: 50px;
+}
+
+.proceedings .welcome {
+	padding-top: 100px;
+	background: url(../images/symposium/mgh_crowds.jpg) repeat-x;
+}
+
+/* Added in 2017*/
+.page div#left_sidebar {
+	height: 700px;
+}
+
