@@ -727,6 +727,12 @@ fieldset > .row:last-child {
 	margin: 0 12px 0 12px;
 }
 
+.proceedings h1.title.year_2025 {
+  background: #b7a57a url(../images/symposium/2025/proceedings-iphone.png);
+  background-size: cover;
+  margin: 0;
+}
+
 .proceedings h1.title.year_2024 {
   background: #b7a57a url(../images/symposium/2024/proceedings-iphone.png);
   background-size: cover;
