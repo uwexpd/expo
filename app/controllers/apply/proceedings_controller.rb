@@ -54,6 +54,7 @@ class Apply::ProceedingsController < ApplyController
     @result = find_by_campus(params[:student_campus]) unless params[:student_campus].blank?
     @result = find_by_locations(params[:session_location]) unless params[:session_location].blank?
     @result = @result.uniq unless @result.empty?
+    @result = @result.reject{|r| r.hide_proceeding_abstract==true }
     @result = @result.sort_by{|x| "#{x.offering_session.try(:session_group).to_s}#{x.offering_session.try(:identifier).to_s}"}
     
 
